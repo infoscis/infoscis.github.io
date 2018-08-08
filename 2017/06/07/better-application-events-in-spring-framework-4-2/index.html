@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Spring Framework 4.2에서 애플리케이션 이벤트 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Java,Spring,Event" />
+    
+    <meta name="description" content="애플리케이션 이벤트는 느슨하게 결합 된 구성 요소 사이의 정보를 교환하는 수단으로서 Spring Framework의 맨 처음부터 사용할 수 있었습니다. 애플리케이션 이벤트의 가장 잘 알려진 사용법 중 하나는 다음과 같습니다.
+12345678@Componentpublic class MyListener         implements ApplicationLi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Framework 4.2에서 애플리케이션 이벤트">
+<meta property="og:url" content="http://infoscis.github.io/2017/06/07/better-application-events-in-spring-framework-4-2/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="애플리케이션 이벤트는 느슨하게 결합 된 구성 요소 사이의 정보를 교환하는 수단으로서 Spring Framework의 맨 처음부터 사용할 수 있었습니다. 애플리케이션 이벤트의 가장 잘 알려진 사용법 중 하나는 다음과 같습니다.
+12345678@Componentpublic class MyListener         implements ApplicationLi">
+<meta property="og:updated_time" content="2017-06-19T14:37:08.704Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Framework 4.2에서 애플리케이션 이벤트">
+<meta name="twitter:description" content="애플리케이션 이벤트는 느슨하게 결합 된 구성 요소 사이의 정보를 교환하는 수단으로서 Spring Framework의 맨 처음부터 사용할 수 있었습니다. 애플리케이션 이벤트의 가장 잘 알려진 사용법 중 하나는 다음과 같습니다.
+12345678@Componentpublic class MyListener         implements ApplicationLi">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2017/06/07/better-application-events-in-spring-framework-4-2/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Java/">Java</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Java/Spring/">Spring</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-better-application-events-in-spring-framework-4-2" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Spring Framework 4.2에서 애플리케이션 이벤트
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/06/07/better-application-events-in-spring-framework-4-2/" class="article-date">
+            <time datetime="2017-06-07T13:28:40.000Z" itemprop="datePublished">2017-06-07</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Event/">Event</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Spring/">Spring</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>애플리케이션 이벤트는 느슨하게 결합 된 구성 요소 사이의 정보를 교환하는 수단으로서 Spring Framework의 맨 처음부터 사용할 수 있었습니다. 애플리케이션 이벤트의 가장 잘 알려진 사용법 중 하나는 다음과 같습니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyListener</span> </span></div><div class="line">        <span class="keyword">implements</span> <span class="title">ApplicationListener</span>&lt;<span class="title">ContextRefreshedEvent</span>&gt; &#123;</div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onApplicationEvent</span><span class="params">(ContextRefreshedEvent event)</span> </span>&#123;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이렇게하면 컨텍스트가 <em>refresh</em> 될때 <code>MyListener</code>가 통보되고 응용 프로그램 컨텍스트가 완전히 시작될 때 코드를 실행할 수 있습니다.</p>
+<p>Spring Framework 4.2에서는 세가지 주요 영역에서 이벤트 인프라를 다시 살펴 보았습니다.</p>
+<h1 id="Generic-지원"><a href="#Generic-지원" class="headerlink" title="Generic 지원"></a>Generic 지원</h1><p>다음과 같이 이벤트 타입에 중첩 된 Generic 정보로 <code>ApplicationListener</code> 구현을 정의 할 수 있습니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyListener</span> </span></div><div class="line">        <span class="keyword">implements</span> <span class="title">ApplicationListener</span>&lt;<span class="title">MyEvent</span>&lt;<span class="title">Order</span>&gt;&gt; &#123; ... &#125;</div></pre></td></tr></table></figure>
+<p>이벤트를 전달할 때 Listener의 Signature를 사용하여 들어오는 이벤트와 일치하는지 확인합니다.</p>
+<blockquote>
+<p><code>MyOrderEvent extends MyEvent&lt;Order&gt;</code>와 같이 타입 소거(Type erasure)로 인해 필터링 할 Generic 파라미터를 해결하는 이벤트를 publish 해야합니다.<br>다른 해결 방법이있을 수 있고, 커뮤니티에서 가치 있다고 생각하는 경우 Signature 일치 알고리즘(matching algorithm)을 다시 재검토할 수 있습니다.</p>
+</blockquote>
+<h1 id="Annotation-기반-이벤트-Listener"><a href="#Annotation-기반-이벤트-Listener" class="headerlink" title="Annotation 기반 이벤트 Listener"></a>Annotation 기반 이벤트 Listener</h1><p>가장 큰 새로운 기능은 Spring Framework 4.1의 <a href="https://spring.io/blog/2014/04/30/spring-4-1-s-upcoming-jms-improvements" target="_blank" rel="external">JMS 및 AMQP endpoint</a>에 대한 최근 작업과 유사한 Annotation 기반 이벤트 Listener의 지원입니다. 메소드의 Signature와 일치하는 <code>ApplicationListener</code>를 자동으로 등록하기 위해 관리 Bean의 메소드에 <code>@EventListener</code>를 사용하여 Annotation을 붙일 수 있습니다. 위의 예는 다음과 같이 다시 작성할 수 있습니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyListener</span> </span>&#123;</div><div class="line">  </div><div class="line">    <span class="meta">@EventListener</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleContextRefresh</span><span class="params">(ContextRefreshedEvent event)</span> </span>&#123;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>@EventListener</code>는 <code>@Autowired</code> 및 다른것과 비슷한 방식으로 처리되는 핵심 Annotation입니다. Java 구성에서는 추가 구성이 필요하지 않으며 기존 <code>&lt;context:annotation-driven/&gt;</code> 요소로 완벽하게 지원할 수 있습니다.</p>
+<p>메서드 Signature는 관심있는 이벤트 타입을 정의합니다. 이벤트를 처리하기 위해 <code>SpEL</code> 표현식을 정의 할 수도 있습니다. 예를 들어, 다음 이벤트를 생각해 보겠습니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderCreatedEvent</span> <span class="keyword">implements</span> <span class="title">CreationEvent</span>&lt;<span class="title">Order</span>&gt; </span>&#123; ... &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> awesome;</div><div class="line">   </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isAwesome</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.awesome; &#125;</div><div class="line">    ....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>다음 예제는 <em>awesome</em>의 <code>CreationEvent</code> <code>Order</code> (즉,<code>awesome</code> 플래그가 <code>true</code>)에 대해서만 호출 될 이벤트 Listener를 보여줍니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> </span>&#123;</div><div class="line">  </div><div class="line">  <span class="meta">@EventListener</span>(condition = <span class="string">"#creationEvent.awesome"</span>)</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleOrderCreatedEvent</span><span class="params">(CreationEvent&lt;Order&gt; creationEvent)</span> </span>&#123;</div><div class="line">    ... </div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>위의 예제에서 볼 수 있듯이 메서드 파라미터는 해당 정보를 발견 할 수있는 이름을 통해 표시됩니다. 조건식은 <em>raw</em> <code>ApplicationEvent(#root.event)</code> 및 실제 메서드 파라미터 (<code>#root.args</code>)가 있는 “root” 변수도 표시합니다.</p>
+</blockquote>
+<h1 id="Event-Publish-하기"><a href="#Event-Publish-하기" class="headerlink" title="Event Publish 하기"></a>Event Publish 하기</h1><p><code>@EventListener</code>로 Annotation이 붙은 모든 메소드에 대해 리턴 타입이 <code>void</code>가 아닌 타입을 정의 할 수 있습니다. 특정 이벤트를 처리 한 결과로 <code>null</code>값을 반환하지 않으면 해당 결과가 새로운 이벤트로 전송됩니다</p>
+<p>여러분은 <code>OrderCreatedEvent</code>가 <code>ApplicationEvent</code>를 상속하지 않는다는 것을 알아 차렸을 것입니다. Spring Framework는 임의의 이벤트를 공개하고 <code>ApplicationEvent</code>를 상속하도록 강요하지 않는 유연성을 줄 때가되었다고 느꼈습니다. <code>ApplicationEventPublisher</code> 인터페이스가 확장되어 모든 객체를 Publish 할 수 있습니다. 객체가 <code>ApplicationEvent</code>가 아닌 경우 <code>PayloadApplicationEvent</code>로 래핑합니다. 일반적인 <code>ApplicationListener</code> 구현을 사용하여 이러한 임의의 이벤트를 수신하려는 경우 이 내용을 기억해야 합니다.</p>
+<p>다음 예제는 <code>ApplicationEventPublisher</code>를 사용하여 <code>OrderCreatedEvent</code>를 보내는 방법을 보여줍니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ApplicationEventPublisher publisher;</div><div class="line">    </div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyComponent</span><span class="params">(ApplicationEventPublisher publisher)</span> </span>&#123; ... &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createOrder</span><span class="params">(Order order)</span> </span>&#123;</div><div class="line">        <span class="comment">// ....</span></div><div class="line">        <span class="keyword">this</span>.publisher.publishEvent(<span class="keyword">new</span> OrderCreatedEvent(order)); </div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="Transaction-bound-events"><a href="#Transaction-bound-events" class="headerlink" title="Transaction bound events"></a>Transaction bound events</h1><p>또 다른 인기있는 개선사항은 이벤트 Listener를 트랜잭션 단계에 바인드하는 기능입니다. 일반적인 예는 트랜잭션이 성공적으로 완료되면 이벤트를 처리하는 것입니다. 이렇게하면 현재 트랜잭션의 결과가 Listener에게 중요한 경우 이벤트를 보다 유연하게 사용할 수 있습니다.</p>
+<p>Spring Framework는 컨텍스트가 트랜잭션 지원을 인식하지 못하도록하는 방식으로 구조화되어 있으며, 우리는 분명히 그 원칙에서 벗어나고 싶지 않았습니다. 그래서 추가 구성 요소를 등록하고 이벤트 리스너가 생성되는 방식의 개방형 인프라를 구축했습니다.</p>
+<p>트랜잭션 모듈은 새로운 <code>@TransactionalEventListener</code> Annotation을 찾는 <code>EventListenerFactory</code>를 구현합니다. 이 값이 있으면 트랜잭션을 인식하는 확장 이벤트 리스너가 기본값 대신 등록됩니다.</p>
+<p>위 예제를 다시 사용하여 Producer가 실행중인 트랜잭션이 성공적으로 완료 될 때만 주문 생성 이벤트를 처리되도록 다음과 같이 다시 작성해 보겠습니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> </span>&#123;</div><div class="line">  </div><div class="line">  <span class="meta">@TransactionalEventListener</span>(condition = <span class="string">"#creationEvent.awesome"</span>)</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleOrderCreatedEvent</span><span class="params">(CreationEvent&lt;Order&gt; creationEvent)</span> </span>&#123; </div><div class="line">    ...</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>@TransactionalEventListener</code>는 일반 <code>@EventListener</code>이며, 기본값은 <code>AFTER_COMMIT</code> 인 <code>TransactionPhase</code>를 나타냅니다. 트랜잭션의 다른 단계 (<code>BEFORE_COMMIT</code>, <code>AFTER_ROLLBACK</code>, <code>AFTER_COMMIT</code>, <code>AFTER_ROLLBACK</code>의 별명 인<code>AFTER_COMPLETION</code>)를 연결할 수도 있습니다.</p>
+<p>기본적으로 트랜잭션이 실행되고 있지 않으면 요청한 단계를 지키지 못하기 때문에 이벤트가 전혀 전송되지 않습니다. 그러나 <code>@TransactionalEventListener</code>에 <code>fallbackExecution</code> 속성이 있습니다. 이 어트리뷰트는 트랜잭션이 없으면 즉시 리스너를 호출하도록 Spring에 지시합니다.</p>
+<h1 id="작성해보기"><a href="#작성해보기" class="headerlink" title="작성해보기"></a>작성해보기</h1><p>4.2의 첫 번째 마일스톤 릴리스 전에 이 기능을 사용하려면 스냅 샷 저장소를 통해 야간 SNAPSHOT 빌드를 작성하십시오. 최신 스프링 부트 스냅 샷 빌드를 사용하여 <a href="https://start.spring.io/" target="_blank" rel="external">start.spring.io</a>를 사용하여 샘플 프로젝트를 만들 수도 있습니다. 또는 매우 게으른 경우 셸에서 이 프로젝트를 복사/붙여 넣기 할 수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ curl https://start.spring.io/starter.tgz -d artifactId=events-demo \</div><div class="line">    -d baseDir=events-demo -d bootVersion=1.2.2.BUILD-SNAPSHOT | tar -xzvf -</div></pre></td></tr></table></figure>
+<p>Spring Framework 4.2.0.BUILD-SNAPSHOT을 사용하도록 프로젝트를 업데이트하십시오.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">  ...</div><div class="line">  <span class="tag">&lt;<span class="name">spring.version</span>&gt;</span>4.2.0.BUILD-SNAPSHOT<span class="tag">&lt;/<span class="name">spring.version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>언제나처럼, 우리는 커뮤니티 의견을 환영합니다. 이 기능을 사용해보고 문제가 생기면 알려주십시오.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://spring.io/blog/2015/02/11/better-application-events-in-spring-framework-4-2" target="_blank" rel="external">https://spring.io/blog/2015/02/11/better-application-events-in-spring-framework-4-2</a>]</p>
+</blockquote>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2017/06/07/better-application-events-in-spring-framework-4-2/" data-id="cjkl9100w0010jguzutk44lit" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/06/13/setting-up-angular-2-with-webpack/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            Webpack을 이용한 TDD 방식의 Angular 2 개발 환경 설정
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/06/01/TypeScript-handbook-type-compatibility/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">TypeScript 핸드북 9 - 타입 호환성</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2017/06/07/better-application-events-in-spring-framework-4-2/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

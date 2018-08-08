@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Angular 동적 컴포넌트 로딩 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Angular" />
+    
+    <meta name="description" content="Dynamic Component LoaderComponent 템플릿이 항상 고정되어있는 것은 아닙니다. 응용 프로그램은 런타임에 새로운 Component를 로드할 수 있어야 합니다.이 포스트는 ComponentFactoryResolver를 사용하여 Component를 동적으로 추가하는 방법을 설명합니다.
+live example을 보거나 다운로드할 수 있습니">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 동적 컴포넌트 로딩">
+<meta property="og:url" content="http://infoscis.github.io/2018/01/24/angular-dynamic-component/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="Dynamic Component LoaderComponent 템플릿이 항상 고정되어있는 것은 아닙니다. 응용 프로그램은 런타임에 새로운 Component를 로드할 수 있어야 합니다.이 포스트는 ComponentFactoryResolver를 사용하여 Component를 동적으로 추가하는 방법을 설명합니다.
+live example을 보거나 다운로드할 수 있습니">
+<meta property="og:image" content="https://angular.io/generated/images/guide/dynamic-component-loader/ads.gif">
+<meta property="og:updated_time" content="2018-02-13T15:10:41.047Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular 동적 컴포넌트 로딩">
+<meta name="twitter:description" content="Dynamic Component LoaderComponent 템플릿이 항상 고정되어있는 것은 아닙니다. 응용 프로그램은 런타임에 새로운 Component를 로드할 수 있어야 합니다.이 포스트는 ComponentFactoryResolver를 사용하여 Component를 동적으로 추가하는 방법을 설명합니다.
+live example을 보거나 다운로드할 수 있습니">
+<meta name="twitter:image" content="https://angular.io/generated/images/guide/dynamic-component-loader/ads.gif">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2018/01/24/angular-dynamic-component/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Angular/">Angular</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-angular-dynamic-component" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Angular 동적 컴포넌트 로딩
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2018/01/24/angular-dynamic-component/" class="article-date">
+            <time datetime="2018-01-24T13:01:43.000Z" itemprop="datePublished">2018-01-24</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Angular/">Angular</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Dynamic-Component-Loader"><a href="#Dynamic-Component-Loader" class="headerlink" title="Dynamic Component Loader"></a>Dynamic Component Loader</h1><p><em>Component</em> 템플릿이 항상 고정되어있는 것은 아닙니다. 응용 프로그램은 런타임에 새로운 <em>Component</em>를 로드할 수 있어야 합니다.<br>이 포스트는 <code>ComponentFactoryResolver</code>를 사용하여 <em>Component</em>를 동적으로 추가하는 방법을 설명합니다.</p>
+<p><a href="https://angular.io/generated/live-examples/dynamic-component-loader/eplnkr.html" target="_blank" rel="external">live example</a>을 보거나 <a href="https://angular.io/generated/zips/dynamic-component-loader/dynamic-component-loader.zip" target="_blank" rel="external">다운로드</a>할 수 있습니다.</p>
+<h2 id="동적-Component-로드하기"><a href="#동적-Component-로드하기" class="headerlink" title="동적 Component 로드하기"></a>동적 Component 로드하기</h2><p>다음 예는 동적 배너 광고를 작성하는 방법을 설명합니다.</p>
+<p>hero agency는 배너를 통해 순환하는 여러가지 광고로 광고 캠페인을 계획하고 있습니다. 새로운 광고 <em>Component</em>는 여러 팀에서 자주 추가됩니다. 이로 인해 정적 <em>Component</em> 구조의 템플릿을 사용하는 것은 비현실적입니다.</p>
+<p>대신 배너 광고 서식 파일의 <em>Component</em>에 고정된 참조없이 새로운 <em>Component</em>를 로드하는 방법이 필요합니다.</p>
+<p>Angular는 <em>Component</em>를 동적으로 로드하기 위해 자체 API를 제공합니다.</p>
+<h2 id="앵커-Anchor-directive"><a href="#앵커-Anchor-directive" class="headerlink" title="앵커(Anchor) directive"></a>앵커(Anchor) directive</h2><p><em>Component</em>를 추가하기 전에 Anchor 포인트를 정의하여 Angular에 <em>Component</em>를 삽입할 위치를 지정해야합니다.</p>
+<p>배너 광고 는 <code>AdDirective</code>라는 핼퍼 <em>Directive</em>를 사용하여 템플릿에 유효한 삽입 지점을 표시합니다.</p>
+<p><strong>src/app/ad.directive.ts</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Directive, ViewContainerRef &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"></div><div class="line"><span class="meta">@Directive</span>(&#123;</div><div class="line">  selector: <span class="string">'[ad-host]'</span>,</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AdDirective &#123;</div><div class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">public</span> viewContainerRef: ViewContainerRef</span>) &#123; &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>AdDirective</code>는 <code>ViewContainerRef</code>를 <em>Inject</em>하여 동적으로 추가된 <em>Component</em>를 호스팅할 요소의 뷰 컨테이너에 액세스합니다.</p>
+<p><code>@Directive</code> <em>Decorator</em>에서 selector 이름인 <code>ad-host</code>를 설정합니다. 이 이름으로 요소에 <em>Directive</em>을 적용할 때 사용합니다.</p>
+<h2 id="Component-로드하기"><a href="#Component-로드하기" class="headerlink" title="Component 로드하기"></a>Component 로드하기</h2><p>대부분의 배너 광고 구현은 <code>ad-banner.component.ts</code>에 있습니다. 이 예제에서 간단히하기 위해 HTML은 <code>@Component</code> <em>Decorator</em>의 <code>template</code> 프로퍼티에 템플릿 문자열로 지정합니다.</p>
+<p><code>&lt;ng-template&gt;</code> 요소는 방금 만든 <em>Directive</em>를 적용하는 곳입니다. <code>AdDirective</code>를 적용하기 위해 <code>ad.directive.ts</code>에 있는 <code>ad-host</code> selector를 사용합니다. 이 selector를 대괄호없이 <code>&lt;ng-template&gt;</code>에 적용합니다. 이제 Angular는 동적으로 <em>Component</em>를 로드할 위치를 알수 있습니다.</p>
+<p><strong>src/app/ad-banner.component.ts (template)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">template: <span class="string">`</span></div><div class="line">            &lt;div class="ad-banner"&gt;</div><div class="line">              &lt;h3&gt;Advertisements&lt;/h3&gt;</div><div class="line">              &lt;ng-template ad-host&gt;&lt;/ng-template&gt;</div><div class="line">            &lt;/div&gt;</div><div class="line">          `</div></pre></td></tr></table></figure></p>
+<p><code>&lt;ng-template&gt;</code>는 추가 출력을 렌더링하지 않으므로 동적 <em>Component</em>에 적합합니다.</p>
+<h2 id="Resolving-components"><a href="#Resolving-components" class="headerlink" title="Resolving components"></a>Resolving components</h2><p><code>ad-banner.component.ts</code>의 메서드를 자세히 살펴보십시오.</p>
+<p><code>AdBannerComponent</code>는 <code>AdService</code>에서 가져온 <code>AdItem</code> 객체 배열을 입력으로 사용합니다. <code>AdItem</code> 객체는 로드할 <em>Component</em>의 유형과 <em>Component</em>에 바인딩할 데이터를 지정합니다. <code>AdService</code>는 광고 캠페인을 구성하는 실제 광고를 반환합니다.</p>
+<p><code>AdBannerComponent</code>에 <em>Component</em> 배열을 전달하면 템플릿에 정적 요소가 없는 광고의 동적 목록이 허용됩니다.</p>
+<p><code>getAds()</code> 메서드를 사용하면 <code>AdBannerComponent</code>가 <code>AdItem</code>의 배열을 순회하고 <code>loadComponent()</code>를 호출하여 3초마다 새로운 <em>Component</em>를 로드합니다.</p>
+<p><strong>src/app/ad-banner.component.ts (excerpt)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AdBannerComponent <span class="keyword">implements</span> AfterViewInit, OnDestroy &#123;</div><div class="line">  <span class="meta">@Input</span>() ads: AdItem[];</div><div class="line">  currentAddIndex: <span class="built_in">number</span> = <span class="number">-1</span>;</div><div class="line">  <span class="meta">@ViewChild</span>(AdDirective) adHost: AdDirective;</div><div class="line">  subscription: <span class="built_in">any</span>;</div><div class="line">  interval: <span class="built_in">any</span>;</div><div class="line"></div><div class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> componentFactoryResolver: ComponentFactoryResolver</span>) &#123; &#125;</div><div class="line"></div><div class="line">  ngAfterViewInit() &#123;</div><div class="line">    <span class="keyword">this</span>.loadComponent();</div><div class="line">    <span class="keyword">this</span>.getAds();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  ngOnDestroy() &#123;</div><div class="line">    clearInterval(<span class="keyword">this</span>.interval);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  loadComponent() &#123;</div><div class="line">    <span class="keyword">this</span>.currentAddIndex = (<span class="keyword">this</span>.currentAddIndex + <span class="number">1</span>) % <span class="keyword">this</span>.ads.length;</div><div class="line">    <span class="keyword">let</span> adItem = <span class="keyword">this</span>.ads[<span class="keyword">this</span>.currentAddIndex];</div><div class="line"></div><div class="line">    <span class="keyword">let</span> componentFactory = <span class="keyword">this</span>.componentFactoryResolver.resolveComponentFactory(adItem.component);</div><div class="line"></div><div class="line">    <span class="keyword">let</span> viewContainerRef = <span class="keyword">this</span>.adHost.viewContainerRef;</div><div class="line">    viewContainerRef.clear();</div><div class="line"></div><div class="line">    <span class="keyword">let</span> componentRef = viewContainerRef.createComponent(componentFactory);</div><div class="line">    (&lt;AdComponent&gt;componentRef.instance).data = adItem.data;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  getAds() &#123;</div><div class="line">    <span class="keyword">this</span>.interval = setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">this</span>.loadComponent();</div><div class="line">    &#125;, <span class="number">3000</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>loadComponent()</code> 메서드는 여기서 많은 작업을 수행하고 있습니다. 단계별 살펴보겠습니다. 첫번째로 광고를 선택합니다.</p>
+<blockquote>
+<p><code>loadComponent()</code>가 광고를 선택하는 방법</p>
+<p><code>loadComponent()</code> 메서드는 몇 가지 계산을 사용하여 광고를 선택합니다.</p>
+<p>현재의 <code>currentAddIndex</code>에 1을 더한 값을 <code>AdItem</code> 배열의 길이로 나눈 나머지값을 <code>currentAddIndex</code> 값으로 취합니다. 그런 다음 해당 값을 사용하여 배열에서 <code>adItem</code>을 선택합니다.</p>
+</blockquote>
+<p><code>loadComponent()</code>가 광고를 선택하면 <code>ComponentFactoryResolver</code>를 사용하여 각 특정 <em>Component</em>에 대한 <code>ComponentFactory</code>를 확인합니다. 그런 다음 <code>ComponentFactory</code>는 각 <em>Component</em>의 인스턴스를 만듭니다.</p>
+<p>다음으로 <em>Component</em>의 특정 인스턴스에 있는 <code>viewContainerRef</code>를 대상으로 지정합니다. 이 특정 인스턴스를 어떻게 알 수 있을까요? 그것은 <code>adHost</code>를 참조하고 있기 때문에 알수 있습니다. <code>adHost</code>는 이전에 Angular에 동적 <em>Component</em>를 삽입할 위치를 지정하기 위해 설정한 <em>Directive</em>입니다.</p>
+<p><code>ViewContainerRef</code>는 <code>AdDirective</code> 생성자에서 주입됩니다. 이 방법이 <em>Directive</em>를 이용한 동적 <em>Component</em>를 호스팅하는 요소에 액세스하는 방법입니다.</p>
+<p><em>Component</em>를 템플릿에 추가하려면 <code>ViewContainerRef</code>의 <code>createComponent()</code>를 호출합니다.</p>
+<p><code>createComponent()</code> 메서드는 로드된 <em>Component</em>에 대한 참조를 반환합니다. 이 참조를 사용하여 프로퍼티에 할당하거나 메서드를 호출하여 <em>Component</em>와 상호 작용할 수 있습니다.</p>
+<h4 id="Selector-references"><a href="#Selector-references" class="headerlink" title="Selector references"></a>Selector references</h4><p>일반적으로 Angular 컴파일러는 템플릿에서 참조되는 모든 <em>Component</em>에 대해 <code>ComponentFactory</code>를 생성합니다. 그러나 동적으로 로드된 <em>Component</em>는 런타임에 로드되기 때문에 <em>Component</em> 템플릿에는 selector 참조가 없습니다.</p>
+<p>컴파일러가 팩토리를 생성하도록 하려면 동적으로 로드된 <em>Component</em>를 <code>NgModule</code>의 <code>entryComponents</code> 배열에 추가 해야합니다.</p>
+<p><strong>src/app/app.module.ts (entry components)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">entryComponents: [ HeroJobAdComponent, HeroProfileComponent ],</div></pre></td></tr></table></figure>
+<h2 id="AdComponent-인터페이스"><a href="#AdComponent-인터페이스" class="headerlink" title="AdComponent 인터페이스"></a>AdComponent 인터페이스</h2><p>배너 광고에서 모든 <em>Component</em>는 공통 <code>AdComponent</code> 인터페이스를 구현하여 API를 표준화하고 데이터를 <em>Component</em>로 전달합니다.</p>
+<p>다음은 두가지 샘플 <em>Component</em>와 참조용 <code>AdComponent</code> 인터페이스입니다.</p>
+<p><strong>ad.component.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">interface</span> AdComponent &#123;</div><div class="line">  data: <span class="built_in">any</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>hero-profile.component.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component, Input &#125;  <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; AdComponent &#125;       <span class="keyword">from</span> <span class="string">'./ad.component'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  template: <span class="string">`</span></div><div class="line">    &lt;div class="hero-profile"&gt;</div><div class="line">      &lt;h3&gt;Featured Hero Profile&lt;/h3&gt;</div><div class="line">      &lt;h4&gt;&#123;&#123;data.name&#125;&#125;&lt;/h4&gt;</div><div class="line">      </div><div class="line">      &lt;p&gt;&#123;&#123;data.bio&#125;&#125;&lt;/p&gt;</div><div class="line"> </div><div class="line">      &lt;strong&gt;Hire this hero today!&lt;/strong&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> HeroProfileComponent <span class="keyword">implements</span> AdComponent &#123;</div><div class="line">  <span class="meta">@Input</span>() data: <span class="built_in">any</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>hero-job-ad.component.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component, Input &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; AdComponent &#125;      <span class="keyword">from</span> <span class="string">'./ad.component'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  template: <span class="string">`</span></div><div class="line">    &lt;div class="job-ad"&gt;</div><div class="line">      &lt;h4&gt;&#123;&#123;data.headline&#125;&#125;&lt;/h4&gt; </div><div class="line">      </div><div class="line">      &#123;&#123;data.body&#125;&#125;</div><div class="line">    &lt;/div&gt;</div><div class="line">  `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> HeroJobAdComponent <span class="keyword">implements</span> AdComponent &#123;</div><div class="line">  <span class="meta">@Input</span>() data: <span class="built_in">any</span>;</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="최종-배너-광고"><a href="#최종-배너-광고" class="headerlink" title="최종 배너 광고"></a>최종 배너 광고</h2><p>최종 배너 광고는 다음과 같습니다.</p>
+<p><img src="https://angular.io/generated/images/guide/dynamic-component-loader/ads.gif" alt=""></p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://angular.io/guide/dynamic-component-loader" target="_blank" rel="external">https://angular.io/guide/dynamic-component-loader</a>]</p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-introduction/">Angular 튜토리얼 - 소개</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-the-hero-editor/">Angular 튜터리얼 - Hero 에디터</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-master-detail/">Angular 튜터리얼 - Master/Detail</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-multiple-components/">Angular 튜터리얼 - 다중 콤포넌트</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-services/">Angular 튜터리얼 - 서비스</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-routing/">Angular 튜터리얼 - 라우팅</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-http/">Angular 튜터리얼 - HTTP</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-http-client/">Angular HttpClient</a></li>
+<li><a href="https://infoscis.github.io/2017/06/15/angular-webpack-configuration/">Angular Webpack 설정</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/angular-translation-service/">Angular에서 간단하게 번역기능 구현하기</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/angular-dynamic-component/">Angular 동적 컴포넌트 로딩</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/dynamic-content-in-angular/">Angular에서 동적 컨텐츠 생성</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/understanding-viewchildren-contentchildren-and-querylist-in-angular/">Angular에서 ViewChildren, ContentChildren, 그리고 QueryList 이해하기</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2018/01/24/angular-dynamic-component/" data-id="cjkl91027002ajguza9kixqow" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/01/24/angular-translation-service/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            Angular에서 간단하게 번역기능 구현하기
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/07/21/angular-http-client/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">Angular HttpClient</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2018/01/24/angular-dynamic-component/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

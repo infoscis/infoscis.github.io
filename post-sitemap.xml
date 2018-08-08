@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>http://infoscis.github.io</loc>
+        <changefreq>daily</changefreq>
+        <priority>1</priority>
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/08/08/angular-observables-and-rxjs/</loc>
+        <lastmod>2018-08-08T14:44:11.432Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/02/13/ecmascript-6-introducing-javascript-classes/</loc>
+        <lastmod>2018-02-27T14:12:45.040Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/02/13/ecmascript-6-improved-array-capabilities/</loc>
+        <lastmod>2018-02-27T14:12:39.181Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/01/31/ecmascript-6-iterators-and-generators/</loc>
+        <lastmod>2018-02-27T14:12:31.782Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/01/27/ecmascript-6-symbols-and-symbol-properties/</loc>
+        <lastmod>2018-02-27T14:12:27.117Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/01/27/ecmascript-6-sets-and-maps/</loc>
+        <lastmod>2018-02-27T14:12:22.502Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/01/26/ecmascript-6-destructuring-for-easier-data-access/</loc>
+        <lastmod>2018-02-27T14:12:17.847Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/01/25/ecmascript-6-expanded-object-functionality/</loc>
+        <lastmod>2018-02-27T14:12:12.901Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/01/24/ecmascript-6-strings-and-regular-expressions/</loc>
+        <lastmod>2018-02-27T14:12:07.677Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/01/24/ecmascript-6-functions/</loc>
+        <lastmod>2018-02-27T14:12:01.601Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/01/24/ecmascript-6-block-binding/</loc>
+        <lastmod>2018-02-27T14:11:53.789Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/</loc>
+        <lastmod>2018-02-27T14:11:41.460Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/02/27/ecmascript-6-appendix-a-smaller-changes/</loc>
+        <lastmod>2018-02-27T14:11:33.451Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/02/27/ecmascript-6-encapsulating-code-with-modules/</loc>
+        <lastmod>2018-02-27T14:11:26.929Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/</loc>
+        <lastmod>2018-02-27T14:11:20.585Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/02/27/ecmascript-6-promises-and-asynchronous-programming/</loc>
+        <lastmod>2018-02-27T14:11:08.031Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/01/24/develop-webpack-plugin/</loc>
+        <lastmod>2018-02-13T15:11:27.900Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/06/13/setting-up-angular-2-with-webpack/</loc>
+        <lastmod>2018-02-13T15:10:58.923Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/01/24/angular-dynamic-component/</loc>
+        <lastmod>2018-02-13T15:10:41.047Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/02/13/dynamic-content-in-angular/</loc>
+        <lastmod>2018-02-13T15:10:29.661Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/02/13/understanding-viewchildren-contentchildren-and-querylist-in-angular/</loc>
+        <lastmod>2018-02-13T15:10:21.970Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/06/15/angular-webpack-configuration/</loc>
+        <lastmod>2018-02-13T15:09:45.834Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2018/01/24/angular-translation-service/</loc>
+        <lastmod>2018-02-13T15:07:48.308Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/07/21/angular-tutorial-master-detail/</loc>
+        <lastmod>2018-01-27T15:24:29.837Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/07/21/angular-tutorial-services/</loc>
+        <lastmod>2018-01-27T15:22:51.340Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/07/21/angular-tutorial-the-hero-editor/</loc>
+        <lastmod>2018-01-27T15:22:49.083Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/07/21/angular-tutorial-routing/</loc>
+        <lastmod>2018-01-27T15:21:46.136Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/07/21/angular-tutorial-multiple-components/</loc>
+        <lastmod>2018-01-27T15:20:38.033Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/07/21/angular-tutorial-introduction/</loc>
+        <lastmod>2018-01-27T15:19:54.445Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/06/19/TypeScript-handbook-advanced-types/</loc>
+        <lastmod>2018-01-27T15:19:31.579Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/07/21/angular-http-client/</loc>
+        <lastmod>2018-01-27T15:19:30.445Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/07/21/angular-tutorial-http/</loc>
+        <lastmod>2018-01-27T15:19:28.905Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/06/19/TypeScript-handbook-symbols/</loc>
+        <lastmod>2018-01-27T15:16:46.742Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/06/19/TypeScript-handbook-iterators-and-generators/</loc>
+        <lastmod>2018-01-27T15:16:29.680Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/06/01/TypeScript-handbook-type-inference/</loc>
+        <lastmod>2018-01-27T15:13:56.649Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/06/01/TypeScript-handbook-type-compatibility/</loc>
+        <lastmod>2018-01-27T15:13:40.568Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/05/25/TypeScript-handbook-generic/</loc>
+        <lastmod>2018-01-27T15:12:28.255Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/05/25/TypeScript-handbook-enum/</loc>
+        <lastmod>2018-01-27T15:11:19.279Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/05/20/TypeScript-handbook-interfaces/</loc>
+        <lastmod>2018-01-27T15:10:31.650Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/05/20/TypeScript-handbook-functions/</loc>
+        <lastmod>2018-01-27T15:08:39.151Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/05/20/TypeScript-handbook-classes/</loc>
+        <lastmod>2018-01-27T15:07:34.119Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/05/14/TypeScript-handbook-variable-declarations/</loc>
+        <lastmod>2018-01-27T15:05:53.099Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/05/14/TypeScript-handbook-basic-types/</loc>
+        <lastmod>2018-01-27T15:04:06.485Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/03/26/Springboot-background-thread/</loc>
+        <lastmod>2018-01-27T14:55:09.628Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/03/23/Riding-the-Nashorn/</loc>
+        <lastmod>2018-01-27T14:52:35.932Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/05/14/Understanding-javascript-function-invocation-and-this/</loc>
+        <lastmod>2018-01-27T14:48:41.258Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/03/24/First-steps-with-java9-and-jigsaw-part-1/</loc>
+        <lastmod>2018-01-27T14:37:43.146Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/03/24/First-steps-with-java9-and-jigsaw-part-2/</loc>
+        <lastmod>2018-01-27T14:37:42.210Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/06/07/better-application-events-in-spring-framework-4-2/</loc>
+        <lastmod>2017-06-19T14:37:08.704Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/2017/03/26/Writing-YARN-Applications/</loc>
+        <lastmod>2017-06-19T14:35:28.354Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+</urlset>
+<!-- XML Sitemap generated by Hexo SEO Friendly Sitemap Generator -->

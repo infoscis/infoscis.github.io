@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Angular HttpClient | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Angular" />
+    
+    <meta name="description" content="HttpClient대부분의 프런트 엔드 응용 프로그램은 HTTP 프로토콜을 통해 백엔드 서비스와 통신합니다. 최신 브라우저는 HTTP 요청을하기 위해 XMLHttpRequest 인터페이스와 fetch() API의 두 가지 API를 지원합니다.
+@angular/common/http의 HttpClient를 사용하면 브라우저에서 공개되는 XMLHttpReques">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular HttpClient">
+<meta property="og:url" content="http://infoscis.github.io/2017/07/21/angular-http-client/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="HttpClient대부분의 프런트 엔드 응용 프로그램은 HTTP 프로토콜을 통해 백엔드 서비스와 통신합니다. 최신 브라우저는 HTTP 요청을하기 위해 XMLHttpRequest 인터페이스와 fetch() API의 두 가지 API를 지원합니다.
+@angular/common/http의 HttpClient를 사용하면 브라우저에서 공개되는 XMLHttpReques">
+<meta property="og:updated_time" content="2018-01-27T15:19:30.445Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular HttpClient">
+<meta name="twitter:description" content="HttpClient대부분의 프런트 엔드 응용 프로그램은 HTTP 프로토콜을 통해 백엔드 서비스와 통신합니다. 최신 브라우저는 HTTP 요청을하기 위해 XMLHttpRequest 인터페이스와 fetch() API의 두 가지 API를 지원합니다.
+@angular/common/http의 HttpClient를 사용하면 브라우저에서 공개되는 XMLHttpReques">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2017/07/21/angular-http-client/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Angular/">Angular</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-angular-http-client" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Angular HttpClient
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/07/21/angular-http-client/" class="article-date">
+            <time datetime="2017-07-21T13:41:00.000Z" itemprop="datePublished">2017-07-21</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Angular/">Angular</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h1><p>대부분의 프런트 엔드 응용 프로그램은 HTTP 프로토콜을 통해 백엔드 서비스와 통신합니다. 최신 브라우저는 HTTP 요청을하기 위해 <code>XMLHttpRequest</code> 인터페이스와 <code>fetch()</code> API의 두 가지 API를 지원합니다.</p>
+<p><code>@angular/common/http</code>의 HttpClient를 사용하면 브라우저에서 공개되는 <code>XMLHttpRequest</code> 인터페이스 위에 구축된 Angular 응용 프로그램에서 사용할 수 있도록 HTTP 기능에 대한 간단한 API를 제공합니다. <code>HttpClient</code>의 추가 이점으로는 테스트 가능성 지원, 요청 및 응답 객체의 강력한 입력, 요청 및 응답 인터셉터 지원, Observables를 기반으로 한 api를 통한 더 나은 오류 처리가 있습니다.</p>
+<h2 id="Setup-installing-the-module"><a href="#Setup-installing-the-module" class="headerlink" title="Setup: installing the module"></a>Setup: installing the module</h2><p><code>HttpClient</code>를 사용하려면 먼저 <code>HttpClient</code>를 제공하는 HttpClientModule을 설치해야합니다. 이것은 응용 프로그램 모듈에서 수행할 수 있으며 한번만 필요합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// app.module.ts:</span></div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123;NgModule&#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123;BrowserModule&#125; <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</div><div class="line"> </div><div class="line"><span class="comment">// Import HttpClientModule from @angular/common/http</span></div><div class="line"><span class="keyword">import</span> &#123;HttpClientModule&#125; <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  imports: [</div><div class="line">    BrowserModule,</div><div class="line">    <span class="comment">// Include it under 'imports' in your application module</span></div><div class="line">    <span class="comment">// after BrowserModule.</span></div><div class="line">    HttpClientModule,</div><div class="line">  ],</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> MyAppModule &#123;&#125;</div></pre></td></tr></table></figure>
+<p><code>HttpClientModule</code>을 앱 모듈로 <code>import</code>하면 HttpClient를 <em>Component</em> 및 <em>Service</em>에 삽입할 수 있습니다.</p>
+<h2 id="Making-a-request-for-JSON-data"><a href="#Making-a-request-for-JSON-data" class="headerlink" title="Making a request for JSON data"></a>Making a request for JSON data</h2><p>백엔드에서 가장 많이 요구되는 요청 애플리케이션은 JSON 데이터를 요청하는 것이다. 예를 들어 다음과 같은 형식의 JSON 객체를 반환하는 <code>/api/items</code> 항목을 나열하는 API가 있다고 가정합니다.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"results"</span>: [</div><div class="line">    <span class="string">"Item 1"</span>,</div><div class="line">    <span class="string">"Item 2"</span>,</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>HttpClient에서 <code>get()</code> 메서드를 사용하면 이 데이터에 간단하게 액세스할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(...)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> MyComponent <span class="keyword">implements</span> OnInit &#123;</div><div class="line"> </div><div class="line">  results: <span class="built_in">string</span>[];</div><div class="line"> </div><div class="line">  <span class="comment">// Inject HttpClient into your component or service.</span></div><div class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> http: HttpClient</span>) &#123;&#125;</div><div class="line">  </div><div class="line">  ngOnInit(): <span class="built_in">void</span> &#123;</div><div class="line">    <span class="comment">// Make the HTTP request:</span></div><div class="line">    <span class="keyword">this</span>.http.get(<span class="string">'/api/items'</span>).subscribe(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</div><div class="line">      <span class="comment">// Read the result field from the JSON response.</span></div><div class="line">      <span class="keyword">this</span>.results = data[<span class="string">'results'</span>];</div><div class="line">    &#125;);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Typechecking-the-response"><a href="#Typechecking-the-response" class="headerlink" title="Typechecking the response"></a>Typechecking the response</h3><p>위의 예에서 괄호를 사용하여 결과 필드에 액세스하기 때문에 <code>data[&#39;results&#39;]</code> 필드 액세스가 두드러집니다. <code>data.results</code>를 작성하려고 시도하면 TypeScript는 HTTP에서 돌아 오는 <code>Object</code>에 <code>results</code> 속성이 없음을 올바르게 알립니다. <code>HttpClient</code>가 JSON 응답을 <code>Object</code>로 파싱하는 동안 그 객체가 어떤 모양인지 모르기 때문입니다.</p>
+<p>그러나 <code>HttpClient</code>에 응답 유형이 무엇인지 알려 줄 수 있습니다. 이는 권장 사항입니다. 이렇게하려면 먼저 올바른 모양으로 <em>Interface</em>를 정의하십시오.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">interface</span> ItemsResponse &#123;</div><div class="line">  results: <span class="built_in">string</span>[];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>그런 다음 <code>HttpClient.get</code> 호출할 때 타입 파라미터를 전달하십시오.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">http.get&lt;ItemsResponse&gt;(<span class="string">'/api/items'</span>).subscribe(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</div><div class="line">  <span class="comment">// data is now an instance of type ItemsResponse, so you can do this:</span></div><div class="line">  <span class="keyword">this</span>.results = data.results;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="Reading-the-full-response"><a href="#Reading-the-full-response" class="headerlink" title="Reading the full response"></a>Reading the full response</h3><p>응답 본문은 필요한 모든 데이터를 반환하지 않습니다. 경우에 따라 서버는 특정 조건을 나타내는 특수 헤더나 상태 코드를 반환하고 필요할 때 검사할 수 있어야 합니다. 이렇게 하려면 <code>observe</code> 옵션을 이용하여 Body 대신 전체 응답을 원한다고 <a href="https://angular.io/api/common/http/HttpClient" target="_blank" rel="external">HttpClient</a>에 알릴 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">http</div><div class="line">  .get&lt;MyJsonData&gt;(<span class="string">'/data.json'</span>, &#123;observe: <span class="string">'response'</span>&#125;)</div><div class="line">  .subscribe(<span class="function"><span class="params">resp</span> =&gt;</span> &#123;</div><div class="line">    <span class="comment">// Here, resp is of type HttpResponse&lt;MyJsonData&gt;.</span></div><div class="line">    <span class="comment">// You can inspect its headers:</span></div><div class="line">    <span class="built_in">console</span>.log(resp.headers.get(<span class="string">'X-Custom-Header'</span>));</div><div class="line">    <span class="comment">// And access the body directly, which is typed as MyJsonData as requested.</span></div><div class="line">    <span class="built_in">console</span>.log(resp.body.someField);</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
+<p>보시다시피 결과 객체에는 올바른 유형의 <code>body</code> 프로퍼티가 있습니다.</p>
+<h3 id="Error-handling"><a href="#Error-handling" class="headerlink" title="Error handling"></a>Error handling</h3><p>서버에서 요청이 실패하거나 네트워크 연결이 좋지 않아 서버에 도달하지 못하면 어떻게될까요? <a href="https://angular.io/api/common/http/HttpClient" target="_blank" rel="external">HttpClient</a>는 성공적인 응답 대신 오류를 반환합니다.</p>
+<p>이를 처리하려면 <code>.subscribe()</code> 호출에 오류 핸들러를 추가합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">http</div><div class="line">  .get&lt;ItemsResponse&gt;(<span class="string">'/api/items'</span>)</div><div class="line">  .subscribe(</div><div class="line">    <span class="comment">// Successful responses call the first callback.</span></div><div class="line">    data =&gt; &#123;...&#125;,</div><div class="line">    <span class="comment">// Errors will call this callback instead:</span></div><div class="line">    err =&gt; &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'Something went wrong!'</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
+<h4 id="Getting-error-details"><a href="#Getting-error-details" class="headerlink" title="Getting error details"></a>Getting error details</h4><p>오류가 발생했음을 감지하는 것이 중요하지만 실제로 발생한 오류를 확인하는 것이 더 유용할 수 있습니다. 위의 콜백에 대한 <code>err</code> 파라미터는 <a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank" rel="external">HttpErrorResponse</a> 타입이고, 무엇이 잘못되었는지에 대한 유용한 정보를 담고 있습니다.</p>
+<p>발생할 수 있는 두 가지 유형의 오류가 있습니다. 백엔드가 실패한 응답 코드(404, 500 등)를 반환하면 오류로 반환됩니다. 또한 RxJS 연산자에서 예외가 발생하거나 네트워크 오류로 인해 요청이 성공적으로 완료되지 못하는 경우등 클라이언트 측에서 잘못된 것이 발생하면 실제 <code>Error</code>가 발생됩니다.</p>
+<p>두 경우 모두 <a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank" rel="external">HttpErrorResponse</a>를 보고 무슨 일이 일어 났는지 확인할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">http</div><div class="line">  .get&lt;ItemsResponse&gt;(<span class="string">'/api/items'</span>)</div><div class="line">  .subscribe(</div><div class="line">  	<span class="function"><span class="params">data</span> =&gt;</span> &#123;...&#125;,</div><div class="line">    <span class="function">(<span class="params">err: HttpErrorResponse</span>) =&gt;</span> &#123;</div><div class="line">      <span class="keyword">if</span> (err.error <span class="keyword">instanceof</span> <span class="built_in">Error</span>) &#123;</div><div class="line">        <span class="comment">// A client-side or network error occurred. Handle it accordingly.</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'An error occurred:'</span>, err.error.message);</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// The backend returned an unsuccessful response code.</span></div><div class="line">        <span class="comment">// The response body may contain clues as to what went wrong,</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">`Backend returned code <span class="subst">$&#123;err.status&#125;</span>, body was: <span class="subst">$&#123;err.error&#125;</span>`</span>);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
+<h4 id="retry"><a href="#retry" class="headerlink" title=".retry()"></a>.retry()</h4><p>오류를 처리하는 한 가지 방법은 단순히 요청을 다시 시도하는 것입니다. 이 전략은 오류가 일시적이고 반복 가능성이 없는 경우에 유용할 수 있습니다.</p>
+<p>RxJS는 Observable에 자동으로 다시 Subscribe하여, 오류가 발생하면 요청을 다시 발생시키는 <code>.retry()</code>라는 유용한 연산자가 있습니다.</p>
+<p>먼저 import 하기 :</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">'rxjs/add/operator/retry'</span>;</div></pre></td></tr></table></figure>
+<p>그러면 다음과 같이 HTTP Observable과 함께 사용할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">http</div><div class="line">  .get&lt;ItemsResponse&gt;(<span class="string">'/api/items'</span>)</div><div class="line">  <span class="comment">// Retry this request up to 3 times.</span></div><div class="line">  .retry(<span class="number">3</span>)</div><div class="line">  <span class="comment">// Any errors after the 3rd retry will fall through to the app.</span></div><div class="line">  .subscribe(...);</div></pre></td></tr></table></figure>
+<h3 id="Requesting-non-JSON-data"><a href="#Requesting-non-JSON-data" class="headerlink" title="Requesting non-JSON data"></a>Requesting non-JSON data</h3><p>모든 API가 JSON 데이터를 반환하지는 않습니다. 서버에서 텍스트 파일을 읽으려 한다고 가정하십시오. 텍스트 응답을 기대한다고 <a href="https://angular.io/api/common/http/HttpClient" target="_blank" rel="external">HttpClient</a>에 알려야합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">http</div><div class="line">  .get(<span class="string">'/textfile.txt'</span>, &#123;responseType: <span class="string">'text'</span>&#125;)</div><div class="line">  <span class="comment">// The Observable returned by get() is of type Observable&lt;string&gt;</span></div><div class="line">  <span class="comment">// because a text response was specified. There's no need to pass</span></div><div class="line">  <span class="comment">// a &lt;string&gt; type parameter to get().</span></div><div class="line">  .subscribe(<span class="function"><span class="params">data</span> =&gt;</span> <span class="built_in">console</span>.log(data));</div></pre></td></tr></table></figure>
+<h2 id="Sending-data-to-the-server"><a href="#Sending-data-to-the-server" class="headerlink" title="Sending data to the server"></a>Sending data to the server</h2><p><a href="https://angular.io/api/common/http/HttpClient" target="_blank" rel="external">HttpClient</a>는 서버에서 데이터를 가져 오는것 외에도 여러 가지 형태로 서버에 데이터를 전송하는 요청을 지원합니다.</p>
+<h3 id="Making-a-POST-request"><a href="#Making-a-POST-request" class="headerlink" title="Making a POST request"></a>Making a POST request</h3><p>하나의 공통된 작업은 예를 들어 Form을 제출할 때 서버에 데이터를 POST하는 것입니다. POST 요청을 보내는 코드는 GET 코드와 매우 유사합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> body = &#123;name: <span class="string">'Brad'</span>&#125;;</div><div class="line"></div><div class="line">http</div><div class="line">  .post(<span class="string">'/api/developers/add'</span>, body)</div><div class="line">  <span class="comment">// See below - subscribe() is still necessary when using post().</span></div><div class="line">  .subscribe(...);</div></pre></td></tr></table></figure>
+<blockquote>
+<p><code>subscribe()</code> 메서드에 유의하십시오. <a href="https://angular.io/api/common/http/HttpClient" target="_blank" rel="external">HttpClient</a>에서 반환된 모든 <em>Observable</em>은 콜드(cold)입니다. 즉 요청을 하기위한 blueprint입니다. <code>subscribe()</code>를 호출할 때까지 아무 일도 일어나지 않으며 모든 호출이 별도의 요청을 합니다. 예를 들어, 아래 코드는 동일한 데이터가 있는 POST 요청을 두 번 보냅니다.</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> req = http.post(<span class="string">'/api/items/add'</span>, body);</div><div class="line"><span class="comment">// 0 requests made - .subscribe() not called.</span></div><div class="line">req.subscribe();</div><div class="line"><span class="comment">// 1 request made.</span></div><div class="line">req.subscribe();</div><div class="line"><span class="comment">// 2 requests made.</span></div></pre></td></tr></table></figure>
+<h3 id="Configuring-other-parts-of-the-request"><a href="#Configuring-other-parts-of-the-request" class="headerlink" title="Configuring other parts of the request"></a>Configuring other parts of the request</h3><p>URL과 요청 가능한 본문 외에도 구성하려는 요청의 다른 측면이 있습니다. 이 모든 것은 요청에 전달하는 옵션 객체를 통해 사용할 수 있습니다.</p>
+<h4 id="Headers"><a href="#Headers" class="headerlink" title="Headers"></a>Headers</h4><p>일반적인 작업중 하나는 나가는 요청에 <code>Authorization</code> 헤더를 추가하는 것입니다. 방법은 다음과 같습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">http</div><div class="line">  .post(<span class="string">'/api/items/add'</span>, body, &#123;</div><div class="line">    headers: <span class="keyword">new</span> HttpHeaders().set(<span class="string">'Authorization'</span>, <span class="string">'my-auth-token'</span>),</div><div class="line">  &#125;)</div><div class="line">  .subscribe();</div></pre></td></tr></table></figure>
+<p><code>HttpHeaders</code> 클래스는 변경 불가능하므로 모든 <code>set()</code>은 새로운 인스턴스를 반환하고 변경 사항을 적용합니다.</p>
+<h4 id="URL-Parameters"><a href="#URL-Parameters" class="headerlink" title="URL Parameters"></a>URL Parameters</h4><p>URL 파라미터를 추가하는 방법도 동일합니다. <code>id</code> 파라미터가 <code>3</code>으로 설정된 요청을 보내려면 다음을 수행합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">http</div><div class="line">  .post(<span class="string">'/api/items/add'</span>, body, &#123;</div><div class="line">    params: <span class="keyword">new</span> HttpParams().set(<span class="string">'id'</span>, <span class="string">'3'</span>),</div><div class="line">  &#125;)</div><div class="line">  .subscribe();</div></pre></td></tr></table></figure>
+<p>이 방법으로 POST 요청을 <code>/api/items/add?id=3</code> URL로 보냅니다.</p>
+<h2 id="Advanced-usage"><a href="#Advanced-usage" class="headerlink" title="Advanced usage"></a>Advanced usage</h2><p>위의 섹션에서는 <code>@angular/common/http</code>의 기본 HTTP 기능을 사용하는 방법을 자세히 설명했지만 때로는 요청을 만들고 데이터를 다시 가져 오는것 이상을 수행해야합니다.</p>
+<h3 id="Intercepting-all-requests-or-responses"><a href="#Intercepting-all-requests-or-responses" class="headerlink" title="Intercepting all requests or responses"></a>Intercepting all requests or responses</h3><p><code>@angular/common/http</code>의 주요 기능은 응용 프로그램과 백엔드 사이에 있는 인터셉터를 선언할 수있는 <em>Interception</em> 기능입니다. 응용 프로그램이 요청을 하면 인터셉터는 서버로 보내기 전에 이를 변환하고 인터셉터는 응용 프로그램이 보기 전에 응답을 변환합니다. 이것은 인증에서 로깅에 이르기까지 모든 경우에 유용합니다.</p>
+<h4 id="Writing-an-interceptor"><a href="#Writing-an-interceptor" class="headerlink" title="Writing an interceptor"></a>Writing an interceptor</h4><p>인터셉터를 구현하려면 <code>intercept()</code> 메소드 하나가 있는 <code>HttpInterceptor</code> <em>Interface</em>를 구현하는 클래스를 선언해야 합니다. 다음은 아무것도 하지 않고 요청을 변경하지 않고 그대로 전달하는 간단한 인터셉터입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;Injectable&#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123;HttpEvent, HttpInterceptor, HttpHandler, HttpRequest&#125; <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;</div><div class="line"></div><div class="line"><span class="meta">@Injectable</span>()</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> NoopInterceptor <span class="keyword">implements</span> HttpInterceptor &#123;</div><div class="line">  intercept(req: HttpRequest&lt;<span class="built_in">any</span>&gt;, next: HttpHandler): Observable&lt;HttpEvent&lt;<span class="built_in">any</span>&gt;&gt; &#123;</div><div class="line">    <span class="keyword">return</span> next.handle(req);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>intercept</code>는 요청을 Observable로 변환하여 response를 반환하는 메소드입니다. 이러한 의미에서 각 인터셉터는 전적으로 자체적으로 요청을 처리해야합니다.</p>
+<p>대부분의 경우, 인터셉터는 요청에 약간의 변경을 가하여 체인의 나머지 부분으로 전달합니다. <code>next</code> 파라미터가 오는 곳입니다. <code>next</code>는<br> <code>intercept</code>와 비슷한 인터페이스인 <a href="https://angular.io/api/common/http/HttpHandler" target="_blank" rel="external">HttpHandler</a>입니다. 요청 응답을 위해 Observable로 변환합니다. 인터셉터에서 <code>next</code>는 항상 체인의 다음 인터셉터를 나타내며, 더 이상 인터셉터가 없는 경우 최종 백엔드를 나타냅니다. 그래서 대부분의 인터셉터들은 그들이 요청을 변형시키고 <code>next</code>를 호출함으로써 끝납니다.</p>
+<p>우리의 do-nothing 핸들러는 단순히 원래 요청에서 <code>next.handle</code>을 호출하여 요청을 전혀 변경하지 않고 전달합니다.</p>
+<p>이 패턴은 <code>Express.js</code>와 같은 미들웨어 프레임 워크의 패턴과 유사합니다.</p>
+<h5 id="Providing-your-interceptor"><a href="#Providing-your-interceptor" class="headerlink" title="Providing your interceptor"></a>Providing your interceptor</h5><p>단순히 위의 <code>NoopInterceptor</code>를 선언한다고 해서 인터셉터를 앱에서 사용하지는 않습니다. 다음과 같이 인터셉터를 제공하여 앱 모듈에 연결해야합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;NgModule&#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123;HTTP_INTERCEPTORS&#125; <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;</div><div class="line"></div><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  providers: [&#123;</div><div class="line">    provide: HTTP_INTERCEPTORS,</div><div class="line">    useClass: NoopInterceptor,</div><div class="line">    multi: <span class="literal">true</span>,</div><div class="line">  &#125;],</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123;&#125;</div></pre></td></tr></table></figure>
+<p><code>multi: true</code> 옵션에 유의하십시오. 이것은 필수이며 Angular에 <code>HTTP_INTERCEPTORS</code>가 단일 값이 아닌 값의 배열임을 알려줍니다.</p>
+<h5 id="Events"><a href="#Events" class="headerlink" title="Events"></a>Events</h5><p><code>intercept</code>와 <code>HttpHandler.handle</code>에 의해 반환된 Observable이 <code>Observable&lt;HttpResponse&lt;any &gt;&gt;</code>가 아니라 Observable <code>&lt;HttpEvent&lt;any&gt;&gt;</code>라는 것을 알았을 수도 있습니다. 이는 인터셉터가 <a href="https://angular.io/api/common/http/HttpClient" target="_blank" rel="external">HttpClient</a> 인터페이스보다 낮은 수준에서 작동하기 때문입니다. 단일 요청은 업로드 및 다운로드 진행 이벤트를 포함하여 여러 이벤트를 생성할 수 있습니다. <a href="https://angular.io/api/common/http/HttpResponse" target="_blank" rel="external">HttpResponse</a> 클래스는 실제로는 <code>HttpEventType.HttpResponseEvent</code> 타입의 이벤트 자체입니다.</p>
+<p>인터셉터는 이해하지 못하거나 수정하려는 모든 이벤트를 통과 시켜야합니다. 처리할 것으로 예상되지 않은 이벤트를 필터링해서는 안됩니다. 많은 인터셉터는 나가는 요청에 대해서만 관심이 있으며, 단순히 <code>next</code>에서 이벤트 스트림을 수정하지 않고 반환합니다.</p>
+<h5 id="Ordering"><a href="#Ordering" class="headerlink" title="Ordering"></a>Ordering</h5><p>응용 프로그램에서 여러 개의 인터셉터를 제공하면 Angular는 사용자가 제공한 순서대로 적용합니다.</p>
+<h5 id="Immutability"><a href="#Immutability" class="headerlink" title="Immutability"></a>Immutability</h5><p>인터셉터는 나가는 요청과 들어오는 응답을 검사하고 변경합니다. 그러나 <a href="https://angular.io/api/common/http/HttpRequest" target="_blank" rel="external">HttpRequest</a> 및 <a href="https://angular.io/api/common/http/HttpResponse" target="_blank" rel="external">HttpResponse</a> 클래스가 대부분 변경 불가능하다는 사실을 알면 놀랄 수 있습니다.</p>
+<p>이유는 앱이 요청을 다시 시도할 수 있고 인터셉터 체인이 개별 요청을 여러번 처리할 수 있기 때문입니다. 요청이 변경 가능하면 다시 시도한 요청은 원래 요청과 다를 수 있습니다. Immutability는 인터셉터가 각 시도에 대해 동일한 요청을 볼 수 있도록합니다.</p>
+<p>인터셉터(request body)를 작성할 때 타입 안전성으로 보호할 수없는 경우가 있습니다. 인터셉터 내에서 요청 본문을 변경하는 것은 유효하지 않고, 타입 시스템에 의해 검증되지 않습니다.</p>
+<p>요청 본문을 변경해야하는 경우 본문을 copy하고 copy본을 변경한 다음 <code>clone()</code>을 사용하여 요청을 복사하고 새로운 본문을 설정해야합니다.</p>
+<p>요청은 변경 불가능하기 때문에 직접 수정할 수 없습니다. 이들을 변경 시키려면 <code>clone()</code>을 사용하십시오.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">intercept(req: HttpRequest&lt;<span class="built_in">any</span>&gt;, next: HttpHandler): Observable&lt;HttpError&lt;<span class="built_in">any</span>&gt;&gt; &#123;</div><div class="line">  <span class="comment">// This is a duplicate. It is exactly the same as the original.</span></div><div class="line">  <span class="keyword">const</span> dupReq = req.clone();</div><div class="line">  </div><div class="line">  <span class="comment">// Change the URL and replace 'http://' with 'https://'</span></div><div class="line">  <span class="keyword">const</span> secureReq = req.clone(&#123;url: req.url.replace(<span class="string">'http://'</span>, <span class="string">'https://'</span>)&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>보시다시피,<code>clone()</code>을 사용하면 요청의 특정 프로퍼티를 변경하면서 다른 내용을 복사할 수 있습니다.</p>
+<h4 id="Setting-new-headers"><a href="#Setting-new-headers" class="headerlink" title="Setting new headers"></a>Setting new headers</h4><p>인터셉터의 일반적인 사용은 나가는 요청에 기본 헤더를 설정하는 것입니다. 예를 들어, 인증 토큰을 제공할 수있는 <code>AuthService</code>가 있다고 가정하면 다음과 같이 모든 나가는 요청에 인터셉터를 추가하는 방법이 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;Injectable&#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123;HttpEvent, HttpInterceptor, HttpHandler, HttpRequest&#125; <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@Injectable</span>()</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AuthInterceptor <span class="keyword">implements</span> HttpInterceptor &#123;</div><div class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> auth: AuthService</span>) &#123;&#125;</div><div class="line"> </div><div class="line">  intercept(req: HttpRequest&lt;<span class="built_in">any</span>&gt;, next: HttpHandler): Observable&lt;HttpEvent&lt;<span class="built_in">any</span>&gt;&gt; &#123;</div><div class="line">    <span class="comment">// Get the auth header from the service.</span></div><div class="line">    <span class="keyword">const</span> authHeader = <span class="keyword">this</span>.auth.getAuthorizationHeader();</div><div class="line">    <span class="comment">// Clone the request to add the new header.</span></div><div class="line">    <span class="keyword">const</span> authReq = req.clone(&#123;headers: req.headers.set(<span class="string">'Authorization'</span>, authHeader)&#125;);</div><div class="line">    <span class="comment">// Pass on the cloned request instead of the original request.</span></div><div class="line">    <span class="keyword">return</span> next.handle(authReq);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>새로운 헤더를 설정하기위해 요청을 복제하는 관행은 너무 일반적이어서 실제적인 단축키가 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> authReq = req.clone(&#123;setHeaders: &#123;Authorization: authHeader&#125;&#125;);</div></pre></td></tr></table></figure>
+<p>헤더를 변경하는 인터셉터는 다음을 포함하여 여러 가지 다른 작업에 사용할 수 있습니다.</p>
+<ul>
+<li>Authentication/authorization</li>
+<li>Caching behavior; for example, If-Modified-Since</li>
+<li>XSRF protection</li>
+</ul>
+<h4 id="Logging"><a href="#Logging" class="headerlink" title="Logging"></a>Logging</h4><p>인터셉터는 요청과 응답을 함께 처리할 수 있기 때문에 로그 또는 요청 소요 시간 확인과 같은 작업을 수행할 수 있습니다. <code>console.log</code>를 사용하여 각 요청의 소요 시간을 보여주는 이 인터셉터를 생각해볼 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">'rxjs/add/operator/do'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> TimingInterceptor <span class="keyword">implements</span> HttpInterceptor &#123;</div><div class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> auth: AuthService</span>) &#123;&#125;</div><div class="line"> </div><div class="line">  intercept(req: HttpRequest&lt;<span class="built_in">any</span>&gt;, next: HttpHandler): Observable&lt;HttpEvent&lt;<span class="built_in">any</span>&gt;&gt; &#123;</div><div class="line">  	<span class="keyword">const</span> started = <span class="built_in">Date</span>.now();</div><div class="line">    <span class="keyword">return</span> next</div><div class="line">      .handle(req)</div><div class="line">      .do(<span class="function"><span class="params">event</span> =&gt;</span> &#123;</div><div class="line">        <span class="keyword">if</span> (event <span class="keyword">instanceof</span> HttpResponse) &#123;</div><div class="line">          <span class="keyword">const</span> elapsed = <span class="built_in">Date</span>.now() - started;</div><div class="line">          <span class="built_in">console</span>.log(<span class="string">`Request for <span class="subst">$&#123;req.urlWithParams&#125;</span> took <span class="subst">$&#123;elapsed&#125;</span> ms.`</span>); </div><div class="line">        &#125;</div><div class="line">      &#125;);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>RxJS <code>do()</code> 연산자는 스트림의 값에 영향을 주지 않으면서 Observable에 추가작업을 추가합니다. 여기서는 <a href="https://angular.io/api/common/http/HttpResponse" target="_blank" rel="external">HttpResponse</a> 이벤트를 감지하고 요청이 발생한 시간을 기록합니다.</p>
+<h4 id="Caching"><a href="#Caching" class="headerlink" title="Caching"></a>Caching</h4><p>인터셉터를 사용하여 캐싱을 구현할 수도 있습니다. 이 예제에서는 간단한 인터페이스로 HTTP 캐시를 작성했다고 가정합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> HttpCache &#123;</div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Returns a cached response, if any, or null if not present.</div><div class="line">   */</div><div class="line">  <span class="keyword">abstract</span> <span class="keyword">get</span>(req: HttpRequest&lt;<span class="built_in">any</span>&gt;): HttpResponse&lt;<span class="built_in">any</span>&gt;|<span class="literal">null</span>;</div><div class="line">  </div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Adds or updates the response in the cache.</div><div class="line">   */</div><div class="line">  <span class="keyword">abstract</span> put(req: HttpRequest&lt;<span class="built_in">any</span>&gt;, resp: HttpResponse&lt;<span class="built_in">any</span>&gt;): <span class="built_in">void</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>인터셉터는 나가는 요청에 이 캐시를 적용할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Injectable</span>()</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> CachingInterceptor <span class="keyword">implements</span> HttpInterceptor &#123;</div><div class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> cache: HttpCache</span>) &#123;&#125;</div><div class="line"> </div><div class="line">  intercept(req: HttpRequest&lt;<span class="built_in">any</span>&gt;, next: HttpHandler): Observable&lt;HttpEvent&lt;<span class="built_in">any</span>&gt;&gt; &#123;</div><div class="line">  	<span class="comment">// Before doing anything, it's important to only cache GET requests.</span></div><div class="line">    <span class="comment">// Skip this interceptor if the request method isn't GET.</span></div><div class="line">    <span class="keyword">if</span> (req.method !== <span class="string">'GET'</span>) &#123;</div><div class="line">      <span class="keyword">return</span> next.handle(req);</div><div class="line">    &#125;</div><div class="line">  </div><div class="line">    <span class="comment">// First, check the cache to see if this request exists.</span></div><div class="line">    <span class="keyword">const</span> cachedResponse = <span class="keyword">this</span>.cache.get(req);</div><div class="line">    <span class="keyword">if</span> (cachedResponse) &#123;</div><div class="line">      <span class="comment">// A cached response exists. Serve it instead of forwarding</span></div><div class="line">      <span class="comment">// the request to the next handler.</span></div><div class="line">      <span class="keyword">return</span> Observable.of(cachedResponse);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// No cached response exists. Go to the network, and cache</span></div><div class="line">    <span class="comment">// the response when it arrives.</span></div><div class="line">    <span class="keyword">return</span> next.handle(req).do(<span class="function"><span class="params">event</span> =&gt;</span> &#123;</div><div class="line">      <span class="comment">// Remember, there may be other events besides just the response.</span></div><div class="line">      <span class="keyword">if</span> (event <span class="keyword">instanceof</span> HttpResponse) &#123;</div><div class="line">      	<span class="comment">// Update the cache.</span></div><div class="line">      	<span class="keyword">this</span>.cache.put(req, event);</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이 예제는 요청의 일치, 캐시 무효화 등을 설명하지만 인터셉터는 요청을 변형하는것 이상의 많은 힘을 가지고 있음을 쉽게 볼 수 있습니다. 원하는 경우 요청 흐름을 완전히 변경하는데 사용할 수 있습니다.</p>
+<p>실제로 위의 예제를 변경하여 캐시에 요청이있는 경우 두 개의 응답 이벤트 (캐시된 응답 먼저)와 업데이트된 네트워크 응답을 나중에 반환할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">intercept(req: HttpRequest&lt;<span class="built_in">any</span>&gt;, next: HttpHandler): Observable&lt;HttpEvent&lt;<span class="built_in">any</span>&gt;&gt; &#123;</div><div class="line">  <span class="comment">// Still skip non-GET requests.</span></div><div class="line">  <span class="keyword">if</span> (req.method !== <span class="string">'GET'</span>) &#123;</div><div class="line">    <span class="keyword">return</span> next.handle(req);</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// This will be an Observable of the cached value if there is one,</span></div><div class="line">  <span class="comment">// or an empty Observable otherwise. It starts out empty.</span></div><div class="line">  <span class="keyword">let</span> maybeCachedResponse: Observable&lt;HttpEvent&lt;<span class="built_in">any</span>&gt;&gt; = Observable.empty();</div><div class="line">  </div><div class="line">  <span class="comment">// Check the cache.</span></div><div class="line">  <span class="keyword">const</span> cachedResponse = <span class="keyword">this</span>.cache.get(req);</div><div class="line">  <span class="keyword">if</span> (cachedResponse) &#123;</div><div class="line">    maybeCachedResponse = Observable.of(cachedResponse);</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// Create an Observable (but don't subscribe) that represents making</span></div><div class="line">  <span class="comment">// the network request and caching the value.</span></div><div class="line">  <span class="keyword">const</span> networkResponse = next.handle(req).do(<span class="function"><span class="params">event</span> =&gt;</span> &#123;</div><div class="line">    <span class="comment">// Just like before, check for the HttpResponse event and cache it.</span></div><div class="line">    <span class="keyword">if</span> (event <span class="keyword">instanceof</span> HttpResponse) &#123;</div><div class="line">      <span class="keyword">this</span>.cache.put(req, event);</div><div class="line">    &#125;</div><div class="line">  &#125;);</div><div class="line">  </div><div class="line">  <span class="comment">// Now, combine the two and send the cached response first (if there is</span></div><div class="line">  <span class="comment">// one), and the network response second.</span></div><div class="line">  <span class="keyword">return</span> Observable.concat(maybeCachedResponse, networkResponse);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이제 <code>http.get(url)</code>을 수행하면 이전에 해당 URL이 캐시된 경우 두 개의 응답을 받게됩니다.</p>
+<h3 id="Listening-to-progress-events"><a href="#Listening-to-progress-events" class="headerlink" title="Listening to progress events"></a>Listening to progress events</h3><p>때때로 응용 프로그램은 많은 양의 데이터를 전송 해야하며 이러한 전송에는 시간이 걸릴 수 있습니다. 이러한 전송 진행 상황에 대한 피드백을 제공하는 것은 좋은 사용자 경험입니다. (예를 들어, 파일 업로드 - <code>@angular/common/http</code>는 이를 지원합니다.)</p>
+<p>진행 이벤트를 사용하도록 요청하려면 먼저 특수한 <code>reportProgress</code> 옵션 집합을 사용하여 <a href="https://angular.io/api/common/http/HttpRequest" target="_blank" rel="external">HttpRequest</a>의 인스턴스를 만듭니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> req = <span class="keyword">new</span> HttpRequest(<span class="string">'POST'</span>, <span class="string">'/upload/file'</span>, file, &#123;</div><div class="line">  reportProgress: <span class="literal">true</span>,</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>이 옵션을 사용하면 진행 이벤트를 추적할 수 있습니다. 각 진행 상황 이벤트는 변경 감지를 트리거하므로 실제로 각 이벤트에서 UI를 업데이트하려는 경우에만 진행 상태를 설정하십시오.</p>
+<p>그런 다음 <a href="https://angular.io/api/common/http/HttpClient" target="_blank" rel="external">HttpClient</a>의 <code>request()</code> 메소드를 통해 요청하십시오. 결과는 인터셉터와 마찬가지로 Observable 이벤트가 됩니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">http.request(req).subscribe(<span class="function"><span class="params">event</span> =&gt;</span> &#123;</div><div class="line">  <span class="comment">// Via this API, you get access to the raw event stream.</span></div><div class="line">  <span class="comment">// Look for upload progress events.</span></div><div class="line">  <span class="keyword">if</span> (event.type === HttpEventType.UploadProgress) &#123;</div><div class="line">    <span class="comment">// This is an upload progress event. Compute and show the % done:</span></div><div class="line">    <span class="keyword">const</span> percentDone = <span class="built_in">Math</span>.round(<span class="number">100</span> * event.loaded / event.total);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`File is <span class="subst">$&#123;percentDone&#125;</span>% uploaded.`</span>);</div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event <span class="keyword">instanceof</span> HttpResponse) &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'File is completely uploaded!'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="Security-XSRF-Protection"><a href="#Security-XSRF-Protection" class="headerlink" title="Security: XSRF Protection"></a>Security: XSRF Protection</h2><p><a href="https://en.wikipedia.org/wiki/Cross-site_request_forgery" target="_blank" rel="external">Cross-Site Request Forgery(CSRF)</a>는 공격자가 인증된 사용자를 속여서 웹 사이트에서 무의식적으로 실행하는 공격 기법입니다. <code>HttpClient</code>는 <code>XSRF</code> 공격을 막는데 사용되는 <a href="https://en.wikipedia.org/wiki/Cross-site_request_forgery#Cookie-to-Header_Token" target="_blank" rel="external">일반적인 메커니즘</a>을 지원합니다. HTTP 요청을 수행할 때 인터셉터는 쿠키에서 토큰 (기본적으로 <code>XSRF-TOKEN</code>)을 읽고 HTTP 헤더인 <code>X-XSRF-TOKEN</code>으로 설정합니다. 도메인에서 실행되는 코드만 쿠키를 읽을 수 있기 때문에 백엔드는 HTTP 요청이 공격자가 아닌 클라이언트 응용 프로그램에서 온 것임을 확신할 수 있습니다.</p>
+<p>기본적으로 인터셉터는 모든 변경 요청 (POST 등)에 대해 이 쿠키를 상대 URL로 보내지만 GET/HEAD 요청이나 절대 URL이 있는 요청에는 보내지 않습니다.</p>
+<p>이 기능을 이용하려면 서버가 페이지 로드 또는 첫 번째 GET 요청에서 <code>XSRF-TOKEN</code>이라는 JavaScript로 읽을 수있는 세션 쿠키로 토큰을 설정해야합니다. 후속 요청에서 서버는 쿠키가 <code>X-XSRF-TOKEN HTTP</code> 헤더와 일치하는지 확인할 수 있으므로 도메인에서 실행중인 코드만 요청을 보낼 수 있는지 확인합니다. 토큰은 각 사용자마다 고유해야하며 서버에서 확인할 수 있어야합니다. 이것은 클라이언트가 자신의 토큰을 만들지 못하게합니다. 토큰의 보안 강화를 위해 salt로 사이트 인증 쿠키 다이제스트로 설정하십시오.</p>
+<p>여러 Angular 응용 프로그램이 동일한 도메인 또는 하위 도메인을 공유하는 환경에서 충돌을 방지하려면 각 응용 프로그램에 고유한 쿠키 이름을 지정하십시오.</p>
+<blockquote>
+<p><em>HttpClient의 지원은 XSRF 보호 체계의 클라이언트 절반에 불과합니다.</em> 백엔드 서비스는 페이지의 쿠키를 설정하고 헤더가 모든 적합한 요청에 존재하는지 확인하도록 구성되어야합니다. 그렇지 않은 경우 Angular의 기본 보호가 효과적이지 않습니다.</p>
+</blockquote>
+<h3 id="Configuring-custom-cookie-header-names"><a href="#Configuring-custom-cookie-header-names" class="headerlink" title="Configuring custom cookie/header names"></a>Configuring custom cookie/header names</h3><p>백엔드 서비스가 XSRF 토큰 쿠키 또는 헤더에 다른 이름을 사용하는 경우 <code>HttpClientXsrfModule.withConfig()</code>를 사용하여 기본값을 대체하십시오.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">imports: [</div><div class="line">  HttpClientModule,</div><div class="line">  HttpClientXsrfModule.withConfig(&#123;</div><div class="line">    cookieName: <span class="string">'My-Xsrf-Cookie'</span>,</div><div class="line">    headerName: <span class="string">'My-Xsrf-Header'</span>,</div><div class="line">  &#125;),</div><div class="line">]</div></pre></td></tr></table></figure>
+<h2 id="Testing-HTTP-requests"><a href="#Testing-HTTP-requests" class="headerlink" title="Testing HTTP requests"></a>Testing HTTP requests</h2><p>외부 의존성과 마찬가지로, HTTP 백엔드는 좋은 테스트 관행의 일부로 Mock를 제공 해야합니다. <code>@angular/common/http</code>는 Mocking을 직접 설정하는 테스트 라이브러리 <code>@angular/common/http/testing</code>을 제공합니다.</p>
+<h3 id="Mocking-philosophy"><a href="#Mocking-philosophy" class="headerlink" title="Mocking philosophy"></a>Mocking philosophy</h3><p>Angular의 HTTP 테스트 라이브러리는 앱이 코드를 실행하고 요청을 수행하는 테스트 패턴을 위해 설계되었습니다. 그 후, 테스트는 특정 요청이 있었는지 여부를 예상하고, 각 요청을 “플러시”하여 최종적으로 응답을 제공함으로써 더 많은 새로운 요청을 트리거할 수 있습니다. 결국 테스트는 앱이 예기치 않은 요청을 하지 않았음을 선택적으로 확인할 수 있습니다.</p>
+<h3 id="Setup"><a href="#Setup" class="headerlink" title="Setup"></a>Setup</h3><p><a href="https://angular.io/api/common/http/HttpClient" target="_blank" rel="external">HttpClient</a>를 통해 만들어진 요청을 테스트하려면 <a href="https://angular.io/api/common/http/testing/HttpClientTestingModule" target="_blank" rel="external">HttpClientTestingModule</a>을 가져 와서 TestBed 설정에 추가하십시오.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;HttpClientTestingModule&#125; <span class="keyword">from</span> <span class="string">'@angular/common/http/testing'</span>;</div><div class="line"></div><div class="line">beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  TestBed.configureTestingModule(&#123;</div><div class="line">    ...,</div><div class="line">    imports: [</div><div class="line">      HttpClientTestingModule,</div><div class="line">    ],</div><div class="line">  &#125;)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>이게 전부입니다. 이제 테스트 과정의 요청은 정상 백엔드가 아닌 테스트 백엔드를 사용합니다.</p>
+<h3 id="Expecting-and-answering-requests"><a href="#Expecting-and-answering-requests" class="headerlink" title="Expecting and answering requests"></a>Expecting and answering requests</h3><p>모듈을 통해 Mock이 설치된 상태에서 GET 요청이 발생할 것으로 예상되는 테스트를 작성하여 Mock 응답을 제공할 수 있습니다. 다음 예제는 <a href="https://angular.io/api/common/http/HttpClient" target="_blank" rel="external">HttpClient</a>를 테스트와 <a href="https://angular.io/api/common/http/testing/HttpTestingController" target="_blank" rel="external">HttpTestingController</a>라는 클래스에 모두 주입하여 수행합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">it(<span class="string">'expects a GET request'</span>, inject([HttpClient, HttpTestingController], <span class="function">(<span class="params">http: HttpClient, httpMock: HttpTestingController</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">// Make an HTTP GET request, and expect that it return an object</span></div><div class="line">  <span class="comment">// of the form &#123;name: 'Test Data'&#125;.</span></div><div class="line">  http</div><div class="line">    .get(<span class="string">'/data'</span>)</div><div class="line">    .subscribe(<span class="function"><span class="params">data</span> =&gt;</span> expect(data[<span class="string">'name'</span>]).toEqual(<span class="string">'Test Data'</span>));</div><div class="line">    </div><div class="line">  <span class="comment">// At this point, the request is pending, and no response has been</span></div><div class="line">  <span class="comment">// sent. The next step is to expect that the request happened.</span></div><div class="line">  <span class="keyword">const</span> req = httpMock.expectOne(<span class="string">'/data'</span>);</div><div class="line">  </div><div class="line">  <span class="comment">// If no request with that URL was made, or if multiple requests match,</span></div><div class="line">  <span class="comment">// expectOne() would throw. However this test makes only one request to</span></div><div class="line">  <span class="comment">// this URL, so it will match and return a mock request. The mock request</span></div><div class="line">  <span class="comment">// can be used to deliver a response or make assertions against the</span></div><div class="line">  <span class="comment">// request. In this case, the test asserts that the request is a GET.</span></div><div class="line">  expect(req.request.method).toEqual(<span class="string">'GET'</span>);</div><div class="line">  </div><div class="line">  <span class="comment">// Next, fulfill the request by transmitting a response.</span></div><div class="line">  req.flush(&#123;name: <span class="string">'Test Data'</span>&#125;);</div><div class="line">  </div><div class="line">  <span class="comment">// Finally, assert that there are no outstanding requests.</span></div><div class="line">  httpMock.verify();</div><div class="line">&#125;));</div></pre></td></tr></table></figure>
+<p>마지막 단계는 아직 해결되지 않은 요청이 남아 있지 않음을 확인하는 것입니다. 이것은 <code>afterEach()</code>로 충분합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">afterEach(inject([HttpTestingController], <span class="function">(<span class="params">httpMock: HttpTestingController</span>) =&gt;</span> &#123;</div><div class="line">  httpMock.verify();</div><div class="line">&#125;));</div></pre></td></tr></table></figure>
+<h4 id="Custom-request-expectations"><a href="#Custom-request-expectations" class="headerlink" title="Custom request expectations"></a>Custom request expectations</h4><p>URL 일치로 충분하지 않으면 자체적으로 일치 기능을 구현할 수 있습니다. 예를 들어 Authorization 헤더가있는 발신 요청을 찾을 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> req = httpMock.expectOne(<span class="function">(<span class="params">req</span>) =&gt;</span> req.headers.has(<span class="string">'Authorization'</span>));</div></pre></td></tr></table></figure>
+<p>위의 테스트에서 URL 별 <code>expectOne()</code>과 마찬가지로 0 또는 2개 이상의 요청이 이 예측과 일치하면 throw됩니다.</p>
+<h4 id="Handling-more-than-one-request"><a href="#Handling-more-than-one-request" class="headerlink" title="Handling more than one request"></a>Handling more than one request</h4><p>테스트에서 중복 요청에 응답해야하는 경우 <code>expectOne()</code> 대신 <code>match()</code> API를 사용할 수 있습니다. 이 메서드는 동일한 파라미터를 사용하지만 일치하는 요청의 배열을 반환합니다. 반환된 이러한 요청은 향후 검색에서 제거되며 확인하고 플러시할 책임이 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Expect that 5 pings have been made and flush them.</span></div><div class="line"><span class="keyword">const</span> reqs = httpMock.match(<span class="string">'/ping'</span>);</div><div class="line">expect(reqs.length).toBe(<span class="number">5</span>);</div><div class="line">reqs.forEach(<span class="function"><span class="params">req</span> =&gt;</span> req.flush());</div></pre></td></tr></table></figure>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://angular.io/guide/http" target="_blank" rel="external">https://angular.io/guide/http</a>]</p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-introduction/">Angular 튜토리얼 - 소개</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-the-hero-editor/">Angular 튜터리얼 - Hero 에디터</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-master-detail/">Angular 튜터리얼 - Master/Detail</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-multiple-components/">Angular 튜터리얼 - 다중 콤포넌트</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-services/">Angular 튜터리얼 - 서비스</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-routing/">Angular 튜터리얼 - 라우팅</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-http/">Angular 튜터리얼 - HTTP</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-http-client/">Angular HttpClient</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/angular-dynamic-component/">Angular 동적 컴포넌트 로딩</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2017/07/21/angular-http-client/" data-id="cjkl9101h001jjguz976jepn5" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/01/24/angular-dynamic-component/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            Angular 동적 컴포넌트 로딩
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/07/21/angular-tutorial-http/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">Angular 튜터리얼 - HTTP</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2017/07/21/angular-http-client/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

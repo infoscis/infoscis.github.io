@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>TypeScript 핸드북 9 - 타입 호환성 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="JavaScript,TypeScript" />
+    
+    <meta name="description" content="타입 호환성 (Type Compatibility)소개TypeScript의 타입 호환성은 구조적인 하위 타입을 기반으로 합니다. 구조적 타이핑(Structural typing)은 멤버에게만 의존하여 타입을 연관시키는 방법입니다. 이는 Nominal typing과는 대조적입니다. 다음 코드를 살펴보겠습니다.
+1234567891011interface Named">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript 핸드북 9 - 타입 호환성">
+<meta property="og:url" content="http://infoscis.github.io/2017/06/01/TypeScript-handbook-type-compatibility/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="타입 호환성 (Type Compatibility)소개TypeScript의 타입 호환성은 구조적인 하위 타입을 기반으로 합니다. 구조적 타이핑(Structural typing)은 멤버에게만 의존하여 타입을 연관시키는 방법입니다. 이는 Nominal typing과는 대조적입니다. 다음 코드를 살펴보겠습니다.
+1234567891011interface Named">
+<meta property="og:updated_time" content="2018-01-27T15:13:40.568Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TypeScript 핸드북 9 - 타입 호환성">
+<meta name="twitter:description" content="타입 호환성 (Type Compatibility)소개TypeScript의 타입 호환성은 구조적인 하위 타입을 기반으로 합니다. 구조적 타이핑(Structural typing)은 멤버에게만 의존하여 타입을 연관시키는 방법입니다. 이는 Nominal typing과는 대조적입니다. 다음 코드를 살펴보겠습니다.
+1234567891011interface Named">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2017/06/01/TypeScript-handbook-type-compatibility/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/TypeScript/">TypeScript</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-TypeScript-handbook-type-compatibility" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        TypeScript 핸드북 9 - 타입 호환성
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/06/01/TypeScript-handbook-type-compatibility/" class="article-date">
+            <time datetime="2017-05-31T15:05:31.000Z" itemprop="datePublished">2017-06-01</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/JavaScript/">JavaScript</a>, <a class="tag-link" href="/tags/TypeScript/">TypeScript</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="타입-호환성-Type-Compatibility"><a href="#타입-호환성-Type-Compatibility" class="headerlink" title="타입 호환성 (Type Compatibility)"></a>타입 호환성 (Type Compatibility)</h1><h2 id="소개"><a href="#소개" class="headerlink" title="소개"></a>소개</h2><p>TypeScript의 타입 호환성은 구조적인 하위 타입을 기반으로 합니다. 구조적 타이핑(Structural typing)은 멤버에게만 의존하여 타입을 연관시키는 방법입니다. 이는 Nominal typing과는 대조적입니다. 다음 코드를 살펴보겠습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">interface</span> Named &#123;</div><div class="line">    name: <span class="built_in">string</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">class</span> Person &#123;</div><div class="line">    name: <span class="built_in">string</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> p: Named;</div><div class="line"><span class="comment">// OK, because of structural typing</span></div><div class="line">p = <span class="keyword">new</span> Person();</div></pre></td></tr></table></figure>
+<p><code>Person</code> 클래스가 <code>Named</code> 인터페이스의 구현체라고 명시적으로 기술하지 않았기 때문에 C#이나 Java와 같은 명목적 선언 언어에서는 위와 같은<br> 코드는 오류가 발생합니다.</p>
+<p>TypeScript의 Structural 타입 시스템은 일반적으로 JavaScript 코드가 작성된 방식에 따라 설계되었습니다. JavaScript는 함수 표현식 및 객체 리터럴과 같은 익명 객체를 광범위하게 사용하기 때문에 Nominal 타입 시스템 대신에 Structural 타입 시스템을 사용하여 JavaScript 라이브러리에서 발견되는 관계(Relationship)의 종류를 표현하는 것이 훨씬 자연 스럽습니다.</p>
+<p>명목상의 Structural 타입 시스템 대신 JavaScript 라이브러리에서 발견되는 관련성(Relationship)를 표현하는 것이 훨씬 자연스럽습니다.</p>
+<h3 id="건전성에-대한-메모-Note-on-Soundness"><a href="#건전성에-대한-메모-Note-on-Soundness" class="headerlink" title="건전성에 대한 메모 (Note on Soundness)"></a>건전성에 대한 메모 (Note on Soundness)</h3><p>TypeScript의 타입 시스템을 사용하면 컴파일 타임에 알 수없는 특정 작업을 수행할 수 있습니다. 하지만 타입 시스템에 이 프로퍼티가 있으면 건전하지 않습니다. TypeScript는 건전하지 않는 동작을 허용하는 장소를 신중하게 고려했으며, 이 문서 전체에서 이러한 상황이 발생하는 곳과 그 뒤에있는 동기 부여 시나리오에 대해 설명합니다.</p>
+<h2 id="시작하기"><a href="#시작하기" class="headerlink" title="시작하기"></a>시작하기</h2><p>TypeScript Structural 타입 시스템의 기본 규칙은 <code>y</code>가 적어도 <code>x</code>와 같은 멤버를 가지고 있다면 <code>x</code>는 <code>y</code>와 호환된다는 것입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">interface</span> Named &#123;</div><div class="line">    name: <span class="built_in">string</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> x: Named;</div><div class="line"><span class="comment">// y's inferred type is &#123; name: string; location: string; &#125;</span></div><div class="line"><span class="keyword">let</span> y = &#123; name: <span class="string">"Alice"</span>, location: <span class="string">"Seattle"</span> &#125;;</div><div class="line">x = y;</div></pre></td></tr></table></figure>
+<p><code>y</code>가 <code>x</code>에 할당 될 수 있는지를 검사하기 위해, 컴파일러는 <code>x</code>의 각 프로퍼티을 검사하여 <code>y</code>에서 호환되는 대응 프로퍼티를 찾습니다. 이 경우<code>y</code>는 문자열인 <code>name</code> 멤버를 가져야합니다. 그렇기 때문에 위 코드는 할당이 허용됩니다.</p>
+<p>함수 호출 파라미터를 검사할 때도 동일한 할당 규칙이 사용됩니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">n: Named</span>) </span>&#123;</div><div class="line">    alert(<span class="string">"Hello, "</span> + n.name);</div><div class="line">&#125;</div><div class="line">greet(y); <span class="comment">// OK</span></div></pre></td></tr></table></figure>
+<p><code>y</code>는 여분의 <code>location</code> 속성을 가지고 있지만 위 코드는 오류를 발생하지 않습니다. 호환성을 검사할 때 대상 타입(이 경우 <code>Named</code>)의 멤버만 고려됩니다.</p>
+<p>이러한 비교 프로세스는 재귀적으로 진행되어 각 구성원 및 하위 구성원의 타입을 탐색합니다.</p>
+<h2 id="두-함수의-비교"><a href="#두-함수의-비교" class="headerlink" title="두 함수의 비교"></a>두 함수의 비교</h2><p>Primitive 타입과 객체 타입을 비교하는 것은 비교적 간단하지만, 어떤 종류의 함수가 호환 가능하다고 판단해야 하는지에 대한 질문은 좀더 복잡합니다. 파라미터 목록이 다른 함수의 두개의 기본 예제부터 살펴 보겠습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> x = <span class="function">(<span class="params">a: <span class="built_in">number</span></span>) =&gt;</span> <span class="number">0</span>;</div><div class="line"><span class="keyword">let</span> y = <span class="function">(<span class="params">b: <span class="built_in">number</span>, s: <span class="built_in">string</span></span>) =&gt;</span> <span class="number">0</span>;</div><div class="line"></div><div class="line">y = x; <span class="comment">// OK</span></div><div class="line">x = y; <span class="comment">// Error</span></div></pre></td></tr></table></figure>
+<p><code>x</code>가 <code>y</code>에 할당 가능한지 검사하기 위해 먼저 파라미터 목록을 봅니다. <code>x</code>의 각 파라미터 변수는 호환 가능한 타입을 가진 <code>y</code>에서 상응하는 파라미터 변수를 가져야합니다. 또한 파라미터의 이름을 고려하지 않고 타입만 고려해야합니다. 이 경우 <code>x</code>의 모든 파라미터 변수는 <code>y</code>에 상응하는 호환 파라미터 변수를 가지므로 할당이 허용됩니다.</p>
+<p>두번째 할당은 에러입니다. 왜냐하면 <code>y</code>에는 <code>x</code>에 없는 두번째 파라미터가 필요하기 때문에 할당이 허용되지 않습니다.</p>
+<p>위의 <code>y = x</code> 예제에서 처럼 <code>폐기(discarding)</code> 파라미터를 허용하는 이유가 궁금할 수 있습니다. 이 할당이 허용되는 이유는 JavaScript에서 함수의 추가 파라미터를 무시하는 것이 실제로 매우 일반적이기 때문입니다. 예를 들어, <code>Array#forEach</code>는 콜백 함수에 세개의 파라미터, 즉 배열 요소, 해당 인덱스, 포함 배열을 제공합니다. 그럼에도 불구하고 첫 번째 파라미터만 사용하는 콜백을 제공하는 것은 매우 일반적입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> items = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</div><div class="line"></div><div class="line"><span class="comment">// 이러한 추가 매개 변수를 강제로 사용하지 마십시오.</span></div><div class="line">items.forEach(<span class="function">(<span class="params">item, index, array</span>) =&gt;</span> <span class="built_in">console</span>.log(item));</div><div class="line"></div><div class="line"><span class="comment">// 괜찮습니다.</span></div><div class="line">items.forEach(<span class="function"><span class="params">item</span> =&gt;</span> <span class="built_in">console</span>.log(item));</div></pre></td></tr></table></figure>
+<p>이제 리턴 타입만 다른 두 함수를 사용하여 리턴 타입을 처리하는 방법을 살펴 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> x = <span class="function"><span class="params">()</span> =&gt;</span> (&#123;<span class="attr">name</span>: <span class="string">"Alice"</span>&#125;);</div><div class="line"><span class="keyword">let</span> y = <span class="function"><span class="params">()</span> =&gt;</span> (&#123;<span class="attr">name</span>: <span class="string">"Alice"</span>, <span class="attr">location</span>: <span class="string">"Seattle"</span>&#125;);</div><div class="line"></div><div class="line">x = y; <span class="comment">// OK</span></div><div class="line">y = x; <span class="comment">// x()에 location 프로퍼티가 없기 때문에 오류가 발생합니다.</span></div></pre></td></tr></table></figure>
+<p>타입 시스템은 원본 함수의 리턴 타입이 대상 함수 리턴 타입의 서브 타입이 되도록 강제합니다.</p>
+<h3 id="함수-파라미터의-Bivariance"><a href="#함수-파라미터의-Bivariance" class="headerlink" title="함수 파라미터의 Bivariance"></a>함수 파라미터의 Bivariance</h3><p>함수 파라미터의 타입을 비교할 때 원본 파라미터가 대상 파라미터에 할당 가능하거나 그 반대인 경우 할당이 성공합니다. 호출자가 더 특수화된 타입을 취하는 함수를 제공하게 될 수도 있기는 하지만 덜 특수화된 타입의 함수를 호출할 수 있기 때문에 이것은 불리합니다. 실제로 이러한 종류의 오류는 거의 발생하지 않으며 이를 통해 많은 일반적인 JavaScript 패턴을 사용할 수 있습니다. 간단한 예를 살펴보겠습니다.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">enum EventType &#123; Mouse, Keyboard &#125;</div><div class="line"></div><div class="line">interface Event &#123; timestamp: number; &#125;</div><div class="line">interface MouseEvent extends Event &#123; x: number; y: number &#125;</div><div class="line">interface KeyEvent extends Event &#123; keyCode: number &#125;</div><div class="line"></div><div class="line">function listenEvent(eventType: EventType, handler: (n: Event) =&gt; void) &#123;</div><div class="line">    /* ... */</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 정상적이지 않지만 유용하고 일반적입니다.</div><div class="line">listenEvent(EventType.Mouse, (e: MouseEvent) =&gt; console.log(e.x + "," + e.y));</div><div class="line"></div><div class="line">// 정상적인 상태에서 원하지 않는 대안</div><div class="line">listenEvent(EventType.Mouse, (e: Event) =&gt; console.log((&lt;MouseEvent&gt;e).x + "," + (&lt;MouseEvent&gt;e).y));</div><div class="line">listenEvent(EventType.Mouse, &lt;(e: Event) =&gt; void&gt;((e: MouseEvent) =&gt; console.log(e.x + "," + e.y)));</div><div class="line"></div><div class="line">// 여전히 허락되지 않습니다. (명백한 에러). 모든 호환 타입에 대해 타입의 안정성을 강제합니다.</div><div class="line">listenEvent(EventType.Mouse, (e: number) =&gt; console.log(e));</div></pre></td></tr></table></figure>
+<h3 id="Optional-파라미터와-Rest-파라미터"><a href="#Optional-파라미터와-Rest-파라미터" class="headerlink" title="Optional 파라미터와 Rest 파라미터"></a>Optional 파라미터와 Rest 파라미터</h3><p>호환성을 위해 함수를 비교할 때 Optional과 Required 파라미터는 서로 바꿔서 사용할 수 있습니다. 원본 타입의 Extra optional 파라미터는 오류가 아니고, 원본 타입의 해당 파라미터가 없는 대상 타입의 Optional 파라미터는 오류가 아닙니다.</p>
+<p>함수가 Rest 파라미터를 가지면 무한한 일련의 Optional 파라미터인 것처럼 취급됩니다.</p>
+<p>이것은 타입 시스템의 관점에서 볼 때 불만족 스럽지만, 런타임 관점에서 Optional 파라미터의 개념은 일반적으로 잘 시행되지 않습니다. 그자리에 <code>undefined</code>를 전달하는 것은 대부분의 함수들이 일반적이기 때문입니다.</p>
+<p>이러한 동기를 부여하는 예제는 콜백을 가져 와서 (프로그래머는) 예상할 수 있지만 (타입 시스템은) 알 수없는 파라미터의 개수로 호출하는 함수의 일반적인 패턴입니다.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function invokeLater(args: any[], callback: (...args: any[]) =&gt; void) &#123;</div><div class="line">    /* ... Invoke callback with 'args' ... */</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Unsound - invokeLater "might"는 여러 가지 파라미터를 제공합니다.</div><div class="line">invokeLater([1, 2], (x, y) =&gt; console.log(x + ", " + y));</div><div class="line"></div><div class="line">// 혼란 스럽고 (x와 y는 실제로 필요합니다) 발견할수 없음</div><div class="line">invokeLater([1, 2], (x?, y?) =&gt; console.log(x + ", " + y));</div></pre></td></tr></table></figure>
+<h3 id="함수의-Overload"><a href="#함수의-Overload" class="headerlink" title="함수의 Overload"></a>함수의 Overload</h3><p>함수에 Overload가 있는 경우 원본 타입의 각 Overload는 대상 타입의 호환 가능한 Signature와 일치 해야합니다. 이렇게 하면 원본 함수와 동일한 모든 상황에서 대상 함수를 호출할 수 있습니다.</p>
+<h2 id="Enum"><a href="#Enum" class="headerlink" title="Enum"></a>Enum</h2><p>enum은 number와 호환되며 number는 enum과 호환됩니다. 다른 enum에서 가져온 값은 호환되지 않는 것으로 간주됩니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">enum</span> Status &#123; Ready, Waiting &#125;;</div><div class="line"><span class="keyword">enum</span> Color &#123; Red, Blue, Green &#125;;</div><div class="line"></div><div class="line"><span class="keyword">let</span> status = Status.Ready;</div><div class="line">status = Color.Green;  <span class="comment">//error</span></div></pre></td></tr></table></figure>
+<h2 id="클래스"><a href="#클래스" class="headerlink" title="클래스"></a>클래스</h2><p>클래스는 객체 리터럴 타입 및 인터페이스와 유사하게 작동하지만 한 가지 예외는 정적 및 인스턴스 유형을 모두 포함한다는 것입니다. 클래스 타입의 두 객체를 비교할 때 인스턴스의 멤버만 비교됩니다. 정적 멤버 및 생성자는 호환성에 영향을주지 않습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> Animal &#123;</div><div class="line">    feet: <span class="built_in">number</span>;</div><div class="line">    <span class="keyword">constructor</span>(<span class="params">name: <span class="built_in">string</span>, numFeet: <span class="built_in">number</span></span>) &#123; &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">class</span> Size &#123;</div><div class="line">    feet: <span class="built_in">number</span>;</div><div class="line">    <span class="keyword">constructor</span>(<span class="params">numFeet: <span class="built_in">number</span></span>) &#123; &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> a: Animal;</div><div class="line"><span class="keyword">let</span> s: Size;</div><div class="line"></div><div class="line">a = s;  <span class="comment">//OK</span></div><div class="line">s = a;  <span class="comment">//OK</span></div></pre></td></tr></table></figure>
+<h3 id="클래스의-Private과-protected-멤버"><a href="#클래스의-Private과-protected-멤버" class="headerlink" title="클래스의 Private과  protected 멤버"></a>클래스의 Private과  protected 멤버</h3><p>클래스의 <code>private</code>및 <code>protected</code> 멤버는 호환성에 영향을 줍니다. 클래스의 인스턴스가 호환성을 검사할 때 대상 타입에 <code>private</code> 멤버가 포함되어 있으면 원본 타입에 동일한 클래스에서 생성된 <code>private</code> 멤버가 포함되어야 합니다. 마찬가지로 <code>protected</code> 멤버가있는 인스턴스에도 동일하게 적용됩니다. 클래스는 슈퍼 클래스에 할당이 가능하지만 다른 상속 계층 구조의 클래스에서는 할당이 안됩니다.</p>
+<h2 id="Generic"><a href="#Generic" class="headerlink" title="Generic"></a>Generic</h2><p>TypeScript는 Structural 타입 시스템이므로 Type 파라미터는 멤버 타입의 일부로 소비될 때 결과 타입에만 영향을줍니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">interface</span> Empty&lt;T&gt; &#123;</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> x: Empty&lt;<span class="built_in">number</span>&gt;;</div><div class="line"><span class="keyword">let</span> y: Empty&lt;<span class="built_in">string</span>&gt;;</div><div class="line"></div><div class="line">x = y;  <span class="comment">// okay, y matches structure of x</span></div></pre></td></tr></table></figure>
+<p>위의 경우, <code>x</code>와 <code>y</code>의 구조는 Type 파라미터를 차별화된 방식으로 사용하지 않기 때문에 호환 가능합니다. <code>Empty&lt;T&gt;</code>에 멤버를 추가하여 이 예제를 변경하면 어떻게 동작하는지 살펴 보겠습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">interface</span> NotEmpty&lt;T&gt; &#123;</div><div class="line">    data: T;</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> x: NotEmpty&lt;<span class="built_in">number</span>&gt;;</div><div class="line"><span class="keyword">let</span> y: NotEmpty&lt;<span class="built_in">string</span>&gt;;</div><div class="line"></div><div class="line">x = y;  <span class="comment">// error, x and y are not compatible</span></div></pre></td></tr></table></figure>
+<p>이런 식으로 Type 파라미터가 지정된 Generic 타입은 Non-generic 타입처럼 동작합니다.</p>
+<p>Type 파라미터가 지정되지 않은 Generic 타입의 경우, 지정되지 않은 모든 Type 파라미터 대신에 <code>any</code>를 지정하여 호환성을 검사합니다. 그 결과 생성된 타입은 Non-generic 경우와 마찬가지로 호환성을 검사합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> identity = <span class="function"><span class="keyword">function</span>&lt;<span class="title">T</span>&gt;(<span class="params">x: T</span>): <span class="title">T</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> reverse = <span class="function"><span class="keyword">function</span>&lt;<span class="title">U</span>&gt;(<span class="params">y: U</span>): <span class="title">U</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">identity = reverse;  <span class="comment">// Okay because (x: any)=&gt;any matches (y: any)=&gt;any</span></div></pre></td></tr></table></figure>
+<h2 id="고급-주제"><a href="#고급-주제" class="headerlink" title="고급 주제"></a>고급 주제</h2><h3 id="Subtype-vs-Assignment"><a href="#Subtype-vs-Assignment" class="headerlink" title="Subtype vs Assignment"></a>Subtype vs Assignment</h3><p>지금까지는 ‘호환 가능성(compatible)’이라는 단어를 사용했습니다. 이는 TypeScript의 사양에 정의된 용어가 아닙니다. TypeScript에는 하위 타입과 할당이라는 두 가지 종류의 호환성이 있습니다. 이것들은 할당이 subtype 호환성의 규칙을 확장하여 any 부터 enum 까지 또는 그 반대에 상응하는 숫자값과 함께 할당할 수 있도록합니다.</p>
+<p>TypeScript의 다른 측면은 상황에 따라 두 가지 호환 메커니즘 중 하나를 사용합니다. 실제적인 목적을 위해 타입 호환성은 <code>implements</code> 및 <code>extend</code> 절의 경우에도 할당 호환성에 따라 결정됩니다. 자세한 내용은 <a href="https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md" target="_blank" rel="external">TypeScript 사양</a>을 참조하십시오.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://www.typescriptlang.org/docs/handbook/type-compatibility.html" target="_blank" rel="external">https://www.typescriptlang.org/docs/handbook/type-compatibility.html</a>]</p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a href="https://infoscis.github.io/2017/05/14/TypeScript-handbook-basic-types/">TypeScript 핸드북 1 - 기본 타입</a></li>
+<li><a href="https://infoscis.github.io/2017/05/14/TypeScript-handbook-variable-declarations/">TypeScript 핸드북 2 - 변수 선언</a></li>
+<li><a href="https://infoscis.github.io/2017/05/20/TypeScript-handbook-interfaces/">TypeScript 핸드북 3 - 인터페이스</a></li>
+<li><a href="https://infoscis.github.io/2017/05/20/TypeScript-handbook-classes/">TypeScript 핸드북 4 - 클래스</a></li>
+<li><a href="https://infoscis.github.io/2017/05/20/TypeScript-handbook-functions/">TypeScript 핸드북 5 - 함수</a></li>
+<li><a href="https://infoscis.github.io/2017/05/25/TypeScript-handbook-generic/">TypeScript 핸드북 6 - Generic</a></li>
+<li><a href="https://infoscis.github.io/2017/05/25/TypeScript-handbook-enum/">TypeScript 핸드북 7 - Enum</a></li>
+<li><a href="https://infoscis.github.io/2017/06/01/TypeScript-handbook-type-inference/">TypeScript 핸드북 8 - 타입 유추</a></li>
+<li><a href="https://infoscis.github.io/2017/06/01/TypeScript-handbook-type-compatibility/">TypeScript 핸드북 9 - 타입 호환성</a></li>
+<li><a href="https://infoscis.github.io/2017/06/19/TypeScript-handbook-advanced-types/">TypeScript 핸드북 10 - 고급 타입</a></li>
+<li><a href="https://infoscis.github.io/2017/06/19/TypeScript-handbook-symbols/">TypeScript 핸드북 11 - Symbol</a></li>
+<li><a href="https://infoscis.github.io/2017/06/19/TypeScript-handbook-iterators-and-generators/">TypeScript 핸드북 12 - Iterator와 Generator</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2017/06/01/TypeScript-handbook-type-compatibility/" data-id="cjkl9100q000tjguz2vwut3hh" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/06/07/better-application-events-in-spring-framework-4-2/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            Spring Framework 4.2에서 애플리케이션 이벤트
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/06/01/TypeScript-handbook-type-inference/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">TypeScript 핸드북 8 - 타입 유추</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2017/06/01/TypeScript-handbook-type-compatibility/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

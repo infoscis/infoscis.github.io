@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Webpack을 이용한 TDD 방식의 Angular 2 개발 환경 설정 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Angular" />
+    
+    <meta name="description" content="Webpack을 이용한 TDD 방식의 Angular 개발 환경 구축하기Webpack 및 TypeScript를 사용하여 테스트 주도의 Angular 프로젝트를 설정하는 데 필요한 단계를 살펴보겠습니다.
+
+Angular 1 버전은 AngularJS로 호칭하고, Angular 2 이상 버전은 Angular로 호칭합니다.
+
+소개이 포스트에서는 단위 테스트로 An">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Webpack을 이용한 TDD 방식의 Angular 2 개발 환경 설정">
+<meta property="og:url" content="http://infoscis.github.io/2017/06/13/setting-up-angular-2-with-webpack/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="Webpack을 이용한 TDD 방식의 Angular 개발 환경 구축하기Webpack 및 TypeScript를 사용하여 테스트 주도의 Angular 프로젝트를 설정하는 데 필요한 단계를 살펴보겠습니다.
+
+Angular 1 버전은 AngularJS로 호칭하고, Angular 2 이상 버전은 Angular로 호칭합니다.
+
+소개이 포스트에서는 단위 테스트로 An">
+<meta property="og:image" content="https://d2l3jyjp24noqc.cloudfront.net/uploads/image/img/461/Setting_Up_Angular_2_with_Webpack.png">
+<meta property="og:updated_time" content="2018-02-13T15:10:58.923Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Webpack을 이용한 TDD 방식의 Angular 2 개발 환경 설정">
+<meta name="twitter:description" content="Webpack을 이용한 TDD 방식의 Angular 개발 환경 구축하기Webpack 및 TypeScript를 사용하여 테스트 주도의 Angular 프로젝트를 설정하는 데 필요한 단계를 살펴보겠습니다.
+
+Angular 1 버전은 AngularJS로 호칭하고, Angular 2 이상 버전은 Angular로 호칭합니다.
+
+소개이 포스트에서는 단위 테스트로 An">
+<meta name="twitter:image" content="https://d2l3jyjp24noqc.cloudfront.net/uploads/image/img/461/Setting_Up_Angular_2_with_Webpack.png">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2017/06/13/setting-up-angular-2-with-webpack/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Angular/">Angular</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-setting-up-angular-2-with-webpack" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Webpack을 이용한 TDD 방식의 Angular 2 개발 환경 설정
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/06/13/setting-up-angular-2-with-webpack/" class="article-date">
+            <time datetime="2017-06-13T14:22:46.000Z" itemprop="datePublished">2017-06-13</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Angular/">Angular</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p><img src="https://d2l3jyjp24noqc.cloudfront.net/uploads/image/img/461/Setting_Up_Angular_2_with_Webpack.png" alt=""></p>
+<h1 id="Webpack을-이용한-TDD-방식의-Angular-개발-환경-구축하기"><a href="#Webpack을-이용한-TDD-방식의-Angular-개발-환경-구축하기" class="headerlink" title="Webpack을 이용한 TDD 방식의 Angular 개발 환경 구축하기"></a>Webpack을 이용한 TDD 방식의 Angular 개발 환경 구축하기</h1><p>Webpack 및 TypeScript를 사용하여 테스트 주도의 Angular 프로젝트를 설정하는 데 필요한 단계를 살펴보겠습니다.</p>
+<blockquote>
+<p>Angular 1 버전은 AngularJS로 호칭하고, Angular 2 이상 버전은 Angular로 호칭합니다.</p>
+</blockquote>
+<h2 id="소개"><a href="#소개" class="headerlink" title="소개"></a>소개</h2><p>이 포스트에서는 단위 테스트로 Angular 프로젝트를 생성하는 데 필요한 구성을 살펴 보겠습니다. 다양한 필수 기술과 각 설정을 작성하는 방법에 대해 다룰 것입니다.</p>
+<h2 id="선행-조건"><a href="#선행-조건" class="headerlink" title="선행 조건"></a>선행 조건</h2><p>시작하기 전에 다음 사항을 가정합니다.</p>
+<ul>
+<li><a href="https://webpack.github.io/docs/commonjs.html" target="_blank" rel="external">CommonJS 모듈</a>의 개념을 포함하여 JavaScript에 대한 중급이상의 이해.</li>
+<li>AngularJS에 대한 대략적인 이해.</li>
+<li>화살표 함수, 모듈, 클래스 및 Block-level 변수와 같은 ES6/ES2015 개념의 이해.</li>
+<li>Git Bash, iTerm 또는 운영 체제의 내장 터미널과 같은 명령행 또는 터미널 사용에 대한 이해.</li>
+<li>Node &gt;= v4 및 NPM &gt;= v2이상 설치된 환경.</li>
+</ul>
+<h2 id="Angular란"><a href="#Angular란" class="headerlink" title="Angular란?"></a>Angular란?</h2><p>Angular는 JavaScript 응용 프로그램을 개발하기위한 프레임 워크이고 매우 인기있는 Google <a href="https://www.angularjs.org/" target="_blank" rel="external">Angular 프레임 워크</a>의 두 번째 주요 버전입니다. 현대적이고 강력한 개발 경험을 제공하기 위해 <a href="https://www.typescriptlang.org/" target="_blank" rel="external">TypeScript</a>를 사용하여 처음부터 작성되었습니다.</p>
+<p>TypeScript는 Angular로 개발할 때 선호되는 언어이지만 ES5 및 일반 ES2015를 통해 개발할 수 있습니다. 하지만 이 포스트에서는 TypeScript를 사용합니다.</p>
+<h3 id="AngularJS와-차이점"><a href="#AngularJS와-차이점" class="headerlink" title="AngularJS와 차이점"></a>AngularJS와 차이점</h3><p>Angular 커뮤니티에는 Angular 팀 구성원 인 Igor Minar와 Tobias Bosch가 Angulr 개발자에게 익숙한 많은 개념이 버려지는 것을 알리는 <a href="https://www.youtube.com/watch?v=gNmWybAyBHI" target="_blank" rel="external">잘 알려진 동영상</a> (<a href="http://goo.gl/ZyUU3Q" target="_blank" rel="external">슬라이드</a>)이 있습니다. 이러한 개념은 다음과 같습니다.</p>
+<ul>
+<li>Controllers,</li>
+<li><a href="https://d2eip9sf3oo6c2.cloudfront.net/pdf/egghead-io-directive-definition-object-cheat-sheet.pdf" target="_blank" rel="external">Directive Definition Objects</a></li>
+<li>$scope</li>
+<li>angular.module(…)</li>
+<li><a href="https://docs.angularjs.org/api/ng/function/angular.element#angular-s-jqlite" target="_blank" rel="external">jqLite</a></li>
+</ul>
+<p>이러한 변경 사항 중 상당수는 개발자가 머리 속에서 추적해야하는 개념을 단순화했습니다. 이는 Angular를 사용한 개발이 간소화 된다는 것을 의미합니다.</p>
+<p>AngularJS 개념을 Angular에 매핑하는 방법을 보려면 <a href="https://angular.io/docs/ts/latest/cookbook/a1-a2-quick-reference.html" target="_blank" rel="external">이 내용</a>을 읽으십시오.</p>
+<h2 id="TypeScript-사용하기"><a href="#TypeScript-사용하기" class="headerlink" title="TypeScript 사용하기"></a>TypeScript 사용하기</h2><p>위에서 언급했듯이 Angular는 TypeScript 없이 개발할 수 있지만 TypeScript는 ES2015 위에 추가 기능을 제공하므로 개발 프로세스가 더 풍부 해집니다. 이 섹션에서는 TypeScript에 대해 간단히 살펴보도록 하겠습니다.</p>
+<p>TypeScript는 Javascript의 상위 집합입니다. 그게 무슨 뜻일까요?. 이미 JavaScript가 TypeScript에 의해 해석 가능하다는 것을 의미합니다. 여러분이 가지고 있는 JavaScript 파일을 가져 와서 확장자를 <code>.ts</code>로 변경하고, TypeScript 파서를 통해 이를 실행할 수 있으며, TypeScript는 이를 모두 이해할 수 있습니다. 그리고 컴파일러가 출력하는 것은 JavaScript 코드입니다. 그 코드는 원래코드보다 낫거나 더 잘 작성됩니다.</p>
+<p>가장 눈에 띄는 TypeScript 기능 중 하나는 Optional 타이핑 시스템입니다. 하지만 이것은 선택 사항입니다. 그러나 타입을 사용하면 코드에 대한 추론이 쉬워집니다. 그리고 많은 편집기가 TypeScript의 코드 완성 기능을 사용할 수있게 지원합니다.</p>
+<p>또 다른 기능은 인터페이스를 정의하는 기능으로, 코드 전체에서 타입으로 사용할 수 있습니다. 이는 코드 전체의 데이터 구조가 일관성을 유지해야 할 때 도움이됩니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// note this code is available in the repo  </span></div><div class="line"><span class="comment">// at ./examples/introduction/types-and-interfaces.ts</span></div><div class="line"></div><div class="line"><span class="comment">// MyType is a custom interface</span></div><div class="line"><span class="keyword">interface</span> MyType &#123;</div><div class="line">    id: <span class="built_in">number</span>;</div><div class="line">    name: <span class="built_in">string</span>;</div><div class="line">    active?: <span class="built_in">boolean</span>;       <span class="comment">// the "?" makes this an optional field</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// someFunction takes three parameters, the third of which is an</span></div><div class="line"><span class="comment">// optional callback</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">someFunction</span>(<span class="params">id: <span class="built_in">string</span>, value: MyType, callback?: <span class="built_in">Function</span></span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이제 <code>someFunction</code>을 코딩하고 호출한다면 TypeScript를 지원하는 에디터는 파라미터에 대한 자세한 정의를 제공합니다. 또한 변수가 <code>MyType</code>으로 정의되어 있다면, 코드 완성 기능은 <code>MyType</code>에서 사용할 수있는 속성과 그 속성의 타입을 보여줍니다.</p>
+<p>TypeScript는 컴파일러를 통해 코드를 실행하는 일종의 빌드 프로세스가 필요합니다. 이후 섹션에서는 TypeScript 컴파일러의 구성을 설정합니다.</p>
+<h2 id="Webpack이란"><a href="#Webpack이란" class="headerlink" title="Webpack이란?"></a>Webpack이란?</h2><p><a href="https://webpack.github.io/" target="_blank" rel="external">Webpack 웹 사이트</a>에는 “webpack은 모듈 로더”이며 “종속성이있는 모듈을 가져 와서 static asset을 생성”하는 것으로 설명합니다. 또한 플러그인 시스템과 파일 처리 방법을 제공합니다.</p>
+<h3 id="모듈-로딩-Module-Loading"><a href="#모듈-로딩-Module-Loading" class="headerlink" title="모듈 로딩(Module Loading)"></a>모듈 로딩(Module Loading)</h3><p>모듈 로딩이란 무슨 의미일까요? 아주 간단한 예를 살펴 보겠습니다. 우리는 <code>app.js</code>, <code>child1.js</code>, <code>child2.js</code> 및 <code>grandchild.js</code>의 4 개 파일로 된 프로젝트를 가정해 보겠습니다.</p>
+<ul>
+<li><code>app.js</code>는 <code>child1.js</code> 및 <code>child2.js</code>에 의존합니다.</li>
+<li><code>child2.js</code>는 <code>grandchild.js</code>에 의존합니다.</li>
+</ul>
+<p>우리는 <code>app.js</code>를 Webpack에서 돌아가도록 명령할 수 있으며, 모든 파일이 포함되는 파일을 컴파일합니다. <code>app.js</code>에서 <code>import</code> 또는 <code>require</code>와 같이 의존성을 나타내는 모든 문장을 찾아내어 이를 수행합니다. <code>app.js</code>에는 다음과 같은 것들이 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> child1 = <span class="built_in">require</span>(<span class="string">'./child1.js'</span>);</div><div class="line"><span class="keyword">const</span> child2 = <span class="built_in">require</span>(<span class="string">'./child2.js'</span>);</div></pre></td></tr></table></figure>
+<p>Webpack은 <code>child1.js</code>, <code>child2.js</code>를 찾아, 읽고, 또 의존성을 찾습니다. <code>child1.js</code>와 같이 종속성이 없는 파일에 도달 할 때까지 반복합니다. 하지만 <code>child2.js</code>의 경우에는 종속성이 또 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> grandchild = <span class="built_in">require</span>(<span class="string">'./grandchild.js'</span>);</div></pre></td></tr></table></figure>
+<p>따라서 Webpack은 <code>grandchild.js</code>를 찾아서 읽고, 의존성을 확인하지만 더이상 의존성이 없어 처리를 완료합니다. 결국 4 개의 파일이 모두 컴파일되어 브라우저에서 사용할 수있게됩니다. 간단히 말해, 이것이 모듈 로딩이 하는 일입니다.</p>
+<h3 id="파일-처리-File-Processing"><a href="#파일-처리-File-Processing" class="headerlink" title="파일 처리 (File Processing)"></a>파일 처리 (File Processing)</h3><p>Webpack은 종속성을 기반으로 모듈을 로드하는 것 외에도 <em>loader</em>라는 처리 메커니즘을 제공합니다.</p>
+<p><em>loader</em>가 무엇을하는지 보기위해 다른 예제를 살펴 보겠습니다. TypeScript 파일이 있다고 가정하겠습니다. 위에서 언급했듯이 TypeScript 파일을 JavaScript로 컴파일하려면 TypeScript 컴파일러를 통해 실행해야 합니다. 그러한 역할을 Webpack <em>loader</em>가 합니다. 우리는 Webpack에게 <code>.ts</code> 파일을 만나면 TypeScript 컴파일러를 통해 파일을 실행해야 한다고 말할 수 있습니다.</p>
+<p>거의 모든 파일 유형 (SASS, LESS, HTML, Jade, JavaScript와 유사한 파일이 아닌 파일)에서도 동일한 작업을 수행 할 수 있습니다. 이 개념은 Webpack을 일종의 빌드 시스템으로 사용하여 Angular를 브라우저 나 테스트 환경에 사용하는 데 필요한 많은 작업을 수행 할 수있게 해주기 때문에 유용합니다.</p>
+<h2 id="왜-단위-테스트를-해야-하는가-Why-Should-We-Unit-Test"><a href="#왜-단위-테스트를-해야-하는가-Why-Should-We-Unit-Test" class="headerlink" title="왜 단위 테스트를 해야 하는가? (Why Should We Unit Test?)"></a>왜 단위 테스트를 해야 하는가? (Why Should We Unit Test?)</h2><p>우리가 어플리케이션을 개발할 때 우리가 할 수있는 가장 중요한 일은 코드를 가능한 한 빨리 버그없는 상태로 개발하는 것입니다. 테스트는 이러한 목표를 달성하는 데 도움이됩니다. 단위 테스트를 수행하지 않는 개발자의 가장 큰 불만은 시간이 너무 많이 걸린다는 것입니다. 개발 과정에서 단위 테스트를 처음 사용할 때 익숙해지는 시간보다 오래 걸릴 수 있습니다. 그러나 장기적인 이점은 초기 투자보다 훨씬 큽니다. 특히 응용 프로그램 코드를 작성하기 전에 테스트 코드를 먼저 작성하면 더욱 좋습니다. 이를 테스트 주도 개발 (TDD)이라고합니다.</p>
+<h3 id="테스트-주도-개발-Test-driven-Development"><a href="#테스트-주도-개발-Test-driven-Development" class="headerlink" title="테스트 주도 개발 (Test-driven Development)"></a>테스트 주도 개발 (Test-driven Development)</h3><p>우리는 <code>isPrimary</code>라는 JavaScript 함수를 작성해야 한다고 가정해 보겠습니다. 이 함수의 주요 목적은 숫자가 소수이면 true를 반환하고 그렇지 않으면 false를 반환하는 것입니다.</p>
+<p>과거에는 머리를 먼저 짚어 보았을 것입니다. 아마도 Google에서 소수가 무었인지, 또는 문제를 풀수 있는 알고리즘을 찾았을 것이지만 이제 TDD를 사용해 보겠습니다. 우리는 궁극적 인 목표가 숫자가 소수인지 아닌지에 대한 true/false를 출력하는 것을 알고 있지만 버그없는 함수를 얻기 위해 해결해야 할 몇 가지 다른 주요사항이 있습니다.</p>
+<ul>
+<li>함수는 어떤 파라미터를 가져야 할까요? 그리고 입력 되지 않으면 어떻게 처리 할까요?</li>
+<li>사용자가 숫자가 아닌 값을 전달하면 어떻게 처리 할까요?</li>
+<li>정수가 아니면 어떻게 처리 할까요?</li>
+</ul>
+<p>우리가 TDD의 관점에서 접근할 때, 우리의 첫번째 단계는 무엇이 잘못 될 수 있는지를 스스로에게 물어보고 그 문제를 해결하는 방법을 찾아내는 것입니다. 이러한 과정이 없다면, 이러한 문제의 경우에 대해 생각하지 않을 수도 있고, 그 부분을 놓칠수도 있습니다. 그러한 경우 코드를 완전히 새로 수정해야할 수도 있고, 또 그 수정의 과정에서 새로운 버그를 유발할 수 있습니다.</p>
+<p>TDD의 핵심 중 하나는 테스트 통과를 위한 충분한 코드를 작성하는 것입니다. 그리고 이 목표를 달성하기 위해 red-green-refactor 사이클이라는 프로세스를 사용합니다. 단계는 다음과 같습니다.</p>
+<ol>
+<li>목표 달성을 위해 필요한 테스트에 대해 생각해보십시오.</li>
+<li>테스트 작성, 테스트 실행, 테스트 실패 감시 (red)</li>
+<li>패스(green) 할수 있는 코드를 작성</li>
+<li>잠시 시간을 내어 나쁜 <a href="https://en.wikipedia.org/wiki/Code_smell#Common_code_smells" target="_blank" rel="external">냄새</a>가 나는 코드를 찾아 봅니다. 코드를 찾으면 리팩토링 하십시오. 코드를 변경할 때마다 테스트를 실행하여 실패가 나는지 확인하십시오.</li>
+<li>반복.</li>
+</ol>
+<p>1 단계는 TDD 및 단위 테스트를 처음 접하는 개발자에게 가장 힘든 단계 일 것입니다. 하지만 시간이 지남에 따라 점점 더 편안 해지고 테스트 방법의 패턴을 인식하게 될 것입니다.</p>
+<h3 id="단위-테스트와-TDD의-장점"><a href="#단위-테스트와-TDD의-장점" class="headerlink" title="단위 테스트와 TDD의 장점"></a>단위 테스트와 TDD의 장점</h3><p>단위 테스트의 몇 가지 장점을 이미 보았지만 여기에 더 많은 예가 있습니다.</p>
+<ul>
+<li>코드의 버그 수준을 줄입니다.</li>
+<li>우리가 목표를 달성하기에 충분한 코드를 작성하기 때문에 애플리케이션 코드가 줄어듭니다.</li>
+<li>코드를 리팩터링하는 것이 더 쉽습니다.</li>
+<li>함수를 사용하는 방법에 대한 샘플 코드를 제공합니다.</li>
+<li>low-level regression 테스트 suite를 얻습니다.</li>
+<li>코드 작성 속도를 높입니다.</li>
+</ul>
+<h3 id="단위-테스트와-TDD의-단점"><a href="#단위-테스트와-TDD의-단점" class="headerlink" title="단위 테스트와 TDD의 단점"></a>단위 테스트와 TDD의 단점</h3><p>단위 테스트는 완벽한 코드를 작성하는 데 큰 영향을 주지 않습니다. TDD에는 단점이 있습니다. 다음은 이러한 단점 중 일부입니다.</p>
+<ul>
+<li>잘못된 품질 감각을 줄 수 있습니다.</li>
+<li>시간이 많이 걸릴 수 있습니다.</li>
+<li>코드베이스에 복잡성을 추가할 수 있습니다.</li>
+<li>mock 객체 및 stubbed-out 코드가 필요함. 특히 외부의 코드들 (예: 서드 파티 코드)</li>
+<li>대규모 코드베이스의 경우 데이터 구조와 응용 프로그램의 일부분을 수정하면 테스트가 크게 변경 될 수 있습니다.</li>
+</ul>
+<p>이러한 단점이 존재 하지만 만약 테스트 주도 방식에 부지런하고 신중할 경우 테스트 및 TDD의 장점이 단점보다 더 중요합니다.</p>
+<h2 id="NPM을-Task-Runner로-사용하기"><a href="#NPM을-Task-Runner로-사용하기" class="headerlink" title="NPM을 Task Runner로 사용하기"></a>NPM을 Task Runner로 사용하기</h2><p>이전 내용에서 Webpack을 사용하여 빌드 프로세스 기능 중 많은 부분을 수행 할 수 있지만 호출하는 방법은 알 수 없었습니다. 지금까지 많은 수의 Task Runner에 대해 알고 있었을 것입니다(예를 들어 Grunt, Gulp, Broccoli 등). 프로젝트 의존 라이브러리를 설치하기 위해 이미 사용하고있는 NPM은 Task를 실행하기 위한 간단한 시스템을 제공합니다.</p>
+<p>아시다시피 NPM을 사용하는 각 프로젝트에는 <code>package.json</code> 파일이 필요합니다. <code>package.json</code> 섹션 중 하나는 <code>scripts</code> 섹션입니다. 이 섹션의 키는 Task의 이름이고, 값은 Task가 승인되면 실행될 스크립트가 지정되는 JSON 객체입니다.</p>
+<p>그러므로, 우리가 <code>package.json</code>에 다음과 같이하면 :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">  <span class="string">"scripts"</span>: &#123;</div><div class="line">      <span class="string">"foo"</span>: <span class="string">"node ./scripts/foo.js"</span>,</div><div class="line">      <span class="string">"bar"</span>: <span class="string">"node node_modules/bar"</span>,</div><div class="line">      <span class="string">"baz"</span>: <span class="string">"baz some/config.file"</span></div><div class="line">  &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>이러한 Task를 실행하려면 <code>npm run [task name]</code>이라고 하면됩니다. <code>foo</code>를 실행하려면 다음과 같이 하면됩니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm run foo</div></pre></td></tr></table></figure>
+<p>그러면 <code>node ./scripts/foo.js</code>가 실행됩니다. <code>npm run baz</code>를 실행하면 <code>node_modules/.bin</code>을 통해 <code>baz</code> 노드 모듈을 찾은 다음 <code>some/config.file</code>을 사용해 실행합니다.</p>
+<p>우리는 이미 이 Task Runner 기능을 가지고 있기 때문에 단위 테스트 실행과 같은 작업을 수행하는데 사용할 수 있습니다. <code>scripts</code> 섹션 사용에 대한 자세한 내용은 <a href="https://docs.npmjs.com/misc/scripts" target="_blank" rel="external">공식 NPM 문서</a>를 참조하십시오.</p>
+<h2 id="의존-라이브러리-설치"><a href="#의존-라이브러리-설치" class="headerlink" title="의존 라이브러리 설치"></a>의존 라이브러리 설치</h2><p>이제 프로젝트를 실제로 설정해 보겠습니다. 첫 번째 단계는 필요한 모든 의존 라이브러리를 확보하는 것입니다. Angular, TypeScript, Webpack 및 단위 테스트를 가져올 것입니다.</p>
+<h3 id="NPM-Project-생성하기"><a href="#NPM-Project-생성하기" class="headerlink" title="NPM Project 생성하기"></a>NPM Project 생성하기</h3><p>우리가 해야 할 첫 번째 일은 NPM 프로젝트를 만드는 것입니다. 다음 단계를 수행합니다.</p>
+<ol>
+<li>디렉토리를 만듭니다. 이름은 중요하지 않지만 설명하기 쉽도록하는 것이 유용합니다. 예를 들어 <code>ng2-webpack-test</code></li>
+<li><code>cd ng2-webpack-test</code> 또는 디렉토리 이름을 무엇이든 상관없이 그 디렉토리로 이동하십시오.</li>
+<li><code>npm init -f</code>를 실행하십시오. 여러분의 프로젝트를 위한 <code>package.json</code> 파일을 생성 할 것입니다.</li>
+</ol>
+<p>명령어 실행은 위의 1 단계에서 작성한 디렉토리에서 모두 실행해야합니다.</p>
+<h3 id="Angular-의존-라이브러리"><a href="#Angular-의존-라이브러리" class="headerlink" title="Angular 의존 라이브러리"></a>Angular 의존 라이브러리</h3><p>Angular는 NPM의 <code>@angular</code> Organization에 많은 패키지로 나뉩니다. Angular를 설치하고 RxJS, Zone.js 및 일부 shim을 가져와야합니다.</p>
+<p>이 작업은 단일 설치 작업을 통해 수행 할 수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i -S @angular/common @angular/compiler @angular/core @angular/platform-browser @angular/platform-browser-dynamic es6-shim reflect-metadata rxjs@5.0.0-beta.6 zone.js</div></pre></td></tr></table></figure>
+<p><code>i</code>는 <code>install</code>의 단축 옵션이고 <code>-S</code>는 <code>--save</code>의 단축 옵션입니다.</p>
+<p>각 프로젝트가 무엇인지 확인하려면 <a href="https://angular.io/docs/ts/latest/guide/npm-packages.html" target="_blank" rel="external">Angular 문서</a>를 살펴보십시오.</p>
+<p>이러한 패키지 중 일부는 단위 테스트를 수행하는 데 즉시 필요한 것은 아니지만 브라우저에서 응용 프로그램을 실행하는데 필요합니다.</p>
+<h3 id="TypeScript-의존-라이브러리"><a href="#TypeScript-의존-라이브러리" class="headerlink" title="TypeScript 의존 라이브러리"></a>TypeScript 의존 라이브러리</h3><p>TypeScript는 이 프로젝트에서 사용할 것이기 때문에 우리는 의존성 (dependency)으로 그것을 끌어올 필요가 있습니다. 그리로 코드의 실수를 줄이고 코딩 표준을 유지하기 위해 TypeScript linter 인 <a href="https://github.com/palantir/tslint" target="_blank" rel="external">tslint</a>를 통해 코드 linting을 사용할 것입니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i -D typescript tslint typings</div></pre></td></tr></table></figure>
+<p><code>-D</code>는 <code>--save-dev</code>의 단축 옵션입니다.</p>
+<p><code>typings</code>은 <a href="https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html" target="_blank" rel="external">TypeScript 정의 파일</a>을 가져 와서 타사 라이브러리를 이해하고 해당 라이브러리에 대한 코드 완성 기능을 제공 할 수있는 방법입니다. 나중에 이 방법에 대해 설명하도록 하겠습니다.</p>
+<h3 id="Webpack-의존-라이브러리"><a href="#Webpack-의존-라이브러리" class="headerlink" title="Webpack 의존 라이브러리"></a>Webpack 의존 라이브러리</h3><p>또한 Webpack을 사용하기 위해 모든 의존 라이브러리를 가져와야 합니다. 여기에는 Webpack 자체뿐만 아니라 Angular, TypeScript 및 단위 테스트에 필요한 <em>loader</em> 그리고 플러그인 목록이 포함됩니다.</p>
+<p>다음은 실행할 명령입니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i -D webpack webpack-dev-server html-webpack-plugin raw-loader ts-loader tslint-loader</div></pre></td></tr></table></figure>
+<p>웹 브라우저에서 응용 프로그램을 실행할 때 <code>html-webpack-plugin</code>과 <code>webpack-dev-server</code>가 도움이 될 것입니다. 그리고 <code>raw-loader</code>는 응용 프로그램을 개발할때 무엇을 하는지 살펴 보겠습니다.</p>
+<h3 id="단위-테스트-의존-라이브러리"><a href="#단위-테스트-의존-라이브러리" class="headerlink" title="단위 테스트 의존 라이브러리"></a>단위 테스트 의존 라이브러리</h3><p>단위 테스트를 위해 우리는 Jasmine을 테스트 프레임 워크로 사용하는 Test Runner로 Karma를 사용할 것입니다. Mocha와 Chai처럼 사용할 수있는 테스트 라이브러리가 많이 있지만, 기본적으로 Angular는 Jasmine을 사용하고 Karma는 Webpack에서 잘 작동합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i -D karma karma-jasmine jasmine-core karma-chrome-launcher karma-phantomjs-launcher phantomjs-prebuilt karma-sourcemap-loader karma-webpack</div></pre></td></tr></table></figure>
+<p>Chrome과 Phantom 런처는 Karma가 테스트를 실행할 수 있는 환경을 제공합니다. Phantom은 기본적으로 GUI가없는 “헤드리스 (headless)”브라우저입니다. Firefox, Internet Explorer, Safari, 그리고 <a href="http://karma-runner.github.io/1.0/config/browsers.html" target="_blank" rel="external">다른</a> 런처도 있습니다.</p>
+<p><code>karma-sourcemap-loader</code>는 다른 단계에서 생성한 소스맵을 가져와서 테스트 중에 사용하기 위해 로드할 수 있습니다. 이 기능은 Chrome에서 테스트를 실행할 때 유용하므로 디버거에 중단점을 배치하여 코드에 문제가있는 부분을 쉽게 파악할 수 있습니다.</p>
+<h2 id="환경-설정"><a href="#환경-설정" class="headerlink" title="환경 설정"></a>환경 설정</h2><p>다음 섹션에서는 테스트를 실행하기 위해 프로젝트를 설정하고 브라우저에서 애플리케이션을 실행하는 방법을 설명합니다. 다음에 대한 설정을 구성해야합니다.</p>
+<ul>
+<li>TypeScript</li>
+<li>Unit Testing</li>
+<li>Webpack</li>
+<li>NPM Scripts</li>
+</ul>
+<p>많은 작업이 필요해 보일지 모르지만 각 라이브러리의 개발자들이 이해하기 쉽게 구성을 설정했음을 알 수 있습니다.</p>
+<p><code>examples/introduction/ng2-webpack-test</code>에 있는 예제 파일들을 따라할 수 있습니다. 하지만 모든 노드 모듈이 설치되도록 이 저장소를 복제 한 경우 <code>npm i</code>을 실행 해야합니다.</p>
+<h3 id="TypeScript-구성하기"><a href="#TypeScript-구성하기" class="headerlink" title="TypeScript 구성하기"></a>TypeScript 구성하기</h3><p>TypeScript 활용에 필요한 부분은 타입 정의, linting 및 TypeScript 컴파일러의 구성입니다. 먼저 타입 정의를 살펴 보겠습니다.</p>
+<h4 id="타입-정의-Type-Definition"><a href="#타입-정의-Type-Definition" class="headerlink" title="타입 정의 (Type Definition)"></a>타입 정의 (Type Definition)</h4><p>먼저 우리 프로젝트의 루트에서 다음 명령을 실행하여<code>typings.json</code> 파일을 만들어야합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./node_modules/.bin/typings init</div></pre></td></tr></table></figure>
+<p>이 명령은 <code>node_modules</code> 디렉토리에서 <code>typings</code>을 실행하고 <code>init</code> 명령을 사용합니다.</p>
+<p><code>typings.json</code> 파일은 프로젝트의 루트에 위치 할 것입니다. 프로젝트의 이름과 빈 의존성 객체를 포함합니다. 설치 명령을 사용하여 해당 객체를 채 웁니다.</p>
+<p>설치할 파일은 세 가지가 있지만 두 가지 명령이 필요합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./node_modules/.bin/typings install dt~jasmine env~node --save --global</div></pre></td></tr></table></figure>
+<p>다시 한 번, <code>typings</code>을 사용하여 <code>jasmine</code>과 <code>node</code>에 대한 타입 정의를 설치합니다.</p>
+<p>두 번째 플래그 인 <code>--global</code>은 <code>typings</code>에게 설치 될 정의가 전역 Scope에 위치한 라이브러리, 즉 <code>window.&lt;var&gt;</code>에 있음을 알려줍니다. 라이브러리의 각 라이브러리 앞에는 <code>~</code> 글자가 붙어 있습니다. 이러한 문자는 타입 정의 파일을 찾을 다른 저장소를 나타냅니다. 이러한 저장소에 대한 정보는 <a href="https://github.com/typings/typings" target="_blank" rel="external">Typings의 Github 페이지</a>중 “Sources” 섹션을 보십시오.</p>
+<p><code>es6-promise</code> shim은 <code>window.&lt;var&gt;</code> 라이브러리가 아니기 때문에 두번째 설치 명령을 실행할 것입니다. 접두어가 필요하지 않다는 것을 명심하세요.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./node_modules/.bin/typings install es6-promise --save</div></pre></td></tr></table></figure>
+<p>이제 타입 정의가 설치 되었습니다.</p>
+<h4 id="Linting"><a href="#Linting" class="headerlink" title="Linting"></a>Linting</h4><p>우리는 또한 프로젝트를 위해 코드 linting을 설치할 것입니다. 이렇게하면 코드가 가능한 한 오류없이 유지되지만 오류가 발생하는 것을 완전히 막지는 못합니다.</p>
+<p>위에서 언급했듯이, 우리는 이 목표를 달성하기 위해 <code>tslint</code> 라이브러리를 사용할 것입니다. <code>tslint.json</code> 파일을 사용하여 코드 linting이 어떻게 동작 해야하는지에 대한 규칙을 설명합니다. 한번에 한섹션씩 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"class-name"</span>: <span class="literal">true</span>,</div></pre></td></tr></table></figure>
+<p>이렇게하면 모든 클래스 이름이 Pascal-case (LikeThis)인지 확인할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">"comment-format"</span>: [</div><div class="line">    <span class="literal">true</span>,</div><div class="line">    <span class="string">"check-space"</span></div><div class="line">],</div></pre></td></tr></table></figure>
+<p>주석에는 슬래시와 주석 자체 사이에 공백이 있어야 합니다 (<code>// like this</code>).</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">"indent"</span>: [</div><div class="line">    <span class="literal">true</span>,</div><div class="line">    <span class="string">"spaces"</span></div><div class="line">],</div></pre></td></tr></table></figure>
+<p>공백 대 탭의 위대한 전쟁에서, 우리는 공백 캠프에 참여할 것입니다. 탭 팬이라면 언제든지 <code>&quot;spaces&quot;</code>를 <code>&quot;tabs&quot;</code>으로 변경할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"no-duplicate-variable"</span>: <span class="literal">true</span>,</div></pre></td></tr></table></figure>
+<p>이렇게하면 동일한 Scope에서 변수를 다시 선언 할 수 없게 됩니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"no-eval"</span>: <span class="literal">true</span>,</div></pre></td></tr></table></figure>
+<p>이렇게하면 eval을 사용할 수 없게 됩니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"no-internal-module"</span>: <span class="literal">true</span>,</div></pre></td></tr></table></figure>
+<p>TypeScript의 <code>module</code> 키워드는 과거에 혼란을 일으키는 것으로 알려져 왔기 때문에 <code>namespace</code>를 사용하는 것을 막을 것입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"no-trailing-whitespace"</span>: <span class="literal">true</span>,</div></pre></td></tr></table></figure>
+<p>이렇게하면 줄 끝에 공백이나 탭을 남기지 않을 것입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"no-var-keyword"</span>: <span class="literal">true</span>,</div></pre></td></tr></table></figure>
+<p>ES2015는 <code>const</code>와<code>let</code>을 사용하여 <code>block-scope</code> 변수를 선언할 수 있습니다. TypeScript는 ES2015의 상위 집합이기 때문에 <code>block-scope</code> 변수도 지원합니다. 이 새로운 변수 선언 키워드는 <code>var</code>가 하지않는 코드에 명확성을 제공합니다. 왜냐하면 <code>let</code>과 <code>const</code> 변수는<code>hoisting</code> 되지 않기 때문입니다. 이 명료함을 돕기 위해, 이 속성은 <code>tslint</code>에게 우리가 <code>var</code> 키워드를 사용할 때 알려 달라고 설정합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="string">"one-line"</span>: [</div><div class="line">    <span class="literal">true</span>,</div><div class="line">    <span class="string">"check-open-brace"</span>,</div><div class="line">    <span class="string">"check-whitespace"</span></div><div class="line">],</div></pre></td></tr></table></figure>
+<p>이 규칙은 여는 중괄호가 앞에있는 문장과 같은 줄에 있어야하며 앞에 공백이 있어야한다고 말합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">"quotemark"</span>: [</div><div class="line">    <span class="literal">true</span>,</div><div class="line">    <span class="string">"single"</span></div><div class="line">],</div></pre></td></tr></table></figure>
+<p>모든 문자열을 작은 따옴표로 묶습니다. double을 사용하려면 “single”을 “double”로 변경하십시오.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"semicolon"</span>: <span class="literal">true</span>,</div></pre></td></tr></table></figure>
+<p>이렇게하면 라인의 끝을 세미콜론으로 강제합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">"triple-equals"</span>: [</div><div class="line">    <span class="literal">true</span>,</div><div class="line">    <span class="string">"allow-null-check"</span></div><div class="line">],</div></pre></td></tr></table></figure>
+<p>이것은 triple equal을 사용하도록 알려줍니다. <code>&quot;allow-null-check&quot;</code>는 <code>null</code> 체크를 하기위해 <code>==</code>와 <code>!=</code>을 허용합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="string">"typedef-whitespace"</span>: [</div><div class="line">    <span class="literal">true</span>,</div><div class="line">    &#123;</div><div class="line">        <span class="string">"call-signature"</span>: <span class="string">"nospace"</span>,</div><div class="line">        <span class="string">"index-signature"</span>: <span class="string">"nospace"</span>,</div><div class="line">        <span class="string">"parameter"</span>: <span class="string">"nospace"</span>,</div><div class="line">        <span class="string">"property-declaration"</span>: <span class="string">"nospace"</span>,</div><div class="line">        <span class="string">"variable-declaration"</span>: <span class="string">"nospace"</span></div><div class="line">    &#125;</div><div class="line">],</div></pre></td></tr></table></figure>
+<p>이 규칙은 타입을 정의 할 때 콜론의 왼쪽에 공백이 없어야 한다고 말합니다. 그리고 이규칙은 함수의 리턴 타입, 인덱스 타입, 함수 파라미터, 프로퍼티 또는 변수에 적용됩니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="string">"variable-name"</span>: [</div><div class="line">    <span class="literal">true</span>,</div><div class="line">    <span class="string">"ban-keywords"</span>,</div><div class="line">    <span class="string">"check-format"</span></div><div class="line">],</div></pre></td></tr></table></figure>
+<p>우리는 우발적으로 TypeScript 키워드를 사용하지 말아야하며 변수 이름은 camelCase (<code>likeThis</code>) 또는 상수의 경우 모두 대문자 (<code>LIKE_THIS</code>) 인 경우에만 사용해야합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="string">"whitespace"</span>: [</div><div class="line">    <span class="literal">true</span>,</div><div class="line">    <span class="string">"check-branch"</span>,</div><div class="line">    <span class="string">"check-decl"</span>,</div><div class="line">    <span class="string">"check-operator"</span>,</div><div class="line">    <span class="string">"check-separator"</span>,</div><div class="line">    <span class="string">"check-type"</span></div><div class="line">]</div></pre></td></tr></table></figure>
+<p>우리는 마지막 규칙에서 좀 더 공백에 대한 검사를 할 것입니다. 이것은 분기 명령문, 변수 선언의 등호, 연산자, 분리자 (<code>,/;</code>) 및 타입 정의를 점검하여 이들 주위에 적절한 간격이 있는지 확인합니다.</p>
+<h3 id="TypeScript-구성"><a href="#TypeScript-구성" class="headerlink" title="TypeScript 구성"></a>TypeScript 구성</h3><p>TypeScript 컴파일러에는 구성 파일인 <code>tsconfig.json</code>이 필요합니다. 이 파일은 <code>compilerOptions</code>와 <code>exclude</code> 두 부분으로 나뉩니다. 스키마에는 다른 속성이 있지만 이 두 가지에 중점을 둘 것입니다. 컴파일러 옵션 섹션은 더 많은 규칙으로 구성됩니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="string">"compilerOptions"</span>: &#123;</div><div class="line">    <span class="string">"emitDecoratorMetadata"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"experimentalDecorators"</span>: <span class="literal">true</span>,</div></pre></td></tr></table></figure>
+<p>Angular는 데코레이터(decorators, 예: @Component)에 크게 의존합니다. 그리고 위에 정의한 규칙에 따라 TypeScript에서 사용할 수 있음을 알 수 있습니다. 위에서 설치한 reflect-metadata 라이브러리는 이 규칙들과 함께 사용되어 데코레이터를 적절하게 활용됩니다.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="string">"module"</span>: <span class="string">"commonjs"</span>,</div><div class="line"><span class="string">"moduleResolution"</span>: <span class="string">"node"</span>,</div></pre></td></tr></table></figure></p>
+<p>이 두 가지 규칙을 통해 컴파일러는 CommonJS 모듈을 사용할 것이며 노드가 모듈을 해석하는 방식으로 알고 있습니다. 비 상대 경로에 포함 된 모듈에 대한 node_modules 디렉토리를 보면됩니다. 우리는 <code>moduleResolution</code>에 <code>&quot;es2015&quot;</code>를 선택할 수 있었지만 ES5로 컴파일 할 것이기 때문에 사용할 수 없습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="string">"noImplicitAny"</span>: <span class="literal">true</span>,</div><div class="line"><span class="string">"suppressImplicitAnyIndexErrors"</span>: <span class="literal">true</span>,</div></pre></td></tr></table></figure>
+<p>타이핑 시스템에서는 <code>any</code>를 타입으로 지정할 수 있습니다. 위의 첫 번째 애트리뷰트는 이 타입을 지정하지 못하게합니다. 타입이 무엇인지 모르는 경우에만 <code>any</code>를 사용하십시오. 타입을 지정하지 않고 오류를 피하고자 하는 한 가지 방법은 배열과 같은 객체를 색인화하는 것입니다. 타이핑 시스템이 이해 할 것이기 때문입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"removeComments"</span>: <span class="literal">false</span>,</div></pre></td></tr></table></figure>
+<p>TypeScript가 코드를 컴파일 할 때 우리가 작성한 주석을 보존합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">    <span class="string">"sourceMap"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"target"</span>: <span class="string">"es5"</span></div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>위에서 언급했듯이 우리는 ES5로 컴파일 할 것입니다. 우리는 우리가 작성한 코드를 브라우저 디버깅 도구에서 볼 수 있도록 TypeScript에서 소스맵을 생성하도록 할 것입니다.</p>
+<p><code>exclude</code> 섹션은 컴파일하는 동안 무시할 섹션을 알려줍니다. <code>files</code> 섹션이 있지만, globbing을 지원하지 않기 때문에, 우리는 TypeScript가 필요한 모든 파일을 입력하게 될 것입니다. 이것은 몇개의 파일이 추가된 이후에 심각한 문제가 될수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="string">"exclude"</span>: [</div><div class="line">    <span class="string">"node_modules"</span>,</div><div class="line">    <span class="string">"typings/main"</span>,</div><div class="line">    <span class="string">"typings/main.d.ts"</span></div><div class="line">]</div></pre></td></tr></table></figure>
+<p>이것은 <code>node_modules</code> 디렉토리와 <code>typings</code>의 <code>main.d.ts</code> 파일뿐만 아니라 <code>main</code> 디렉토리에있는 타입 정의의 사용을 배제 할 것입니다.</p>
+<h3 id="Karma-구성하기"><a href="#Karma-구성하기" class="headerlink" title="Karma 구성하기"></a>Karma 구성하기</h3><p>다음으로, 우리는 Webpack과 함께 사용할 Karma를 설정해 보겠습니다. 이전에 Karma를 사용해 본 적이 있다면 설정이 쉽지 않다는 것을 알고 있을것입니다.</p>
+<p>Karma는 테스트 할 파일과 방법을 지정하는 구성 파일을 사용합니다. 일반적으로 <code>karma.conf.js</code>라는 이름의 파일이 필요합니다. 하지만 우리의 설정에서 두 번째 파일인 <code>karma.entry.js</code>를 생성할 것입니다. 이 파일에는 Angular와 Webpack에서 사용할 추가 설정이 포함되어 있습니다.</p>
+<p>우리는 폴더 구조를 좀 더 발전 시켜서 진행하면서 깨끗하게 유지할 것입니다. 프로젝트 루트에<code>karma</code>라는 디렉토리를 만듭니다. 이 디렉토리 안에 다음 두 절에 설명 된 파일을 저장하십시오.</p>
+<h4 id="karma-conf-js-셋업"><a href="#karma-conf-js-셋업" class="headerlink" title="karma.conf.js 셋업"></a>karma.conf.js 셋업</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</div></pre></td></tr></table></figure>
+<p>카르마 구성 파일은 모두 카르마 구성 오브젝트를 파라미터로 취하는 단일 함수를 export 합니다. 이 객체가 제공하는 프로퍼티 중 일부를 아래에 표시합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">config.set(&#123;</div><div class="line">    <span class="attr">autoWatch</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">browsers</span>: [<span class="string">'Chrome'</span>, <span class="string">'PhantomJS'</span>],</div></pre></td></tr></table></figure>
+<p>첫번째 프로퍼티 <code>config</code>는 <code>.set</code> 메소드를 제공합니다. 이것이 Karma가 JSON 객체를 파라미터로 설정하는 방법입니다.</p>
+<p>해당 설정 객체의 처음 두 속성은 <code>autoWatch</code>와 <code>browsers</code>입니다. <code>autoWatch</code> 프로퍼티는 Karma에게 우리가 나중에 제공 할 파일 목록을 보아야 하는지를 알려주고 그 파일들이 변경 될 때 테스트를 다시로드하는 값입니다. 이것은 우리가 red-green-refactor 루프를 실행할 때 사용할 필수 기능입니다.</p>
+<p>두번째 프로퍼티 <code>browsers</code>는 Karma에게 어떤 브라우저에서 테스트를 실행 해야하는지 알려줍니다. 이것은 이전에 설치 한 <code>karma-chrome-launcher</code>와 <code>karma-phantomjs-launcher</code> 의존성을 사용하여 브라우저에서 테스트하도록 합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">files: [</div><div class="line">    <span class="string">'../node_modules/es6-shim/es6-shim.min.js'</span>,</div><div class="line">    <span class="string">'karma.entry.js'</span></div><div class="line">],</div></pre></td></tr></table></figure>
+<p>여기서 우리는 Karma에게 추적 할 파일을 설명합니다. 과거에 Karma를 사용한 적이 있다면 이 목록은 아주 작게 보일 수 있습니다. 우리는 TypeScript와 Webpack을 활용하여 파일을 실제로 추적 할 것입니다.</p>
+<p>첫번째 파일은 우리가 이전에 설치 한 <code>ES2015/ES6</code> shim으로, PhantomJS에서는 아직 히트하지 않은 기능을 추가했습니다. 그러면 다음 섹션에서 개발 될 <code>karma.entry.js</code> 파일이 필요합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">frameworks: [<span class="string">'jasmine'</span>],</div><div class="line"><span class="attr">logLevel</span>: config.LOG_INFO,</div></pre></td></tr></table></figure>
+<p>여기서 우리는 Karma에게 Jasmine을 사용할 것이며 출력 메시지는 <code>console.info</code> 레벨 이상이어야 한다고 말합니다. 메시지의 우선 순위는 다음과 같습니다.</p>
+<ul>
+<li>LOG_DISABLE — 메시지를 표시하지 않습니다.,</li>
+<li>LOG_ERROR</li>
+<li>LOG_WARN</li>
+<li>LOG_INFO</li>
+<li>LOG_DEBUG</li>
+</ul>
+<p><code>LOG_INFO</code>를 실행하면 <code>console.info</code>,<code>console.warn</code>,<code>console.error</code>의 출력을 볼 수 있습니다. 하지만 <code>console.debug</code> 메시지는 나타나지 않습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">phantomJsLauncher: &#123;</div><div class="line">    <span class="attr">exitOnResourceError</span>: <span class="literal">true</span></div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>Karma가 <code>ResourceError</code>를 던지면 PhantomJS가 종료하도록 하는 특정한 설정 항목입니다. 설정하지 않으면 PhantomJS가 종료되지 않을 수도 있습니다. 그러면 PhantomJS가 시스템 리소스를 먹어 치울 것입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">preprocessors: &#123;</div><div class="line">    <span class="string">'karma.entry.js'</span>: [<span class="string">'webpack'</span>, <span class="string">'sourcemap'</span>]</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>Karma에게 우리의 <code>karma.entry.js</code> 파일에 전처리 프로세서 목록을 실행하라고 명령합니다. 이러한 전처리기는 이전에 <code>karma-webpack</code>으로 설치 한 Webpack 전처리기와 <code>karma-sourcemap-loader</code>로 설치한 sourcemap 전처리기입니다. Karma와 Webpack은 함께 작동하여<br> <code>karma.conf.js</code>로 시작하는 종속성 체인을 찾고 실행되는 소스맵을 로드합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">reporters: [<span class="string">'dots'</span>],</div><div class="line"><span class="attr">singleRun</span>: <span class="literal">false</span>,</div></pre></td></tr></table></figure>
+<p>첫번째 줄은 Karma에게 테스트가 성공한 경우 각 테스트에 대한 설명을 출력하는 대신 단 하나의 점만 출력한다는 점을 알려주며, 실패하는 경우 설명 메시지가 나타나도록 합니다.</p>
+<p>두 번째 라인은 우리가 테스트를 재실행 할 것이라는 것을 알려주며, 카르마는 모든 테스트를 완료 한 후에 다시 계속 실행합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">        webpack: <span class="built_in">require</span>(<span class="string">'../webpack/webpack.test'</span>),</div><div class="line">        <span class="attr">webpackServer</span>: &#123;</div><div class="line">            <span class="attr">noInfo</span>: <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>우리 설정의 마지막 두줄은 Karma와 함께 사용하기 위해 Webpack을 설정합니다. 첫번째는 <code>karma-webpack</code> 플러그인에 Webpack 설정 파일이 <code>webpack.test.js</code>라는 이름으로 루트 디렉토리의 webpack 디렉토리에 있음을 알려줍니다.</p>
+<p>Webpack은 많은 메시지를 출력하므로 콘솔에서 테스트를 실행할 때 번거로울 수 있습니다. 이를 극복하기 위해 <code>noInfo</code>를 <code>true</code>로 설정하여 Webpack 서버의 출력을 최소화 하도록 설정합니다.</p>
+<p>이것이 전체 <code>karma.conf.js</code>입니다. 이제 형제 파일인 <code>karma.entry.js</code>를 살펴 보겠습니다.</p>
+<h4 id="karma-entry-js-셋업"><a href="#karma-entry-js-셋업" class="headerlink" title="karma.entry.js 셋업"></a>karma.entry.js 셋업</h4><p>이전 섹션에서 언급했듯이 <code>karma.entry.js</code> 파일은 Karma를 사용할 때 테스트 파일과 애플리케이션 파일을 가져오기 위한 시작점 역할을 합니다. Webpack은 파일을 진입점으로 하나 제공하고 다음 종속성을 찾고 파일별로 로드합니다. TypeScript의 모듈 기능을 사용하여 Webpack에 테스트 파일을 보도록 지시 할 수 있습니다.이 파일은 모두 <code>.spec.js</code> 접미사가 붙습니다. 테스트 파일에서 테스트 할 것이므로 필요한 모든 파일을 로드 할 것입니다.</p>
+<p>또한 사소한 Angular 및 Jasmine 설정을 수행합니다. 이 파일은 루트 프로젝트 디렉토리 아래 Karma디렉토리에 있어야합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>(<span class="string">'es6-shim'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'reflect-metadata'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/zone'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/long-stack-trace-zone'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/jasmine-patch'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/async-test'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/fake-async-test'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/sync-test'</span>);</div></pre></td></tr></table></figure>
+<p>우리가 할 첫번째 일은 몇가지 의존 라이브러리를 가져오는 것입니다. 여러분이 잘 알지 못하는 것들은 zone.js에서 온 것들입니다. Zone은 변경 감지를 수행하는 라이브러리입니다. Angular 팀 소유의 라이브러리이지만 Angular와 별도로 가져와야 합니다. 더 자세히 알고 싶다면 <a href="https://www.youtube.com/watch?v=3IqtmUscE_U" target="_blank" rel="external">ng-conf 2014에서 Angie 팀원이었던 Brian Ford가했던 이야기</a>를 들어 보십시오.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> browserTesting = <span class="built_in">require</span>(<span class="string">'@angular/platform-browser-dynamic/testing'</span>);</div><div class="line"><span class="keyword">const</span> coreTesting = <span class="built_in">require</span>(<span class="string">'@angular/core/testing'</span>);</div><div class="line"></div><div class="line">coreTesting.setBaseTestProviders(</div><div class="line">    browserTesting.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,</div><div class="line">    browserTesting.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>다음으로, 우리는 더 많은 의존 라이브러리를 가져오고 저장할 것입니다. 처음 두 가지는 Angular가 제공 한 테스트에 필요한 라이브러리입니다. 응용 프로그램을 실행하는 데 필요한 기본 Angular Provider를 설정하게합니다. 그런 다음 가져온 라이브러리를 사용하여 기본 테스트 Provider를 설정합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> context = <span class="built_in">require</span>.context(<span class="string">'../src/'</span>, <span class="literal">true</span>, /\.spec\.ts$/);</div><div class="line"></div><div class="line">context.keys().forEach(context);</div></pre></td></tr></table></figure>
+<p>이 두 줄은 src 디렉토리에서 <code>.spec.ts</code> 파일을 가져 오도록 합니다. <code>.context</code> 메서드는 <a href="https://webpack.github.io/docs/context.html" target="_blank" rel="external">Webpack에서 온것</a>입니다. 첫 번째 행의 두 번째 파라미터는 Webpack에게 하위 디렉토리에서 더 많은 파일을 찾도록 지시합니다.</p>
+<p>그 다음에 우리는 규칙적인 <code>require</code> 문을 사용하는 것처럼 우리가 만든 <code>context</code>를 사용할 것입니다. 이 <code>context</code>는 발견된 모든 파일의 맵을 가지고 있으며, 각 키는 발견된 파일의 이름입니다. 그러므로, 키의 배열에 대해 <code>.forEach</code>를 실행하고 각각에 대해 function을 호출함으로써, 우리는 각각의 <code>.spec.ts</code> 파일을 읽고, 결과적으로 실행을 위해 필요한 모든 코드를 읽습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Error</span>.stackTraceLimit = <span class="literal">Infinity</span>;</div><div class="line">jasmine.DEFAULT_TIMEOUT_INTERVAL = <span class="number">2000</span>;</div></pre></td></tr></table></figure>
+<p>이 라인은 위에서 언급한 Jasmine 설정입니다. 문제가 생겼을 때 스택 추적을 완전히 했는지 확인하고, Jasmine은 기본 timeout으로 2 초를 사용합니다. timeout은 비동기 프로세스를 테스트 할 때 사용됩니다. 우리가 제대로 설정하지 않으면 일부 테스트가 영원히 중단 되지 않습니다.</p>
+<p>이 두 파일을 통해 Karma를 실행하도록 구성했습니다. 이 파일들을 다시 만질 필요는 결코 없을 것입니다.</p>
+<h3 id="Webpack-구성하기"><a href="#Webpack-구성하기" class="headerlink" title="Webpack 구성하기"></a>Webpack 구성하기</h3><p>이제 Webpack이 역할을 수행하도록 Webpack을 설정합니다. <code>webpack.test.js</code>, <code>webpack.dev.js</code>, <code>webpack.prod.js</code>가 있다면 기능상 오버랩이 될 것입니다. 일부 프로젝트는 SurviveJS의 webpack-merge를 사용하여 구성의 일부를 복제하지 못하게 합니다.</p>
+<p>우리는 설정 파일이 우리에게 제공하는 것을 완전히 이해하기 위해 이 방법을 사용하지 않을 것입니다. 우리의 목적을 위해서 우리는 단지<br> <code>webpack.dev.js</code>와 <code>webpack.test.js</code>만 가질 것입니다. 웹 패키지 개발 서버를 돌릴 때 <code>.dev</code> 설정이 사용되어 브라우저에서 애플리케이션을 볼 수 있습니다.</p>
+<p>프로젝트 디렉토리에서 두 파일을 모두 저장할 <code>webpack</code>이라는 하위 디렉토리를 만듭니다.</p>
+<h4 id="webpack-test-js-셋업"><a href="#webpack-test-js-셋업" class="headerlink" title="webpack.test.js 셋업"></a>webpack.test.js 셋업</h4><p>이 파일은 몇 번 언급되었습니다. 이제 우리는 마침내 이 파일이 무엇에 관한지를 볼 것입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div></pre></td></tr></table></figure>
+<p>여기에 우리가 필요로하는 몇 가지 의존 라이브러리가 필요합니다. <code>path</code> 라이브러리는 Node 핵심 라이브러리입니다. 우리는 주로 전체 파일 경로를 찾기위해 이 라이브러리를 사용합니다. 그리고 Webpack이 필요합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">    <span class="attr">devtool</span>: <span class="string">'inline-source-map'</span>,</div></pre></td></tr></table></figure>
+<p>Webpack 설정은 노드의 <code>module.exports</code> 메카니즘을 사용하여 Webpack에 제공되는 JSON 객체입니다.</p>
+<p>설정의 첫번째 특성은  inline source map을 디버깅 도우미로 사용할 것임을 정의합니다. <code>devtool</code> 옵션에 대한 자세한 내용은 <a href="https://webpack.github.io/docs/configuration.html#devtool" target="_blank" rel="external">Webpack 사이트의 설명서</a>를 참조하십시오.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>: &#123;</div><div class="line">    <span class="attr">preLoaders</span>: [</div><div class="line">        &#123; <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span>, <span class="attr">loader</span>: <span class="string">'tslint'</span>, <span class="attr">test</span>: <span class="regexp">/\.ts$/</span> &#125;</div><div class="line">    ],</div><div class="line">    <span class="attr">loaders</span>: [</div><div class="line">        &#123; <span class="attr">loader</span>: <span class="string">'raw'</span>, <span class="attr">test</span>: <span class="regexp">/\.(css|html)$/</span> &#125;,</div><div class="line">        &#123; <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span>, <span class="attr">loader</span>: <span class="string">'ts'</span>, <span class="attr">test</span>: <span class="regexp">/\.ts$/</span> &#125;</div><div class="line">    ]</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>이전에 <em>loader</em>에 대해 논의했는데, 실제로 여기서 <em>loader</em>를 볼 수 있습니다. 정규 <em>loader</em> 앞에 실행되는 <code>preLoaders</code>도 지정할 수 있습니다. 이 <em>loader</em>를 다른 “일반” <em>loader</em>와 함께 배치 할 수 있지만 응용 프로그램이 커질수록 컴파일이 느려지는 것을 방지 하기 위해 분리 할 수 있습니다.</p>
+<p>첫번째 “실제” <em>loader</em>는 <code>.css</code> 및 <code>.html</code> 원본 파일을 따로 처리하지는 않지만 JavaScript 모듈로 가져옵니다. 그리고 이전에 설치한 <code>ts-loader</code>를 사용하여 모든 <code>.ts</code> 파일을 로드 할 것입니다. 이 파일은 TypeScript 컴파일러를 통해 JavaScript 파일을 생성할 것입니다. exclude 특성을 사용하면 타사 TypeScript 파일을 컴파일하지 않아도됩니다. 이 경우 <code>node_modules</code> 디렉토리에서 TypeScript 파일을 가져 오는 것을 피할 수 있습니다.</p>
+<p>CSS로 SASS를 사용하거나, HTML로 Jade를 사용하고 싶다면 <code>sass-loader</code> 나 <code>pug-loader</code>를 각각 설치해서 <code>ts-loader</code>를 사용하는 것과 비슷한 방식으로 사용할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">resolve: &#123;</div><div class="line">    <span class="attr">extensions</span>: [<span class="string">''</span>, <span class="string">'.js'</span>, <span class="string">'.ts'</span>],</div><div class="line">    <span class="attr">modulesDirectories</span>: [<span class="string">'node_modules'</span>],</div><div class="line">    <span class="attr">root</span>: path.resolve(<span class="string">'.'</span>, <span class="string">'src'</span>)</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>이 섹션에서는 Webpack이 로드 해야하는 파일 확장명 타입을 알 수 있습니다. 빈 문자열은 확장을 제공 할 필요가없는 노드 모듈을 가져 오기 위해 필요합니다.예를 들어 이전에 <code>path</code>를 어떻게 가져 왔는지 등입니다. Webpack에 우리 모듈의 루트 디렉토리가 <code>src</code> 디렉토리이고 모든 외부 모듈이 <code>node_modules</code> 디렉토리에 있음을 알립니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">    tslint: &#123;</div><div class="line">        <span class="attr">emitErrors</span>: <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>이 설정의 마지막 부분은 <code>tslint-loader</code>를 설정하여 콘솔에 발견된 오류를 표시합니다. 이전에 생성 된 두 개의 Karma 파일과 함께 이 파일은 모든 단위 테스트를 수행합니다.</p>
+<h4 id="webpack-dev-js-셋업"><a href="#webpack-dev-js-셋업" class="headerlink" title="webpack.dev.js 셋업"></a>webpack.dev.js 셋업</h4><p>주의 :이 튜토리얼을 따라갈 때 <code>webpack-dev-server</code> 사용에 관심이 없다면 이 섹션을 건너 뛸 수 있습니다. 또한, <code>webpack.test.js</code> 섹션에서 논의된 설정의 어떤 부분도 아래에서 다시 설명하지 않을 것입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> HtmlWebpack = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</div><div class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"><span class="keyword">const</span> ChunkWebpack = webpack.optimize.CommonsChunkPlugin;</div><div class="line"></div><div class="line"><span class="keyword">const</span> rootDir = path.resolve(__dirname, <span class="string">'..'</span>);</div></pre></td></tr></table></figure>
+<p>두 개의 새로운 Webpack 의존 라이브러리는 <code>HtmlWebpack</code>과 <code>ChunkWebpack</code> 플러그인입니다.</p>
+<p>이 코드의 마지막 줄은 <code>path</code> 라이브러리를 사용하므로 프로젝트 디렉토리를 시작점으로 항상 파일을 참조 할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">    <span class="attr">debug</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">devServer</span>: &#123;</div><div class="line">        <span class="attr">contentBase</span>: path.resolve(rootDir, <span class="string">'dist'</span>),</div><div class="line">        <span class="attr">port</span>: <span class="number">9000</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">devtool</span>: <span class="string">'source-map'</span>,</div></pre></td></tr></table></figure>
+<p>첫 번째 속성은 <code>debug</code>이며, <code>true</code>로 설정하면 Webpack이 모든 로더를 디버그 모드로 전환 할 수 있음을 알립니다. 디버그 모드는 상황이 잘못 될 때 더 많은 정보를 제공합니다.</p>
+<p><code>devServer</code> 속성은 <code>webpack-dev-server</code> 설정 방법을 설명합니다. 이것은 파일이 제공되는 위치가 프로젝트의 <code>dist</code> 디렉토리가 될 것이며 우리는 포트 9000을 사용할 것이라고 말합니다.</p>
+<p>dev 서버가 메모리에서 모든 파일을 제공하기 때문에 <code>dist</code> 디렉토리를 만드는 것에 대해 걱정하지 마십시오. 실제 <code>dist</code> 디렉토리는 메모리에서 제공되기 때문에 실제로 생성되지 않습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">entry: &#123;</div><div class="line">    <span class="attr">app</span>: [ path.resolve(rootDir, <span class="string">'src'</span>, <span class="string">'bootstrap'</span>) ],</div><div class="line">    <span class="attr">vendor</span>: [ path.resolve(rootDir, <span class="string">'src'</span>, <span class="string">'vendor'</span>) ]</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>여기서는 Webpack에 코드에 대한 두 가지 진입 점이 있음을 알리고 있습니다. 하나는 <code>src/bootstrap.ts</code>이고 다른 하나는 <code>src/vendor.ts</code>입니다. <code>vendor.ts</code>파일은 Angular와 같은 써드 파티 코드를 로드 하기위한 항목일 것이고, <code>bootstrap.ts</code>는 애플리케이션 코드가 시작될 곳입니다.</p>
+<p>파일에 확장자 <code>.ts</code>를 제공 할 필요가 없음을 알 수 있습니다. 우리는 이것을 잠시 후에 설명 할 것입니다. 또한, <code>karma.entry.js</code> 파일이 그 프로세스에 대한 일종의 인위적 진입 점으로 작용했기 때문에 <code>webpack.test.js</code>에서 이것을 필요로하지 않았습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>: &#123;</div><div class="line">    <span class="attr">loaders</span>: [</div><div class="line">        &#123; <span class="attr">loader</span>: <span class="string">'raw'</span>, <span class="attr">test</span>: <span class="regexp">/\.(css|html)$/</span> &#125;,</div><div class="line">        &#123; <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span>, <span class="attr">loader</span>: <span class="string">'ts'</span>, <span class="attr">test</span>: <span class="regexp">/\.ts$/</span> &#125;</div><div class="line">    ]</div><div class="line">&#125;,</div><div class="line"><span class="attr">output</span>: &#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'[name].bundle.js'</span>,</div><div class="line">    <span class="attr">path</span>: path.resolve(rootDir, <span class="string">'dist'</span>)</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>우리가 로더를 어떻게 사용했는지 기억하지 못한다면, 더 자세한 정보는 <code>webpack.test.js</code> 섹션을 보십시오.</p>
+<p>앞에서 언급했듯이, 파일은 <code>dist</code> 디렉토리에서 제공 될 것이고, 여기에서 정의 할 것입니다. 각 파일의 이름은 <code>.bundle.js</code> 접미사가있는 입력 섹션의 키가됩니다. 그래서 우리는 <code>app.bundle.js</code>와 <code>vendor.bundle.js</code>를 제공하게 될 것입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">plugins: [</div><div class="line">    <span class="keyword">new</span> ChunkWebpack(&#123;</div><div class="line">        <span class="attr">filename</span>: <span class="string">'vendor.bundle.js'</span>,</div><div class="line">        <span class="attr">minChunks</span>: <span class="literal">Infinity</span>,</div><div class="line">        <span class="attr">name</span>: <span class="string">'vendor'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="keyword">new</span> HtmlWebpack(&#123;</div><div class="line">        <span class="attr">filename</span>: <span class="string">'index.html'</span>,</div><div class="line">        <span class="attr">inject</span>: <span class="string">'body'</span>,</div><div class="line">        <span class="attr">template</span>: path.resolve(rootDir, <span class="string">'src'</span>, <span class="string">'app'</span>, <span class="string">'index.html'</span>)</div><div class="line">    &#125;)</div><div class="line">]</div></pre></td></tr></table></figure>
+<p>우리가 이전에 설치한 두개의 플러그인, <code>ChunkWebpack</code>과 <code>HtmlWebpack</code>은 플러그인 섹션에서 사용됩니다. <code>ChunkWebpack</code>은 Webpack이 여러 번 참조하는 파일을 한 번만 가져옵니다. <code>HtmlWebpack</code> 플러그인은 &lt;script&gt; 태그를 index.html에 추가하지 않아도됩니다. 출력 섹션에서 만든 번들을 가져 와서 index.html의 &lt;body&gt;에 삽입합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">    resolve: &#123;</div><div class="line">        <span class="attr">extensions</span>: [ <span class="string">''</span>, <span class="string">'.js'</span>, <span class="string">'.ts'</span> ]</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>이전에 엔트리 포인트에 <code>.ts</code>를 지정하지 않았을 때,이 섹션은 <code>.ts</code> 또는 <code>.js</code>를 가진 파일이 있고 그 파일 경로와 일치한다면, 그것은 안으로 읽혀 야한다.</p>
+<p>Webpack의 개발 환경 설정이 완료되었습니다.</p>
+<h2 id="NPM을-이용한-Task-실행-구성"><a href="#NPM을-이용한-Task-실행-구성" class="headerlink" title="NPM을 이용한 Task 실행 구성"></a>NPM을 이용한 Task 실행 구성</h2><p>임의의 스레드를 실행하기 위해 다음과 같이 노드 명령을 실행할 수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node ./node_modules/.bin/webpack --config webpack/webpack.dev.js</div></pre></td></tr></table></figure>
+<p>그 명령을 실행하고 계속 생각하고 있는 것은 꽤 귀찮은 일입니다. 이를 극복하기 위해 위에서 언급한 <code>package.json</code>의 <code>scripts</code> 섹션을 우리의 Task Runner로 활용할 것입니다. 다음과 같은 작업을 수행합니다.</p>
+<ul>
+<li>Manual linting</li>
+<li>dev server 실행</li>
+<li>In-browser (Chrome) 테스트하기</li>
+<li>Headless browser (PhantomJS) 테스트하기</li>
+</ul>
+<p>이 작업은 매우 간단합니다. 설치된 노드 모듈을 활용하여 위의 작업을 수행합니다. <code>package.json</code>의<code>scripts</code> 섹션에 다음을 추가 할 수 있습니다 :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">"lint"</span>: <span class="string">"tslint ./src/**/*.ts"</span>,</div><div class="line"><span class="string">"start"</span>: <span class="string">"webpack-dev-server --config ./webpack/webpack.dev.js"</span>,</div><div class="line"><span class="string">"test"</span>: <span class="string">"karma start ./karma/karma.conf.js"</span>,</div><div class="line"><span class="string">"test:headless"</span>: <span class="string">"karma start ./karma/karma.conf.js --browsers PhantomJS"</span></div></pre></td></tr></table></figure>
+<p><code>node ./node_modules/tslint/bin/tslint.js</code>를 사용하는 대신, <code>karma</code> 또는<code>tslint</code> 처럼 단지 패키지 이름을 사용할 수 있습니다. 이는 NPM이 패키지를 실행하는 데 사용할 수있는 이 파일에 <code>./node_modules/.bin</code>에 심볼릭 링크가 있기 때문입니다. 테스트 작업은 Chrome과 PhantomJS에서 단위 테스트를 실행하며, <code>test:headless</code> 태스크는 브라우저 플래그로 지정된 PhantomJS에서 단위 테스트를 실행합니다.</p>
+<p>NPM 작업 실행에 익숙하지 않은 경우 NPM 작업을 실행하는 데는 두가지 방법이 있습니다. 첫번째 작업은 <code>npm run [task name]</code>을 수행하여  원하는 작업을 실행하는 것입니다. <code>npm run lint</code>를 사용했다면 <code>lint</code> 태스크를 실행할 것입니다.</p>
+<p>NPM에는 또한 생명주기 이벤트의 개념이 있으며, 각 이벤트는 <code>npm [event]</code>를 통해 실행될 수 있습니다. 우리의 목록에 있는 이벤트는<br> <code>start</code>와 <code>test</code>는 있지만 <code>test:headless</code>는 없습니다. 다른 이벤트들도 있으며, <a href="https://docs.npmjs.com/misc/scripts" target="_blank" rel="external">NPM 문서의 <code>scripts</code> 섹션</a>에서 확인 할 수 있습니다.</p>
+<p>이제 테스트를 실행하는 데 필요한 구성의 99 %를 완료했습니다. NPM은 Karma를 실행하게됩니다. Karma는 Webpack을 사용하여 모든 테스트 및 응용 프로그램 파일을로드합니다. 테스트 모듈과 어플리케이션 모듈이 모두 로드되면 Karma는 테스트를 실행하고 성공한 모듈과 실패한 모듈을 알려줍니다.</p>
+<p>지금 우리가 <code>npm test</code> 나 <code>npm run test:headless</code>를 실행하려고하면, Webpack에서 <code>src</code> 디렉토리가 없다는 오류가 발생합니다. 그 외에, 우리는 <code>.spec.ts</code> 파일이 없기 때문에 Webpack은 로드 할 것이 없습니다.</p>
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p>우리는 여기서 많은 토대를 다루었습니다. 우리의 어플리케이션은 단위 테스팅과 red-green-refactor 사이클을 실행하기 위해 완전히 구성되었습니다. 우리는 TypeScript, Karma, Webpack 및 매우 적은 양의 코드로 실행되는 테스트를 설정할 수있었습니다.</p>
+<p>최종 코드를 보고 싶다면 이 <a href="https://github.com/gonzofish/semaphore-ng2-webpack" target="_blank" rel="external">저장소</a>를 살펴보십시오.</p>
+<p>이 시리즈의 두번째 파트에서는 단위 테스트를 통해 샘플 Angular 응용 프로그램을 작성하기 전에 테스트 할 대상을 살펴 보겠습니다. 아래 섹션에서 의견이나 질문을 자유롭게 남겨주십시오.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://semaphoreci.com/community/tutorials/setting-up-angular-2-with-webpack" target="_blank" rel="external">https://semaphoreci.com/community/tutorials/setting-up-angular-2-with-webpack</a>]</p>
+</blockquote>
+<h1 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h1><ul>
+<li><a href="https://semaphoreci.com/community/tutorials/setting-up-angular-2-with-webpack" target="_blank" rel="external">https://semaphoreci.com/community/tutorials/setting-up-angular-2-with-webpack</a></li>
+<li><a href="https://semaphoreci.com/community/tutorials/testing-components-in-angular-2-with-jasmine" target="_blank" rel="external">https://semaphoreci.com/community/tutorials/testing-components-in-angular-2-with-jasmine</a></li>
+<li><a href="https://semaphoreci.com/community/tutorials/testing-services-in-angular-2" target="_blank" rel="external">https://semaphoreci.com/community/tutorials/testing-services-in-angular-2</a></li>
+<li><a href="https://semaphoreci.com/community/tutorials/testing-routes-in-angular-2" target="_blank" rel="external">https://semaphoreci.com/community/tutorials/testing-routes-in-angular-2</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2017/06/13/setting-up-angular-2-with-webpack/" data-id="cjkl9100y0013jguzskwdl661" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/06/15/angular-webpack-configuration/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            Angular Webpack 설정
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/06/07/better-application-events-in-spring-framework-4-2/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">Spring Framework 4.2에서 애플리케이션 이벤트</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2017/06/13/setting-up-angular-2-with-webpack/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>TypeScript 핸드북 5 - 함수 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="JavaScript,TypeScript" />
+    
+    <meta name="description" content="함수 (Function)소개함수는 JavaScript의 응용 프로그램을 구성하는 기본 요소입니다. 그리고 함수는 추상화 계층, 클래스, 정보 숨기기, 모듈을 모방하는 방법입니다. TypeScript에서는 클래스, 네임 스페이스 및 모듈이 있지만 함수는 여전히 작업 수행 방법을 설명하는 데 중요한 역할을합니다. 또한 TypeScript는 표준 JavaScri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript 핸드북 5 - 함수">
+<meta property="og:url" content="http://infoscis.github.io/2017/05/20/TypeScript-handbook-functions/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="함수 (Function)소개함수는 JavaScript의 응용 프로그램을 구성하는 기본 요소입니다. 그리고 함수는 추상화 계층, 클래스, 정보 숨기기, 모듈을 모방하는 방법입니다. TypeScript에서는 클래스, 네임 스페이스 및 모듈이 있지만 함수는 여전히 작업 수행 방법을 설명하는 데 중요한 역할을합니다. 또한 TypeScript는 표준 JavaScri">
+<meta property="og:updated_time" content="2018-01-27T15:08:39.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TypeScript 핸드북 5 - 함수">
+<meta name="twitter:description" content="함수 (Function)소개함수는 JavaScript의 응용 프로그램을 구성하는 기본 요소입니다. 그리고 함수는 추상화 계층, 클래스, 정보 숨기기, 모듈을 모방하는 방법입니다. TypeScript에서는 클래스, 네임 스페이스 및 모듈이 있지만 함수는 여전히 작업 수행 방법을 설명하는 데 중요한 역할을합니다. 또한 TypeScript는 표준 JavaScri">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2017/05/20/TypeScript-handbook-functions/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/TypeScript/">TypeScript</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-TypeScript-handbook-functions" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        TypeScript 핸드북 5 - 함수
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/05/20/TypeScript-handbook-functions/" class="article-date">
+            <time datetime="2017-05-20T14:20:38.000Z" itemprop="datePublished">2017-05-20</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/JavaScript/">JavaScript</a>, <a class="tag-link" href="/tags/TypeScript/">TypeScript</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="함수-Function"><a href="#함수-Function" class="headerlink" title="함수 (Function)"></a>함수 (Function)</h1><h2 id="소개"><a href="#소개" class="headerlink" title="소개"></a>소개</h2><p>함수는 JavaScript의 응용 프로그램을 구성하는 기본 요소입니다. 그리고 함수는 추상화 계층, 클래스, 정보 숨기기, 모듈을 모방하는 방법입니다. TypeScript에서는 클래스, 네임 스페이스 및 모듈이 있지만 함수는 여전히 <em>작업 수행</em> 방법을 설명하는 데 중요한 역할을합니다. 또한 TypeScript는 표준 JavaScript 함수에 몇 가지 새로운 기능을 추가하여 보다 쉽게 작업할 수 있도록합니다.</p>
+<h2 id="함수"><a href="#함수" class="headerlink" title="함수"></a>함수</h2><p>JavaScript와 마찬가지로, 명명 함수(Named function) 또는 익명 함수(Anonymous function)로 TypeScript 함수를 생성할 수 있습니다. 이를 통해 애플리케이션에 가장 적합한 방법을 선택할 수 있으며, API에서 기능 목록을 작성하든, 다른 기능으로 이전할 수있는 일회성 기능을 사용하든 상관 없습니다.</p>
+<p>JavaScript에서 이러한 두 가지 접근 방식은 아래의 예제를 보면 쉽게 이해할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Named function</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x, y</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> x + y;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// Anonymous function</span></div><div class="line"><span class="keyword">let</span> myAdd = <span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>) </span>&#123; <span class="keyword">return</span> x+y; &#125;;</div></pre></td></tr></table></figure>
+<p>JavaScript와 마찬가지로 TypeScript 함수는 함수 본문 외부의 변수를 참조할 수 있습니다. 이런 행위를 보통 변수를 <em>Capture</em> 한다고 합니다. 이것이 어떻게 작동하는지 이해하는 것과, 사용에 대한 trade-off는 이 문서의 범위를 벗어납니다. 하지만 이러한 메커니즘이 JavaScript와 TypeScript에서 아주 중요한 요소라는 것을 이해하고 있어야 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> z = <span class="number">100</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addToZ</span>(<span class="params">x, y</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> x + y + z;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="함수-타입"><a href="#함수-타입" class="headerlink" title="함수 타입"></a>함수 타입</h2><h3 id="함수-작성하기"><a href="#함수-작성하기" class="headerlink" title="함수 작성하기"></a>함수 작성하기</h3><p>우선 이전의 간단한 예제에 타입을 추가해 보겠습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x: <span class="built_in">number</span>, y: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> x + y;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> myAdd = <span class="function"><span class="keyword">function</span>(<span class="params">x: <span class="built_in">number</span>, y: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123; <span class="keyword">return</span> x+y; &#125;;</div></pre></td></tr></table></figure>
+<p>각 파라미터에 타입을 추가 하고, 리턴 타입을 추가하여 함수에 타입을 부여할 수 있습니다. TypeScript는 return 문을 보고 리턴 타입을 파악할 수 있으므로 많은 경우에 선택적으로 리턴 타입을 생략할 수도 있습니다.</p>
+<h3 id="함수-타입-작성"><a href="#함수-타입-작성" class="headerlink" title="함수 타입 작성"></a>함수 타입 작성</h3><p>함수를 작성 했으니 함수의 각 타입을 살펴보고 함수의 전체 타입을 작성해 보겠습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> myAdd: <span class="function">(<span class="params">x: <span class="built_in">number</span>, y: <span class="built_in">number</span></span>)=&gt;</span><span class="built_in">number</span> =</div><div class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">x: <span class="built_in">number</span>, y: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123; <span class="keyword">return</span> x+y; &#125;;</div></pre></td></tr></table></figure>
+<p>위 코드의 함수 형식은 파라미터의 타입과 리턴 타입의 두 부분이 동일합니다. 전체 함수 타입을 작성할 때 두 부분이 필요합니다. 우리는 파라미터 목록과 마찬가지로 파라미터 타입을 작성하여 각 파라미터에 이름과 타입을 제공합니다. 이름은 가독성을 돕기위한 것입니다. 다음과 같이 작성할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> myAdd: <span class="function">(<span class="params">baseValue:<span class="built_in">number</span>, increment:<span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">number</span> =</div><div class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">x: <span class="built_in">number</span>, y: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123; <span class="keyword">return</span> x + y; &#125;;</div></pre></td></tr></table></figure>
+<p>파라미터 타입이 있으면 함수 타입에 파라미터를 지정하는 이름에 상관없이 함수의 유효한 타입으로 간주됩니다.</p>
+<p>두 번째 부분은 리턴 타입입니다. 파라미터와 리턴 타입 사이에 굵은 화살표 (<code>=&gt;</code>)를 사용하여 리턴 타입을 명확하게 합니다. 앞에서 언급했듯이, 이것은 함수 타입의 필수 부분이므로, 함수가 값을 반환하지 않는다면 그 값을 그대로 두는 대신에 <code>void</code>를 사용할 수 있습니다.</p>
+<p>파라미터와 리턴 타입만 함수 타입을 구성합니다. <em>Capture</em>된 변수는 타입에 반영되지 않습니다. 실제로 <em>Capture</em>된 변수는 함수의 “숨겨진 상태”의 일부이며 해당 API를 구성하지 않습니다.</p>
+<h3 id="타입-추정"><a href="#타입-추정" class="headerlink" title="타입 추정"></a>타입 추정</h3><p>아래의 예제에서 한쪽에 타입있고 다른쪽에 타입이 없는 경우 TypeScript 컴파일러에서 타입을 알아낼 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// myAdd has the full function type</span></div><div class="line"><span class="keyword">let</span> myAdd = <span class="function"><span class="keyword">function</span>(<span class="params">x: <span class="built_in">number</span>, y: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123; <span class="keyword">return</span>  x + y; &#125;;</div><div class="line"></div><div class="line"><span class="comment">// The parameters 'x' and 'y' have the type number</span></div><div class="line"><span class="keyword">let</span> myAdd: <span class="function">(<span class="params">baseValue:<span class="built_in">number</span>, increment:<span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">number</span> =</div><div class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>) </span>&#123; <span class="keyword">return</span> x + y; &#125;;</div></pre></td></tr></table></figure>
+<p>이를 타입추론의 한 형태 인 “컨텍스트 타입 지정”이라고 합니다. 이렇게하면 프로그램 입력을 위한 노력이 줄어들수 있습니다.</p>
+<h2 id="Optional-과-Default-파라미터"><a href="#Optional-과-Default-파라미터" class="headerlink" title="Optional 과 Default 파라미터"></a>Optional 과 Default 파라미터</h2><p>TypeScript에서는 모든 파라미터가 함수에 필요하다고 가정합니다. 이것은 여러분이 <code>null</code> 또는 <code>undefined</code>를 제공할 수 없다는 것을 의미하는 것이 아니라, 컴파일러는 함수가 호출 될 때 사용자가 각 파라미터에 값을 입력했는지 확인한다는 의미입니다. 컴파일러는 또한 이 파라미터들이 함수에만 전달되는 파라미터라고 가정합니다. 즉, 함수에 주어진 파라미터의 수는 함수가 예상하는 파라미터의 수와 일치해야합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">buildName</span>(<span class="params">firstName: <span class="built_in">string</span>, lastName: <span class="built_in">string</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> firstName + <span class="string">" "</span> + lastName;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> result1 = buildName(<span class="string">"Bob"</span>);                  <span class="comment">// error, 파라미터 수가 너무 적습니다.</span></div><div class="line"><span class="keyword">let</span> result2 = buildName(<span class="string">"Bob"</span>, <span class="string">"Adams"</span>, <span class="string">"Sr."</span>);  <span class="comment">// error, 파라미터 수가 너무 많습니다.</span></div><div class="line"><span class="keyword">let</span> result3 = buildName(<span class="string">"Bob"</span>, <span class="string">"Adams"</span>);         <span class="comment">// 맞습니다.</span></div></pre></td></tr></table></figure>
+<p>JavaScript에서 모든 파라미터는 선택 사항이며 사용자가 적합하다고 생각되는 파라미터를 그대로 둘 수 있습니다. 그렇게할때 그 파라미터는 <code>undefined</code>입니다. TypeScript에서 이러한 <em>Optional</em> 파라미터는 파라미터 끝에 <code>?</code>를 추가하면 가능합니다. 예를 들어 위의 <code>lastName</code> 파라미터를 <em>Optional</em>로 사용 하고자 한다고 가정해 보겠습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">buildName</span>(<span class="params">firstName: <span class="built_in">string</span>, lastName?: <span class="built_in">string</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (lastName)</div><div class="line">        <span class="keyword">return</span> firstName + <span class="string">" "</span> + lastName;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="keyword">return</span> firstName;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> result1 = buildName(<span class="string">"Bob"</span>);                  <span class="comment">// 올바르게 실행 됩니다.</span></div><div class="line"><span class="keyword">let</span> result2 = buildName(<span class="string">"Bob"</span>, <span class="string">"Adams"</span>, <span class="string">"Sr."</span>);  <span class="comment">// error, 파라미터 수가 너무 많습니다.</span></div><div class="line"><span class="keyword">let</span> result3 = buildName(<span class="string">"Bob"</span>, <span class="string">"Adams"</span>);         <span class="comment">// 맞습니다.</span></div></pre></td></tr></table></figure>
+<p>모든 <em>Optional</em> 파라미터는 <em>Required</em> 파라미터 다음에 나와야 합니다. <code>lastName</code>보다는 <code>firstName</code>을 <em>Optional</em> 파라미터로 변경하려고 한다면 함수에서 파라미터의 순서를 변경해야 하며, 목록의 <code>firstName</code>을 마지막으로 이동해야 합니다.</p>
+<p>TypeScript에서 사용자가 파라미터를 입력하지 않거나 파라미터 값 대신 <code>undefined</code>를 전달해도 파라미터가 할당 될 값을 <em>Default</em> 값으로 설정할 수 있습니다. 이를 <em>Default-initialized</em> 파라미터라고 합니다. 그렇기 때문에 아래 코드와 같이 <code>lastName</code>의 <em>Default</em> 값을 <code>&quot;Smith&quot;</code>로 설정할 수 있습니다.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function buildName(firstName: string, lastName = "Smith") &#123;</div><div class="line">    return firstName + " " + lastName;</div><div class="line">&#125;</div><div class="line"></div><div class="line">let result1 = buildName("Bob");                  // works correctly now, returns "Bob Smith"</div><div class="line">let result2 = buildName("Bob", undefined);       // still works, also returns "Bob Smith"</div><div class="line">let result3 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters</div><div class="line">let result4 = buildName("Bob", "Adams");         // ah, just right</div></pre></td></tr></table></figure>
+<p><em>Required</em> 파라미터 다음에 오는 <em>Default-initialized</em> 파라미터는 <em>Optional</em> 파라미터처럼 취급되며 <em>Optional</em> 파라미터처럼 해당 함수를 호출할 때 생략할 수 있습니다. 이것이 <em>Default-initialized</em> 파라미터가 <em>Optional</em> 파라미터와 공유하는 특성입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">buildName</span>(<span class="params">firstName: <span class="built_in">string</span>, lastName?: <span class="built_in">string</span></span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>그리고</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function buildName(firstName: string, lastName = "Smith") &#123;</div><div class="line">    // ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>(firstName: string, lastName?: string) =&gt; string</code> 같은 타입을 공유합니다. <code>lastName</code>의 <em>Default</em> 값은 파라미터가 <em>Optional</em> 이라는 사실만 남겨두고 타입이 사라집니다.</p>
+<p>일반 <em>Optional</em> 파라미터와 달리 <em>Default-initialized</em> 파라미터는 <em>Required</em> 파라미터 다음에 올 필요가 없습니다. <em>Default-initialized</em> 파라미터가 <em>Required</em> 파라미터 앞에 오는 경우 사용자는 명시적으로 <code>undefined</code>를 전달하여 <em>Default-initialized</em>된 값을 가져 오도록 해야합니다. 예를 들어, 우리는 <code>firstName</code>의 기본 초기화(Default initializer)만 사용하여 마지막 예제를 작성할 수 있습니다.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function buildName(firstName = "Will", lastName: string) &#123;</div><div class="line">    return firstName + " " + lastName;</div><div class="line">&#125;</div><div class="line"></div><div class="line">let result1 = buildName("Bob");                  // error, too few parameters</div><div class="line">let result2 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters</div><div class="line">let result3 = buildName("Bob", "Adams");         // okay and returns "Bob Adams"</div><div class="line">let result4 = buildName(undefined, "Adams");     // okay and returns "Will Adams"</div></pre></td></tr></table></figure>
+<h2 id="나머지-Rest-파라미터"><a href="#나머지-Rest-파라미터" class="headerlink" title="나머지(Rest) 파라미터"></a>나머지(Rest) 파라미터</h2><p><em>Required</em> 파라미터, <em>Optional</em> 파라미터 및 <em>Default-initialized</em> 파라미터는 모두 한 가지 공통점이 있습니다. 즉, 한 번에 하나의 파라미터에 대한 지정입니다. 때로는 여러 파라미터를 그룹으로 사용하거나 함수가 궁극적으로 취할 파라미터의 수를 모를 수 있습니다. JavaScript에서는 모든 함수 본문에서 볼 수있는 <code>arguments</code> 변수를 사용하여 파라미터를 직접 사용할 수 있습니다.</p>
+<p>TypeScript에서는 이러한 파라미터들을 모아서 함께 변수로 대입할수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">buildName</span>(<span class="params">firstName: <span class="built_in">string</span>, ...restOfName: <span class="built_in">string</span>[]</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> firstName + <span class="string">" "</span> + restOfName.join(<span class="string">" "</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> employeeName = buildName(<span class="string">"Joseph"</span>, <span class="string">"Samuel"</span>, <span class="string">"Lucas"</span>, <span class="string">"MacKinzie"</span>);</div></pre></td></tr></table></figure>
+<p><em>Rest</em> 파라미터는 무한한 개수의 <em>Optional</em> 파라미터로 취급됩니다. <em>Rest</em> 파라미터에 인수를 전달할 때 원하는 만큼의 파라미터를 입력할수 있습니다. 그리고 또한 아무것도 입력하지 않아도 됩니다. 컴파일러는 줄임표 (<code>...</code>)로 입력된 이름에 나머지 파라미터들을 배열로 만들어 입력합니다. 이 배열 파라미터는 함수 내부에서 사용할 수 있습니다.</p>
+<p>줄임표(<code>...</code>) 부호는 <em>Rest</em> 파라미터가있는 함수의 타입에도 사용됩니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">buildName</span>(<span class="params">firstName: <span class="built_in">string</span>, ...restOfName: <span class="built_in">string</span>[]</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> firstName + <span class="string">" "</span> + restOfName.join(<span class="string">" "</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> buildNameFun: <span class="function">(<span class="params">fname: <span class="built_in">string</span>, ...rest: <span class="built_in">string</span>[]</span>) =&gt;</span> <span class="built_in">string</span> = buildName;</div></pre></td></tr></table></figure>
+<h2 id="this"><a href="#this" class="headerlink" title="this"></a><code>this</code></h2><p>JavaScript에서 <code>this</code>를 사용하는 법을 배우는 것은 기본 통과 의례중 하나입니다.</p>
+<p>TypeScript는 JavaScript의 상위 집합이기 때문에 TypeScript 개발자는 <code>this</code>를 사용하는 방법과, 올바르게 사용되지 않는 지점을 찾는 방법을 배워야합니다. 다행히 TypeScript를 사용하면 두 가지 기술을 사용하여 잘못된 용도를 잡을 수 있습니다. <code>this</code>가 JavaScript에서 어떻게 작동하는지 알아야 할 필요가 있다면, Yehuda Katz의 <a href="https://infoscis.github.io/2017/05/14/Understanding-javascript-function-invocation-and-this/">JavaScript 함수 호출및 “this”의 이해</a>를 먼저 읽으십시오. Yehuda의 포스트는 <code>this</code>의 내부 동작을 잘 설명하므로 여기서는 기본 내용만 다룰 것입니다.</p>
+<h3 id="this와-화살표-함수-Arrow-function"><a href="#this와-화살표-함수-Arrow-function" class="headerlink" title="this와 화살표 함수(Arrow function)"></a><code>this</code>와 화살표 함수(Arrow function)</h3><p>JavaScript에서 <code>this</code>는 함수가 호출 될 때 설정된 변수입니다. 이것은 매우 강력하고 유연한 기능이지만 함수가 실행될 때 항상 알 필요는 없습니다. 이것은 특히 함수를 반환하거나 함수를 인수로 전달할 때 혼란스러울 수 있습니다.</p>
+<p>예제를 살펴 보겠습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> deck = &#123;</div><div class="line">    suits: [<span class="string">"hearts"</span>, <span class="string">"spades"</span>, <span class="string">"clubs"</span>, <span class="string">"diamonds"</span>],</div><div class="line">    cards: <span class="built_in">Array</span>(<span class="number">52</span>),</div><div class="line">    createCardPicker: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">let</span> pickedCard = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">52</span>);</div><div class="line">            <span class="keyword">let</span> pickedSuit = <span class="built_in">Math</span>.floor(pickedCard / <span class="number">13</span>);</div><div class="line"></div><div class="line">            <span class="keyword">return</span> &#123;suit: <span class="keyword">this</span>.suits[pickedSuit], card: pickedCard % <span class="number">13</span>&#125;;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> cardPicker = deck.createCardPicker();</div><div class="line"><span class="keyword">let</span> pickedCard = cardPicker();</div><div class="line"></div><div class="line">alert(<span class="string">"card: "</span> + pickedCard.card + <span class="string">" of "</span> + pickedCard.suit);</div></pre></td></tr></table></figure>
+<p><code>createCardPicker</code>는 그 자체로 함수를 반환하는 함수입니다. 예제를 실행하려고 하면 예상되는 경고 상자 대신 오류가 발생합니다. 이것은<code>createCardPicker</code>에 의해 생성된 함수에서 사용되는 <code>this</code>가 <code>deck</code> 객체 대신에 <code>window</code>로 설정되기 때문입니다. 왜냐하면 우리는<code>cardPicker()</code> 자신을 호출하기 때문입니다. 이와 같은 최상위 비 메소드 호출 구문은 <code>this</code>가 <code>window</code>를 사용합니다. (주의 : 엄격 모드에서 <code>this</code>는 <code>window</code>보다는<code>undefined</code>가 될 것입니다).</p>
+<p>사용할 함수를 반환하기 전에 함수가 올바른 <code>this</code>에 바인딩되어 있는지 확인하면 이 문제를 해결할 수 있습니다. 이렇게하면 나중에 함수가 사용되는 방법에 관계없이 원래의 <code>deck</code> 객체를 바라보게 됩니다. 이를 위해 함수 표현식을 변경하여 ECMAScript 6 <em>Arrow</em> 함수 구문을 사용합니다. <em>Arrow</em> 함수는 호출된 곳이 아닌 함수가 생성된 곳의 <code>this</code>를 사용합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> deck = &#123;</div><div class="line">    suits: [<span class="string">"hearts"</span>, <span class="string">"spades"</span>, <span class="string">"clubs"</span>, <span class="string">"diamonds"</span>],</div><div class="line">    cards: <span class="built_in">Array</span>(<span class="number">52</span>),</div><div class="line">    createCardPicker: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="comment">// <span class="doctag">NOTE:</span> the line below is now an arrow function, allowing us to capture 'this' right here</span></div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">            <span class="keyword">let</span> pickedCard = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">52</span>);</div><div class="line">            <span class="keyword">let</span> pickedSuit = <span class="built_in">Math</span>.floor(pickedCard / <span class="number">13</span>);</div><div class="line"></div><div class="line">            <span class="keyword">return</span> &#123;suit: <span class="keyword">this</span>.suits[pickedSuit], card: pickedCard % <span class="number">13</span>&#125;;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> cardPicker = deck.createCardPicker();</div><div class="line"><span class="keyword">let</span> pickedCard = cardPicker();</div><div class="line"></div><div class="line">alert(<span class="string">"card: "</span> + pickedCard.card + <span class="string">" of "</span> + pickedCard.suit);</div></pre></td></tr></table></figure>
+<p>더 좋은 점은 컴파일러에 <code>--noImplicitThis</code> 플래그를 넘겨 주면 실수 했을 때 경고를 합니다. 이것은 <code>this.suits[pickedSuit]</code>의<code>this</code>가 <code>any</code> 타입이라는 것을 나타냅니다.</p>
+<h3 id="this-파라미터"><a href="#this-파라미터" class="headerlink" title="this 파라미터"></a><code>this</code> 파라미터</h3><p>불행히도,<code>this.suits[pickedSuit]</code>의 타입은 여전히 <code>any</code>입니다. 왜냐하면 <code>this</code>는 객체 리터럴 내부의 함수 표현식에서 나온 것이기 때문입니다. 이 문제를 해결하기 위해 명시 적으로 <code>this</code> 파라미터를 제공할 수 있습니다. <code>this</code> 파라미터는 함수의 파라미터 목록에서 처음 나오는 가짜 파라미터입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"><span class="keyword">this</span>: <span class="built_in">void</span></span>) </span>&#123;</div><div class="line">    <span class="comment">// 이 Standalone 함수에서 'this'를 사용할 수 없는지 확인하십시오.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>위의 예제 인 <code>Card</code>와 <code>Deck</code>에 몇 가지 인터페이스를 추가하여 타입을 더 명확하고 쉽게 재사용할 수있게 해보겠습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">interface</span> Card &#123;</div><div class="line">    suit: <span class="built_in">string</span>;</div><div class="line">    card: <span class="built_in">number</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">interface</span> Deck &#123;</div><div class="line">    suits: <span class="built_in">string</span>[];</div><div class="line">    cards: <span class="built_in">number</span>[];</div><div class="line">    createCardPicker(<span class="keyword">this</span>: Deck): <span class="function"><span class="params">()</span> =&gt;</span> Card;</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> deck: Deck = &#123;</div><div class="line">    suits: [<span class="string">"hearts"</span>, <span class="string">"spades"</span>, <span class="string">"clubs"</span>, <span class="string">"diamonds"</span>],</div><div class="line">    cards: <span class="built_in">Array</span>(<span class="number">52</span>),</div><div class="line">    <span class="comment">// <span class="doctag">NOTE:</span> The function now explicitly specifies that its callee must be of type Deck</span></div><div class="line">    createCardPicker: <span class="function"><span class="keyword">function</span>(<span class="params"><span class="keyword">this</span>: Deck</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">            <span class="keyword">let</span> pickedCard = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">52</span>);</div><div class="line">            <span class="keyword">let</span> pickedSuit = <span class="built_in">Math</span>.floor(pickedCard / <span class="number">13</span>);</div><div class="line"></div><div class="line">            <span class="keyword">return</span> &#123;suit: <span class="keyword">this</span>.suits[pickedSuit], card: pickedCard % <span class="number">13</span>&#125;;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> cardPicker = deck.createCardPicker();</div><div class="line"><span class="keyword">let</span> pickedCard = cardPicker();</div><div class="line"></div><div class="line">alert(<span class="string">"card: "</span> + pickedCard.card + <span class="string">" of "</span> + pickedCard.suit);</div></pre></td></tr></table></figure>
+<p>이제 TypeScript는 <code>createCardPicker</code>가 <code>Deck</code> 객체에서 호출 될 것으로 예상합니다. 즉,<code>this</code>는 <code>any</code>가 아닌 <code>Deck</code> 타입입니다. 따라서 <code>--noImplicitThis</code>는 에러를 발생시키지 않습니다.</p>
+<h3 id="콜백에서의-this-파라미터"><a href="#콜백에서의-this-파라미터" class="headerlink" title="콜백에서의 this 파라미터"></a>콜백에서의 <code>this</code> 파라미터</h3><p>나중에 호출 하는 함수를 라이브러리에 전달할 때 콜백에서 <code>this</code>를 사용하면 오류가 발생할 수도 있습니다. 콜백을 호출하는 라이브러리가 정상 함수처럼 호출하기 때문에 <code>this</code>는 <code>undefined</code>가 됩니다. 어떤 작업으로 콜백 에러를 막기 위해 <code>this</code> 파라미터를 사용할 수 있습니다. 먼저 라이브러리 작성자가 콜백 유형에 <code>this</code>를 사용하여 annotate를 추가해야합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">interface</span> UIElement &#123;</div><div class="line">    addClickListener(onclick: <span class="function">(<span class="params"><span class="keyword">this</span>: <span class="built_in">void</span>, e: Event</span>) =&gt;</span> <span class="built_in">void</span>): <span class="built_in">void</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>this: void</code>는 <code>addClickListener</code>가 <code>onclick</code>이 <code>this</code> 타입을 필요로하지 않는 함수라는 것을 의미합니다. 둘째, <code>this</code>를 사용하여 호출 코드에 annotate를 달아야 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> Handler &#123;</div><div class="line">    info: <span class="built_in">string</span>;</div><div class="line">    onClickBad(<span class="keyword">this</span>: Handler, e: Event) &#123;</div><div class="line">        <span class="comment">// oops, used this here. using this callback would crash at runtime</span></div><div class="line">        <span class="keyword">this</span>.info = e.message;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> h = <span class="keyword">new</span> Handler();</div><div class="line">uiElement.addClickListener(h.onClickBad); <span class="comment">// error!</span></div></pre></td></tr></table></figure>
+<p><code>this</code>가 annotate 처리되어 있으면, <code>onClickBad</code>는 반드시 <code>Handler</code>의 인스턴스에서 호출되어야 한다는 것을 기술해야 합니다. 그러면  TypeScript는 <code>addClickListener</code>에 <code>this: void</code>가 있는 함수가 필요하다는 것을 탐지합니다. 오류를 수정하려면 <code>this</code>의 타입을 아래와 같이 변경해야 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> Handler &#123;</div><div class="line">    info: <span class="built_in">string</span>;</div><div class="line">    onClickGood(<span class="keyword">this</span>: <span class="built_in">void</span>, e: Event) &#123;</div><div class="line">        <span class="comment">// can't use this here because it's of type void!</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'clicked!'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> h = <span class="keyword">new</span> Handler();</div><div class="line">uiElement.addClickListener(h.onClickGood);</div></pre></td></tr></table></figure>
+<p><code>onClickGood</code>는 <code>this</code> 타입을 <code>void</code>로 지정했기 때문에 <code>addClickListener</code>로 넘겨 줄 수 있습니다. 그것은 <code>this</code>와 <code>this.info</code>를 사용할 수 없다는 것을 의미합니다. 둘 다 원한다면 <em>Arrow</em> 함수를 사용해야합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> Handler &#123;</div><div class="line">    info: <span class="built_in">string</span>;</div><div class="line">    onClickGood = <span class="function">(<span class="params">e: Event</span>) =&gt;</span> &#123; <span class="keyword">this</span>.info = e.message &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이것은 <em>Arrow</em> 함수는 <code>this</code>를 <em>Capture</em>하지 않기 때문에 효과적입니다. 그래서 항상 <code>this: void</code>를 기대하는 것으로 넘겨 줄 수 있습니다. 단점은 타입 핸들러의 객체별로 하나의 <em>Arrow</em> 함수가 생성된다는 것입니다. 메소드는 한번 작성되어 Handler의 프로토 타입에 Attach 됩니다. 그리고 핸들러 타입의 모든 객체에 공유됩니다.</p>
+<h2 id="Overloads"><a href="#Overloads" class="headerlink" title="Overloads"></a>Overloads</h2><p>JavaScript는 본질적으로 매우 동적인 언어입니다. 단일 JavaScript 함수가 전달된 파라미터의 모양을 기반으로 여러 타입의 객체를 반환하는 경우는 일반적인 방법입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> suits = [<span class="string">"hearts"</span>, <span class="string">"spades"</span>, <span class="string">"clubs"</span>, <span class="string">"diamonds"</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pickCard</span>(<span class="params">x</span>): <span class="title">any</span> </span>&#123;</div><div class="line">    <span class="comment">// Check to see if we're working with an object/array</span></div><div class="line">    <span class="comment">// if so, they gave us the deck and we'll pick the card</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> x == <span class="string">"object"</span>) &#123;</div><div class="line">        <span class="keyword">let</span> pickedCard = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * x.length);</div><div class="line">        <span class="keyword">return</span> pickedCard;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// Otherwise just let them pick the card</span></div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> x == <span class="string">"number"</span>) &#123;</div><div class="line">        <span class="keyword">let</span> pickedSuit = <span class="built_in">Math</span>.floor(x / <span class="number">13</span>);</div><div class="line">        <span class="keyword">return</span> &#123; suit: suits[pickedSuit], card: x % <span class="number">13</span> &#125;;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> myDeck = [&#123; suit: <span class="string">"diamonds"</span>, card: <span class="number">2</span> &#125;, &#123; suit: <span class="string">"spades"</span>, card: <span class="number">10</span> &#125;, &#123; suit: <span class="string">"hearts"</span>, card: <span class="number">4</span> &#125;];</div><div class="line"><span class="keyword">let</span> pickedCard1 = myDeck[pickCard(myDeck)];</div><div class="line">alert(<span class="string">"card: "</span> + pickedCard1.card + <span class="string">" of "</span> + pickedCard1.suit);</div><div class="line"></div><div class="line"><span class="keyword">let</span> pickedCard2 = pickCard(<span class="number">15</span>);</div><div class="line">alert(<span class="string">"card: "</span> + pickedCard2.card + <span class="string">" of "</span> + pickedCard2.suit);</div></pre></td></tr></table></figure>
+<p>여기서 <code>pickCard</code> 함수는 사용자가 무엇을 전달했는지에 따라 두 가지 다른 것을 반환합니다. 사용자가 <code>Deck</code>를 나타내는 객체를 전달하면 함수가 <code>Card</code>를 선택합니다. 사용자가 <code>Card</code>를 선택하면 우리는 그들이 선택한 <code>Card</code>를 알려줍니다. 이것을 타입 시스템에 어떻게 설명해야 할까요?</p>
+<p>대답은 <em>Overload</em> 목록과 동일한 함수에 대해 여러 함수 타입을 제공하는 것입니다. 이 목록은 컴파일러가 함수 호출을 해결하는 데 사용할 것입니다. <code>pickCard</code>가 받아들이는 것과 그것이 반환하는 것을 설명하는 <em>Overload</em> 리스트를 생성해 보겠습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> suits = [<span class="string">"hearts"</span>, <span class="string">"spades"</span>, <span class="string">"clubs"</span>, <span class="string">"diamonds"</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pickCard</span>(<span class="params">x: &#123;suit: <span class="built_in">string</span>; card: <span class="built_in">number</span>; &#125;[]</span>): <span class="title">number</span></span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pickCard</span>(<span class="params">x: <span class="built_in">number</span></span>): </span>&#123;suit: <span class="built_in">string</span>; card: <span class="built_in">number</span>; &#125;;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pickCard</span>(<span class="params">x</span>): <span class="title">any</span> </span>&#123;</div><div class="line">    <span class="comment">// Check to see if we're working with an object/array</span></div><div class="line">    <span class="comment">// if so, they gave us the deck and we'll pick the card</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> x == <span class="string">"object"</span>) &#123;</div><div class="line">        <span class="keyword">let</span> pickedCard = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * x.length);</div><div class="line">        <span class="keyword">return</span> pickedCard;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// Otherwise just let them pick the card</span></div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> x == <span class="string">"number"</span>) &#123;</div><div class="line">        <span class="keyword">let</span> pickedSuit = <span class="built_in">Math</span>.floor(x / <span class="number">13</span>);</div><div class="line">        <span class="keyword">return</span> &#123; suit: suits[pickedSuit], card: x % <span class="number">13</span> &#125;;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> myDeck = [&#123; suit: <span class="string">"diamonds"</span>, card: <span class="number">2</span> &#125;, &#123; suit: <span class="string">"spades"</span>, card: <span class="number">10</span> &#125;, &#123; suit: <span class="string">"hearts"</span>, card: <span class="number">4</span> &#125;];</div><div class="line"><span class="keyword">let</span> pickedCard1 = myDeck[pickCard(myDeck)];</div><div class="line">alert(<span class="string">"card: "</span> + pickedCard1.card + <span class="string">" of "</span> + pickedCard1.suit);</div><div class="line"></div><div class="line"><span class="keyword">let</span> pickedCard2 = pickCard(<span class="number">15</span>);</div><div class="line">alert(<span class="string">"card: "</span> + pickedCard2.card + <span class="string">" of "</span> + pickedCard2.suit);</div></pre></td></tr></table></figure>
+<p>위와 같은 변경으로 <em>Overload</em>는 이제 <code>pickCard</code> 함수에 대한 타입이 체크된 호출을 제공합니다.</p>
+<p>컴파일러가 올바른 <em>타입 체크</em>를 선택하도록 하기 위해 기본 JavaScript와 비슷한 과정을 거칩니다. <em>Overload</em> 목록을 보고 제공된 파라미터로 함수를 호출하는 첫 번째 <em>Overload</em> 시도를 계속합니다. 일치하는 항목이 있으면 이 <em>Overload</em>를 올바른 <em>Overload</em>로 선택합니다. 이런 이유 때문에 <em>Overload</em> 요청에 따라 가장 구체적인 것에서 덜 구체적인 것 순으로 넘어갑니다.</p>
+<p><code>function pickCard(x): any</code>는 오버로드 리스트의 일부가 아니므로 객체가 있는 <em>Overload</em>, 숫자가 있는 <em>Overload</em> 두 가지 <em>Overload</em>만 있습니다. <code>pickCard</code>를 다른 파라미터 유형과 함께 호출하면 오류가 발생합니다.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://www.typescriptlang.org/docs/handbook/functions.html" target="_blank" rel="external">https://www.typescriptlang.org/docs/handbook/functions.html</a>]</p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a href="https://infoscis.github.io/2017/05/14/TypeScript-handbook-basic-types/">TypeScript 핸드북 1 - 기본 타입</a></li>
+<li><a href="https://infoscis.github.io/2017/05/14/TypeScript-handbook-variable-declarations/">TypeScript 핸드북 2 - 변수 선언</a></li>
+<li><a href="https://infoscis.github.io/2017/05/20/TypeScript-handbook-interfaces/">TypeScript 핸드북 3 - 인터페이스</a></li>
+<li><a href="https://infoscis.github.io/2017/05/20/TypeScript-handbook-classes/">TypeScript 핸드북 4 - 클래스</a></li>
+<li><a href="https://infoscis.github.io/2017/05/20/TypeScript-handbook-functions/">TypeScript 핸드북 5 - 함수</a></li>
+<li><a href="https://infoscis.github.io/2017/05/25/TypeScript-handbook-generic/">TypeScript 핸드북 6 - Generic</a></li>
+<li><a href="https://infoscis.github.io/2017/05/25/TypeScript-handbook-enum/">TypeScript 핸드북 7 - Enum</a></li>
+<li><a href="https://infoscis.github.io/2017/06/01/TypeScript-handbook-type-inference/">TypeScript 핸드북 8 - 타입 유추</a></li>
+<li><a href="https://infoscis.github.io/2017/06/01/TypeScript-handbook-type-compatibility/">TypeScript 핸드북 9 - 타입 호환성</a></li>
+<li><a href="https://infoscis.github.io/2017/06/19/TypeScript-handbook-advanced-types/">TypeScript 핸드북 10 - 고급 타입</a></li>
+<li><a href="https://infoscis.github.io/2017/06/19/TypeScript-handbook-symbols/">TypeScript 핸드북 11 - Symbol</a></li>
+<li><a href="https://infoscis.github.io/2017/06/19/TypeScript-handbook-iterators-and-generators/">TypeScript 핸드북 12 - Iterator와 Generator</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2017/05/20/TypeScript-handbook-functions/" data-id="cjkl9100b000ijguzbaq44tbo" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/05/25/TypeScript-handbook-generic/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            TypeScript 핸드북 6 - Generic
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/05/20/TypeScript-handbook-classes/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">TypeScript 핸드북 4 - 클래스</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2017/05/20/TypeScript-handbook-functions/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

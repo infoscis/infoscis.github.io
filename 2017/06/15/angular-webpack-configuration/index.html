@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Angular Webpack 설정 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Angular" />
+    
+    <meta name="description" content="소개Webpack은 응용 프로그램 소스 코드를 chunk로 묶어 브라우저에서 로드하도록 하는 도구이며 인기있는 모듈 번들러입니다.
+이 문서는 다른 문서에서 설명한 SystemJS 접근법에 대한 훌륭한 대안입니다. 이 포스트는 Webpack을 소개하고 Angular 응용 프로그램에서 Webpack을 사용하는 방법을 설명합니다.
+코드의 최종 결과를 다운로드 할">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular Webpack 설정">
+<meta property="og:url" content="http://infoscis.github.io/2017/06/15/angular-webpack-configuration/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="소개Webpack은 응용 프로그램 소스 코드를 chunk로 묶어 브라우저에서 로드하도록 하는 도구이며 인기있는 모듈 번들러입니다.
+이 문서는 다른 문서에서 설명한 SystemJS 접근법에 대한 훌륭한 대안입니다. 이 포스트는 Webpack을 소개하고 Angular 응용 프로그램에서 Webpack을 사용하는 방법을 설명합니다.
+코드의 최종 결과를 다운로드 할">
+<meta property="og:updated_time" content="2018-02-13T15:09:45.834Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular Webpack 설정">
+<meta name="twitter:description" content="소개Webpack은 응용 프로그램 소스 코드를 chunk로 묶어 브라우저에서 로드하도록 하는 도구이며 인기있는 모듈 번들러입니다.
+이 문서는 다른 문서에서 설명한 SystemJS 접근법에 대한 훌륭한 대안입니다. 이 포스트는 Webpack을 소개하고 Angular 응용 프로그램에서 Webpack을 사용하는 방법을 설명합니다.
+코드의 최종 결과를 다운로드 할">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2017/06/15/angular-webpack-configuration/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Angular/">Angular</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-angular-webpack-configuration" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Angular Webpack 설정
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/06/15/angular-webpack-configuration/" class="article-date">
+            <time datetime="2017-06-14T15:05:38.000Z" itemprop="datePublished">2017-06-15</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Angular/">Angular</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="소개"><a href="#소개" class="headerlink" title="소개"></a>소개</h1><p><a href="https://webpack.github.io/" target="_blank" rel="external">Webpack</a>은 응용 프로그램 소스 코드를 <em>chunk</em>로 묶어 브라우저에서 로드하도록 하는 도구이며 인기있는 모듈 번들러입니다.</p>
+<p>이 문서는 다른 문서에서 설명한 <em>SystemJS</em> 접근법에 대한 훌륭한 대안입니다. 이 포스트는 Webpack을 소개하고 Angular 응용 프로그램에서 Webpack을 사용하는 방법을 설명합니다.</p>
+<p>코드의 최종 결과를 <a href="https://angular.io/generated/zips/webpack/webpack.zip" target="_blank" rel="external">다운로드</a> 할 수도 있습니다.</p>
+<h2 id="Webpack이란"><a href="#Webpack이란" class="headerlink" title="Webpack이란?"></a>Webpack이란?</h2><p>Webpack은 강력한 모듈 번들러입니다. <em>Bundle</em>은 함께 포함된 Asset을 통합하는 JavaScript 파일입니다. 그리고 하나의 파일 요청으로 클라이언트에 제공되어야 합니다. <em>Bundle</em>에는 JavaScript, CSS style, HTML 및 거의 모든 종류의 파일이 포함될 수 있습니다.</p>
+<p>Webpack은 응용 프로그램 소스 코드를 훑어서, <code>import</code> 문을 찾아 의존성 그래프를 작성하고, 하나 이상의 <em>Bundle</em>을 제공합니다. Webpack은 플러그인과 Rule을 통해  <code>TypeScript</code>, <code>SASS</code>, <code>LESS</code> 파일과 같은 JavaScript 파일이 아닌 파일을 사전 처리 및 축약이 가능합니다.</p>
+<p>Webpack이 해야할 일과 그 일을 어떻게 해야하는지 JavaScript 구성 파일 인 <code>webpack.config.js</code>를 사용하여 정의합니다.</p>
+<h3 id="Entry와-output"><a href="#Entry와-output" class="headerlink" title="Entry와 output"></a>Entry와 output</h3><p>하나 이상의 <em>Entry</em> 파일을 Webpack에 제공하고 발견되는 종속성을 찾아 통합시킵니다. 아래 예제에서 Entry 파일은 응용 프로그램의 루트 파일인 <code>src/main.ts</code>입니다.</p>
+<p><strong>webpack.config.js (single entry)</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">webpack.config.js (single entry)</div><div class="line"> content_copy</div><div class="line">entry: &#123;</div><div class="line">  <span class="string">'app'</span>: <span class="string">'./src/main.ts'</span></div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<p>Webpack은 파일을 검사하고 <code>import</code> 의존성을 재귀적으로 확인합니다.</p>
+<p><strong>src/main.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"></div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'my-app'</span>,</div><div class="line">  templateUrl: <span class="string">'./app.component.html'</span>,</div><div class="line">  styleUrls: [<span class="string">'./app.component.css'</span>]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent &#123; &#125;</div></pre></td></tr></table></figure></p>
+<p>위 예제에서 Webpack이 <code>@angular/core</code>를 import 하는 것을 발견했습니다. 그래서 번들에 포함될 잠재적인 의존성 리스트에 추가합니다. 그리고 <code>@angular/core</code> 파일을 열어 <code>main.ts</code>에서 완전한 종속성 그래프를 작성할 때까지 <code>import</code> 명령문을 계속 찾습니다.</p>
+<p>그런 다음 이 파일을 설정에서 지정된 <code>app.js</code> 번들 파일로 통합합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">  <span class="attr">filename</span>: <span class="string">'app.js'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이 <code>app.js</code> 결과 <em>Bundle</em>은 애플리케이션 소스와 그 의존성을 포함하는 단일 JavaScript 파일입니다. 나중에 <code>&amp;lt;script&amp;gt;</code>태그를 사용하여<code>index.html</code>에 로드 할 것입니다.</p>
+<h4 id="Multiple-bundles"><a href="#Multiple-bundles" class="headerlink" title="Multiple bundles"></a>Multiple bundles</h4><p>여러분은 아마도 모든 파일을 하나의 거대한 <em>Bundle</em>로 만들고 싶지 않을 수도 있습니다. 휘발성 응용 프로그램 코드와 비교적 안정적인 vendor 코드 모듈을 분리하는 것이 좋습니다.</p>
+<p><code>main.ts</code>와 <code>vendor.ts</code> 두 Entry 포인트를 갖도록 설정을 변경할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">entry: &#123;</div><div class="line">  <span class="attr">app</span>: <span class="string">'src/app.ts'</span>,</div><div class="line">  <span class="attr">vendor</span>: <span class="string">'src/vendor.ts'</span></div><div class="line">&#125;,</div><div class="line"></div><div class="line"><span class="attr">output</span>: &#123;</div><div class="line">  <span class="attr">filename</span>: <span class="string">'[name].js'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Webpack은 두개의 독립된 의존성 그래프를 만들고 두개의 <em>Bundle</em> 파일을 생성합니다. 하나는 애플리케이션 코드만 포함하고 있는 <code>app.js</code>이고, 다른 하나는 모든 vendor 의존성을 가진 <code>vendor.js</code> 파일입니다.</p>
+<blockquote>
+<p>결과 이름의 [<code>name</code>]은 Webpack 플러그인이 항목 이름인 <code>app</code>과 <code>vendor</code>로 대체하는 <em>placeholder</em>입니다. 플러그인에 대해서는 나중에 다룹니다.</p>
+</blockquote>
+<p><strong>src/vendor.ts</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Angular</span></div><div class="line"><span class="keyword">import</span> <span class="string">'@angular/platform-browser'</span>;</div><div class="line"><span class="keyword">import</span> <span class="string">'@angular/platform-browser-dynamic'</span>;</div><div class="line"><span class="keyword">import</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> <span class="string">'@angular/common'</span>;</div><div class="line"><span class="keyword">import</span> <span class="string">'@angular/http'</span>;</div><div class="line"><span class="keyword">import</span> <span class="string">'@angular/router'</span>;</div><div class="line"></div><div class="line"><span class="comment">// RxJS</span></div><div class="line"><span class="keyword">import</span> <span class="string">'rxjs'</span>;</div><div class="line"></div><div class="line"><span class="comment">// Other vendors for example jQuery, Lodash or Bootstrap</span></div><div class="line"><span class="comment">// You can import js, ts, css, sass, ...</span></div></pre></td></tr></table></figure>
+<h3 id="Loaders"><a href="#Loaders" class="headerlink" title="Loaders"></a>Loaders</h3><p>Webpack은 JavaScript, TypeScript, CSS, SASS, LESS, 이미지, HTML, 글꼴 등 어떤 종류의 파일도 <em>Bundle</em>로 묶을 수 있습니다. Webpack 자체는 JavaScript 파일만 인식합니다. JavaScript 파일이 아닌 파일은 <em>loader</em>를 사용하여 JavaScript로 변환할 수 있습니다. 다음과 같이 TypeScript 및 CSS용 <em>loader</em>를 구성할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">rules: [</div><div class="line">  &#123;</div><div class="line">    <span class="attr">test</span>: <span class="regexp">/\.ts$/</span>,</div><div class="line">    <span class="attr">loader</span>: <span class="string">'awesome-typescript-loader'</span></div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</div><div class="line">    <span class="attr">loaders</span>: <span class="string">'style-loader!css-loader'</span></div><div class="line">  &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<p>Webpack은 다음과 같은 <code>import</code> 문을 만나면 <code>test</code> RegEx 패턴을 적용합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; AppComponent &#125; <span class="keyword">from</span> <span class="string">'./app.component.ts'</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">'uiframework/dist/uiframework.css'</span>;</div></pre></td></tr></table></figure>
+<p>패턴이 파일이름과 일치하면 Webpack은 연관된 <em>loader</em>로 파일을 처리합니다.</p>
+<p>첫번째 <code>import</code> 파일은 <code>.ts</code> 패턴과 일치합니다. 그래서 Webpack은 <code>awesome-typescript-loader</code>로 그 파일을 처리합니다. 그리고 파일이 두번째 패턴과 일치하지 않으므로 두번째 <em>loader</em>는 무시됩니다.</p>
+<p>두번째 <code>import</code>는 두번째로 <code>.css</code> 패턴과 일치합니다. 두개의 <em>loader</em>가 (<code>!</code>) 문자로 묶여 있습니다. Webpack은 체인 연결된 <em>loader</em>를 오른쪽에서 왼쪽으로 적용합니다. 그래서 <code>css</code> <em>loader</em>를 적용하여 CSS <code>@import</code>와 <code>url(...)</code>문장을 flat하게 만듭니다. 그런 다음 CSS 스타일을 페이지에 <code>&lt;style&lt;</code> 요소 안에 추가하기 위해 <code>style</code> 로더를 적용합니다.</p>
+<h3 id="플러그인"><a href="#플러그인" class="headerlink" title="플러그인"></a>플러그인</h3><p>Webpack에는 잘 정의 된 빌드 파이프 라인이 있습니다. <code>uglify</code> 축약 플러그인과 같은 플러그인으로 그 파이프 라인에 연결할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">plugins: [</div><div class="line">  <span class="keyword">new</span> webpack.optimize.UglifyJsPlugin()</div><div class="line">]</div></pre></td></tr></table></figure>
+<h2 id="Webpack-구성"><a href="#Webpack-구성" class="headerlink" title="Webpack 구성"></a>Webpack 구성</h2><p>간단한 설명이 끝났으니 Angular 응용 프로그램에 대한 Webpack 구성을 직접 작성해 보겠습니다.</p>
+<p>개발 환경을 설정하는 것으로 시작하겠습니다.</p>
+<p>새 프로젝트 폴더를 만듭니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir angular-webpack</div><div class="line">cd    angular-webpack</div></pre></td></tr></table></figure>
+<p>아래 파일들을 생성합니다.</p>
+<p><strong>package.json</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"name"</span>: <span class="string">"angular2-webpack"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"1.0.0"</span>,</div><div class="line">  <span class="attr">"description"</span>: <span class="string">"A webpack starter for Angular"</span>,</div><div class="line">  <span class="attr">"scripts"</span>: &#123;</div><div class="line">    <span class="attr">"start"</span>: <span class="string">"webpack-dev-server --inline --progress --port 8080"</span>,</div><div class="line">    <span class="attr">"test"</span>: <span class="string">"karma start"</span>,</div><div class="line">    <span class="attr">"build"</span>: <span class="string">"rimraf dist &amp;&amp; webpack --config config/webpack.prod.js --progress --profile --bail"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"license"</span>: <span class="string">"MIT"</span>,</div><div class="line">  <span class="attr">"dependencies"</span>: &#123;</div><div class="line">    <span class="attr">"@angular/common"</span>: <span class="string">"~4.2.0"</span>,</div><div class="line">    <span class="attr">"@angular/compiler"</span>: <span class="string">"~4.2.0"</span>,</div><div class="line">    <span class="attr">"@angular/core"</span>: <span class="string">"~4.2.0"</span>,</div><div class="line">    <span class="attr">"@angular/forms"</span>: <span class="string">"~4.2.0"</span>,</div><div class="line">    <span class="attr">"@angular/http"</span>: <span class="string">"~4.2.0"</span>,</div><div class="line">    <span class="attr">"@angular/platform-browser"</span>: <span class="string">"~4.2.0"</span>,</div><div class="line">    <span class="attr">"@angular/platform-browser-dynamic"</span>: <span class="string">"~4.2.0"</span>,</div><div class="line">    <span class="attr">"@angular/router"</span>: <span class="string">"~4.2.0"</span>,</div><div class="line">    <span class="attr">"core-js"</span>: <span class="string">"^2.4.1"</span>,</div><div class="line">    <span class="attr">"rxjs"</span>: <span class="string">"5.0.1"</span>,</div><div class="line">    <span class="attr">"zone.js"</span>: <span class="string">"^0.8.4"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"devDependencies"</span>: &#123;</div><div class="line">    <span class="attr">"@types/node"</span>: <span class="string">"^6.0.45"</span>,</div><div class="line">    <span class="attr">"@types/jasmine"</span>: <span class="string">"2.5.36"</span>,</div><div class="line">    <span class="attr">"angular2-template-loader"</span>: <span class="string">"^0.6.0"</span>,</div><div class="line">    <span class="attr">"awesome-typescript-loader"</span>: <span class="string">"^3.0.4"</span>,</div><div class="line">    <span class="attr">"css-loader"</span>: <span class="string">"^0.26.1"</span>,</div><div class="line">    <span class="attr">"extract-text-webpack-plugin"</span>: <span class="string">"2.0.0-beta.5"</span>,</div><div class="line">    <span class="attr">"file-loader"</span>: <span class="string">"^0.9.0"</span>,</div><div class="line">    <span class="attr">"html-loader"</span>: <span class="string">"^0.4.3"</span>,</div><div class="line">    <span class="attr">"html-webpack-plugin"</span>: <span class="string">"^2.16.1"</span>,</div><div class="line">    <span class="attr">"jasmine-core"</span>: <span class="string">"^2.4.1"</span>,</div><div class="line">    <span class="attr">"karma"</span>: <span class="string">"^1.2.0"</span>,</div><div class="line">    <span class="attr">"karma-chrome-launcher"</span>: <span class="string">"^2.0.0"</span>,</div><div class="line">    <span class="attr">"karma-jasmine"</span>: <span class="string">"^1.0.2"</span>,</div><div class="line">    <span class="attr">"karma-sourcemap-loader"</span>: <span class="string">"^0.3.7"</span>,</div><div class="line">    <span class="attr">"karma-webpack"</span>: <span class="string">"^2.0.1"</span>,</div><div class="line">    <span class="attr">"null-loader"</span>: <span class="string">"^0.1.1"</span>,</div><div class="line">    <span class="attr">"raw-loader"</span>: <span class="string">"^0.5.1"</span>,</div><div class="line">    <span class="attr">"rimraf"</span>: <span class="string">"^2.5.2"</span>,</div><div class="line">    <span class="attr">"style-loader"</span>: <span class="string">"^0.13.1"</span>,</div><div class="line">    <span class="attr">"typescript"</span>: <span class="string">"~2.0.10"</span>,</div><div class="line">    <span class="attr">"webpack"</span>: <span class="string">"2.2.1"</span>,</div><div class="line">    <span class="attr">"webpack-dev-server"</span>: <span class="string">"2.4.1"</span>,</div><div class="line">    <span class="attr">"webpack-merge"</span>: <span class="string">"^3.0.0"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>src/tsconfig.json</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"compilerOptions"</span>: &#123;</div><div class="line">    <span class="attr">"target"</span>: <span class="string">"es5"</span>,</div><div class="line">    <span class="attr">"module"</span>: <span class="string">"commonjs"</span>,</div><div class="line">    <span class="attr">"moduleResolution"</span>: <span class="string">"node"</span>,</div><div class="line">    <span class="attr">"sourceMap"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"emitDecoratorMetadata"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"experimentalDecorators"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"lib"</span>: [<span class="string">"es2015"</span>, <span class="string">"dom"</span>],</div><div class="line">    <span class="attr">"noImplicitAny"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"suppressImplicitAnyIndexErrors"</span>: <span class="literal">true</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>webpack.config.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = <span class="built_in">require</span>(<span class="string">'./config/webpack.dev.js'</span>);</div></pre></td></tr></table></figure>
+<p><strong>karma.conf.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = <span class="built_in">require</span>(<span class="string">'./config/karma.conf.js'</span>);</div></pre></td></tr></table></figure>
+<p><strong>config/helpers.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> _root = path.resolve(__dirname, <span class="string">'..'</span>);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">root</span>(<span class="params">args</span>) </span>&#123;</div><div class="line">  args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">0</span>);</div><div class="line">  <span class="keyword">return</span> path.join.apply(path, [_root].concat(args));</div><div class="line">&#125;</div><div class="line"></div><div class="line">exports.root = root;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>이 파일들 중 상당수는 다른 Angular 문서 가이드, 특히 <a href="https://angular.io/guide/typescript-configuration" target="_blank" rel="external">Typescript 구성</a> 및 <a href="https://angular.io/guide/npm-packages" target="_blank" rel="external">npm 패키지</a> 포스트와 비슷합니다.</p>
+<p>Webpack, 플러그인 및 <em>loader</em>는 패키지로도 설치 가능합니다. 그것들은 업데이트 된 <code>packages.json</code>에 나열되어 있습니다.</p>
+</blockquote>
+<p>터미널 창을 열고 npm 패키지를 설치하십시오.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install</div></pre></td></tr></table></figure>
+<h3 id="Polyfills"><a href="#Polyfills" class="headerlink" title="Polyfills"></a>Polyfills</h3><p>대부분의 브라우저에서 Angular 응용 프로그램을 실행하려면 Polyfill이 필요합니다(<a href="https://angular.io/guide/browser-support" target="_blank" rel="external">브라우저 지원 설명서</a> 참조).</p>
+<p>Polyfill은 응용 프로그램 및 vendor <em>Bundle</em>과 별도의 <em>Bundle</em>로 제공되어야합니다. 아래의 코드 <code>polyfills.ts</code>를 <code>src/</code> 폴더에 추가하십시오.</p>
+<p><strong>src/polyfills.ts</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">'core-js/es6'</span>;</div><div class="line"><span class="keyword">import</span> <span class="string">'core-js/es7/reflect'</span>;</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/zone'</span>);</div><div class="line"></div><div class="line"><span class="keyword">if</span> (process.env.ENV === <span class="string">'production'</span>) &#123;</div><div class="line">  <span class="comment">// Production</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  <span class="comment">// Development and test</span></div><div class="line">  <span class="built_in">Error</span>[<span class="string">'stackTraceLimit'</span>] = <span class="literal">Infinity</span>;</div><div class="line">  <span class="built_in">require</span>(<span class="string">'zone.js/dist/long-stack-trace-zone'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>LOADING POLYFILLS</strong></p>
+<p>다른 ES6 및 메타 데이터 shim 직후에 <code>polyfills.ts</code>에서 zone.js를 로드하십시오.</p>
+</blockquote>
+<p><code>polyfills.ts</code> <em>Bundle</em> 파일이 먼저 로드되기 때문에 제작 환경이나 개발 환경에 맞는 브라우저 환경을 구성하기에 좋은 곳입니다.</p>
+<h3 id="공통-구성"><a href="#공통-구성" class="headerlink" title="공통 구성"></a>공통 구성</h3><p>개발자는 일반적으로 개발, 프로덕션 및 테스트 환경에 대해 별도의 구성을 가지고 있습니다. 그리고 세가지 모두 공통된 구성이 있을수 있습니다.</p>
+<p><code>webpack.common.js</code>라는 파일에 공통 구성을 모아두겠습니다.</p>
+<p><strong>config/webpack.common.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"><span class="keyword">var</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</div><div class="line"><span class="keyword">var</span> ExtractTextPlugin = <span class="built_in">require</span>(<span class="string">'extract-text-webpack-plugin'</span>);</div><div class="line"><span class="keyword">var</span> helpers = <span class="built_in">require</span>(<span class="string">'./helpers'</span>);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  <span class="attr">entry</span>: &#123;</div><div class="line">    <span class="string">'polyfills'</span>: <span class="string">'./src/polyfills.ts'</span>,</div><div class="line">    <span class="string">'vendor'</span>: <span class="string">'./src/vendor.ts'</span>,</div><div class="line">    <span class="string">'app'</span>: <span class="string">'./src/main.ts'</span></div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="attr">resolve</span>: &#123;</div><div class="line">    <span class="attr">extensions</span>: [<span class="string">'.ts'</span>, <span class="string">'.js'</span>]</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="attr">module</span>: &#123;</div><div class="line">    <span class="attr">rules</span>: [</div><div class="line">      &#123;</div><div class="line">        <span class="attr">test</span>: <span class="regexp">/\.ts$/</span>,</div><div class="line">        <span class="attr">loaders</span>: [</div><div class="line">          &#123;</div><div class="line">            <span class="attr">loader</span>: <span class="string">'awesome-typescript-loader'</span>,</div><div class="line">            <span class="attr">options</span>: &#123; <span class="attr">configFileName</span>: helpers.root(<span class="string">'src'</span>, <span class="string">'tsconfig.json'</span>) &#125;</div><div class="line">          &#125; , <span class="string">'angular2-template-loader'</span></div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">test</span>: <span class="regexp">/\.html$/</span>,</div><div class="line">        <span class="attr">loader</span>: <span class="string">'html-loader'</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">test</span>: <span class="regexp">/\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/</span>,</div><div class="line">        <span class="attr">loader</span>: <span class="string">'file-loader?name=assets/[name].[hash].[ext]'</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</div><div class="line">        <span class="attr">exclude</span>: helpers.root(<span class="string">'src'</span>, <span class="string">'app'</span>),</div><div class="line">        <span class="attr">loader</span>: ExtractTextPlugin.extract(&#123; <span class="attr">fallbackLoader</span>: <span class="string">'style-loader'</span>, <span class="attr">loader</span>: <span class="string">'css-loader?sourceMap'</span> &#125;)</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</div><div class="line">        <span class="attr">include</span>: helpers.root(<span class="string">'src'</span>, <span class="string">'app'</span>),</div><div class="line">        <span class="attr">loader</span>: <span class="string">'raw-loader'</span></div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="comment">// Workaround for angular/angular#11580</span></div><div class="line">    <span class="keyword">new</span> webpack.ContextReplacementPlugin(</div><div class="line">      <span class="comment">// The (\\|\/) piece accounts for path separators in *nix and Windows</span></div><div class="line">      /angular(\\|\/)core(\\|\/)@angular/,</div><div class="line">      helpers.root(<span class="string">'./src'</span>), <span class="comment">// location of your src</span></div><div class="line">      &#123;&#125; <span class="comment">// a map of your routes</span></div><div class="line">    ),</div><div class="line"></div><div class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">      <span class="attr">name</span>: [<span class="string">'app'</span>, <span class="string">'vendor'</span>, <span class="string">'polyfills'</span>]</div><div class="line">    &#125;),</div><div class="line"></div><div class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</div><div class="line">      <span class="attr">template</span>: <span class="string">'src/index.html'</span></div><div class="line">    &#125;)</div><div class="line">  ]</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="webpack-common-js-살펴-보기"><a href="#webpack-common-js-살펴-보기" class="headerlink" title="webpack.common.js 살펴 보기"></a>webpack.common.js 살펴 보기</h3><p>Webpack은 JavaScript commonjs 모듈 파일에서 설정을 읽는 NodeJS 기반 도구입니다.</p>
+<p>이 설정은 의존성을 <code>require</code> 문으로 가져오고 여러 객체를 <code>module.exports</code> 객체의 프로퍼티로 내 보냅니다.</p>
+<ul>
+<li><a href="https://angular.io/guide/webpack#common-entries" target="_blank" rel="external">entry</a> - 번들을 정의하는 진입 파일.</li>
+<li><a href="https://angular.io/guide/webpack#common-resolves" target="_blank" rel="external">resolve</a> - 확장자가 없을 때 파일 이름을 확인하는 방법.</li>
+<li><a href="https://angular.io/guide/webpack#common-rules" target="_blank" rel="external">module.rules</a> - <code>module</code>은 파일들이 로딩되는 방법을 결정하기위한 <code>rules</code>를 가진 객체입니다.</li>
+<li><a href="https://angular.io/guide/webpack#common-plugins" target="_blank" rel="external">plugins</a> - 플러그인의 인스턴스를 만듭니다.</li>
+</ul>
+<h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a><em>entry</em></h4><p>첫번째는 <code>entry</code> 객체입니다.</p>
+<p><strong>config/webpack.common.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">entry: &#123;</div><div class="line">  <span class="string">'polyfills'</span>: <span class="string">'./src/polyfills.ts'</span>,</div><div class="line">  <span class="string">'vendor'</span>: <span class="string">'./src/vendor.ts'</span>,</div><div class="line">  <span class="string">'app'</span>: <span class="string">'./src/main.ts'</span></div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>이 <code>entry</code> 객체는 세개의 <em>Bundle</em>을 정의합니다.</p>
+<ul>
+<li>polyfills - 대부분의 최신 브라우저에서 Angular 응용 프로그램을 실행하는 데 필요.</li>
+<li>vendor - Angular, lodash 및 bootstrap.css와 같은 타사 의존 라이브러리.</li>
+<li>app - 응용 프로그램 코드.</li>
+</ul>
+<h4 id="resolve-확장자가-없는-import-파일-처리"><a href="#resolve-확장자가-없는-import-파일-처리" class="headerlink" title="resolve - 확장자가 없는 import 파일 처리"></a><em>resolve</em> - 확장자가 없는 import 파일 처리</h4><p>애플리케이션은 많은 수의 JavaScript 파일 또는 TypeScript 파일을 <code>import</code>할 것입니다. 다음 예와 같이 명시적 확장자를 가진 <code>import</code> 문을 쓸 수도 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; AppComponent &#125; <span class="keyword">from</span> <span class="string">'./app.component.ts'</span>;</div></pre></td></tr></table></figure>
+<p>그러나 대부분의 <code>import</code> 문은 확장자를 전혀 언급하지 않습니다. Webpack에게 <code>.ts</code> 확장자 또는 <code>.js</code> 확장자 (정규 자바 스크립트 파일과 미리 컴파일 된 TypeScript 파일용)로 일치하는 파일을 찾게 함으로써 확장자가 없는 파일 요청을 해석 하도록합니다.</p>
+<p><strong>config/webpack.common.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">resolve: &#123;</div><div class="line">  <span class="attr">extensions</span>: [<span class="string">'.ts'</span>, <span class="string">'.js'</span>]</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Webpack이 스타일과 HTML에 대한 확장자가없는 파일을 읽어야 한다면 <code>.css</code>와 <code>.html</code>을 목록에 추가하십시오.</p>
+</blockquote>
+<h4 id="module-rules"><a href="#module-rules" class="headerlink" title="module.rules"></a>module.rules</h4><p><code>module.rules</code>는 Webpack에게 각 파일이나 모듈에 사용할 로더를 알려줍니다</p>
+<p><strong>config/webpack.common.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>: &#123;</div><div class="line">  <span class="attr">rules</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">test</span>: <span class="regexp">/\.ts$/</span>,</div><div class="line">      <span class="attr">loaders</span>: [</div><div class="line">        &#123;</div><div class="line">          <span class="attr">loader</span>: <span class="string">'awesome-typescript-loader'</span>,</div><div class="line">          <span class="attr">options</span>: &#123; <span class="attr">configFileName</span>: helpers.root(<span class="string">'src'</span>, <span class="string">'tsconfig.json'</span>) &#125;</div><div class="line">        &#125; , <span class="string">'angular2-template-loader'</span></div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">test</span>: <span class="regexp">/\.html$/</span>,</div><div class="line">      <span class="attr">loader</span>: <span class="string">'html-loader'</span></div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">test</span>: <span class="regexp">/\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/</span>,</div><div class="line">      <span class="attr">loader</span>: <span class="string">'file-loader?name=assets/[name].[hash].[ext]'</span></div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</div><div class="line">      <span class="attr">exclude</span>: helpers.root(<span class="string">'src'</span>, <span class="string">'app'</span>),</div><div class="line">      <span class="attr">loader</span>: ExtractTextPlugin.extract(&#123; <span class="attr">fallbackLoader</span>: <span class="string">'style-loader'</span>, <span class="attr">loader</span>: <span class="string">'css-loader?sourceMap'</span> &#125;)</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</div><div class="line">      <span class="attr">include</span>: helpers.root(<span class="string">'src'</span>, <span class="string">'app'</span>),</div><div class="line">      <span class="attr">loader</span>: <span class="string">'raw-loader'</span></div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<ul>
+<li><code>awesome-typescript-loader</code> - tsconfig.json 파일에 따라 Typescript 코드를 ES5로 변환하는 로더입니다.</li>
+<li><code>angular2-template-loader</code> - 각 구성 요소의 템플릿과 스타일을 로드합니다.</li>
+<li><code>html-loader</code> - html 템플릿 컴포넌트</li>
+<li>이미지/글꼴 - 이미지와 글꼴도 번들로 제공됩니다.</li>
+<li>CSS - 첫 번째 패턴은 application-wide 스타일과 일치합니다. 두 번째 요소는 component-scoped 스타일(구성 요소의 <code>styleUrls</code> 메타 데이터 프로퍼티에 지정된 스타일)을 처리합니다.</li>
+</ul>
+<blockquote>
+<p>첫번째 패턴은 application-wide 스타일을 위한 것입이다. 이것은 <code>src/app</code> 디렉토리에서 component-scoped 스타일이 있는 <code>.css</code> 파일을 제외시킵니다. <code>ExtractTextPlugin</code>(아래에 설명 됨)은 <code>style</code>과 <code>css</code> <em>loader</em>를 이 파일들에 적용합니다.</p>
+<p>두번째 패턴은 component-scoped 스타일을 필터링하고 <code>raw-loader</code>를 통해 문자열로 로드합니다. 이는 Angular가 <code>styleUrls</code> 메타 데이터 프로퍼티에 지정된 스타일을 사용하여 수행하는 작업입니다.</p>
+<p>배열 표기법을 사용하여 여러 로더를 연결할 수 있습니다.</p>
+</blockquote>
+<h4 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h4><p>마지막으로 세개의 플러그인 인스턴스를 만듭니다.</p>
+<p><strong>config/webpack.common.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">plugins: [</div><div class="line">  <span class="comment">// Workaround for angular/angular#11580</span></div><div class="line">  <span class="keyword">new</span> webpack.ContextReplacementPlugin(</div><div class="line">    <span class="comment">// The (\\|\/) piece accounts for path separators in *nix and Windows</span></div><div class="line">    /angular(\\|\/)core(\\|\/)@angular/,</div><div class="line">    helpers.root(<span class="string">'./src'</span>), <span class="comment">// location of your src</span></div><div class="line">    &#123;&#125; <span class="comment">// a map of your routes</span></div><div class="line">  ),</div><div class="line"></div><div class="line">  <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: [<span class="string">'app'</span>, <span class="string">'vendor'</span>, <span class="string">'polyfills'</span>]</div><div class="line">  &#125;),</div><div class="line"></div><div class="line">  <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</div><div class="line">    <span class="attr">template</span>: <span class="string">'src/index.html'</span></div><div class="line">  &#125;)</div><div class="line">]</div></pre></td></tr></table></figure>
+<h4 id="CommonsChunkPlugin"><a href="#CommonsChunkPlugin" class="headerlink" title="CommonsChunkPlugin"></a><em>CommonsChunkPlugin</em></h4><p><code>app.js</code> <em>Bundle</em>은 애플리케이션 코드 만 포함해야합니다. 모든 vendor 코드는 <code>vendor.js</code> <em>Bundle</em>에 들어 있습니다.</p>
+<p>물론 응용 프로그램 코드에서 vendor 코드를 가져옵니다. 자체적으로, Webpack은 <code>app.js</code> 번들에서 vendor 코드를 유지할 만큼 똑똑하지 않습니다. 그래서 <code>CommonsChunkPlugin</code>이 그러한 작업을 합니다.</p>
+<blockquote>
+<p><code>CommonsChunkPlugin</code>은 <code>app</code>-&gt;<code>vendor</code>-&gt;<code>polyfills</code>의 3 개의 청크들 사이의 계층을 식별합니다. Webpack은 <code>app</code>이 <code>vendor</code>와 의존성을 공유했다는 것을 발견하면 <code>app</code>에서 공유 의존성을 제거합니다. 그리고 의존하지 않는 의존성을 공유했다면 <code>polyfills</code>를 <code>vendor</code>에서제거 할 수 있습니다.</p>
+</blockquote>
+<h4 id="HtmlWebpackPlugin"><a href="#HtmlWebpackPlugin" class="headerlink" title="HtmlWebpackPlugin"></a><em>HtmlWebpackPlugin</em></h4><p>Webpack은 많은 js 및 CSS 파일을 생성합니다. 그 파일들을 수동으로 <code>index.html</code>에 삽입 할 수 있습니다. 하지만 지루하고 오류가 발생하기 쉽습니다. 그래서 Webpack은 <code>HtmlWebpackPlugin</code>을 사용하여 스크립트와 링크를 삽입 할 수 있습니다.</p>
+<h3 id="특정-환경-구성"><a href="#특정-환경-구성" class="headerlink" title="특정 환경 구성"></a>특정 환경 구성</h3><p><code>webpack.common.js</code> 설정 파일에서 대부분의 어려운 작업을 수행합니다. 대상 환경과 관련된 특성을 병합하여 <code>webpack.common</code>에 빌드된 환경별 구성 파일을 별도로 작성할 수 있습니다.</p>
+<p>이 파일들은 짧고 단순한 경향이 있습니다.</p>
+<h3 id="개발-환경-구성"><a href="#개발-환경-구성" class="headerlink" title="개발 환경 구성"></a>개발 환경 구성</h3><p>다음은 <code>webpack.dev.js</code> 개발 설정 파일입니다.</p>
+<p><strong>config/webpack.dev.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpackMerge = <span class="built_in">require</span>(<span class="string">'webpack-merge'</span>);</div><div class="line"><span class="keyword">var</span> ExtractTextPlugin = <span class="built_in">require</span>(<span class="string">'extract-text-webpack-plugin'</span>);</div><div class="line"><span class="keyword">var</span> commonConfig = <span class="built_in">require</span>(<span class="string">'./webpack.common.js'</span>);</div><div class="line"><span class="keyword">var</span> helpers = <span class="built_in">require</span>(<span class="string">'./helpers'</span>);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = webpackMerge(commonConfig, &#123;</div><div class="line">  <span class="attr">devtool</span>: <span class="string">'cheap-module-eval-source-map'</span>,</div><div class="line"></div><div class="line">  <span class="attr">output</span>: &#123;</div><div class="line">    <span class="attr">path</span>: helpers.root(<span class="string">'dist'</span>),</div><div class="line">    <span class="attr">publicPath</span>: <span class="string">'/'</span>,</div><div class="line">    <span class="attr">filename</span>: <span class="string">'[name].js'</span>,</div><div class="line">    <span class="attr">chunkFilename</span>: <span class="string">'[id].chunk.js'</span></div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="keyword">new</span> ExtractTextPlugin(<span class="string">'[name].css'</span>)</div><div class="line">  ],</div><div class="line"></div><div class="line">  <span class="attr">devServer</span>: &#123;</div><div class="line">    <span class="attr">historyApiFallback</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">stats</span>: <span class="string">'minimal'</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>개발 빌드는 파일 맨 아래에 구성된 Webpack 개발 서버에 의존합니다.</p>
+<p>Webpack이 output <em>Bundle</em>을 <code>dist</code> 폴더에 넣도록 지시하더라도, dev 서버는 모든 <em>Bundle</em>을 메모리에 유지합니다. 디스크에 기록하지 않습니다. 적어도 이 개발 빌드에서 생성된 파일은 <code>dist</code> 폴더에 없습니다.</p>
+<p><code>webpack.common.js</code>에 추가 된 <code>HtmlWebpackPlugin</code>은 <code>publicPath</code>와 파일 이름 설정을 사용하여 적절한 <code>&lt;script&gt;</code>와 <code>&lt;link&gt;</code>태그를 <code>index.html</code>에 생성합니다.</p>
+<p>CSS 스타일은 기본적으로 Javascript <em>Bundle</em> 안에 있습니다. <code>ExtractTextPlugin</code>은 그것들을 <code>HtmlWebpackPlugin</code>이 <code>&lt;link&gt;</code>태그로 <code>index.html</code>에 넣을수 있는 외부 <code>.css</code> 파일들로 추출합니다.</p>
+<p>이 파일의 이러한 구성 옵션 및 기타 구성 옵션에 대한 자세한 내용은 <a href="https://webpack.github.io/docs/" target="_blank" rel="external">Webpack 문서</a>를 참조하십시오.</p>
+<p>이 가이드의 끝 부분에 있는 코드를 가지고 시도해 보세요.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm start</div></pre></td></tr></table></figure>
+<h3 id="프로덕션-환경-구성"><a href="#프로덕션-환경-구성" class="headerlink" title="프로덕션 환경 구성"></a>프로덕션 환경 구성</h3><p><em>프로덕션</em> 빌드의 구성은 몇 가지 주요 변경 사항을 포함하며 개발 환경 구성과 유사합니다.</p>
+<p><strong>config/webpack.prod.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"><span class="keyword">var</span> webpackMerge = <span class="built_in">require</span>(<span class="string">'webpack-merge'</span>);</div><div class="line"><span class="keyword">var</span> ExtractTextPlugin = <span class="built_in">require</span>(<span class="string">'extract-text-webpack-plugin'</span>);</div><div class="line"><span class="keyword">var</span> commonConfig = <span class="built_in">require</span>(<span class="string">'./webpack.common.js'</span>);</div><div class="line"><span class="keyword">var</span> helpers = <span class="built_in">require</span>(<span class="string">'./helpers'</span>);</div><div class="line"></div><div class="line"><span class="keyword">const</span> ENV = process.env.NODE_ENV = process.env.ENV = <span class="string">'production'</span>;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = webpackMerge(commonConfig, &#123;</div><div class="line">  <span class="attr">devtool</span>: <span class="string">'source-map'</span>,</div><div class="line"></div><div class="line">  <span class="attr">output</span>: &#123;</div><div class="line">    <span class="attr">path</span>: helpers.root(<span class="string">'dist'</span>),</div><div class="line">    <span class="attr">publicPath</span>: <span class="string">'/'</span>,</div><div class="line">    <span class="attr">filename</span>: <span class="string">'[name].[hash].js'</span>,</div><div class="line">    <span class="attr">chunkFilename</span>: <span class="string">'[id].[hash].chunk.js'</span></div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="keyword">new</span> webpack.NoEmitOnErrorsPlugin(),</div><div class="line">    <span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(&#123; <span class="comment">// https://github.com/angular/angular/issues/10618</span></div><div class="line">      mangle: &#123;</div><div class="line">        <span class="attr">keep_fnames</span>: <span class="literal">true</span></div><div class="line">      &#125;</div><div class="line">    &#125;),</div><div class="line">    <span class="keyword">new</span> ExtractTextPlugin(<span class="string">'[name].[hash].css'</span>),</div><div class="line">    <span class="keyword">new</span> webpack.DefinePlugin(&#123;</div><div class="line">      <span class="string">'process.env'</span>: &#123;</div><div class="line">        <span class="string">'ENV'</span>: <span class="built_in">JSON</span>.stringify(ENV)</div><div class="line">      &#125;</div><div class="line">    &#125;),</div><div class="line">    <span class="keyword">new</span> webpack.LoaderOptionsPlugin(&#123;</div><div class="line">      <span class="attr">htmlLoader</span>: &#123;</div><div class="line">        <span class="attr">minimize</span>: <span class="literal">false</span> <span class="comment">// workaround for ng2</span></div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  ]</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>응용 프로그램과 그 의존 라이브러리를 실제 프로덕션 서버에 배포합니다. 하지만 개발에만 필요한 라이브러리는 배포하지 않습니다.</p>
+<p>결과 <em>Bundle</em> 파일은 <code>dist</code> 폴더에 생성합니다.</p>
+<p>Webpack은 cache-busting 해시로 파일 이름을 생성합니다. <code>HtmlWebpackPlugin</code> 덕분에 해시가 변경 될 때 <code>index.html</code> 파일을 업데이트 할 필요가 없습니다.</p>
+<p>추가 플러그인이 있습니다.</p>
+<ul>
+<li><code>NoEmitOnErrorsPlugin</code> - 오류가 있으면 빌드를 중지합니다.</li>
+<li><code>UglifyJsPlugin</code> - 번들을 축약합니다.</li>
+<li><code>ExtractTextPlugin</code> - 내장 된 CSS를 외부 파일로 추출하여 파일 이름에 캐시 해싱 해시를 추가합니다.</li>
+<li><code>DefinePlugin</code> - 응용 프로그램에서 참조할 수 있는 환경 변수를 정의하는 데 사용됩니다.</li>
+<li><code>LoaderOptionsPlugins</code> - 특정 <em>loader</em>의 옵션을 대체합니다.</li>
+</ul>
+<p><code>DefinePlugin</code>과 맨 위에 정의 된 <code>ENV</code> 변수 덕분에 Angular 프로덕션 모드를 다음과 같이 설정할 수 있습니다.</p>
+<p><strong>src/main.ts</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (process.env.ENV === <span class="string">'production'</span>) &#123;</div><div class="line">  enableProdMode();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이 가이드의 끝 부분에 있는 코드를 가지고 시도해 보세요.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm run build</div></pre></td></tr></table></figure>
+<h3 id="테스트-환경-구성"><a href="#테스트-환경-구성" class="headerlink" title="테스트 환경 구성"></a>테스트 환경 구성</h3><p>단위 테스트를 실행하는 데 많은 구성이 필요하지 않습니다. 개발 및 프로덕션 빌드를 위해 선언한 <em>loader</em> 및 플러그인은 필요하지 않습니다. 단위 테스트를 위해 application-wide 스타일 파일을 로드하고 처리 할 필요가 없으므로 속도가 느려지지 않습니다. 그래서 CSS 파일에 <code>null</code> 로더를 사용할 것이다.</p>
+<p>테스트 설정을 <code>webpack.common</code> 설정으로 합치고 싶지 않거나 필요하지 않은 부분을 무시할 수 있습니다. 완전히 새로운 구성으로 다시 시작하는 것이 더 간단 할 수 있습니다.</p>
+<p><strong>config/webpack.test.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"><span class="keyword">var</span> helpers = <span class="built_in">require</span>(<span class="string">'./helpers'</span>);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  <span class="attr">devtool</span>: <span class="string">'inline-source-map'</span>,</div><div class="line"></div><div class="line">  <span class="attr">resolve</span>: &#123;</div><div class="line">    <span class="attr">extensions</span>: [<span class="string">'.ts'</span>, <span class="string">'.js'</span>]</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="attr">module</span>: &#123;</div><div class="line">    <span class="attr">rules</span>: [</div><div class="line">      &#123;</div><div class="line">        <span class="attr">test</span>: <span class="regexp">/\.ts$/</span>,</div><div class="line">        <span class="attr">loaders</span>: [</div><div class="line">          &#123;</div><div class="line">            <span class="attr">loader</span>: <span class="string">'awesome-typescript-loader'</span>,</div><div class="line">            <span class="attr">options</span>: &#123; <span class="attr">configFileName</span>: helpers.root(<span class="string">'src'</span>, <span class="string">'tsconfig.json'</span>) &#125;</div><div class="line">          &#125; , <span class="string">'angular2-template-loader'</span></div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">test</span>: <span class="regexp">/\.html$/</span>,</div><div class="line">        <span class="attr">loader</span>: <span class="string">'html-loader'</span></div><div class="line"></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">test</span>: <span class="regexp">/\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/</span>,</div><div class="line">        <span class="attr">loader</span>: <span class="string">'null-loader'</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</div><div class="line">        <span class="attr">exclude</span>: helpers.root(<span class="string">'src'</span>, <span class="string">'app'</span>),</div><div class="line">        <span class="attr">loader</span>: <span class="string">'null-loader'</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</div><div class="line">        <span class="attr">include</span>: helpers.root(<span class="string">'src'</span>, <span class="string">'app'</span>),</div><div class="line">        <span class="attr">loader</span>: <span class="string">'raw-loader'</span></div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="keyword">new</span> webpack.ContextReplacementPlugin(</div><div class="line">      <span class="comment">// The (\\|\/) piece accounts for path separators in *nix and Windows</span></div><div class="line">      /angular(\\|\/)core(\\|\/)@angular/,</div><div class="line">      helpers.root(<span class="string">'./src'</span>), <span class="comment">// location of your src</span></div><div class="line">      &#123;&#125; <span class="comment">// a map of your routes</span></div><div class="line">    )</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><a href="https://karma-runner.github.io/1.0/index.html" target="_blank" rel="external">Karma</a>를 재구성하여 Webpack을 사용하여 테스트를 실행할 수 있습니다.</p>
+<p><strong>config/karma.conf.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpackConfig = <span class="built_in">require</span>(<span class="string">'./webpack.test'</span>);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">config</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> _config = &#123;</div><div class="line">    <span class="attr">basePath</span>: <span class="string">''</span>,</div><div class="line"></div><div class="line">    <span class="attr">frameworks</span>: [<span class="string">'jasmine'</span>],</div><div class="line"></div><div class="line">    <span class="attr">files</span>: [</div><div class="line">      &#123;<span class="attr">pattern</span>: <span class="string">'./config/karma-test-shim.js'</span>, <span class="attr">watched</span>: <span class="literal">false</span>&#125;</div><div class="line">    ],</div><div class="line"></div><div class="line">    <span class="attr">preprocessors</span>: &#123;</div><div class="line">      <span class="string">'./config/karma-test-shim.js'</span>: [<span class="string">'webpack'</span>, <span class="string">'sourcemap'</span>]</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">webpack</span>: webpackConfig,</div><div class="line"></div><div class="line">    <span class="attr">webpackMiddleware</span>: &#123;</div><div class="line">      <span class="attr">stats</span>: <span class="string">'errors-only'</span></div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">webpackServer</span>: &#123;</div><div class="line">      <span class="attr">noInfo</span>: <span class="literal">true</span></div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">reporters</span>: [<span class="string">'progress'</span>, <span class="string">'kjhtml'</span>],</div><div class="line">    <span class="attr">port</span>: <span class="number">9876</span>,</div><div class="line">    <span class="attr">colors</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">logLevel</span>: config.LOG_INFO,</div><div class="line">    <span class="attr">autoWatch</span>: <span class="literal">false</span>,</div><div class="line">    <span class="attr">browsers</span>: [<span class="string">'Chrome'</span>],</div><div class="line">    <span class="attr">singleRun</span>: <span class="literal">true</span></div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  config.set(_config);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>TypeScript를 프리컴파일 파일하지 않습니다. Webpack은 Typescript 파일을 메모리에 저장하고 생성된 JS를 카르마에 직접 공급합니다. 디스크에 임시 파일이 없습니다.</p>
+<p><code>karma-test-shim</code>은 Karma에게 미리 로드 될 것으로 예상되는 provider의 테스트 버전으로 Angular 테스트 프레임 워크를 미리 로드하고 준비 할 파일을 알려줍니다.</p>
+<p><strong>config/karma-test-shim.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Error</span>.stackTraceLimit = <span class="literal">Infinity</span>;</div><div class="line"></div><div class="line"><span class="built_in">require</span>(<span class="string">'core-js/es6'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'core-js/es7/reflect'</span>);</div><div class="line"></div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/zone'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/long-stack-trace-zone'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/proxy'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/sync-test'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/jasmine-patch'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/async-test'</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/fake-async-test'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> appContext = <span class="built_in">require</span>.context(<span class="string">'../src'</span>, <span class="literal">true</span>, /\.spec\.ts/);</div><div class="line"></div><div class="line">appContext.keys().forEach(appContext);</div><div class="line"></div><div class="line"><span class="keyword">var</span> testing = <span class="built_in">require</span>(<span class="string">'@angular/core/testing'</span>);</div><div class="line"><span class="keyword">var</span> browser = <span class="built_in">require</span>(<span class="string">'@angular/platform-browser-dynamic/testing'</span>);</div><div class="line"></div><div class="line">testing.TestBed.initTestEnvironment(browser.BrowserDynamicTestingModule, browser.platformBrowserDynamicTesting());</div></pre></td></tr></table></figure>
+<p>응용 프로그램 코드를 명시 적으로 로드하지 않습니다. Webpack에게 테스트 파일 (<code>.spec.ts</code>로 끝나는 파일)을 찾아서 로드하라고 지시합니다. 각 spec 파일은 테스트하는 모든 응용 프로그램 소스 코드만 가져옵니다. Webpack은 특정 응용 프로그램 파일만 로드하고, 테스트하지 않는 다른 파일은 무시합니다.</p>
+<p>이 가이드의 끝 부분에 있는 코드를 가지고 시도해 보세요.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm test</div></pre></td></tr></table></figure>
+<h2 id="따라해보기"><a href="#따라해보기" class="headerlink" title="따라해보기"></a>따라해보기</h2><p>이 포스트에서 다루는 Webpack으로 <em>Bundle</em>을 묶을수 있는 간단한 응용 프로그램의 소스 코드입니다.</p>
+<p><strong>src/index.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">base</span> <span class="attr">href</span>=<span class="string">"/"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Angular With Webpack<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">my-app</span>&gt;</span>Loading...<span class="tag">&lt;/<span class="name">my-app</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><strong>src/main.ts</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; platformBrowserDynamic &#125; <span class="keyword">from</span> <span class="string">'@angular/platform-browser-dynamic'</span>;</div><div class="line"><span class="keyword">import</span> &#123; enableProdMode &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> &#123; AppModule &#125; <span class="keyword">from</span> <span class="string">'./app/app.module'</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (process.env.ENV === <span class="string">'production'</span>) &#123;</div><div class="line">  enableProdMode();</div><div class="line">&#125;</div><div class="line"></div><div class="line">platformBrowserDynamic().bootstrapModule(AppModule);</div></pre></td></tr></table></figure>
+<p><strong>src/assets/css/styles.css</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#0147A7</span>;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>src/app/app.component.ts</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">'../assets/css/styles.css'</span>;</div><div class="line"></div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'my-app'</span>,</div><div class="line">  templateUrl: <span class="string">'./app.component.html'</span>,</div><div class="line">  styleUrls: [<span class="string">'./app.component.css'</span>]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent &#123; &#125;</div></pre></td></tr></table></figure>
+<p><strong>src/app/app.component.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">main</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello from Angular App with Webpack<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"../assets/images/angular.png"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">main</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><strong>src/app/app.component.css</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">main</span> &#123;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">1em</span>;</div><div class="line">  <span class="attribute">font-family</span>: Arial, Helvetica, sans-serif;</div><div class="line">  <span class="attribute">text-align</span>: center;</div><div class="line">  <span class="attribute">margin-top</span>: <span class="number">50px</span>;</div><div class="line">  <span class="attribute">display</span>: block;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>src/app/app.component.spec.ts</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; TestBed &#125; <span class="keyword">from</span> <span class="string">'@angular/core/testing'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; AppComponent &#125; <span class="keyword">from</span> <span class="string">'./app.component'</span>;</div><div class="line"> </div><div class="line">describe(<span class="string">'App'</span>, <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    TestBed.configureTestingModule(&#123; declarations: [AppComponent]&#125;);</div><div class="line">  &#125;);</div><div class="line"> </div><div class="line">  it (<span class="string">'should work'</span>, <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">let</span> fixture = TestBed.createComponent(AppComponent);</div><div class="line">    expect(fixture.componentInstance <span class="keyword">instanceof</span> AppComponent).toBe(<span class="literal">true</span>, <span class="string">'should create AppComponent'</span>);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><strong>src/app/app.module.ts</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123; BrowserModule &#125;  <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; AppComponent &#125; <span class="keyword">from</span> <span class="string">'./app.component'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  imports: [</div><div class="line">    BrowserModule</div><div class="line">  ],</div><div class="line">  declarations: [</div><div class="line">    AppComponent</div><div class="line">  ],</div><div class="line">  bootstrap: [ AppComponent ]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123; &#125;</div></pre></td></tr></table></figure>
+<p><code>app.component.html</code>은 다운로드 할 수있는 Angular 로고를 표시합니다. 프로젝트의 <code>assets</code> 폴더 아래에 <code>images</code>라는 폴더를 생성한 다음 이미지를 마우스 오른쪽 버튼으로 클릭하고 (Mac에서는 Cmd + 클릭) 다운로드 하십시오.</p>
+<p>아래에 <code>polyfills</code>와 <code>vendor</code> <em>Bundle</em>을 정의하는 TypeScript Entry 파일이 있습니다.</p>
+<p><strong>src/polyfills.ts</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">'core-js/es6'</span>;</div><div class="line"><span class="keyword">import</span> <span class="string">'core-js/es7/reflect'</span>;</div><div class="line"><span class="built_in">require</span>(<span class="string">'zone.js/dist/zone'</span>);</div><div class="line"></div><div class="line"><span class="keyword">if</span> (process.env.ENV === <span class="string">'production'</span>) &#123;</div><div class="line">  <span class="comment">// Production</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  <span class="comment">// Development and test</span></div><div class="line">  <span class="built_in">Error</span>[<span class="string">'stackTraceLimit'</span>] = <span class="literal">Infinity</span>;</div><div class="line">  <span class="built_in">require</span>(<span class="string">'zone.js/dist/long-stack-trace-zone'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>src/vendor.ts</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Angular</span></div><div class="line"><span class="keyword">import</span> <span class="string">'@angular/platform-browser'</span>;</div><div class="line"><span class="keyword">import</span> <span class="string">'@angular/platform-browser-dynamic'</span>;</div><div class="line"><span class="keyword">import</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> <span class="string">'@angular/common'</span>;</div><div class="line"><span class="keyword">import</span> <span class="string">'@angular/http'</span>;</div><div class="line"><span class="keyword">import</span> <span class="string">'@angular/router'</span>;</div><div class="line"> </div><div class="line"><span class="comment">// RxJS</span></div><div class="line"><span class="keyword">import</span> <span class="string">'rxjs'</span>;</div><div class="line"> </div><div class="line"><span class="comment">// Other vendors for example jQuery, Lodash or Bootstrap</span></div><div class="line"><span class="comment">// You can import js, ts, css, sass, ...</span></div></pre></td></tr></table></figure>
+<h3 id="하이라이트"><a href="#하이라이트" class="headerlink" title="하이라이트"></a>하이라이트</h3><ul>
+<li><p><code>&lt;script&gt;</code>또는 <code>&lt;link&gt;</code>태그는 <code>index.html</code>에 없습니다. <code>HtmlWebpackPlugin</code>은 그것들을 런타임에 동적으로 삽입합니다.</p>
+</li>
+<li><p><code>appComponent.ts</code>에있는 <code>AppComponent</code>는 간단한 <code>import</code> 문으로 application-wide css를 가져옵니다.</p>
+</li>
+<li><p><code>AppComponent</code> 자체는 자체 html 템플릿과 css 파일을 가지고 있습니다. WebPack은 <code>require()</code>를 호출하여 이를 로드합니다. Webpack은 <code>app.js</code> <em>Bundle</em>에 있는 component-scoped 파일도 숨깁니다. 소스 코드에서 이러한 호출을 볼 수 없습니다. 그들은 <code>angular2-template-loader</code> 플러그인으로 뒤에 추가됩니다.</p>
+</li>
+<li><p><code>vendor.ts</code>는 <code>vendor.js</code> <em>Bundle</em>을 구동시키는 vendor <code>import</code> 문으로 구성됩니다. 응용 프로그램은 이러한 모듈도 가져올 수 있습니다. <code>CommonsChunkPlugin</code>이 겹침을 감지하지 못하고 <code>app.js</code>에서 제거한 경우 app.js 번들에 중복될 수 있습니다.</p>
+</li>
+</ul>
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p>간단한 Angular 애플리케이션을 위한 개발, 테스트 및 프로덕션 빌드를 구성하기에 충분한 Webpack을 배웠습니다.</p>
+<p>여러분은 더 많은 것을 할 수 있습니다. 웹에서 전문가 조언을 검색하고 Webpack 지식을 확장하십시오.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://angular.io/guide/webpack" target="_blank" rel="external">https://angular.io/guide/webpack</a>]</p>
+</blockquote>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2017/06/15/angular-webpack-configuration/" data-id="cjkl910110015jguz57jns7bx" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/06/19/TypeScript-handbook-advanced-types/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            TypeScript 핸드북 10 - 고급 타입
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/06/13/setting-up-angular-2-with-webpack/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">Webpack을 이용한 TDD 방식의 Angular 2 개발 환경 설정</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2017/06/15/angular-webpack-configuration/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Java 9 와 Project Jigsaw 소개 1 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Java,Java9,JDK9,Jigsaw" />
+    
+    <meta name="description" content="의역, 오역, 직역이 있을 수 있음을 알려드립니다.이 포스트는 원저자의 동의를 얻어 한글로 번역한 내용입니다.
+This post is a translation of this original article [https://blog.codecentric.de/en/2015/11/first-steps-with-java9-jigsaw-part-1] by Flor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 9 와 Project Jigsaw 소개 1">
+<meta property="og:url" content="http://infoscis.github.io/2017/03/24/First-steps-with-java9-and-jigsaw-part-1/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="의역, 오역, 직역이 있을 수 있음을 알려드립니다.이 포스트는 원저자의 동의를 얻어 한글로 번역한 내용입니다.
+This post is a translation of this original article [https://blog.codecentric.de/en/2015/11/first-steps-with-java9-jigsaw-part-1] by Flor">
+<meta property="og:image" content="https://blog.codecentric.de/files/2015/11/module-250x156.png">
+<meta property="og:updated_time" content="2018-01-27T14:37:43.146Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 9 와 Project Jigsaw 소개 1">
+<meta name="twitter:description" content="의역, 오역, 직역이 있을 수 있음을 알려드립니다.이 포스트는 원저자의 동의를 얻어 한글로 번역한 내용입니다.
+This post is a translation of this original article [https://blog.codecentric.de/en/2015/11/first-steps-with-java9-jigsaw-part-1] by Flor">
+<meta name="twitter:image" content="https://blog.codecentric.de/files/2015/11/module-250x156.png">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2017/03/24/First-steps-with-java9-and-jigsaw-part-1/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Java/">Java</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Java/Java9/">Java9</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-First-steps-with-java9-and-jigsaw-part-1" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Java 9 와 Project Jigsaw 소개 1
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/03/24/First-steps-with-java9-and-jigsaw-part-1/" class="article-date">
+            <time datetime="2017-03-23T15:43:19.000Z" itemprop="datePublished">2017-03-24</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/JDK9/">JDK9</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java9/">Java9</a>, <a class="tag-link" href="/tags/Jigsaw/">Jigsaw</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <blockquote>
+<p>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>이 포스트는 원저자의 동의를 얻어 한글로 번역한 내용입니다.</p>
+<p>This post is a translation of this original article [<a href="https://blog.codecentric.de/en/2015/11/first-steps-with-java9-jigsaw-part-1" target="_blank" rel="external">https://blog.codecentric.de/en/2015/11/first-steps-with-java9-jigsaw-part-1</a>] by Florian Troßbach from codecentric<br>Author: Florian Troßbach</p>
+<p><strong>참고 자료</strong><br><a href="http://openjdk.java.net/projects/jigsaw/spec/sotms/" target="_blank" rel="external">http://openjdk.java.net/projects/jigsaw/spec/sotms/</a><br><a href="http://openjdk.java.net/projects/jigsaw/" target="_blank" rel="external">http://openjdk.java.net/projects/jigsaw/</a><br><a href="http://openjdk.java.net/projects/jdk9/" target="_blank" rel="external">http://openjdk.java.net/projects/jdk9/</a><br><a href="http://greatkim91.tistory.com/197" target="_blank" rel="external">http://greatkim91.tistory.com/197</a><br><a href="http://www.javaworld.com/article/2878952/java-platform/modularity-in-java-9.html" target="_blank" rel="external">Modularity in Java 9</a><br><a href="https://jdk9.java.net/jigsaw/" target="_blank" rel="external">JDK 9 Early Access with Project Jigsaw</a><br><a href="https://en.wikipedia.org/wiki/JDK_Enhancement_Proposal" target="_blank" rel="external">JEP</a></p>
+<p><strong>JDK9 <a href="http://openjdk.java.net/projects/jdk9/" target="_blank" rel="external">Schedule</a></strong><br> 2016/05/26   Feature Complete<br> 2016/12/22   Feature Extension Complete<br> 2017/01/05   Rampdown Start<br> 2017/02/09   All Tests Run<br> 2017/02/16   Zero Bug Bounce<br> 2017/03/16   Rampdown Phase 2<br> 2017/07/06   Final Release Candidate<br> 2017/07/27   General Availability</p>
+</blockquote>
+<hr>
+<h1 id="Module-Project-Jigsaw"><a href="#Module-Project-Jigsaw" class="headerlink" title="Module (Project Jigsaw)"></a>Module (Project Jigsaw)</h1><p>Java 플랫폼의 모듈화및 일반 library의 모듈화 시스템 <code>Project Jigsaw</code>는 첫 발표후 8년이 지난후에서야 <code>Java9</code>에 포함될 예정입니다.<br>적용 대상 릴리스는 Java7, Java8, Java9로 수년에 걸쳐 변경 되었고 또한 적용 범위도 몇번이나 바뀌 었습니다.<br>2015년 JavaOne keynote에서 대대적으로 다뤘고 또한 많은 세션에서 포커싱 했던 <code>Project Jigsaw</code>의 주요한 토픽들에 대해 어느정도 정리가 된듯 합니다.</p>
+<p><code>Project Jigsaw</code> 란 무엇이며 우리가 어떻게 사용할 수 있을까요?</p>
+<p>이 두개의 파트로 구성된 이 블로그 시리즈는 <code>Module system</code>에 대한 간단한 소개와 <code>Project Jigsaw</code>의 동작을 보여주기 위한 실제 예제 코드를 제공하는 것을 목표로합니다.<br>첫번째 부분에서는 <code>Module system</code>이 무엇인지, JDK가 어떻게 모듈화 되었는지에 대해 조금 이야기하고 특정 상황에서 컴파일러와 런타임이 어떻게 작동하는지 설명합니다.</p>
+<h2 id="Module-이란-뭘까요"><a href="#Module-이란-뭘까요" class="headerlink" title="Module 이란 뭘까요?"></a>Module 이란 뭘까요?</h2><p><code>Module</code>을 설명하는건 간단합니다. <code>module-info.java</code>라는 파일에 아래의 세 가지 질문에 대한 답을 선언하는 소프트웨어적인 단위일 뿐입니다.</p>
+<ul>
+<li>이름이 무엇인가? (name)</li>
+<li>어떤것을 제공하는가? (export)</li>
+<li>어떤것들이 필요한가 ? (require)</li>
+</ul>
+<p><img src="https://blog.codecentric.de/files/2015/11/module-250x156.png" alt="a simple module"></p>
+<p><em>Module</em></p>
+<p>첫 번째 질문에 대한 대답은 간단합니다. (대부분의) 각 Module에는 이름이 있습니다. 그리고 이름은 충돌을 피하기 위해 패키지 명명 규칙과 유사해야 합니다 (예: de.codecentric.mymodule)<br>두번째 질문에 대한 답은, 우리의 <code>Module</code>은 다른 외부 모듈에서 사용할 수 있도록 공개 API로 간주되는 모든 <strong>패키지</strong> 목록을 제공합니다.<br>또한 만약 어떤 클래스가 <code>public</code>이라 할지라도 <code>export</code>된 패키지에 <strong>없으면</strong> 모듈 외부의 어떤것도 이 클래스에 접근 할 수 없습니다.<br>세번째 질문에 대한 답은, 우리의 모듈과 의존 관계가 있는 다른 모듈 목록(우리 모듈은 다른 모듈의 export된  모든 public type에 접근 가능합니다.)으로 얘기할 수 있습니다.<br><code>Jigsaw</code>팀은 이것을 <code>다른 모듈 읽기(reading another module)</code>라고 합니다.</p>
+<p>이것은 매우 큰 변화입니다. Java 8까지 classpath에 있는 모든 public type은 다른 어떤 type에서도 접근이 가능 했습니다.<br>Jigsaw를 사용하면 Java의 type들에 대한 기존의 접근 방법이 </p>
+<ul>
+<li>public</li>
+<li>private</li>
+<li>default</li>
+<li>protected</li>
+</ul>
+<p>에서</p>
+<ul>
+<li>외부에 모두 Public (public to everyone who reads this module (exports))</li>
+<li>특정 모듈에만 Public (public to some modules that read this module (exports to))</li>
+<li>모듈 내부만 Public (public to every other class within the module itself)</li>
+<li>private</li>
+<li>default</li>
+<li>protected</li>
+</ul>
+<p>로 변한다는 것입니다.</p>
+<h2 id="JDK-모듈화"><a href="#JDK-모듈화" class="headerlink" title="JDK 모듈화"></a>JDK 모듈화</h2><p>모듈의 종속성은 순환 종속성(상호 참조)을 금지하는 비순환 그래프를 형성해야합니다. 이러한 원칙을 유지하기 위해 Jigsaw 팀의 주요한 작업중 하나는 기존 Java Runtime의 순환 참조(상호 참조)및 직관적이지 않은 종속성을 모듈화하는 것이었습니다. 그들은 아래의 그래프와 같이 모듈을 새로 그렸습니다.</p>
+<p><img src="https://blog.codecentric.de/files/2015/11/jdk-tr1.png" alt=""></p>
+<blockquote>
+<p><em>아직 개발이 완료된 상황이 아니기 때문에 계속 바뀔수 있습니다.</em></p>
+</blockquote>
+<p>그래프 하단에 java.base가 있습니다. 외부 참조가 없는 (inbound 만 있음)유일한 모듈입니다.<br>여러분이 생성하는 모든 모듈이 (Java의 모든 클래스가) <em>java.lang.Object</em>를 암시적으로 상속 하는 것과  유사하게 모듈내부의 선언 여부에 관계없이 <em>java.base</em>를 참조합니다. java.base는 java.lang, java.util, java.math 등과 같은 패키지를 export합니다.</p>
+<p>JDK의 모듈화는 사용하려는 Java Runtime의 모듈을 따로 지정할 수 있음을 의미합니다.<br>이제는 java.desktop 또는 java.corba를 사용하지 않는 경우, Swing 또는 Corba 모듈이 포함된 환경에서 애플리케이션을 실행할 필요가 없습니다.<br>(애플리케이션에서 사용하는 모듈만 모아 Runtime 이미지를 만들수 있습니다.)</p>
+<h2 id="이제-체험-해봅시다"><a href="#이제-체험-해봅시다" class="headerlink" title="이제 체험 해봅시다."></a>이제 체험 해봅시다.</h2><blockquote>
+<p>아래의 모든 예제들은 JDK9가 필요합니다.<br><a href="https://jdk9.java.net/jigsaw/" target="_blank" rel="external">JDK 9 Early Access with Project Jigsaw</a>에서 다운받아 실행 가능합니다.<br>JDK9의 설치는 기존 개발환경에 영향을 줄수 있기 때문에 신중히 설치하세요.</p>
+</blockquote>
+<p>컴파일, 패키징 및 예제 실행을 위한 셸 스크립트를 비롯하여 다음에 나오는 모든 코드는 <a href="https://github.com/ftrossbach/IntroToJigsaw" target="_blank" rel="external">여기</a>에서 확인할 수 있습니다.</p>
+<p>우리의 기본적인 Use case는 매우 간단합니다.<br>우편번호 유효성 검사를 수행하는 <em>de.codecentric.zipvalidator</em>라는 모듈이 있습니다. 이 <em>zipvalidator</em> 모듈은 <em>de.codecentric.addresschecker</em> 모듈이 사용합니다. (예제에서 <em>zipvalidator</em> 모듈이 우편 번호보다 더 많은 것을 검사 할 수 있지만 그렇게 하지 않습니다.)</p>
+<p>zipvalidator는 다음 <code>module-info.java</code>에 다음과 같이 선언됩니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">module</span> de.codecentric.zipvalidator&#123;</div><div class="line">    <span class="keyword">exports</span> de.codecentric.zipvalidator.api;        </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이 모듈은 <em>de.codecentric.zipvalidator.api</em> 패키지를 export하고 다른 모듈은 사용하지 않습니다 (<em>java.base</em> 제외). 그리고 이 모듈은 <em>addresschecker</em>에 의해 사용됩니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">module</span> de.codecentric.addresschecker&#123;</div><div class="line">    <span class="keyword">exports</span> de.codecentric.addresschecker.api;</div><div class="line">    <span class="keyword">requires</span> de.codecentric.zipvalidator;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>전체 파일 시스템 구조는 다음과 같습니다.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">two-modules-ok/</div><div class="line">├── de.codecentric.addresschecker</div><div class="line">│   ├── de</div><div class="line">│   │   └── codecentric</div><div class="line">│   │       └── addresschecker</div><div class="line">│   │           ├── api</div><div class="line">│   │           │   ├── AddressChecker.java</div><div class="line">│   │           │   └── Run.java</div><div class="line">│   │           └── internal</div><div class="line">│   │               └── AddressCheckerImpl.java</div><div class="line">│   └── module-info.java</div><div class="line">├── de.codecentric.zipvalidator</div><div class="line">│   ├── de</div><div class="line">│   │   └── codecentric</div><div class="line">│   │       └── zipvalidator</div><div class="line">│   │           ├── api</div><div class="line">│   │           │   ├── ZipCodeValidator.java</div><div class="line">│   │           │   └── ZipCodeValidatorFactory.java</div><div class="line">│   │           ├── internal</div><div class="line">│   │           │   └── ZipCodeValidatorImpl.java</div><div class="line">│   │           └── model</div><div class="line">│   └── module-info.java</div></pre></td></tr></table></figure></p>
+<p>기존 패키지의 관례에 따라 모듈도 모듈과 동일한 이름의 폴더에 위치 합니다.<br>우리의 첫번째 예제는 잘 동작합니다.(AddressCheckerImpl 클래스는 <em>de.codecentric.zipvalidator</em>에서 export된 패키지 <em>ZipCodeValidator</em> 및 <em>ZipCodeValidatorFactory</em>에만 액세스 할 수 있습니다.)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddressCheckerImpl</span> <span class="keyword">implements</span> <span class="title">AddressChecker</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">checkZipCode</span><span class="params">(String zipCode)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> ZipCodeValidatorFactory.getInstance().zipCodeIsValid(zipCode);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이제 <code>javac</code>를 이용하여 컴파일 하고 bytecode를 생성해 봅시다.<br><em>zipvalidator</em>를 컴파일 하려면 일반적으로 아래의 예제와 같이 실행을 하지만, <em>addresschecker</em>가 <em>zipvalidator</em>를 사용하려면 우리가 먼저 해야할 일이 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">javac -d de.codecentric.zipvalidator \</div><div class="line">$(find de.codecentric.zipvalidator -name &quot;*.java&quot;)</div></pre></td></tr></table></figure>
+<p>보는 바와 같이 매우 익숙한 명령어입니다. <em>zipvalidator</em>는 어떤 커스텀 모듈에도 의존하지 않기 때문에 다른 모듈에 대해 언급할 필요는 아직 없습니다.<br>find 명렁어는 폴더 안에 있는 <code>.java</code> 파일들을 리스팅하도록 합니다.<br>하지만 컴파일 할 때 <code>javac</code> 명령어에 모듈 구조에 대해 어떻게 설명할까요?<br>이를 위해 <code>Jigsaw</code>는 <code>-modulepath</code> 또는 <code>-mp</code> 옵션을 적용했습니다.</p>
+<p><em>addresschecker</em>를 컴파일하기 위해 다음과 같이 수정하여 사용합니다.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">javac -modulepath . -d de.codecentric.addresschecker \</div><div class="line">$(find de.codecentric.addresschecker -name &quot;*.java&quot;)</div></pre></td></tr></table></figure></p>
+<p><code>classpath</code> 옵션과 유사하게 <code>-modulepath</code>를 이용하여  <code>javac</code>가 기존 컴파일된 모듈을 어디에서 찾을수 있는지 알려 줄 수 있습니다.(위의 예제의 경우 <code>.</code>입니다.)<br>여러개의 모듈을 각각 컴파일하는건 번거럽기 때문에, 아래와 같이 <code>-modulesourcepath</code> 옵션을 이용하여 한꺼번에 컴파일 할 수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">javac -d . -modulesourcepath . $(find . -name &quot;*.java&quot;)</div></pre></td></tr></table></figure>
+<p>위 예제는 <code>.</code> 하위의 모든 서브 디렉토리의 모듈을 검색하고 모든 Java 파일을 컴파일합니다.<br>모든 컴파일이 완료되면 이제 실행을 해볼 수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java -mp . -m de.codecentric.addresschecker/de.codecentric.addresschecker.api.Run 76185</div></pre></td></tr></table></figure>
+<p>위 예제와 같이 <code>java</code>명령어를 실행하면서 Main 클래스 및 매개 변수도 지정 할 수있고, 또한 JVM이 어디에서 컴파일 된 모듈을 찾아야 하는지도 지정할 수 있습니다.<br>위 예제의 실행 결과는 아래와 같이 나옵니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">76185 is a valid zip code</div></pre></td></tr></table></figure>
+<h1 id="Modular-Jars"><a href="#Modular-Jars" class="headerlink" title="Modular Jars"></a>Modular Jars</h1><p>기존 <code>Java</code> 프로그램에서 <code>jar</code>파일을 library로 매우 많이 사용하고 있습니다.<br><code>Jigsaw</code>에서는 <code>modular jar</code>라는 개념을 도입했습니다. <code>modular jar</code>는 일반 <code>jar</code>와 매우 유사하지만 컴파일 된 <em>module-info.class</em>을 포함 하고 있습니다.<br>그리고 특정 <code>JVM</code> 버전용으로 컴파일 된 경우 이 <code>jar</code>는 하위 버전과 호환됩니다.<br><em>module-info.java</em>는 유효한 타입 이름이 아니기 때문에 컴파일 된 <em>module-info.class</em>는 이전 JVM에서 무시됩니다.</p>
+<p><em>zipvalidator</em> 용 jar파일을 만들기 위해 아래와 같이 실행하면 됩니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">jar --create --file bin/zipvalidator.jar \</div><div class="line">--module-version=1.0 -C de.codecentric.zipvalidator .</div></pre></td></tr></table></figure>
+<p>위 예제에서 결과 파일, 버전(런타임에 <code>Jigsaw</code>에서 여러버전의 Module을 사용한다는 지시는 표현 되어 있지 않지만), 모듈을 패키징 합니다.</p>
+<p><em>zipvalidator</em>에는 Main 클래스가 있으므로 다음과 같이 지정할 수도 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">jar --create --file=bin/addresschecker.jar --module-version=1.0 \</div><div class="line">--main-class=de.codecentric.addresschecker.api.Run \</div><div class="line">-C de.codecentric.addresschecker .</div></pre></td></tr></table></figure>
+<p>Main 클래스는 <code>Jigsaw</code> 팀에서 처음 계획 한대로 <em>module-info.java</em>에 설정되지 않고 평소대로 Manifest에 작성되었습니다.</p>
+<p>다음 명령어로 실행해 볼수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java -mp bin -m de.codecentric.addresschecker 76185</div></pre></td></tr></table></figure>
+<p>이전에 실행한 결과와 같습니다.<br>위 예제에서 <code>jar</code> 파일이 생성된 bin 폴더를 modulepath에 다시 설정합니다.<br><code>addresschecker.jar</code>의 <code>Manifest</code>에는 이 정보가 이미 포함되어 있으므로 Main 클래스를 지정할 필요가 없습니다. 단지 -m 옵션을 이용하여 모듈 이름을 제공하면 충분합니다.</p>
+<h2 id="Module-사용시-유의할-점"><a href="#Module-사용시-유의할-점" class="headerlink" title="Module 사용시 유의할 점"></a>Module 사용시 유의할 점</h2><p>지금까지의 예제는 모두 잘 만들어지고 동작하는 코드들이었습니다. 이제 우리는 정상적이지 않는 경우에 <code>Jigsaw</code>가 컴파일과 런타임에서 어떻게 동작하는지 살펴 보기 위해 Module을 조금 수정해 보도록 하겠습니다.</p>
+<h3 id="1-5-1-Export하지-않은-타입-사용"><a href="#1-5-1-Export하지-않은-타입-사용" class="headerlink" title="1.5.1 Export하지 않은 타입 사용"></a>1.5.1 Export하지 않은 타입 사용</h3><p>이번 예제에서 사용해서는 안되는 다른 모듈을 액세스 할때 어떤 일이 발생하는지 확인해 보겠습니다.<br><em>AddressCheckerImpl</em>에서 <em>ZipCodeValidatorFactory</em>를 이용하는 부분을 다음과 같이 변경합니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddressCheckerImpl</span> <span class="keyword">implements</span> <span class="title">AddressChecker</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">checkZipCode</span><span class="params">(String zipCode)</span> </span>&#123;</div><div class="line">        <span class="comment">//return ZipCodeValidatorFactory.getInstance().zipCodeIsValid(zipCode);</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ZipCodeValidatorImpl().zipCodeIsValid(zipCode);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>위 예제를 컴파일하면 아래와 같은 결과가 나옵니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">error: ZipCodeValidatorImpl is not visible because </div><div class="line">package de.codecentric.zipvalidator.internal is not visible</div></pre></td></tr></table></figure>
+<p>따라서 직접 <code>export</code>하지 않은 타입을 사용하는 것은 컴파일 할 때 에러가 발생합니다.<br>하지만 만약 아래와 같이 <code>reflection</code>을 이용하도록 코드를 수정하면 어떻게 될까요?</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ClassLoader classLoader = AddressCheckerImpl.class.getClassLoader();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    Class aClass = classLoader.loadClass(<span class="string">"de.[..].internal.ZipCodeValidatorImpl"</span>);</div><div class="line">    <span class="keyword">return</span> ((ZipCodeValidator)aClass.newInstance()).zipCodeIsValid(zipCode);</div><div class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span>  RuntimeException(e);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>위의 코드는 정상적으로 컴파일되고 실행할 수 있습니다.<br>그럼 실행해 볼까요?. 하지만 <code>Jigsaw</code>는 쉽게 속지 않습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">java.lang.IllegalAccessException:</div><div class="line">class de.codecentric.addresschecker.internal.AddressCheckerImpl </div><div class="line">(in module de.codecentric.addresschecker) cannot access class [..].internal.ZipCodeValidatorImpl </div><div class="line">(in module de.codecentric.zipvalidator) because module</div><div class="line">de.codecentric.zipvalidator does not export package</div><div class="line">de.codecentric.zipvalidator.internal to module</div><div class="line">de.codecentric.addresschecker</div></pre></td></tr></table></figure>
+<p><code>Jigsaw</code>는 컴파일시 체크 뿐만 아니라 런타임시에도 체크가 포함되어 있습니다!. 그래서 우리가 잘못한 것을 매우 분명하게 알아 냅니다.</p>
+<h3 id="순환-참조-Circular-dependencies"><a href="#순환-참조-Circular-dependencies" class="headerlink" title="순환 참조 (Circular dependencies)"></a>순환 참조 (Circular dependencies)</h3><p>다음의 경우를 가정해 봅시다.<br>개발하는 도중에 어느 순간 <em>zipvalidator</em>가 사용하고자 하는 API 클래스를 <em>addresschecker</em> 모듈이  포함하고 있음을 깨닫게 되었습니다.<br>하지만 귀찮거나 다른 이유로 해당 클래스를 다른 모듈로 리팩토링하는 대신 아래의 코드처럼 addresschecker에 그냥 의존성을 선언할 수 있습니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">module</span> de.codecentric.zipvalidator&#123;</div><div class="line">    <span class="keyword">requires</span> de.codecentric.addresschecker;</div><div class="line">    <span class="keyword">exports</span> de.codecentric.zipvalidator.api;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>그렇지만 <code>Jigsaw</code>에서 순환 참조는 허용되지 않기 때문에 컴파일러는 아래와 같은 에러 메시지를 보여줍니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./de.codecentric.zipvalidator/module-info.java:2: </div><div class="line">error: cyclic dependence involving de.codecentric.addresschecker</div></pre></td></tr></table></figure>
+<p>우리는 이러한 문제들을 컴파일 타임에 바로 알수 있게 됩니다.</p>
+<h3 id="묵시적인-접근-Implied-readability"><a href="#묵시적인-접근-Implied-readability" class="headerlink" title="묵시적인 접근(Implied readability)"></a>묵시적인 접근(Implied readability)</h3><p>좀 더 많은 기능을 제공하기 위해 우리는 리턴 타입으로 <code>boolean</code>을 사용하는 대신 유효성 검사 결과를 위한 일종의 모델을 포함하는 새로운 모듈 <em>de.codecentric.zipvalidator.model</em>을 도입하여 <em>zipvalidator</em>를 확장했습니다. 새로운 파일 구조는 다음과 같습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">three-modules-ok/</div><div class="line">├── de.codecentric.addresschecker</div><div class="line">│   ├── de</div><div class="line">│   │   └── codecentric</div><div class="line">│   │       └── addresschecker</div><div class="line">│   │           ├── api</div><div class="line">│   │           │   ├── AddressChecker.java</div><div class="line">│   │           │   └── Run.java</div><div class="line">│   │           └── internal</div><div class="line">│   │               └── AddressCheckerImpl.java</div><div class="line">│   └── module-info.java</div><div class="line">├── de.codecentric.zipvalidator</div><div class="line">│   ├── de</div><div class="line">│   │   └── codecentric</div><div class="line">│   │       └── zipvalidator</div><div class="line">│   │           ├── api</div><div class="line">│   │           │   ├── ZipCodeValidator.java</div><div class="line">│   │           │   └── ZipCodeValidatorFactory.java</div><div class="line">│   │           └── internal</div><div class="line">│   │               └── ZipCodeValidatorImpl.java</div><div class="line">│   └── module-info.java</div><div class="line">├── de.codecentric.zipvalidator.model</div><div class="line">│   ├── de</div><div class="line">│   │   └── codecentric</div><div class="line">│   │       └── zipvalidator</div><div class="line">│   │           └── model</div><div class="line">│   │               └── api</div><div class="line">│   │                   └── ZipCodeValidationResult.java</div><div class="line">│   └── module-info.java</div></pre></td></tr></table></figure>
+<p><em>ZipCodeValidationResult</em>는 “too short”, “too long” 등과 같은 인스턴스가 있는 간단한 <code>enum</code> 타입입니다.<br><em>module-info.java</em>는 아래와 같이 수정되었습니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">module</span> de.codecentric.zipvalidator&#123;</div><div class="line">       <span class="keyword">exports</span> de.codecentric.zipvalidator.api;</div><div class="line">       <span class="keyword">requires</span> de.codecentric.zipvalidator.model;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>그리고 <em>ZipCodeValidator</em>의 구현체 (<em>ZipCodeValidatorImpl.java</em>)는 다음과 같습니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> ZipCodeValidationResult <span class="title">zipCodeIsValid</span><span class="params">(String zipCode)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (zipCode == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span> ZipCodeValidationResult.ZIP_CODE_NULL;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (zipCode.length() &lt; <span class="number">5</span>) &#123;</div><div class="line">        <span class="keyword">return</span> ZipCodeValidationResult.ZIP_CODE_TOO_SHORT;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (zipCode.length() &gt; <span class="number">5</span>) &#123;</div><div class="line">        <span class="keyword">return</span> ZipCodeValidationResult.ZIP_CODE_TOO_LONG;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> ZipCodeValidationResult.OK;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><em>addresschecker</em> 모듈이 <em>ZipCodeValidationResult</em>를 리턴 타입으로 사용하도록 수정되었기 때문에 컴파일이 잘 되어야 합니다.<br>그럴까요? 아래는 컴파일 결과입니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./de.codecentric.addresschecker/de/[..]/internal/AddressCheckerImpl.java:5: </div><div class="line">error: ZipCodeValidationResult is not visible because package</div><div class="line">de.codecentric.zipvalidator.model.api is not visible</div></pre></td></tr></table></figure>
+<p><em>addresschecker</em>의 컴파일에 에러가 발생합니다. <em>zipvalidator</em>는 <em>zipvalidator.model</em>에서 <code>export</code>한 <code>public API</code>타입을 사용합니다.<br>하지만 <em>addresschecker</em>은 <em>module-info.java</em>에서 <code>requires</code>를 하지 않았기 때문에 <em>zipvalidator.model</em> 모듈을 액세스 할 수 없습니다.</p>
+<p>이 문제를 해결하기 위한 두가지 방법이 있습니다.<br>확실한 방법은 <em>addresschecker</em>에서 <em>zipvalidator.model</em>에 대한 read edge를 추가하는 것입니다.<br>그러나 이것은 그리 좋은 방법이 아닙니다.</p>
+<p>왜 <em>addresschecker</em>가 <em>zipvalidator</em>를 사용하기 위해 <em>zipvalidator.model</em>에 대한 dependency를  추가해야 할까요?<br>그리고 <em>zipvalidator</em>를 사용하는 모든 곳에서 <em>zipvalidator</em>에서 참조하는 모든 모듈에 액세스 할 수 있어야 할까요?</p>
+<p>하지만 그렇게 해야만하고 그렇게 할 수 있습니다.</p>
+<p><strong>Implied readability</strong>에 오신 것을 환영합니다.<br><em>zipvalidator</em>의 <code>requires</code> definition에 <code>public</code> 키워드를 추가하여 <em>zipvalidator</em>의 모든 클라이언트 모듈에 또 다른 모듈을 읽을 필요가 있음을 알립니다.</p>
+<p>아래 코드는 <em>zipvalidator</em>의 업데이트 된 <em>module-info.java</em>입니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">module</span> de.codecentric.zipvalidator&#123;</div><div class="line">    <span class="keyword">exports</span> de.codecentric.zipvalidator.api;</div><div class="line">    <span class="keyword">requires</span> <span class="keyword">public</span> de.codecentric.zipvalidator.model;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>public</code> 키워드는 <em>zipvalidator</em> 모듈을 사용하는 모든 모듈에게 <em>zipvalidator.model</em>모듈을 읽을 필요가 있다고 알려줍니다.<br>이것은 classpath를 사용하던 익숙한 방식으로 부터 변화입니다. 더이상 Maven POM에 의존 해서는 안됩니다.<br>그렇기 때문에 public API의 일부인 경우 모든 client가 여러분 모듈의 dependency를 사용할 수 있도록 하려면 명시적으로 지정해야 합니다.</p>
+<p>이것은 매우 좋은 모델입니다.<br>만약 의존성이 있는 모듈을 내부에서만 사용하는 경우 client를 귀찮게 하지 않아도 됩니다.<br>그리고 모듈을 대외적으로 사용한다면 자신이 사용하는 모듈에 대해 자신의 클라이언트에 알려줘야 합니다.</p>
+<hr>
+<h2 id="관련-문서"><a href="#관련-문서" class="headerlink" title="관련 문서"></a>관련 문서</h2><ul>
+<li><a href="https://infoscis.github.io/2017/03/24/First-steps-with-java9-and-jigsaw-part-2/">Java 9 와 Project Jigsaw 소개 2</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2017/03/24/First-steps-with-java9-and-jigsaw-part-1/" data-id="cjkl90zz20000jguznl9zzc18" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/03/24/First-steps-with-java9-and-jigsaw-part-2/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            Java 9 와 Project Jigsaw 소개 2
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/03/23/Riding-the-Nashorn/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">JVM에서 JavaScript 프로그램 하기(Nashorn에 대한 소개)</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2017/03/24/First-steps-with-java9-and-jigsaw-part-1/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Angular Observable &amp; RxJS | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Angular" />
+    
+    <meta name="description" content="ObservableObservable은 Application의 Publisher와 Subscriber 사이의 메시지 전달을 지원하는 기능을 제공합니다. Observable은 이벤트 처리, 비동기 프로그래밍 및 다중 값 처리와 관련된 다른 기술에 비해 상당한 이점을 제공합니다.
+Observable은 선언적입니다. 즉, 여러분이 값을 게시하는 함수를 정의해도,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular Observable & RxJS">
+<meta property="og:url" content="http://infoscis.github.io/2018/08/08/angular-observables-and-rxjs/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="ObservableObservable은 Application의 Publisher와 Subscriber 사이의 메시지 전달을 지원하는 기능을 제공합니다. Observable은 이벤트 처리, 비동기 프로그래밍 및 다중 값 처리와 관련된 다른 기술에 비해 상당한 이점을 제공합니다.
+Observable은 선언적입니다. 즉, 여러분이 값을 게시하는 함수를 정의해도,">
+<meta property="og:updated_time" content="2018-08-08T14:44:11.432Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular Observable & RxJS">
+<meta name="twitter:description" content="ObservableObservable은 Application의 Publisher와 Subscriber 사이의 메시지 전달을 지원하는 기능을 제공합니다. Observable은 이벤트 처리, 비동기 프로그래밍 및 다중 값 처리와 관련된 다른 기술에 비해 상당한 이점을 제공합니다.
+Observable은 선언적입니다. 즉, 여러분이 값을 게시하는 함수를 정의해도,">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2018/08/08/angular-observables-and-rxjs/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Angular/">Angular</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-angular-observables-and-rxjs" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Angular Observable &amp; RxJS
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2018/08/08/angular-observables-and-rxjs/" class="article-date">
+            <time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Angular/">Angular</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Observable"><a href="#Observable" class="headerlink" title="Observable"></a>Observable</h1><p><em>Observable</em>은 Application의 Publisher와 Subscriber 사이의 메시지 전달을 지원하는 기능을 제공합니다. <em>Observable</em>은 이벤트 처리, 비동기 프로그래밍 및 다중 값 처리와 관련된 다른 기술에 비해 상당한 이점을 제공합니다.</p>
+<p><em>Observable</em>은 선언적입니다. 즉, 여러분이 값을 게시하는 함수를 정의해도, Consumer가 구독 하기전까지 실행되지 않습니다. 그리고 구독된 Consumer는 함수가 완료되거나 구독을 취소 할 때까지 알림을 받습니다.</p>
+<p><em>Observable</em>은 컨텍스트에 따라 리터럴(Literal), 메시지(Message) 또는 이벤트(Event)등 여러 값을 전달할 수 있습니다. 값을 수신하기 위한 API는 값이 동기적 또는 비동기적으로 전달되는지 여부에 관계없이 동일합니다. 설정 및 해체 로직은 모두 <em>Observable</em>에 의해 처리되고, 응용 프로그램에서는 값을 소비하기 위해 구독하고, 완료되면 구독을 취소하는 것에 신경을 써야 합니다. Stream이 Keystroke인지, HTTP 응답인지, 인터벌 타이머인지 여부와 관계없이 값을 구독하고 멈추는 인터페이스는 동일합니다.</p>
+<p>이러한 이점 때문에 <em>Observable</em>은 Angular 내에서 광범위하게 사용되며 앱 개발에도 권장됩니다.</p>
+<h2 id="기본-사용법-및-용어"><a href="#기본-사용법-및-용어" class="headerlink" title="기본 사용법 및 용어"></a>기본 사용법 및 용어</h2><p>Publisher는 <em>subscriber</em> 함수를 정의하는 <em>Observable</em> 인스턴스를 만듭니다. 이 함수는 Consumer가 <code>subscribe()</code>함수를 호출할 때 실행 됩니다. <em>subscriber</em> 함수는 게시될 값 또는 메시지를 얻거나 생성하는 방법을 정의합니다. </p>
+<p>생성한 <em>Observable</em> 객체를 실행하고 알림 수신을 시작하려면 <em>observer</em>를 전달하여 <code>subscribe()</code> 메서드를 호출합니다. <em>observer</em>는 여러분이 수신한 알림을 처리하는 핸드러를 정의한 JavaScript 객체입니다. <code>subscribe()</code> 메서드는 Subscripotion 객체를 반환하는데, 이 객체에는 알림 수신을 중지하기 위해 호출하는 <code>unsubscribe()</code> 메서드가 있습니다.</p>
+<p>다음은 Geolocation 업데이트 정보 제공에 <em>Observable</em>을 어떻게 사용할 수 있지 보여줌으로써 기본 사용 모델을 설명하는 예제입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Consumer가 구독할때 Geolocation 변경사항을 수신하는 *Observable*을 생성합니다.</span></div><div class="line"><span class="keyword">const</span> locations = <span class="keyword">new</span> Observable(<span class="function">(<span class="params">observer</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">// next와 error 콜백을 가져옵니다. 이것은 Consumer가 구독할때 넘겨줍니다.</span></div><div class="line">  <span class="keyword">const</span> &#123;next, error&#125; = observer;</div><div class="line">  <span class="keyword">let</span> watchId;</div><div class="line"> </div><div class="line">  <span class="comment">// 게시할 값을 제공하는 간단한 geolocation API를 확인</span></div><div class="line">  <span class="keyword">if</span> (<span class="string">'geolocation'</span> <span class="keyword">in</span> navigator) &#123;</div><div class="line">    watchId = navigator.geolocation.watchPosition(next, error);</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    error(<span class="string">'Geolocation not available'</span>);</div><div class="line">  &#125;</div><div class="line"> </div><div class="line">  <span class="comment">// Consumer가 구독을 중지하면 다음 구독을 위해 준비한 데이터를 정리합니다.</span></div><div class="line">  <span class="keyword">return</span> &#123;unsubscribe() &#123; navigator.geolocation.clearWatch(watchId); &#125;&#125;;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line"><span class="comment">// 변경사항 수신을 시작하기 위해 subscribe()를 호출합니다.</span></div><div class="line"><span class="keyword">const</span> locationsSubscription = locations.subscribe(&#123;</div><div class="line">  next(position) &#123; <span class="built_in">console</span>.log(<span class="string">'Current Position: '</span>, position); &#125;,</div><div class="line">  error(msg) &#123; <span class="built_in">console</span>.log(<span class="string">'Error Getting Location: '</span>, msg); &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line"><span class="comment">// 10초후에 수신을 중지합니다.</span></div><div class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123; locationsSubscription.unsubscribe(); &#125;, <span class="number">10000</span>);</div></pre></td></tr></table></figure>
+<h2 id="Observer-정의"><a href="#Observer-정의" class="headerlink" title="Observer 정의"></a>Observer 정의</h2><p><em>Observable</em> 알람을 수신하기 위한 핸들러는 <code>Observer</code> 인터페이스를 구현합니다. 이것은 <em>Observable</em>이 보낼수 있는 3가지 알람 타입을 처리할 수 있는 콜백 메서드가 정의된 객체입니다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>알람 종류</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>next</code></td>
+<td>필수. 전달된 각각의 값을 처리하는 핸들러. 실행 시작후 0번 또는 그 이상 호출됩니다.</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>선택사항. 오류 알람에 대한 처리 핸들러. 오류로 인해 <em>Observable</em> 인스턴스의 실행이 중지됩니다.</td>
+</tr>
+<tr>
+<td><code>complete</code></td>
+<td>선택사항. 실행 완료 알람에 대한 처리 핸들러. 지연된 값은 실행 완료 후에도 계속해서 <code>next</code> 핸들러로 전달될 수 있습니다.</td>
+</tr>
+</tbody>
+</table>
+<p><em>Observable</em> 객체는 이러한 핸들러의 조합을 정의할 수 있습니다. 만약 알람 종류에 대한 핸들러를 제공하지 않으면, <em>observer</em>는 해당 종류의 알람을 무시합니다.</p>
+<h2 id="구독-Subscribing"><a href="#구독-Subscribing" class="headerlink" title="구독(Subscribing)"></a>구독(Subscribing)</h2><p><code>Observable</code> 인스턴스는 누군가가 구독할 때만 값을 게시 시작합니다. 여러분은 알람을 수신받을 <em>observer</em> 객체를 <code>Observable</code> 인스턴스의 <code>subscribe()</code> 메서드에 넘겨 구독을 시작합니다.</p>
+<blockquote>
+<p>어떻게 구독(Subscribing)이 작동하는지 보여주기 위해 새로운 <em>Observable</em>을 만듭니다. 새로운 인스턴스를 생성하기 위해 사용할 수 있는 생성자가 있지만, 설명을 위해 <em>Observable</em> 클래스에서 자주 사용하는 간단한 <em>Observable</em>을 만드는 몇가지 정적 메서드를 사용할 수 있습니다.</p>
+<ul>
+<li>Observable.of(…items)-인수로 제공된 값을 동기적으로 전달하는 <code>Observable</code> 인스턴스를 반환합니다.</li>
+<li>Observable.from(iterable)-인수를 <code>Observable</code> 인스턴스로 변경합니다. 일반적으로 이 메서드는 Array를 <em>Observable</em>로 변환할 때 사용합니다.</li>
+</ul>
+</blockquote>
+<p>다음은 수신받은 메시지를 console에 기록하는 간단한 <em>observer</em>를 이용하여 <em>Observable</em>을 생성하고 구독하는 예제입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 값 3개를 발생시키는 간단한 observable 생성</span></div><div class="line"><span class="keyword">const</span> myObservable = Observable.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</div><div class="line"></div><div class="line"><span class="comment">// observer 객체 생성</span></div><div class="line"><span class="keyword">const</span> myObserver = &#123;</div><div class="line">  next: <span class="function"><span class="params">x</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'Observer got a next value: '</span> + x),</div><div class="line">  error: <span class="function"><span class="params">err</span> =&gt;</span> <span class="built_in">console</span>.error(<span class="string">'Observer got an error: '</span> + err),</div><div class="line">  complete: <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'Observer got a complete notification'</span>),</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// observer 객체를 이용해 실행시킴</span></div><div class="line">myObservable.subscribe(myObserver);</div><div class="line"><span class="comment">// Logs:</span></div><div class="line"><span class="comment">// Observer got a next value: 1</span></div><div class="line"><span class="comment">// Observer got a next value: 2</span></div><div class="line"><span class="comment">// Observer got a next value: 3</span></div><div class="line"><span class="comment">// Observer got a complete notification</span></div></pre></td></tr></table></figure>
+<p>또는 <code>subscribe()</code> 메서드는 <code>next</code>, <code>error</code> 및 <code>complete</code> 핸들러에 대한 콜백 함수를 인수에서 정의하는 것을 허용합니다. 예를 들어, 다음 <code>subscribe()</code> 호출은 사전 정의된 <em>observer</em>를 지정하여 호출하는 것과 똑같습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">myObservable.subscribe(</div><div class="line">  <span class="function"><span class="params">x</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'Observer got a next value: '</span> + x),</div><div class="line">  <span class="function"><span class="params">err</span> =&gt;</span> <span class="built_in">console</span>.error(<span class="string">'Observer got an error: '</span> + err),</div><div class="line">  <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'Observer got a complete notification'</span>)</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>위의 두가지 방법 모두 <code>next</code>는 필수사항이고, <code>error</code>와 <code>complete</code>는 선택사항입니다.</p>
+<p><code>next</code> 메서드는 컨텍스트에 따라 메시지 문자열, 이벤트 객체, 숫자값 또는 구조체를 수신 받을수 있습니다. 일반적으로 우리는 <em>Stream</em>에 의해 <em>Observable</em>로 게시된 데이터를 참조합니다. 모든 타입은 <em>Observable</em>로 표시될 수 있으며, 해당 값은 <em>Stream</em>으로 게시됩니다.</p>
+<h2 id="Observable-생성"><a href="#Observable-생성" class="headerlink" title="Observable 생성"></a>Observable 생성</h2><p><code>Observable</code> 생성자를 사용하여 모든 타입의 <em>Observable Stream</em>을 만듭니다. 생성자는 <em>Observable</em>의 <code>subscribe()</code> 메서드가 호출될 때 실행시킬 <em>subscriber</em> 함수를 인수로 받습니다. <em>subscriber</em> 함수는 <em>observer</em> 객체를 받고, <em>observer</em>의 <code>next</code> 메서드에 값을 게시할 수 있습니다.</p>
+<p>예를 들어 <code>Observable.of(1, 2, 3)</code>에 해당하는 <em>Observable</em> 객체를 만들려면 다음과 같이할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 이 함수는 subscribe()가 호출될 때 실행됩니다.</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sequenceSubscriber</span>(<span class="params">observer</span>) </span>&#123;</div><div class="line">  <span class="comment">// 순차적으로 1, 2, 그리고 3 을 전달하 후 완료(complete) 합니다.</span></div><div class="line">  observer.next(<span class="number">1</span>);</div><div class="line">  observer.next(<span class="number">2</span>);</div><div class="line">  observer.next(<span class="number">3</span>);</div><div class="line">  observer.complete();</div><div class="line"> </div><div class="line">  <span class="comment">// 값이 순차적으로 전달되기 때문에 unsubscribe 함수는 아무것도 할 필요가 없습니다.</span></div><div class="line">  <span class="keyword">return</span> &#123;unsubscribe() &#123;&#125;&#125;;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="comment">// 위의 시퀀스를 전달할 새로운 Observable을 생성합니다.</span></div><div class="line"><span class="keyword">const</span> sequence = <span class="keyword">new</span> Observable(sequenceSubscriber);</div><div class="line"> </div><div class="line"><span class="comment">// Observable을 실행 시키고 각 알람의 결과를 출력합니다.</span></div><div class="line">sequence.subscribe(&#123;</div><div class="line">  next(num) &#123; <span class="built_in">console</span>.log(num); &#125;,</div><div class="line">  complete() &#123; <span class="built_in">console</span>.log(<span class="string">'Finished sequence'</span>); &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line"><span class="comment">// Logs:</span></div><div class="line"><span class="comment">// 1</span></div><div class="line"><span class="comment">// 2</span></div><div class="line"><span class="comment">// 3</span></div><div class="line"><span class="comment">// Finished sequence</span></div></pre></td></tr></table></figure>
+<p>이 예를 좀 더 발전시키기 위해, 우리는 이벤트를 게시하는 <em>Observable</em>을 생성할 수 있습니다. 이 예제에서 <em>subscriber</em>함수가 인라인으로 정의 됩니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fromEvent</span>(<span class="params">target, eventName</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> Observable(<span class="function">(<span class="params">observer</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">const</span> handler = <span class="function">(<span class="params">e</span>) =&gt;</span> observer.next(e);</div><div class="line"> </div><div class="line">    <span class="comment">// target에 Event 핸들러를 붙입니다.</span></div><div class="line">    target.addEventListener(eventName, handler);</div><div class="line"> </div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      <span class="comment">// target에서 이벤트 핸들러를 제거합니다.</span></div><div class="line">      target.removeEventListener(eventName, handler);</div><div class="line">    &#125;;</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이제 이 함수를 keydown 이벤트를 게시하는 <em>Observable</em>을 생성하는데 사용할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> ESC_KEY = <span class="number">27</span>;</div><div class="line"><span class="keyword">const</span> nameInput = <span class="built_in">document</span>.getElementById(<span class="string">'name'</span>) <span class="keyword">as</span> HTMLInputElement;</div><div class="line"></div><div class="line"><span class="keyword">const</span> subscription = fromEvent(nameInput, <span class="string">'keydown'</span>)</div><div class="line">  .subscribe(<span class="function">(<span class="params">e: KeyboardEvent</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">if</span> (e.keyCode === ESC_KEY) &#123;</div><div class="line">      nameInput.value = <span class="string">''</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
+<h2 id="여러-Comsumer에게-동시에-보내기-Multicasting"><a href="#여러-Comsumer에게-동시에-보내기-Multicasting" class="headerlink" title="여러 Comsumer에게 동시에 보내기(Multicasting)"></a>여러 Comsumer에게 동시에 보내기(Multicasting)</h2><p>일반적인 <em>Observable</em> 생성은, 구독하는 각각 <em>observer</em>에 대해 독립적으로 실행 됩니다. <em>observer</em>가 구독할 때 <em>Observable</em>은 이벤트 핸들러를 연결하고 그 <em>observer</em>에 값을 전달합니다. 두 번째 <em>observer</em>가 구독하면 <em>Observable</em>은 새로운 이벤트 핸들러에 연결하고 별도의 실행으로 두 번째 <em>observer</em>에 값을 전달합니다.</p>
+<p>Document 객체에 대한 클릭을 <em>Observable</em>하는 경우와 같이 각 <em>subscriber</em>가 독립된 실행으로 시작하는 대신에 이미 값이 발행되고 있다고 할지라도 각 구독자가 같은 값을 갖기를 원할 수도 있습니다.</p>
+<p><em>Multicasting</em>은 단일 실행으로 여러 구독자 목록에 브로드 캐스트하는 기능입니다. <em>Multicasting observable</em>을 활용하면 Document에 여러개의 수신자(Listener)를 등록할 필요가 없고, 첫 번째 수신자(Listener)를 재사용하여 각 구독자에 값을 보냅니다.</p>
+<p><em>Observable</em>을 생성할 때 <em>Observable</em>을 어떻게 사용 할지, 그리고 값을 Multicast 할지 말지를 결정합니다.</p>
+<p>아래의 예제는 1부터 3까지 카운트 하며, 각 숫자가 발행된 후 1초가 지연됩니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sequenceSubscriber</span>(<span class="params">observer</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> seq = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</div><div class="line">  <span class="keyword">let</span> timeoutId;</div><div class="line"> </div><div class="line">  <span class="comment">// 배열 끝에 도달 할 때까지 초당 하나의 값을 게시하는 숫자 배열을 따라 실행합니다.</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">doSequence</span>(<span class="params">arr, idx</span>) </span>&#123;</div><div class="line">    timeoutId = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      observer.next(arr[idx]);</div><div class="line">      <span class="keyword">if</span> (idx === arr.length - <span class="number">1</span>) &#123;</div><div class="line">        observer.complete();</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        doSequence(arr, idx++);</div><div class="line">      &#125;</div><div class="line">    &#125;, <span class="number">1000</span>);</div><div class="line">  &#125;</div><div class="line"> </div><div class="line">  doSequence(seq, <span class="number">0</span>);</div><div class="line"> </div><div class="line">  <span class="comment">// Unsubscribe 할때 timeout을 취소 합니다.</span></div><div class="line">  <span class="keyword">return</span> &#123;unsubscribe() &#123;</div><div class="line">    clearTimeout(timeoutId);</div><div class="line">  &#125;&#125;;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="comment">// 위에 정의한 시퀀스를 전달하는 Observable을 새로 생성합니다.</span></div><div class="line"><span class="keyword">const</span> sequence = <span class="keyword">new</span> Observable(sequenceSubscriber);</div><div class="line"> </div><div class="line">sequence.subscribe(&#123;</div><div class="line">  next(num) &#123; <span class="built_in">console</span>.log(num); &#125;,</div><div class="line">  complete() &#123; <span class="built_in">console</span>.log(<span class="string">'Finished sequence'</span>); &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line"><span class="comment">// 출력 결과:</span></div><div class="line"><span class="comment">// (at 1 second): 1</span></div><div class="line"><span class="comment">// (at 2 seconds): 2</span></div><div class="line"><span class="comment">// (at 3 seconds): 3</span></div><div class="line"><span class="comment">// (at 3 seconds): Finished sequence</span></div></pre></td></tr></table></figure>
+<p>두번 구독하면 매초 값이 게시되는 두개의 분리된 Stream이 생성되고, 아래와 같이 보여집니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 구독을 시작합니다. 1초후 값이 게시 됩니다.</span></div><div class="line">sequence.subscribe(&#123;</div><div class="line">  next(num) &#123; <span class="built_in">console</span>.log(<span class="string">'1st subscribe: '</span> + num); &#125;,</div><div class="line">  complete() &#123; <span class="built_in">console</span>.log(<span class="string">'1st sequence finished.'</span>); &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line"><span class="comment">// 0.5초 후에 다시 구독합니다.</span></div><div class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  sequence.subscribe(&#123;</div><div class="line">    next(num) &#123; <span class="built_in">console</span>.log(<span class="string">'2nd subscribe: '</span> + num); &#125;,</div><div class="line">    complete() &#123; <span class="built_in">console</span>.log(<span class="string">'2nd sequence finished.'</span>); &#125;</div><div class="line">  &#125;);</div><div class="line">&#125;, <span class="number">500</span>);</div><div class="line"> </div><div class="line"><span class="comment">// 출력:</span></div><div class="line"><span class="comment">// (at 1 second): 1st subscribe: 1</span></div><div class="line"><span class="comment">// (at 1.5 seconds): 2nd subscribe: 1</span></div><div class="line"><span class="comment">// (at 2 seconds): 1st subscribe: 2</span></div><div class="line"><span class="comment">// (at 2.5 seconds): 2nd subscribe: 2</span></div><div class="line"><span class="comment">// (at 3 seconds): 1st subscribe: 3</span></div><div class="line"><span class="comment">// (at 3 seconds): 1st sequence finished</span></div><div class="line"><span class="comment">// (at 3.5 seconds): 2nd subscribe: 3</span></div><div class="line"><span class="comment">// (at 3.5 seconds): 2nd sequence finished</span></div></pre></td></tr></table></figure>
+<p><em>Observable</em>을 Multicasting 으로 변경하면 다음과 같습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">multicastSequenceSubscriber</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> seq = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</div><div class="line">  <span class="comment">// 각 observer를 추적합니다.(모든 활성 구독마다 하나씩).</span></div><div class="line">  <span class="keyword">const</span> observers = [];</div><div class="line">  <span class="comment">// 하나의 value set만 생성되고 각 subscriber로 Multicast 되기 때문에 하나의 timeoutId만 있습니다.</span></div><div class="line">  <span class="keyword">let</span> timeoutId;</div><div class="line"> </div><div class="line">  <span class="comment">// subscribe() 함수가 invoke 될때 실행 되는 subscriber 함수를 리턴합니다.</span></div><div class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">observer</span>) =&gt;</span> &#123;</div><div class="line">    observers.push(observer);</div><div class="line">    <span class="comment">// 첫 번째 구독인 경우 시퀀스를 시작합니다.</span></div><div class="line">    <span class="keyword">if</span> (observers.length === <span class="number">1</span>) &#123;</div><div class="line">      timeoutId = doSequence(&#123;</div><div class="line">        next(val) &#123;</div><div class="line">          <span class="comment">// observer를 순회하면서 모든 구독에 알람을 줍니다.</span></div><div class="line">          observers.forEach(<span class="function"><span class="params">obs</span> =&gt;</span> obs.next(val));</div><div class="line">        &#125;,</div><div class="line">        complete() &#123;</div><div class="line">          <span class="comment">// 모든 complete 콜백에 알람을 줍니다.</span></div><div class="line">          observers.forEach(<span class="function"><span class="params">obs</span> =&gt;</span> obs.complete());</div><div class="line">        &#125;</div><div class="line">      &#125;, seq, <span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      unsubscribe() &#123;</div><div class="line">        <span class="comment">// observer 배열에서 제거합니다. 그리고 더이상 알람을 받지 않습니다.</span></div><div class="line">        observers.splice(observers.indexOf(observer), <span class="number">1</span>);</div><div class="line">        <span class="comment">// Listener가 없을 경우 정리합니다.</span></div><div class="line">        <span class="keyword">if</span> (observers.length === <span class="number">0</span>) &#123;</div><div class="line">          clearTimeout(timeoutId);</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;;</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="comment">// 배열을 순회하면서 배열의 끝에 다다를 때까지 1초에 하나의 값을 게시합니다.</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSequence</span>(<span class="params">observer, arr, idx</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    observer.next(arr[idx]);</div><div class="line">    <span class="keyword">if</span> (idx === arr.length - <span class="number">1</span>) &#123;</div><div class="line">      observer.complete();</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      doSequence(observer, arr, idx++);</div><div class="line">    &#125;</div><div class="line">  &#125;, <span class="number">1000</span>);</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="comment">// 위의 시퀀스를 전달하는 새로운 Observable을 생성합니다.</span></div><div class="line"><span class="keyword">const</span> multicastSequence = <span class="keyword">new</span> Observable(multicastSequenceSubscriber);</div><div class="line"> </div><div class="line"><span class="comment">// 구독을 시작하고 1초후에 게시를 시작합니다.</span></div><div class="line">multicastSequence.subscribe(&#123;</div><div class="line">  next(num) &#123; <span class="built_in">console</span>.log(<span class="string">'1st subscribe: '</span> + num); &#125;,</div><div class="line">  complete() &#123; <span class="built_in">console</span>.log(<span class="string">'1st sequence finished.'</span>); &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line"><span class="comment">// 1.5초 후에 구독을 다시 시작 합니다. (첫 값은 받지 못합니다.)</span></div><div class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  multicastSequence.subscribe(&#123;</div><div class="line">    next(num) &#123; <span class="built_in">console</span>.log(<span class="string">'2nd subscribe: '</span> + num); &#125;,</div><div class="line">    complete() &#123; <span class="built_in">console</span>.log(<span class="string">'2nd sequence finished.'</span>); &#125;</div><div class="line">  &#125;);</div><div class="line">&#125;, <span class="number">1500</span>);</div><div class="line"> </div><div class="line"><span class="comment">// 출력:</span></div><div class="line"><span class="comment">// (at 1 second): 1st subscribe: 1</span></div><div class="line"><span class="comment">// (at 2 seconds): 1st subscribe: 2</span></div><div class="line"><span class="comment">// (at 2 seconds): 2nd subscribe: 2</span></div><div class="line"><span class="comment">// (at 3 seconds): 1st subscribe: 3</span></div><div class="line"><span class="comment">// (at 3 seconds): 1st sequence finished</span></div><div class="line"><span class="comment">// (at 3 seconds): 2nd subscribe: 3</span></div><div class="line"><span class="comment">// (at 3 seconds): 2nd sequence finished</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p><em>Multicast Observable</em>은 조금더 많은 설정을 필요로 하지만, 어떤 어플리케이션에서는 이러한 사용법이 훨씬 더 유용할 수 있습니다. 나중에 Multicasting 프로세스를 간소화하는 도구를 살펴볼 예정이며, 또한 임의의 <em>Observable</em>을 가져와 Multicasting 할 수도 있습니다.</p>
+</blockquote>
+<h2 id="오류-처리"><a href="#오류-처리" class="headerlink" title="오류 처리"></a>오류 처리</h2><p><em>Observable</em>은 값을 동기적으로 생성하기 때문에 오류를 잡는데(catch) try/catch가 효율적이지 않습니다. 대신에 <em>observer</em>의 <code>error</code> 콜백을 지정하여 오류를 처리할 수 있습니다. 오류가 발생하면 <em>Observable</em>이 구독을 정리하고 값 생성을 중지합니다. <em>Observable</em>은 값을 생성하거나 (<code>next</code> 콜백을 호출할 수 있습니다.) <code>complete</code> 또는<code>error</code> 콜백을 호출하여 완료할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">myObservable.subscribe(&#123;</div><div class="line">  next(num) &#123; <span class="built_in">console</span>.log(<span class="string">'Next num: '</span> + num)&#125;,</div><div class="line">  error(err) &#123; <span class="built_in">console</span>.log(<span class="string">'Received an errror: '</span> + err)&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>오류 처리(특히 오류 복구)에 대해서는 다음 섹션에서 자세히 설명합니다.</p>
+<h1 id="RxJS-라이브러리"><a href="#RxJS-라이브러리" class="headerlink" title="RxJS 라이브러리"></a>RxJS 라이브러리</h1><p>반응형 프로그래밍(Reactive programming)은 데이터 스트림 및 변경 전파와 관련된 비동기 프로그래밍 패러다임입니다.  RxJS (Reactive Extensions for JavaScript)는 비동기 또는 콜백 기반 코드를 보다 쉽게 작성할 수 있도록 <em>Observable</em>을 이용한 반응형 프로그래밍 라이브러리 입니다.</p>
+<p>RxJS는 <code>Observable</code> 타입 구현을 제공합니다. 이 구현은 <code>Observable</code>이 언어(Language)의 일부 또는 브라우저가 지원할 때까지 필요합니다. 이 라이브러리는 <code>Observable</code> 객체를 생성하고 작업하기 위한 유틸리티 함수도 제공합니다. 이 유틸리티 함수는 다음과 같은 경우에 사용할 수 있습니다.</p>
+<ul>
+<li>기존 코드를 <em>Observable</em>의 비동기 작업으로 변환</li>
+<li>스트림의 값 순회</li>
+<li>값을 다른 타입으로 매핑</li>
+<li>스트림 필터링</li>
+<li>여러 스트림 작성</li>
+</ul>
+<h2 id="Observable-생성-함수"><a href="#Observable-생성-함수" class="headerlink" title="Observable 생성 함수"></a>Observable 생성 함수</h2><p>RxJS는 새로운 <em>Observable</em>을 생성하는데 사용할 수 있는 몇가지 함수를 제공합니다. 이러한 함수는 Event, Timer , Promise등으로 부터 <em>Observable</em> 객체를 만드는 프로세스를 단순화 할 수 있습니다.</p>
+<p><strong>Promise로 부터 Observable 생성</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; fromPromise &#125; <span class="keyword">from</span> <span class="string">'rxjs'</span>;</div><div class="line"></div><div class="line"><span class="comment">// Promise에서 Observable을 만듭니다.</span></div><div class="line"><span class="keyword">const</span> data = fromPromise(fetch(<span class="string">'/api/endpoint'</span>));</div><div class="line"><span class="comment">// 구독하여 비동기적으로 결과를 수신 시작</span></div><div class="line">data.subscribe(&#123;</div><div class="line"> next(response) &#123; <span class="built_in">console</span>.log(response); &#125;,</div><div class="line"> error(err) &#123; <span class="built_in">console</span>.error(<span class="string">'Error: '</span> + err); &#125;,</div><div class="line"> complete() &#123; <span class="built_in">console</span>.log(<span class="string">'Completed'</span>); &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p><strong>Counter로 부터 Observable 생성</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; interval &#125; <span class="keyword">from</span> <span class="string">'rxjs'</span>;</div><div class="line"></div><div class="line"><span class="comment">// 주기적으로 값을 게시하는 Observable 생성</span></div><div class="line"><span class="keyword">const</span> secondsCounter = interval(<span class="number">1000</span>);</div><div class="line"><span class="comment">// 구독하여 값의 게시를 시작</span></div><div class="line">secondsCounter.subscribe(<span class="function"><span class="params">n</span> =&gt;</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">`It's been <span class="subst">$&#123;n&#125;</span> seconds since subscribing!`</span>));</div></pre></td></tr></table></figure></p>
+<p><strong>이벤트(Event)로 부터 Observable 생성</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; fromEvent &#125; <span class="keyword">from</span> <span class="string">'rxjs'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">const</span> el = <span class="built_in">document</span>.getElementById(<span class="string">'my-element'</span>);</div><div class="line"> </div><div class="line"><span class="comment">// 마우스 이동을 게시하는 Observable 생성</span></div><div class="line"><span class="keyword">const</span> mouseMoves = fromEvent(el, <span class="string">'mousemove'</span>);</div><div class="line"> </div><div class="line"><span class="comment">// 구독하여 마우스 이동 이벤트를 수신 시작</span></div><div class="line"><span class="keyword">const</span> subscription = mouseMoves.subscribe(<span class="function">(<span class="params">evt: MouseEvent</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">// 마우스 움직임 좌표를 로깅</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">`Coords: <span class="subst">$&#123;evt.clientX&#125;</span> X <span class="subst">$&#123;evt.clientY&#125;</span>`</span>);</div><div class="line"> </div><div class="line">  <span class="comment">// 마우스가 화면의 왼쪽 상단에 있을때 구독을 중지하여 마우스 이동정보 수신을 중지한다.</span></div><div class="line">  <span class="keyword">if</span> (evt.clientX &lt; <span class="number">40</span> &amp;&amp; evt.clientY &lt; <span class="number">40</span>) &#123;</div><div class="line">    subscription.unsubscribe();</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p><strong>AJAX 요청을 생성하는 Observable 생성</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; ajax &#125; <span class="keyword">from</span> <span class="string">'rxjs/ajax'</span>;</div><div class="line"></div><div class="line"><span class="comment">// AJAX 요청을 생성하는 Observable 생성</span></div><div class="line"><span class="keyword">const</span> apiData = ajax(<span class="string">'/api/data'</span>);</div><div class="line"><span class="comment">// 구독하여 요청을 생성</span></div><div class="line">apiData.subscribe(<span class="function"><span class="params">res</span> =&gt;</span> <span class="built_in">console</span>.log(res.status, res.response));</div></pre></td></tr></table></figure></p>
+<h2 id="연산자-Operator"><a href="#연산자-Operator" class="headerlink" title="연산자(Operator)"></a>연산자(Operator)</h2><p>연산자는 컬렉션의 정교한 조작을 가능하게하는 <em>Observable</em>의 기반이 되는 함수입니다. 예를 들어, RxJS는 <code>map()</code>, <code>filter()</code>, <code>concat()</code> 및 <code>flatMap()</code>과 같은 연산자를 정의합니다. 연산자는 설정 옵션을 사용하고 원본 <em>Observable</em>을 사용하는 함수를 반환합니다. </p>
+<p>반환된 함수를 실행할 때, 연산자는 원본 <em>Observable</em>에서 생성된 값을 주시하여, 변환하고 변환된 값의 새로운 <em>Observable</em> 값을 반환합니다. 다음은 간단한 예입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; map &#125; <span class="keyword">from</span> <span class="string">'rxjs/operators'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">const</span> nums = of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</div><div class="line"> </div><div class="line"><span class="keyword">const</span> squareValues = map(<span class="function">(<span class="params">val: <span class="built_in">number</span></span>) =&gt;</span> val * val);</div><div class="line"><span class="keyword">const</span> squaredNums = squareValues(nums);</div><div class="line"> </div><div class="line">squaredNums.subscribe(<span class="function"><span class="params">x</span> =&gt;</span> <span class="built_in">console</span>.log(x));</div><div class="line"> </div><div class="line"><span class="comment">// Logs</span></div><div class="line"><span class="comment">// 1</span></div><div class="line"><span class="comment">// 4</span></div><div class="line"><span class="comment">// 9</span></div></pre></td></tr></table></figure>
+<p><em>pipe</em>를 사용하여 연산자를 함께 연결할 수 있습니다. <em>pipe</em>를 사용하면 여러 함수를 단일 함수로 결합할 수 있습니다. <code>pipe()</code> 함수는 결합하려는 함수를 인수로 받고, 실행될 때 작성된 순서대로 함수를 실행하는 새로운 함수를 반환합니다.</p>
+<p><em>Observable</em>에 적용되는 연산자 집합은 레시피입니다. 즉, 원하는 값을 생성하기 위한 지침 집합입니다. 레시피 자체적으로는 아무 것도하지 않습니다. 레시피를 통해 결과를 얻으려면 <code>subscribe()</code>를 호출 해야합니다.</p>
+<p>아래 예제를 보겠습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; filter, map &#125; <span class="keyword">from</span> <span class="string">'rxjs/operators'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">const</span> nums = of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>);</div><div class="line"> </div><div class="line"><span class="comment">// Observable을 받는 함수를 생성합니다.</span></div><div class="line"><span class="keyword">const</span> squareOddVals = pipe(</div><div class="line">  filter(<span class="function"><span class="params">n</span> =&gt;</span> n % <span class="number">2</span>),</div><div class="line">  map(<span class="function"><span class="params">n</span> =&gt;</span> n * n)</div><div class="line">);</div><div class="line"> </div><div class="line"><span class="comment">// filter와 map 함수를 실행시키는 Observable을 생성합니다.</span></div><div class="line"><span class="keyword">const</span> squareOdd = squareOddVals(nums);</div><div class="line"> </div><div class="line"><span class="comment">// 구독하여 결합된 함수를 실행합니다.</span></div><div class="line">squareOdd.subscribe(<span class="function"><span class="params">x</span> =&gt;</span> <span class="built_in">console</span>.log(x));</div></pre></td></tr></table></figure>
+<p><code>pipe()</code> 함수는 RxJS <code>Observable</code>의 메서드이기도 하므로 아래와 같이 짧은 표현식을 사용하여 동일한 연산을 정의할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; filter, map &#125; <span class="keyword">from</span> <span class="string">'rxjs/operators'</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> squareOdd = of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</div><div class="line">  .pipe(</div><div class="line">    filter(<span class="function"><span class="params">n</span> =&gt;</span> n % <span class="number">2</span> !== <span class="number">0</span>),</div><div class="line">    map(<span class="function"><span class="params">n</span> =&gt;</span> n * n)</div><div class="line">  );</div><div class="line"></div><div class="line"><span class="comment">// 구독하여 값을 받습니다.</span></div><div class="line">squareOdd.subscribe(<span class="function"><span class="params">x</span> =&gt;</span> <span class="built_in">console</span>.log(x));</div></pre></td></tr></table></figure>
+<h2 id="일반-연산자"><a href="#일반-연산자" class="headerlink" title="일반 연산자"></a>일반 연산자</h2><p>RxJS는 많은 연산자(150개 이상)를 제공하지만 몇몇 연산자만 자주 사용됩니다. 다음은 일반 연산자 목록입니다. 사용 예는 RxJS 문서의 <a href="https://github.com/btroncone/learn-rxjs/blob/master/operators/complete.md" target="_blank" rel="external">RxJS 5 연산자 사용 예제</a>를 참조하십시오.</p>
+<blockquote>
+<p>Angular app의 경우 체인(chaining)을 연결하는 대신 연산자를 파이프(pipe)와 결합하는 것이 더 좋습니다. 하지만 체인(chaining)은 많은 RxJS 예제에서 사용됩니다.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>영역</th>
+<th>연산자들</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>생성</td>
+<td><code>from</code> , <code>fromPromise</code> , <code>fromEvent</code> , <code>of</code></td>
+</tr>
+<tr>
+<td>결합</td>
+<td><code>combineLatest</code> , <code>concat</code> , <code>merge</code> , <code>startWith</code> , <code>withLatestFrom</code> , <code>zip</code></td>
+</tr>
+<tr>
+<td>필터링</td>
+<td><code>debounceTime</code> , <code>distinctUntilChanged</code> , <code>filter</code> , <code>take</code> , <code>takeUntil</code></td>
+</tr>
+<tr>
+<td>변환</td>
+<td><code>bufferTime</code> , <code>concatMap</code> , <code>map</code> , <code>mergeMap</code> , <code>scan</code> , <code>switchMap</code></td>
+</tr>
+<tr>
+<td>유틸리티</td>
+<td><code>tap</code></td>
+</tr>
+<tr>
+<td>멀티캐스팅</td>
+<td><code>share</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="오류-처리-1"><a href="#오류-처리-1" class="headerlink" title="오류 처리"></a>오류 처리</h2><p>RxJS는 <code>subscribe()</code>서 사용할 수 있는 <code>error()</code> 핸들러 외에도 알려진 오류를 처리 할 수있는 <code>catchError</code> 연산자도 제공합니다.</p>
+<p>예를 들어, API 요청을 만들고 서버의 응답에 매핑하는 <em>Observable</em>이 있다고 가정해 보겠습니다. 만약 서버에서 오류를 반환하거나 값이 없다면 오류가 발생합니다. 하지만 여러분이 이 오류를 잡아서 Default 값을 제공한다면, Stream은 오류 대신 계속 진행될 것입니다.</p>
+<p>아래는 <code>catchError</code> 연산자를 사용하는 예제입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; ajax &#125; <span class="keyword">from</span> <span class="string">'rxjs/ajax'</span>;</div><div class="line"><span class="keyword">import</span> &#123; map, catchError &#125; <span class="keyword">from</span> <span class="string">'rxjs/operators'</span>;</div><div class="line"><span class="comment">// API에서 "response"를 반환합니다. 하지만 오류가 발생하면 빈 배열을 반환합니다.</span></div><div class="line"><span class="keyword">const</span> apiData = ajax(<span class="string">'/api/data'</span>).pipe(</div><div class="line">  map(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">if</span> (!res.response) &#123;</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Value expected!'</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> res.response;</div><div class="line">  &#125;),</div><div class="line">  catchError(<span class="function"><span class="params">err</span> =&gt;</span> of([]))</div><div class="line">);</div><div class="line"> </div><div class="line">apiData.subscribe(&#123;</div><div class="line">  next(x) &#123; <span class="built_in">console</span>.log(<span class="string">'data: '</span>, x); &#125;,</div><div class="line">  error(err) &#123; <span class="built_in">console</span>.log(<span class="string">'errors already caught... will not run'</span>); &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="실패한-Observable-재시도"><a href="#실패한-Observable-재시도" class="headerlink" title="실패한 Observable 재시도"></a>실패한 Observable 재시도</h2><p><code>catchError</code> 연산자가 간단한 복구 경로를 제공하는 경우, <code>retry</code> 연산자를 사용하여 실패한 요청을 다시 시도할 수 있습니다.</p>
+<p><code>catchError</code> 연산자 앞에 <code>retry</code>연산자를 사용합니다. 이는 <em>Observable</em> 원본 소스를 다시 구독하여 오류를 유발한 모든 동작 시퀀스를 다시 실행할 수 있습니다. 그리고 만약 HTTP 요청을 포함하고 있다면 HTTP 요청을 다시 보냅니다.</p>
+<p>아래 예제는 이전 예제를 수정하여 오류를 발생하기 전에 요청을 다시 시도합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; ajax &#125; <span class="keyword">from</span> <span class="string">'rxjs/ajax'</span>;</div><div class="line"><span class="keyword">import</span> &#123; map, retry, catchError &#125; <span class="keyword">from</span> <span class="string">'rxjs/operators'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">const</span> apiData = ajax(<span class="string">'/api/data'</span>).pipe(</div><div class="line">  retry(<span class="number">3</span>), <span class="comment">// 실패하기 전에 최대 3번 다시 시도합니다.</span></div><div class="line">  map(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">if</span> (!res.response) &#123;</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Value expected!'</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> res.response;</div><div class="line">  &#125;),</div><div class="line">  catchError(<span class="function"><span class="params">err</span> =&gt;</span> of([]))</div><div class="line">);</div><div class="line"> </div><div class="line">apiData.subscribe(&#123;</div><div class="line">  next(x) &#123; <span class="built_in">console</span>.log(<span class="string">'data: '</span>, x); &#125;,</div><div class="line">  error(err) &#123; <span class="built_in">console</span>.log(<span class="string">'errors already caught... will not run'</span>); &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>인증 요청은 사용자 작업에 의해서만 시작되어야 하므로 다시 시도하지 마십시오. 사용자가 시작하지 않은 반복 로그인 요청으로 사용자 계정이 잠길수 있습니다.</p>
+</blockquote>
+<h3 id="Observable에-대한-명명-규칙"><a href="#Observable에-대한-명명-규칙" class="headerlink" title="Observable에 대한 명명 규칙"></a>Observable에 대한 명명 규칙</h3><p>Angular 응용 프로그램은 대부분 TypeScript로 작성되기 때문에 일반적으로 변수가 Observable 일때 알 수 있습니다. 비록 Angular 프레임워크가 <em>Observable</em>에 대한 명명 규칙을 강제하지 않더라도 여러분은 종종 이름 끝에 “$”가 붙은 변수를 볼수 있습니다.</p>
+<p>이러한 방법은 코드를 훑어 보며 <em>Observable</em> 값을 찾을때 유용할 수 있습니다. 또한, <em>Observable</em>에서 가장 최근의 값을 저장하는 프로퍼티를 원할 때 “$”의 유무와 상관없이 동일한 이름을 사용하는 것이 편리할 수 있습니다.</p>
+<p>예를 들어 아래와 같습니다.<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123; Observable &#125; <span class="keyword">from</span> <span class="string">'rxjs'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'app-stopwatch'</span>,</div><div class="line">  templateUrl: <span class="string">'./stopwatch.component.html'</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> StopwatchComponent &#123;</div><div class="line"> </div><div class="line">  stopwatchValue: <span class="built_in">number</span>;</div><div class="line">  stopwatchValue$: Observable&lt;<span class="built_in">number</span>&gt;;</div><div class="line"> </div><div class="line">  start() &#123;</div><div class="line">    <span class="keyword">this</span>.stopwatchValue$.subscribe(<span class="function"><span class="params">num</span> =&gt;</span></div><div class="line">      <span class="keyword">this</span>.stopwatchValue = num</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="Angular에서-Observable"><a href="#Angular에서-Observable" class="headerlink" title="Angular에서 Observable"></a>Angular에서 Observable</h1><p>Angular는 <em>Observable</em>을 다양한 공통의 비동기 작업을 처리하기 위한 인터페이스로 사용합니다. 예를 들어:</p>
+<ul>
+<li><code>EventEmitter</code> 클래스는 <code>Observable</code>를 상속받습니다.</li>
+<li>HTTP 모듈은 <em>Observable</em>을 사용하여 AJAX 요청 및 응답을 처리합니다.</li>
+<li>Router 및 Form 모듈은 <em>Observable</em>을 사용하여 사용자 입력 이벤트를 수신하고 응답합니다.</li>
+</ul>
+<h2 id="Event-Emitter"><a href="#Event-Emitter" class="headerlink" title="Event Emitter"></a>Event Emitter</h2><p>Angular는 <code>@Output()</code> 데코레이터를 통해 <em>Component</em>의 값을 게시할 때 사용되는 <code>EventEmitter</code> 클래스를 제공합니다. <code>EventEmitter</code>는 <code>Observable</code>을 상속하고 <code>emit()</code> 메서드를 추가하여 임의의 값을 방출할 수 있습니다. <code>emit()</code> 메서드를 호출하면 방출된 값을 구독하고 있는 <em>observer</em>의 <code>next()</code> 메서드로 전달합니다.</p>
+<p><a href="https://angular.io/api/core/EventEmitter" target="_blank" rel="external">EventEmitter</a> 문서에서 좋은 예제들을 찾을 수 있습니다. 다음은 open 및 close 이벤트를 수신하는 예제 <em>Component</em> 입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;zippy (open)=<span class="string">"onOpen($event)"</span> (close)=<span class="string">"onClose($event)"</span>&gt;&lt;<span class="regexp">/zippy&gt;</span></div></pre></td></tr></table></figure>
+<p>아래는 <em>Component</em>에 대한 정의입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'zippy'</span>,</div><div class="line">  template: <span class="string">`</span></div><div class="line">  &lt;div class="zippy"&gt;</div><div class="line">    &lt;div (click)="toggle()"&gt;Toggle&lt;/div&gt;</div><div class="line">    &lt;div [hidden]="!visible"&gt;</div><div class="line">      &lt;ng-content&gt;&lt;/ng-content&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/div&gt;`&#125;)</div><div class="line"> </div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> ZippyComponent &#123;</div><div class="line">  visible = <span class="literal">true</span>;</div><div class="line">  <span class="meta">@Output</span>() open = <span class="keyword">new</span> EventEmitter&lt;<span class="built_in">any</span>&gt;();</div><div class="line">  <span class="meta">@Output</span>() close = <span class="keyword">new</span> EventEmitter&lt;<span class="built_in">any</span>&gt;();</div><div class="line"> </div><div class="line">  toggle() &#123;</div><div class="line">    <span class="keyword">this</span>.visible = !<span class="keyword">this</span>.visible;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.visible) &#123;</div><div class="line">      <span class="keyword">this</span>.open.emit(<span class="literal">null</span>);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">this</span>.close.emit(<span class="literal">null</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><p>Angular의 <code>HttpClient</code>는 HTTP 메서드 호출에서 <em>Observable</em>을 반환합니다. 예를 들어 <code>http.get(&#39;/api&#39;)</code>은 <em>Observable</em>을 반환합니다. 이러한 방식은 <em>Promise</em> 기반의 API에 비해 몇가지 장점을 제공합니다.</p>
+<ul>
+<li>Observables는 서버 응답을 변경하지 않습니다 (<em>Promise</em>의 <code>.then()</code> 호출을 통해 발생할 수 있음). 대신에 필요하다면 일련의 연산자를 이용하여 값을 변형할 수 있습니다.</li>
+<li><code>unsubscribe()</code> 메서드를 통해 HTTP 요청을 취소할 수 있습니다.</li>
+<li>요청에 대한 설정을 통해 진행 이벤트 업데이트를 가져올 수 있습니다.</li>
+<li>실패한 요청을 쉽게 재시도할 수 있습니다.</li>
+</ul>
+<h2 id="비동기-Pipe-Async-Pipe"><a href="#비동기-Pipe-Async-Pipe" class="headerlink" title="비동기 Pipe (Async Pipe)"></a>비동기 Pipe (Async Pipe)</h2><p><a href="https://angular.io/api/common/AsyncPipe" target="_blank" rel="external">AsyncPipe</a>는 <em>Observable</em> 또는 <em>Promise</em>를 구독하고 방출된 최신 값을 반환합니다. 새 값이 방출(emit)되면 Pipe는 변경 사항을 검사할 <em>Component</em>를 표시합니다.</p>
+<p>아래 예제는 <code>time</code> <em>Observable</em>을 <em>Component</em>의 뷰에 바인딩 합니다. <em>Observable</em>은 연속적으로 현재 시각을 뷰에 업데이트 합니다.<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'async-observable-pipe'</span>,</div><div class="line">  template: <span class="string">`&lt;div&gt;&lt;code&gt;observable|async&lt;/code&gt;:</span></div><div class="line">       Time: &#123;&#123; time | async &#125;&#125;&lt;/div&gt;`</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AsyncObservablePipeComponent &#123;</div><div class="line">  time = <span class="keyword">new</span> Observable(<span class="function"><span class="params">observer</span> =&gt;</span></div><div class="line">    setInterval(<span class="function"><span class="params">()</span> =&gt;</span> observer.next(<span class="keyword">new</span> <span class="built_in">Date</span>().toString()), <span class="number">1000</span>)</div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Router"><a href="#Router" class="headerlink" title="Router"></a>Router</h2><p><a href="https://angular.io/api/router/Router#events" target="_blank" rel="external">Router.events</a>는 이벤트를 <em>Observable</em>로 제공합니다. RxJS의 <code>filter()</code> 연산자를 사용하여 관심있는 이벤트를 찾을수 있고 Navigation 프로세스의 이벤트 순서를 기반으로 의사 결정을 내리기 위해 구독할 수 있습니다. 예를 들어:</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Router, NavigationStart &#125; <span class="keyword">from</span> <span class="string">'@angular/router'</span>;</div><div class="line"><span class="keyword">import</span> &#123; filter &#125; <span class="keyword">from</span> <span class="string">'rxjs/operators'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'app-routable'</span>,</div><div class="line">  templateUrl: <span class="string">'./routable.component.html'</span>,</div><div class="line">  styleUrls: [<span class="string">'./routable.component.css'</span>]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> Routable1Component <span class="keyword">implements</span> OnInit &#123;</div><div class="line"> </div><div class="line">  navStart: Observable&lt;NavigationStart&gt;;</div><div class="line"> </div><div class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> router: Router</span>) &#123;</div><div class="line">    <span class="comment">// NavigationStart만 게시하기 위한 새로운 Observable을 생성합니다.</span></div><div class="line">    <span class="keyword">this</span>.navStart = router.events.pipe(</div><div class="line">      filter(<span class="function"><span class="params">evt</span> =&gt;</span> evt <span class="keyword">instanceof</span> NavigationStart)</div><div class="line">    ) <span class="keyword">as</span> Observable&lt;NavigationStart&gt;;</div><div class="line">  &#125;</div><div class="line"> </div><div class="line">  ngOnInit() &#123;</div><div class="line">    <span class="keyword">this</span>.navStart.subscribe(<span class="function"><span class="params">evt</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'Navigation Started!'</span>));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" rel="external">ActivatedRoute</a>는 <em>Observable</em>을 사용하여 Route path 및 파라미터에 대한 정보를 가져 오는 Inject된 Router <em>Service</em>입니다. 예를 들어, <code>ActivateRoute.url]</code>에는 Route path를 보고하는 <em>Observable</em>을 포함하고 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; ActivatedRoute &#125; <span class="keyword">from</span> <span class="string">'@angular/router'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'app-routable'</span>,</div><div class="line">  templateUrl: <span class="string">'./routable.component.html'</span>,</div><div class="line">  styleUrls: [<span class="string">'./routable.component.css'</span>]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> Routable2Component <span class="keyword">implements</span> OnInit &#123;</div><div class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> activatedRoute: ActivatedRoute</span>) &#123;&#125;</div><div class="line"> </div><div class="line">  ngOnInit() &#123;</div><div class="line">    <span class="keyword">this</span>.activatedRoute.url</div><div class="line">      .subscribe(<span class="function"><span class="params">url</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'The URL changed to: '</span> + url));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="반응형-Form-Reactive-form"><a href="#반응형-Form-Reactive-form" class="headerlink" title="반응형 Form (Reactive form)"></a>반응형 Form (Reactive form)</h2><p>반응형 Form은 <em>Observable</em>을 사용하여 Form control 값을 모니터링하는 프로퍼티를 가지고 있습니다. <a href="https://angular.io/api/forms/FormControl" target="_blank" rel="external">FormControl</a> 프로퍼티는 변경 이벤트를 발생시키는 <code>valueChanges</code> 및 <code>statusChanges</code> <em>Observable</em>을 포함합니다. <em>Observable</em> From control 프로퍼티를 구독하는 것은 <em>Component</em> 클래스 내에서 응용 프로그램 로직을 실행시키는 방법입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; FormGroup &#125; <span class="keyword">from</span> <span class="string">'@angular/forms'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'my-component'</span>,</div><div class="line">  template: <span class="string">'MyComponent Template'</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> MyComponent <span class="keyword">implements</span> OnInit &#123;</div><div class="line">  nameChangeLog: <span class="built_in">string</span>[] = [];</div><div class="line">  heroForm: FormGroup;</div><div class="line"> </div><div class="line">  ngOnInit() &#123;</div><div class="line">    <span class="keyword">this</span>.logNameChange();</div><div class="line">  &#125;</div><div class="line">  logNameChange() &#123;</div><div class="line">    <span class="keyword">const</span> nameControl = <span class="keyword">this</span>.heroForm.get(<span class="string">'name'</span>);</div><div class="line">    nameControl.valueChanges.forEach(</div><div class="line">      <span class="function">(<span class="params">value: <span class="built_in">string</span></span>) =&gt;</span> <span class="keyword">this</span>.nameChangeLog.push(value)</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="Observable의-실제-사용방법"><a href="#Observable의-실제-사용방법" class="headerlink" title="Observable의 실제 사용방법"></a>Observable의 실제 사용방법</h1><p>다음은 <em>Observable</em>이 특히 유용한 도메인의 예입니다.</p>
+<h2 id="자동완성-Type-ahead-suggestion"><a href="#자동완성-Type-ahead-suggestion" class="headerlink" title="자동완성(Type-ahead suggestion)"></a>자동완성(Type-ahead suggestion)</h2><p><em>Observable</em>은 자동완성(Type-ahead)의 구현을 간단히할 수 있습니다. 일반적으로 자동완성(Type-ahead)은 일련의 별도 작업을 수행해야합니다.</p>
+<ul>
+<li>입력 데이터 수신합니다.</li>
+<li>값에서 공백을 제거하고, 최소 길이인지 확인합니다.</li>
+<li>Debounce(모든 키 입력에 대해 API 요청을 보내지 않고 대신 키 입력이 중단될 때까지 대기).</li>
+<li>값이 동일하게 유지되면 요청을 보내지 않습니다 (예를 들어 문자를 빠르게 치고 백스 페이스 하는등).</li>
+<li>업데이트된 결과로 인해 결과가 무효화되는 경우 진행중인 AJAX 요청을 취소합니다.</li>
+</ul>
+<p>이런 내용을 JavaScript로 전체 작성하면 상당히 복잡할 수 있습니다. 하지만 <em>Observable</em>를 사용하면 간단한 일련의 RxJS 연산자를 사용할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; fromEvent &#125; <span class="keyword">from</span> <span class="string">'rxjs'</span>;</div><div class="line"><span class="keyword">import</span> &#123; ajax &#125; <span class="keyword">from</span> <span class="string">'rxjs/ajax'</span>;</div><div class="line"><span class="keyword">import</span> &#123; map, filter, debounceTime, distinctUntilChanged, switchMap &#125; <span class="keyword">from</span> <span class="string">'rxjs/operators'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">const</span> searchBox = <span class="built_in">document</span>.getElementById(<span class="string">'search-box'</span>);</div><div class="line"> </div><div class="line"><span class="keyword">const</span> typeahead = fromEvent(searchBox, <span class="string">'input'</span>).pipe(</div><div class="line">  map(<span class="function">(<span class="params">e: KeyboardEvent</span>) =&gt;</span> e.target.value),</div><div class="line">  filter(<span class="function"><span class="params">text</span> =&gt;</span> text.length &gt; <span class="number">2</span>),</div><div class="line">  debounceTime(<span class="number">10</span>),</div><div class="line">  distinctUntilChanged(),</div><div class="line">  switchMap(<span class="function"><span class="params">()</span> =&gt;</span> ajax(<span class="string">'/api/endpoint'</span>))</div><div class="line">);</div><div class="line"> </div><div class="line">typeahead.subscribe(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</div><div class="line"> <span class="comment">// API로 부터 받은 데이터 처리</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="Exponential-backoff"><a href="#Exponential-backoff" class="headerlink" title="Exponential backoff"></a>Exponential backoff</h2><blockquote>
+<p>대규모 서비스를 설계할 때, 적절한 타임아웃 설정이 중요합니다. 실제로 어떤 요청에 대해 부하 상태 등으로 타임아웃이 발생하게 되면 그 다음 요청에 대한 응답을 조금 더 긴 시간에 랜덤으로 처리하는 방법을 엑스포넨셜 백오프(exponential backoff)라고 합니다.</p>
+</blockquote>
+<p>엑스포넨셜 백오프는 API 요청 실패후 재시도하고, 연속적인 실패가 발생할 때마다 재시도 간격을 늘립니다. 그리고 최대 재시도 횟수이후 요청이 실패한 것으로 간주하는 기술입니다. 이러한 내용을 <em>Promise</em>와 AJAX 호출을 추적하는 다른 메서드로 구현하는 것은 꽤 복잡 할 수 있습니다. 하지만 <em>Observable</em>로 구현하는 것은 매우 쉽습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; pipe, range, timer, zip &#125; <span class="keyword">from</span> <span class="string">'rxjs'</span>;</div><div class="line"><span class="keyword">import</span> &#123; ajax &#125; <span class="keyword">from</span> <span class="string">'rxjs/ajax'</span>;</div><div class="line"><span class="keyword">import</span> &#123; retryWhen, map, mergeMap &#125; <span class="keyword">from</span> <span class="string">'rxjs/operators'</span>;</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">backoff</span>(<span class="params">maxTries, ms</span>) </span>&#123;</div><div class="line"> <span class="keyword">return</span> pipe(</div><div class="line">   retryWhen(<span class="function"><span class="params">attempts</span> =&gt;</span> range(<span class="number">1</span>, maxTries)</div><div class="line">     .pipe(</div><div class="line">       zip(attempts, <span class="function">(<span class="params">i</span>) =&gt;</span> i),</div><div class="line">       map(<span class="function"><span class="params">i</span> =&gt;</span> i * i),</div><div class="line">       mergeMap(<span class="function"><span class="params">i</span> =&gt;</span>  timer(i * ms))</div><div class="line">     )</div><div class="line">   )</div><div class="line"> );</div><div class="line">&#125;</div><div class="line"> </div><div class="line">ajax(<span class="string">'/api/endpoint'</span>)</div><div class="line">  .pipe(backoff(<span class="number">3</span>, <span class="number">250</span>))</div><div class="line">  .subscribe(<span class="function"><span class="params">data</span> =&gt;</span> handleData(data));</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleData</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="다른-기술들과-Observable-비교"><a href="#다른-기술들과-Observable-비교" class="headerlink" title="다른 기술들과 Observable 비교"></a>다른 기술들과 Observable 비교</h1><p><em>Observable</em>을 이용하여 <em>Promise</em> 대신 값을 비동기로 전달할 수 있고, <em>Event</em> 핸들러 대신 사용할 수 있습니다. 그리고 <em>Observable</em>이 여러개의 값을 전달할 수 있기 때문에 <em>Array</em>를 만들고 처리할 수 있는 곳에 사용할 수 있습니다.</p>
+<p><em>Observable</em>는 이러한 각각의 상황에서 대체 기술과 다소 다르게 동작하지만 중요한 이점을 제공합니다. 다음은 차이점에 대한 자세한 비교 내용입니다.</p>
+<h2 id="Observable과-Promise-비교"><a href="#Observable과-Promise-비교" class="headerlink" title="Observable과 Promise 비교"></a>Observable과 Promise 비교</h2><p><em>Observable</em>은 종종 <em>Promise</em>와 비교됩니다. 주요 차이점은 다음과 같습니다.</p>
+<ul>
+<li><em>Observable</em>은 선언적입니다. 구독이 될 때까지 실행을 하지 않습니다. 하지만 <em>Promise</em>는 생성즉시 실행이 됩니다. 따라서 <em>Observable</em>은 결과가 필요할 때마다 실행할 수 있는 레시피를 정의하는데 유용합니다.</li>
+<li><em>Observable</em> 다수의 값을 제공할 수 있습니다. 하지만 <em>Promise</em>는 하나만 제공합니다. <em>Observable</em>은 시간이 지남에 따라 여러 값을 얻는데 유용할 수 있습니다.</li>
+<li><em>Observable</em>는 체인과 구독을 구분합니다. 하지만 <em>Promise</em>에는 <code>.then()</code> 절만 있습니다. 이것은 <em>Observable</em>로 시스템의 다른 부분에서 사용할 수 있고, 작업이 바로 실행 되지 않는 복잡한 변환 레시피를 만드는데 유용하게 합니다.</li>
+<li><em>Observable</em>의 <code>subscribe()</code>는 오류 처리를 담당합니다. <em>Promise</em>는 오류를 자식(Child) <em>Promise</em>로 넘깁니다. 따라서 <em>Observable</em>은 중앙 집중적이고 예측 가능한 오류 처리에 유용합니다.</li>
+</ul>
+<h3 id="생성과-구독"><a href="#생성과-구독" class="headerlink" title="생성과 구독"></a>생성과 구독</h3><ul>
+<li><em>Observable</em>은 Consumer가 구독할 때까지 실행되지 않습니다. <code>subscribe()</code>는 행위에 대한 정의를 한번 실행하고, 다시 호출할 수 있습니다. 각 구독은 고유한 계산이 존재 합니다. 그리고 재구독은 값의 재계산을 유발합니다.</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 게시 작업을 선언합니다.</span></div><div class="line"><span class="keyword">new</span> Observable(<span class="function">(<span class="params">observer</span>) =&gt;</span> &#123; subscriber_fn &#125;);</div><div class="line"><span class="comment">// 실행을 시작</span></div><div class="line">observable.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      <span class="comment">// observer가 알람을 처리</span></div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li><em>Promise</em>는 즉시 한번만 실행이 됩니다. 결과 계산은 <em>Promise</em>가 만들어지면 시작됩니다. 작업을 재시작 할 수 있는 방법이 없습니다. 모든 <code>then</code> 절(구독)은 동일한 계산을 공유합니다.</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 실행 시작</span></div><div class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123; executer_fn &#125;);</div><div class="line"><span class="comment">// 반환값을 처리</span></div><div class="line">promise.then(<span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</div><div class="line">      <span class="comment">// 여기에서 결과값을 처리</span></div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<h3 id="체인-Chaining"><a href="#체인-Chaining" class="headerlink" title="체인(Chaining)"></a>체인(Chaining)</h3><ul>
+<li><p><em>Observable</em>은 map과 같은 변환 함수와 구독(subscription)을 구분합니다. 구독(subscription)만 subscriber 함수를 활성화하여 값 계산을 시작합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">observable.map(<span class="function">(<span class="params">v</span>) =&gt;</span> <span class="number">2</span>*v);</div></pre></td></tr></table></figure>
+</li>
+<li><p><em>Promise</em>는 마지막 <code>.then</code> 절(구독과 동일)과 중간 <code>.then</code> 절 (map과 동일)을 구별하지 않습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">promise.then(<span class="function">(<span class="params">v</span>) =&gt;</span> <span class="number">2</span>*v);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="취소-Cancellation"><a href="#취소-Cancellation" class="headerlink" title="취소(Cancellation)"></a>취소(Cancellation)</h3><ul>
+<li><p><em>Observable</em> 구독을 취소할 수 있습니다. 구독 취소는 수신자(listener)가 더 이상 값을 받지 못하도록 하고 subscriber 함수에 작업 취소를 알립니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> sub = obs.subscribe(...);</div><div class="line">sub.unsubscribe();</div></pre></td></tr></table></figure>
+</li>
+<li><p><em>Promise</em>는 취소가 가능하지 않습니다.</p>
+</li>
+</ul>
+<h3 id="오류-처리-Error-handling"><a href="#오류-처리-Error-handling" class="headerlink" title="오류 처리 (Error handling)"></a>오류 처리 (Error handling)</h3><ul>
+<li><em>Observable</em> 실행 오류는 <em>subscriber</em>의 오류 처리기로 전달되며 <em>subscriber</em>는 자동으로 <em>Observable</em>에서 구독을 취소합니다.</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">obs.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="keyword">throw</span> <span class="built_in">Error</span>(<span class="string">'my error'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li><em>Promise</em>는 자식 <em>Promise</em>에 오류를 넘깁니다.</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">promise.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">throw</span> <span class="built_in">Error</span>(<span class="string">'my error'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="Cheat-sheet"><a href="#Cheat-sheet" class="headerlink" title="Cheat sheet"></a>Cheat sheet</h3><p>아래 코드는 <em>Observable</em>과 <em>Promise</em>를 이용하여 같은 종류의 연산을 정의하는 방법을 보여줍니다.</p>
+<ul>
+<li><p>생성 (Creation)</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Observable(<span class="function">(<span class="params">observer</span>) =&gt;</span> &#123;</div><div class="line">  observer.next(<span class="number">123</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>Promise</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">  resolve(<span class="number">123</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>변환 (Transform)</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">obs.map(<span class="function">(<span class="params">value</span>) =&gt;</span> value * <span class="number">2</span> );</div></pre></td></tr></table></figure>
+</li>
+<li><p>Promise</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">promise.then(<span class="function">(<span class="params">value</span>) =&gt;</span> value * <span class="number">2</span>);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>구독 (Subscribe)</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sub = obs.subscribe(<span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(value)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>Promise</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">promise.then(<span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(value);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>구독 취소 (Unsubscribe)</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sub.unsubscribe();</div></pre></td></tr></table></figure>
+</li>
+<li><p>Promise :  Promise의 해결(resolve)로 암묵적으로 처리</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Observable과-Event-API-비교"><a href="#Observable과-Event-API-비교" class="headerlink" title="Observable과 Event API 비교"></a>Observable과 Event API 비교</h2><p><em>Observable</em>은 <em>Event API</em>를 사용하는 <em>Event</em> 핸들러와 매우 유사합니다. 이 두 개술은 모두 알람에 대한 핸들러를 정의하고 시간이 지남에 따라 전달되는 여러 값을 처리하는데 사용합니다. <em>Observable</em>을 구독하는 것은 <em>Event</em> Listener를 추가하는 것과 같습니다. 한가지 주요한 다른점은 <em>Observable</em>은 이벤트가 핸들러에 전달되기 전에 이벤트를 변환하도록 구성할 수 있다는 것입니다.</p>
+<p><em>Observable</em>을 사용하여 <em>Event</em> 및 비동기 작업을 처리하면 HTTP 요청과 같은 컨텍스트에서 일관성이 향상됩니다.</p>
+<p>다음은 <em>Observable</em>와 <em>Event API</em>를 사용하여 같은 종류의 연산을 정의하는 방법을 보여주는 코드 샘플입니다.</p>
+<ul>
+<li><p>생성과 취소 (Creation &amp; cancellation)</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Setup</span></div><div class="line"><span class="keyword">let</span> clicks$ = fromEvent(buttonEl, ‘click’);</div><div class="line"><span class="comment">// Begin listening</span></div><div class="line"><span class="keyword">let</span> subscription = clicks$</div><div class="line">  .subscribe(<span class="function"><span class="params">e</span> =&gt;</span> <span class="built_in">console</span>.log(‘Clicked’, e))</div><div class="line"><span class="comment">// Stop listening</span></div><div class="line">subscription.unsubscribe();</div></pre></td></tr></table></figure>
+</li>
+<li><p>Event API</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handler</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(‘Clicked’, e);</div><div class="line">&#125;</div><div class="line"><span class="comment">// Setup &amp; begin listening</span></div><div class="line">button.addEventListener(‘click’, handler);</div><div class="line"><span class="comment">// Stop listening</span></div><div class="line">button.removeEventListener(‘click’, handler);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>구독 (Subscription)</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">observable.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="comment">// notification handlers here</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>Event API</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">element.addEventListener(eventName, <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">// notification handler here</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>구성 (Configuration)</p>
+<ul>
+<li><p>Observable<br>Keystroke를 Listen 하지만 입력 값을 나타내는 Stream을 제공합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">fromEvent(inputEl, <span class="string">'keydown'</span>).pipe(</div><div class="line">  map(<span class="function"><span class="params">e</span> =&gt;</span> e.target.value)</div><div class="line">);</div></pre></td></tr></table></figure>
+</li>
+<li><p>Event API<br>구성은 제공하지 않습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">element.addEventListener(eventName, <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">// 핸들러에 도착하기 전에 전달된 이벤트를 다른 값으로 변경할 수 없습니다.</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Observable과-Array-비교"><a href="#Observable과-Array-비교" class="headerlink" title="Observable과 Array 비교"></a>Observable과 Array 비교</h2><p><em>Observable</em>은 시간이 지남에 따라 값을 발생시킵니다. <em>Array</em>는 정적인 값 집합으로 만들어집니다. 어떤 의미에서, <em>Observable</em>은 <em>Array</em>가 동기적인 곳에서 비동기적입니다. 다음 예에서 ➞는 비동기 값 전달을 의미합니다.</p>
+<ul>
+<li><p>Given</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">obs: ➞<span class="number">1</span>➞<span class="number">2</span>➞<span class="number">3</span>➞<span class="number">5</span>➞<span class="number">7</span></div><div class="line">obsB: ➞<span class="string">'a'</span>➞<span class="string">'b'</span>➞<span class="string">'c'</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Array</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">arr: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]</div><div class="line">arrB: [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>concat()</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">obs.concat(obsB)</div><div class="line">➞<span class="number">1</span>➞<span class="number">2</span>➞<span class="number">3</span>➞<span class="number">5</span>➞<span class="number">7</span>➞<span class="string">'a'</span>➞<span class="string">'b'</span>➞<span class="string">'c'</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Array</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">arr.concat(arrB)</div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>filter()</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">obs.filter(<span class="function">(<span class="params">v</span>) =&gt;</span> v&gt;<span class="number">3</span>)</div><div class="line">➞<span class="number">5</span>➞<span class="number">7</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Array</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">arr.filter(<span class="function">(<span class="params">v</span>) =&gt;</span> v&gt;<span class="number">3</span>)</div><div class="line">[<span class="number">5</span>, <span class="number">7</span>]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>find()</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">obs.find(<span class="function">(<span class="params">v</span>) =&gt;</span> v&gt;<span class="number">3</span>)</div><div class="line">➞<span class="number">5</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Array</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">arr.find(<span class="function">(<span class="params">v</span>) =&gt;</span> v&gt;<span class="number">3</span>)</div><div class="line"><span class="number">5</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>findIndex()</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">obs.findIndex(<span class="function">(<span class="params">v</span>) =&gt;</span> v&gt;<span class="number">3</span>)</div><div class="line">➞<span class="number">3</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Array</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">arr.findIndex(<span class="function">(<span class="params">v</span>) =&gt;</span> v&gt;<span class="number">3</span>)</div><div class="line"><span class="number">3</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>forEach()</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">obs.forEach(<span class="function">(<span class="params">v</span>) =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(v);</div><div class="line">&#125;)</div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="number">5</span></div><div class="line"><span class="number">7</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Array</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">arr.forEach(<span class="function">(<span class="params">v</span>) =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(v);</div><div class="line">&#125;)</div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="number">5</span></div><div class="line"><span class="number">7</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>map()</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">obs.map(<span class="function">(<span class="params">v</span>) =&gt;</span> -v)</div><div class="line">➞<span class="number">-1</span>➞<span class="number">-2</span>➞<span class="number">-3</span>➞<span class="number">-5</span>➞<span class="number">-7</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Array</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">arr.map(<span class="function">(<span class="params">v</span>) =&gt;</span> -v)</div><div class="line">[<span class="number">-1</span>, <span class="number">-2</span>, <span class="number">-3</span>, <span class="number">-5</span>, <span class="number">-7</span>]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>reduce()</p>
+<ul>
+<li><p>Observable</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">obs.scan(<span class="function">(<span class="params">s,v</span>)=&gt;</span> s+v, <span class="number">0</span>)</div><div class="line">➞<span class="number">1</span>➞<span class="number">3</span>➞<span class="number">6</span>➞<span class="number">11</span>➞<span class="number">18</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Array</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">arr.reduce(<span class="function">(<span class="params">s,v</span>) =&gt;</span> s+v, <span class="number">0</span>)</div><div class="line"><span class="number">18</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 Angular 6.0.4 기술 문서를 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://angular.io/guide/observables" target="_blank" rel="external">https://angular.io/guide/observables</a>, <a href="https://angular.io/guide/rx-library" target="_blank" rel="external">https://angular.io/guide/rx-library</a>, <a href="https://angular.io/guide/observables-in-angular" target="_blank" rel="external">https://angular.io/guide/observables-in-angular</a>, <a href="https://angular.io/guide/comparing-observables" target="_blank" rel="external">https://angular.io/guide/comparing-observables</a>]</p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-introduction/">Angular 튜토리얼 - 소개</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-the-hero-editor/">Angular 튜터리얼 - Hero 에디터</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-master-detail/">Angular 튜터리얼 - Master/Detail</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-multiple-components/">Angular 튜터리얼 - 다중 콤포넌트</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-services/">Angular 튜터리얼 - 서비스</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-routing/">Angular 튜터리얼 - 라우팅</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-http/">Angular 튜터리얼 - HTTP</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-http-client/">Angular HttpClient</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/angular-translation-service/">Angular에서 간단하게 번역기능 구현하기</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/angular-dynamic-component/">Angular 동적 컴포넌트 로딩</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/dynamic-content-in-angular/">Angular에서 동적 컨텐츠 생성</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/understanding-viewchildren-contentchildren-and-querylist-in-angular/">Angular에서 ViewChildren, ContentChildren, 그리고 QueryList 이해하기</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2018/08/08/angular-observables-and-rxjs/" data-id="cjkl9103o003ujguza6ujkn5c" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2018/08/08/angular-observables-and-rxjs/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

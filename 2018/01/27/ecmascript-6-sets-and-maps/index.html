@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>ECMAScript 6 Set과 Map | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="JavaScript,ECMAScript 2015" />
+    
+    <meta name="description" content="Set과 MapJavaScript의 역사에서 컬렉션 타입은 Array 타입 하나만 가지고 있었습니다. (Array가 아닌 모든 객체는 키 - 값 쌍의 집합이므로 Array와 원래 의도된 용도는 다릅니다). Array는 다른 언어와 마찬가지로 JavaScript에서도 사용되지만 다른 컬렉션이 없기 때문에 대개 Queue 및 Stack으로 Array를 사용합니">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ECMAScript 6 Set과 Map">
+<meta property="og:url" content="http://infoscis.github.io/2018/01/27/ecmascript-6-sets-and-maps/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="Set과 MapJavaScript의 역사에서 컬렉션 타입은 Array 타입 하나만 가지고 있었습니다. (Array가 아닌 모든 객체는 키 - 값 쌍의 집합이므로 Array와 원래 의도된 용도는 다릅니다). Array는 다른 언어와 마찬가지로 JavaScript에서도 사용되지만 다른 컬렉션이 없기 때문에 대개 Queue 및 Stack으로 Array를 사용합니">
+<meta property="og:updated_time" content="2018-02-27T14:12:22.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ECMAScript 6 Set과 Map">
+<meta name="twitter:description" content="Set과 MapJavaScript의 역사에서 컬렉션 타입은 Array 타입 하나만 가지고 있었습니다. (Array가 아닌 모든 객체는 키 - 값 쌍의 집합이므로 Array와 원래 의도된 용도는 다릅니다). Array는 다른 언어와 마찬가지로 JavaScript에서도 사용되지만 다른 컬렉션이 없기 때문에 대개 Queue 및 Stack으로 Array를 사용합니">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2018/01/27/ecmascript-6-sets-and-maps/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-ecmascript-6-sets-and-maps" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        ECMAScript 6 Set과 Map
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2018/01/27/ecmascript-6-sets-and-maps/" class="article-date">
+            <time datetime="2018-01-27T14:19:03.000Z" itemprop="datePublished">2018-01-27</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a>, <a class="tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Set과-Map"><a href="#Set과-Map" class="headerlink" title="Set과 Map"></a>Set과 Map</h1><p>JavaScript의 역사에서 컬렉션 타입은 <em>Array</em> 타입 하나만 가지고 있었습니다. (<em>Array</em>가 아닌 모든 객체는 키 - 값 쌍의 집합이므로 <em>Array</em>와 원래 의도된 용도는 다릅니다). <em>Array</em>는 다른 언어와 마찬가지로 JavaScript에서도 사용되지만 다른 컬렉션이 없기 때문에 대개 Queue 및 Stack으로 <em>Array</em>를 사용합니다. <em>Array</em>는 숫자 인덱스만 사용하기 때문에 개발자는 숫자가 아닌 인덱스가 필요할 때마다 <em>Array</em>가 아닌 객체를 사용했습니다. 아래에서 설명한 기술을 사용하면 <em>Array</em>가 아닌 객체를 사용하여 Set 및 Map을 사용자 정의로 구현할 수 있습니다.</p>
+<p><em>Set</em>은 중복을 포함할 수 없는 값의 목록입니다. 일반적인 <em>Array</em>의 항목처럼 <em>Set</em>은 개별 항목에 액세스하지 않습니다. 대신 값이 있는지 확인하기 위해 <em>Set</em>를 확인하는 것이 훨씬 더 일반적입니다. <em>Map</em>은 특정 값에 해당하는 키의 모음입니다. 따라서 <em>Map</em>의 각 항목에는 두 개의 데이터가 저장되고 값은 읽을 키를 지정하여 검색됩니다. <em>Map</em>은 캐시로 자주 사용되어 나중에 빠르게 검색할 데이터를 저장하기도 합니다. ECMAScript 5에는 공식적으로 <em>Set</em>과 <em>Map</em>이 없었지만 개발자는 <em>Array</em>가 아닌 오브젝트를 사용하여 이 제한을 풀었습니다.</p>
+<p>ECMAScript 6은 JavaScript에 <em>Set</em>과 <em>Map</em>을 추가했으며 이 장에서는 이 두 가지 컬렉션 유형에 대해 알아야할 모든 내용에 대해 설명합니다.</p>
+<p>먼저 ECMAScript 6 이전에 <em>Set</em>과 <em>Map</em>을 구현하는데 사용된 방법과 그 구현이 왜 문제가되는지 설명합니다. 중요한 배경 지식을 얻은 후에 ECMAScript 6에서 <em>Set</em>과 <em>Map</em>의 작동 방법을 설명하겠습니다.</p>
+<h2 id="ECMAScript-5에서의-Set과-Map"><a href="#ECMAScript-5에서의-Set과-Map" class="headerlink" title="ECMAScript 5에서의 Set과 Map"></a>ECMAScript 5에서의 <em>Set</em>과 <em>Map</em></h2><p>ECMAScript 5에서 개발자는 다음과 같이 객체 프로퍼티를 사용하여 <em>Set</em> 및 <em>Map</em>을 모방했습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</div><div class="line"></div><div class="line">set.foo = <span class="literal">true</span>;</div><div class="line"></div><div class="line"><span class="comment">// 존재 확인하기</span></div><div class="line"><span class="keyword">if</span> (set.foo) &#123;</div><div class="line"></div><div class="line">    <span class="comment">// do something</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이 예제에서 <code>set</code> 변수는 객체 상에 상속된 프로퍼티가 없음을 보장하는 <code>null</code> 프로토 타입을 가진 객체입니다. 객체 프로퍼티를 검사할 고유 값으로 사용하는 것은 ECMAScript 5에서 일반적인 접근법입니다. 프로퍼티가 <code>set</code> 객체에 추가되면, 이 객체는 <code>true</code>로 설정되어 조건문 (이 예에서 <code>if</code> 문)에서 값이 존재하는지 쉽게 확인할 수 있습니다.</p>
+<p><em>Set</em>으로 사용된 객체와 <em>Map</em>으로 사용되는 객체 사이의 차이점은 저장되는 값뿐입니다. 예를 들어, 아래 예제는 객체를 <em>Map</em>으로 사용합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> map = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</div><div class="line"></div><div class="line">map.foo = <span class="string">"bar"</span>;</div><div class="line"></div><div class="line"><span class="comment">// 값을 추출</span></div><div class="line"><span class="keyword">let</span> value = map.foo;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(value);         <span class="comment">// "bar"</span></div></pre></td></tr></table></figure>
+<p>이 코드는 <code>foo</code> 키 아래에 문자열 값 <code>&quot;bar&quot;</code>를 저장합니다. <em>Set</em>과 달리, <em>Map</em>은 키의 존재를 확인하기 보다는 정보를 검색하는 데 주로 사용됩니다.</p>
+<h2 id="해결-방법의-문제점"><a href="#해결-방법의-문제점" class="headerlink" title="해결 방법의 문제점"></a>해결 방법의 문제점</h2><p>객체를 <em>Set</em> 및 <em>Map</em>으로 사용하는 것은 간단한 상황에서 문제 없이 작동하지만 객체 프로퍼티의 한계를 뛰어 넘으면 접근법이 더 복잡해질 수 있습니다. 예를 들어 모든 객체 프로퍼티는 문자열이어야 하므로 동일한 문자열로 평가되는 두 개의 키가 없어야합니다. 다음 사항을 생각해 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> map = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</div><div class="line"></div><div class="line">map[<span class="number">5</span>] = <span class="string">"foo"</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(map[<span class="string">"5"</span>]);      <span class="comment">// "foo"</span></div></pre></td></tr></table></figure>
+<p>이 예제에서는 문자열 값 <code>&quot;foo&quot;</code>를 숫자 키 <code>5</code>에 할당합니다. 내부적으로 숫자 값은 문자열로 변환되므로 <code>map[&quot;5&quot;]</code> 및 <code>map[5]</code>는 실제로 동일한 프로퍼티를 참조합니다. 내부 변환은 숫자와 문자열을 키로 사용하려는 경우 문제를 일으킬 수 있습니다. 다음과 같이 객체를 키로 사용할 때 또 다른 문제가 발생합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> map = <span class="built_in">Object</span>.create(<span class="literal">null</span>),</div><div class="line">    key1 = &#123;&#125;,</div><div class="line">    key2 = &#123;&#125;;</div><div class="line"></div><div class="line">map[key1] = <span class="string">"foo"</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(map[key2]);     <span class="comment">// "foo"</span></div></pre></td></tr></table></figure>
+<p>여기서 <code>map[key2]</code>와 <code>map[key1]</code>은 같은 값을 참조합니다. 객체 프로퍼티는 문자열이어야 하므로 객체 <code>key1</code> 및 <code>key2</code>는 문자열로 변환됩니다. <code>&quot;[object Object]&quot;</code>는 객체의 기본 문자열 표현이기 때문에 <code>key1</code>과 <code>key2</code>가 모두 해당 문자열로 변환됩니다. 이는 사실상 다른 객체의 키가 같은 값으로 가정되는 것이 논리적의로 명백하지 않을 수있는 오류를 유발할 수 있습니다.</p>
+<p>기본 문자열 표현으로 변환하면 객체를 키로 사용하기가 어렵습니다. (객체를 <em>Set</em>으로 사용하려고할 때도 같은 문제가 발생합니다.)</p>
+<p>거짓으로 표현되는 값을 가지는 키가 있는 <em>Map</em>은 특정 문제를 발생시킵니다. 거짓 값은 <code>if</code> 문과 같은 부울 값이 필요한 상황에서 사용될 때 자동으로 false로 변환됩니다. 이 변환만으로는 문제가되지 않습니다. 값을 사용하는 방법에 대해 신중해야합니다. 예를 들어 다음 코드를 살펴보십시오.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> map = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</div><div class="line"></div><div class="line">map.count = <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="comment">// "count"값이 존재하는지 또는 0이 아닌지 어떤걸 체크 하나요?</span></div><div class="line"><span class="keyword">if</span> (map.count) &#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이 예제는 <code>map.count</code>가 어떻게 사용되어야하는지 모호합니다. <code>if</code> 문은 <code>map.count</code>의 존재를 검사할지 아니면 값이 0이 아닌 것을 검사할지 모호합니다. 그래서 숫자 1은 true로 표현되어 <code>if</code>문 안의 코드가 실행됩니다. 그러나 <code>map.count</code>가 0이거나 <code>map.count</code>가 없으면 <code>if</code> 문 안의 코드는 실행되지 않습니다.</p>
+<p>ECMAScript 6가 <em>Set</em>과 <em>Map</em> 모두를 언어에 추가하는 가장 큰 이유는 대규모 응용 프로그램에서 발생하는 문제를 식별하고 디버그하는 것이 어렵기 때문입니다.</p>
+<blockquote>
+<p>JavaScript는 객체의 값을 읽지 않고 객체에 프로퍼티가 있으면 true를 반환하는 <code>in</code> 연산자를 가지고 있습니다. 그러나 <code>in</code> 연산자는 객체의 프로토 타입을 검색하기 때문에 객체가 <code>null</code> 프로토 타입을 가지고있을 때만 안전하게 사용할 수 있습니다. 그럼에도 불구하고, 많은 개발자들은 여전히 <code>in</code>을 사용하는 대신 마지막 예제 에서처럼 코드를 잘못 사용합니다.</p>
+</blockquote>
+<h2 id="ECMAScript-6에서-Set"><a href="#ECMAScript-6에서-Set" class="headerlink" title="ECMAScript 6에서 Set"></a>ECMAScript 6에서 <em>Set</em></h2><p>ECMAScript 6이 중복되지 않은 값의 정렬된 목록인 <code>Set</code> 타입을 추가 했습니다. <em>Set</em>을 사용하면 포함된 데이터에 빠르게 액세스할 수 있으므로 불연속 값을 보다 효율적으로 추적할 수 있습니다.</p>
+<h3 id="Set-만들기와-아이템-추가하기"><a href="#Set-만들기와-아이템-추가하기" class="headerlink" title="Set 만들기와 아이템 추가하기"></a><em>Set</em> 만들기와 아이템 추가하기</h3><p><em>Set</em>은 <code>new Set()</code>를 사용하여 생성할수 있고, 항목은 <code>add()</code> 메서드를 호출하여 추가할 수 있습니다. <code>size</code> 프로퍼티를 확인하여 <em>Set</em>에 포함된 항목 수를 확인할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>();</div><div class="line">set.add(<span class="number">5</span>);</div><div class="line">set.add(<span class="string">"5"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(set.size);    <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<p><em>Set</em>은 값이 동일한지 확인하기 위해 값을 강제 변환하지 않습니다. 이는 <em>Set</em>이 숫자 <code>5</code>와 문자열 <code>&quot;5&quot;</code>를 두 개의 개별 항목을 포함할 수 있음을 의미합니다. 유일한 예외는 <code>-0</code>과 <code>+0</code>은 같은 것으로 간주된다는 것입니다. 또한 <em>Set</em>에 여러 객체를 추가할 수 있으며 이러한 객체는 구별됩니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>(),</div><div class="line">    key1 = &#123;&#125;,</div><div class="line">    key2 = &#123;&#125;;</div><div class="line"></div><div class="line">set.add(key1);</div><div class="line">set.add(key2);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(set.size);    <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<p><code>key1</code>과 <code>key2</code>는 문자열로 변환되지 않으므로 <em>Set</em>에서 두 개의 고유 항목으로 간주됩니다. (문자열로 변환하면 <code>&quot;[Object object]&quot;</code>와 같이 둘은 서로 같습니다.)</p>
+<p><code>add()</code> 메서드가 같은 값으로 두 번 이상 호출되면 첫 번째 호출 이후의 모든 호출은 무시됩니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>();</div><div class="line">set.add(<span class="number">5</span>);</div><div class="line">set.add(<span class="string">"5"</span>);</div><div class="line">set.add(<span class="number">5</span>);     <span class="comment">// duplicate - this is ignored</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(set.size);    <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<p><em>Array</em>를 사용하여 <em>Set</em>을 초기화할 수 있으며 <em>Set</em> 생성자는 고유 한 값만 사용합니다. 예를 들어 아래와 같습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>]);</div><div class="line"><span class="built_in">console</span>.log(set.size);    <span class="comment">// 5</span></div></pre></td></tr></table></figure>
+<p>이 예제에서는 중복 값이 있는 <em>Array</em>를 사용하여 <em>Set</em>을 초기화합니다. 숫자 <code>5</code>는 <em>Array</em>에 네 번 나타나지만 <em>Set</em>에 한 번만 입력됩니다. 이 기능을 사용하여 기존 코드 또는 JSON을  쉽게 <em>Set</em>으로 사용할 수 있습니다.</p>
+<blockquote>
+<p><em>Set</em> 생성자는 실제로 모든 반복 가능한 객체를 인수로 받습니다. <em>Array</em>는 <em>Set</em>과 <em>Map</em>처럼 기본적으로 반복 가능하기 때문입니다. <em>Set</em> 생성자는 <em>Iterator</em>를 사용하여 인수에서 값을 추출합니다. (<em>Iterables</em>과 <em>Iterator</em>는 8 장에서 자세히 논의됩니다.)</p>
+</blockquote>
+<p>다음과 같이 <code>has()</code> 메서드를 사용하여 어떤 값이 <em>Set</em>에 있는지 테스트할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>();</div><div class="line">set.add(<span class="number">5</span>);</div><div class="line">set.add(<span class="string">"5"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(set.has(<span class="number">5</span>));    <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(set.has(<span class="number">6</span>));    <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p><em>Set</em>에는 값이 없기 때문에 <code>set.has(6)</code>는 <code>false</code>를 반환합니다.</p>
+<h3 id="값-지우기"><a href="#값-지우기" class="headerlink" title="값 지우기"></a>값 지우기</h3><p><em>Set</em>에서 값을 제거할 수도 있습니다. <code>delete()</code> 메서드를 사용하여 단일 값을 제거하거나 <code>clear()</code> 메서드를 호출하여 <em>Set</em>에서 모든 값을 제거할 수 있습니다. 아래 코드는 두 가지를 모두 보여줍니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>();</div><div class="line">set.add(<span class="number">5</span>);</div><div class="line">set.add(<span class="string">"5"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(set.has(<span class="number">5</span>));    <span class="comment">// true</span></div><div class="line"></div><div class="line">set.delete(<span class="number">5</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(set.has(<span class="number">5</span>));    <span class="comment">// false</span></div><div class="line"><span class="built_in">console</span>.log(set.size);      <span class="comment">// 1</span></div><div class="line"></div><div class="line">set.clear();</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(set.has(<span class="string">"5"</span>));  <span class="comment">// false</span></div><div class="line"><span class="built_in">console</span>.log(set.size);      <span class="comment">// 0</span></div></pre></td></tr></table></figure>
+<p><code>delete()</code> 호출 후 <code>5</code>가 삭제되었습니다. <code>clear()</code> 메서드가 실행된 후 <code>set</code>은 모두 비어 있습니다.</p>
+<p>이 모든 것이 정렬된 값을 추적하기 위한 매우 쉬운 메커니즘입니다. 그리고 <em>Set</em>에 항목을 추가한 다음 각 항목에 대해 일부 작업을 수행하려면 <code>forEach()</code> 메소드를 이용합니다.</p>
+<h3 id="Set의-forEach-메서드"><a href="#Set의-forEach-메서드" class="headerlink" title="Set의 forEach 메서드"></a><em>Set</em>의 forEach 메서드</h3><p><em>Array</em> 작업에 익숙하다면 이미 <code>forEach()</code> 메서드에 익숙할 것입니다. ECMAScript 5는 <code>forEach()</code>를 <em>Array</em>에 추가하여 <em>Array</em>의 각 항목에서 <code>for</code> 루프를 설정하지 않고 작업을 쉽게할 수 있게했습니다. 이 방법은 개발자들 사이에서 인기가 높으며 동일한 방법이 <em>Set</em>에서 사용 가능하고 동일한 방식으로 실행됩니다.</p>
+<p><code>forEach()</code> 메서드는 세 개의 파라미터를 받는 콜백 함수가 전달됩니다.</p>
+<ol>
+<li><em>Set</em> 내의 다음의 위치 값입니다.</li>
+<li>첫 번째 파라미터와 같은 값</li>
+<li>값을 읽는 <em>Set</em></li>
+</ol>
+<p><em>Set</em>의 <code>forEach()</code>가 <em>Array</em>의 <code>forEach()</code>와 특이한 차이점은 콜백 함수에 대한 첫 번째 및 두 번째 파라미터가 동일하다는 것입니다. 이것은 실수처럼 보일 수 있지만 타당한 이유가 있습니다.</p>
+<p><code>forEach()</code> 메서드 (<em>Array</em> 및 <em>Map</em>)가 있는 다른 객체는 콜백 함수에 세 개의 파라미터를 전달합니다. <em>Array</em>와 <em>Map</em>의 최초의 2 개의 파라미터는, 값과 키 (<em>Array</em>의 인덱스 숫자)입니다.</p>
+<p>그러나 <em>Set</em>에는 키가 없습니다. ECMAScript 6 표준을 작성한 사람들은 <code>forEach()</code>의 <em>Set</em> 버전에서 콜백 함수에 두 개의 파라미터를 허용하지만, <em>Array</em>와 <em>Map</em>의 파라미터와 다르게 만들었습니다. 대신 콜백 함수를 동일하게 유지하고 세 개의 파라미터를 허용하는 방법을 찾았습니다. <em>Set</em>의 첫 번째, 두 번째 파라미터는 키와 값으로 간주됩니다. 따라서 첫 번째와 두 번째 파라미터는 <em>Array</em>와 <em>Map</em>의 <code>forEach()</code> 메서드와 일관된 기능을 유지합니다.</p>
+<p>파라미터의 차이 이외에, <code>forEach()</code>를 사용하는 것은 기본적으로 <em>Array</em>와 같습니다. 다음은 메서드가 실행되는 방식을 보여주는 코드입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>]);</div><div class="line"></div><div class="line">set.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">value, key, ownerSet</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(key + <span class="string">" "</span> + value);</div><div class="line">    <span class="built_in">console</span>.log(ownerSet === set);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>이 코드는 <em>Set</em>의 각 항목을 반복하여 <code>forEach()</code> 콜백 함수에 전달된 값을 출력합니다. 콜백 함수가 실행될 때마다 <code>key</code>와 <code>value</code>는 같고 <code>ownerSet</code>는 항상 <code>set</code>과 같습니다. 이 코드의 출력 결과는 아래와 같습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">1 1</div><div class="line">true</div><div class="line">2 2</div><div class="line">true</div></pre></td></tr></table></figure>
+<p>콜백 함수에서 <code>this</code>를 사용해야한다면 <code>forEach()</code>의 두 번째 파라미터로 <code>this</code> 값을 전달할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>]);</div><div class="line"></div><div class="line"><span class="keyword">let</span> processor = &#123;</div><div class="line">    output(value) &#123;</div><div class="line">        <span class="built_in">console</span>.log(value);</div><div class="line">    &#125;,</div><div class="line">    process(dataSet) &#123;</div><div class="line">        dataSet.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</div><div class="line">            <span class="keyword">this</span>.output(value);</div><div class="line">        &#125;, <span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">processor.process(set);</div></pre></td></tr></table></figure>
+<p>이 예제에서 <code>processor.process()</code> 메서드는 <em>Set</em>에서 <code>forEach()</code>를 호출하고 <code>this</code>를 콜백을 위한 <code>this</code> 값으로 전달합니다. 그래서 <code>this.output()</code>은 <code>processor.output()</code> 메서드로 올바르게 해석됩니다. <code>forEach()</code> 콜백 함수는 첫 번째 파라미터인 <code>value</code>만을 사용하므로 나머지는 생략합니다. <em>Arrow</em> 함수를 사용하여 두 번째 파라미터를 전달하지 않고 동일한 효과를 얻을 수도 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>]);</div><div class="line"></div><div class="line"><span class="keyword">let</span> processor = &#123;</div><div class="line">    output(value) &#123;</div><div class="line">        <span class="built_in">console</span>.log(value);</div><div class="line">    &#125;,</div><div class="line">    process(dataSet) &#123;</div><div class="line">        dataSet.forEach(<span class="function">(<span class="params">value</span>) =&gt;</span> <span class="keyword">this</span>.output(value));</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">processor.process(set);</div></pre></td></tr></table></figure>
+<p>위 예제의 <em>Arrow</em> 함수는 <code>process()</code> 함수에서 <code>this</code>를 읽어서 <code>this.output()</code>을 <code>processor.output()</code>호출로 올바르게 해석합니다.</p>
+<p><em>Set</em>은 값을 추적하는데 적합하고 <code>forEach()</code>를 사용하여 순차적으로 각 값을 처리할 수 있지만, <em>Array</em> 처럼 인덱스를 사용하여 값에 직접 액세스할 수는 없습니다. 그렇게해야 할 경우, 가장 좋은 방법은 <em>Set</em>을 <em>Array</em>로 변환하는 것입니다.</p>
+<h3 id="Set을-Array로-변환"><a href="#Set을-Array로-변환" class="headerlink" title="Set을 Array로 변환"></a>Set을 Array로 변환</h3><p><em>Array</em>를 <code>Set</code> 생성자에 전달할 수 있기 때문에 <em>Array</em>를 <em>Set</em>으로 쉽게 변환할 수 있습니다. <em>Spread</em> 연산자를 사용하여 <em>Set</em>을 다시 <em>Array</em>로 변환하는 것도 쉽습니다. 3 장에서는 <em>Array</em>의 항목을 별도의 함수 매개 변수로 분할하는 방법으로 <em>Spread</em> 연산자 (<code>...</code>)를 설명했습니다. 또한 <em>Spread</em> 연산자를 사용하여 <em>Set</em>과 같은 반복 가능한 객체를 <em>Array</em>로 변환할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]),</div><div class="line">    array = [...set];</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(array);             <span class="comment">// [1,2,3,4,5]</span></div></pre></td></tr></table></figure>
+<p>여기서, <em>Set</em>은 초기에 중복을 포함하는 <em>Array</em>로 로드됩니다. <em>Set</em>은 중복을 제거한 다음 <em>Spread</em> 연산자를 사용하여 항목을 새로운 <em>Array</em>에 배치합니다. <em>Set</em> 자체에는 생성될 때받은 것과 동일한 항목 (<code>1</code>, <code>2</code>, <code>3</code>, <code>4</code> 및 <code>5</code>)이 여전히 포함되어 새로운 <em>Array</em>로 복사됩니다.</p>
+<p>이 방법은 이미 <em>Array</em>가 있지만 새로운 중복값 없이 <em>Array</em>를 만들려는 경우에 유용합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">eliminateDuplicates</span>(<span class="params">items</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> [...new <span class="built_in">Set</span>(items)];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>],</div><div class="line">    noDuplicates = eliminateDuplicates(numbers);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(noDuplicates);      <span class="comment">// [1,2,3,4,5]</span></div></pre></td></tr></table></figure>
+<p><code>eliminateDuplicates()</code> 함수에서 <em>Set</em>은 중복이 없는 새로운 <em>Array</em>를 만들기 전에 중복 값을 필터링하는데 사용되는 임시 매개체 일뿐입니다.</p>
+<h3 id="Weak-Set"><a href="#Weak-Set" class="headerlink" title="Weak Set"></a>Weak Set</h3><p><code>Set</code> 타입은 오브젝트 참조를 저장하는 방식 때문에 Strong <em>Set</em>이 라고 부를 수 있습니다. <code>Set</code>의 인스턴스에 저장된 객체는 그 객체를 변수 안에 저장하는 것과 실질적으로 동일합니다. 해당 <code>Set</code> 인스턴스에 대한 참조가 존재하는 한, 객체는 가비지 컬랙트되어 메모리를 비울 수 없습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>(),</div><div class="line">    key = &#123;&#125;;</div><div class="line"></div><div class="line">set.add(key);</div><div class="line"><span class="built_in">console</span>.log(set.size);      <span class="comment">// 1</span></div><div class="line"></div><div class="line"><span class="comment">// 원래의 참조 삭제</span></div><div class="line">key = <span class="literal">null</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(set.size);      <span class="comment">// 1</span></div><div class="line"></div><div class="line"><span class="comment">// 원래의 참조를 되찾습니다.</span></div><div class="line">key = [...set][<span class="number">0</span>];</div></pre></td></tr></table></figure>
+<p>이 예제에서 <code>key</code>를 <code>null</code>로 설정하면 <code>key</code> 객체의 참조를 지우지만 다른 참조는 <code>set</code> 안에 남아 있습니다. 집합을 <em>Spread</em> 연산자로 <em>Array</em>로 변환하고 첫 번째 항목에 액세스하면 여전히 <code>key</code>를 검색할 수 있습니다. 대부분의 프로그램에서는 괜찮지만 때때로 다른 모든 참조가 사라지면 <em>Set</em>의 참조가 사라지는 것이 좋을 때도 있습니다. 예를 들어 웹 페이지에서 JavaScript 코드가 실행 중이고 다른 스크립트에 의해 제거 될 수있는 DOM 요소를 추적하려는 경우 코드가 DOM 요소에 대한 마지막 참조를 유지하지 못하게해야 합니다. (이 상황을 <em>메모리 누수(memory leak)</em>라고합니다.)</p>
+<p>이러한 문제를 줄이기 위해 ECMAScript 6에는 약한 객체 참조만 저장하고 원시 값을 저장할 수없는 <em>Weak Set</em>도 포함하고 있습니다. 객체에 대한 약한 참조가 유일하게 남아있는 참조인 경우 가비지 컬렉션 대상이 됩니다.</p>
+<h4 id="Weak-Set-생성하기"><a href="#Weak-Set-생성하기" class="headerlink" title="Weak Set 생성하기"></a><em>Weak Set</em> 생성하기</h4><p><em>Weak Set</em>은 <code>WeakSet</code> 생성자를 사용하여 생성되며 <code>add()</code>, <code>has()</code> 및 <code>delete()</code> 메서드를 포함합니다. 다음은이 세 가지를 모두 사용하는 예제입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">WeakSet</span>(),</div><div class="line">    key = &#123;&#125;;</div><div class="line"></div><div class="line"><span class="comment">// add the object to the set</span></div><div class="line">set.add(key);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(set.has(key));      <span class="comment">// true</span></div><div class="line"></div><div class="line">set.delete(key);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(set.has(key));      <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p><em>Weak Set</em>을 사용하는 것은 보통 <em>Set</em>을 사용하는 것과 같습니다. <em>Weak Set</em>에서 참조를 추가, 제거 및 확인할 수 있습니다. <em>Iterable</em>을 생성자에 전달하여 값이 있는 <em>Weak Set</em>를 생성할 수도 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> key1 = &#123;&#125;,</div><div class="line">    key2 = &#123;&#125;,</div><div class="line">    set = <span class="keyword">new</span> <span class="built_in">WeakSet</span>([key1, key2]);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(set.has(key1));     <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(set.has(key2));     <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>이 예제에서 <em>Array</em>는 <code>WeakSet</code> 생성자에 전달됩니다. 이 <em>Array</em>에는 두 개의 객체가 포함되어 있으므로 해당 객체가 <em>Weak Set</em>에 추가됩니다. <code>WeakSet</code>은 <em>Primitive</em> 값을 받아 들일 수 없으므로 <em>Array</em>에 객체가 아닌 값이 포함되어 있으면 오류가 발생합니다.</p>
+<h4 id="Set-타입-간의-주요-차이점"><a href="#Set-타입-간의-주요-차이점" class="headerlink" title="Set 타입 간의 주요 차이점"></a><em>Set</em> 타입 간의 주요 차이점</h4><p><em>Weak Set</em>와 정규 <em>Set</em>의 가장 큰 차이점은 객체 값에 약한 참조를 보유한다는 것입니다. 다음은 그 차이를 보여주는 예입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">WeakSet</span>(),</div><div class="line">    key = &#123;&#125;;</div><div class="line"></div><div class="line"><span class="comment">// add the object to the set</span></div><div class="line">set.add(key);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(set.has(key));      <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="comment">// 키에 대한 마지막 strong reference를 제거하고 Weak Set에서 제거합니다.</span></div><div class="line">key = <span class="literal">null</span>;</div></pre></td></tr></table></figure>
+<p>이 코드가 실행된 후에, <em>Weak Set</em>의 <code>key</code>에 대한 참조는 더 이상 접근 가능하지 않습니다. 하지만 <code>has()</code> 메서드에 전달할 객체에 대한 참조가 필요하기 때문에 객체의 제거를 확인할 수 없습니다. 이렇게하면 <em>Weak Set</em> 테스트가 다소 혼란스럽지만, JavaScript 엔진이 참조를 제대로 제거했다는 것을 신뢰해야 합니다.</p>
+<p>이 예제는 <em>Weak Set</em>이 일반 <em>Set</em>과 몇 가지 특성은 공유하지만 또한 몇 가지 중요한 차이점이 있음을 알려줍니다.</p>
+<ol>
+<li>WeakSet 인스턴스에서, 비 객체 <code>add()</code> 메서드는 오류를 throw합니다.(<code>has()</code> 및 <code>delete()</code>는 객체가 아닌 파라미터에 대해 항상 false를 반환) </li>
+<li><em>Weak Set</em>은 <em>Iterable</em>이 아니므로 <code>for-of</code> 루프에서 사용할 수 없습니다.</li>
+<li><em>Weak Set</em>은 <em>Iterator</em>(<code>keys()</code> 및 <code>values()</code> 메소드와 같은)를 노출시키지 않으므로 프로그래밍 방식으로 <em>Weak Set</em>의 내용을 판별할 수는 없습니다.</li>
+<li><em>Weak Set</em>에는 <code>forEach()</code> 메서드가 없습니다.</li>
+<li><em>Weak Set</em>에는 <code>size</code> 프로퍼티가 없습니다.</li>
+</ol>
+<p>메모리를 적절히 처리하려면 <em>Weak Set</em>의 기능을 제한적으로 사용하는 것이 필요합니다. 객체 참조 추적을 한다면 일반 <em>Set</em> 대신 <em>Weak Set</em>를 사용합니다.</p>
+<p><em>Set</em>은 값 목록을 처리하는 새로운 방법을 제공하지만 추가 정보를 해당 값과 연결해야하는 경우 유용하지 않습니다. 그래서 ECMAScript 6은 <em>Map</em>을 추가했습니다.</p>
+<h2 id="ECMAScript-6의-Map"><a href="#ECMAScript-6의-Map" class="headerlink" title="ECMAScript 6의 Map"></a>ECMAScript 6의 <em>Map</em></h2><p>ECMAScript 6 <code>Map</code> 타입은 키-값 쌍의 정렬된 목록입니다. 여기서 키와 값은 어떤 타입도 가질 수 있습니다. 키는 <code>Set</code> 객체와 같은 접근법을 사용하여 결정됩니다. 그래서 <code>5</code>키와 <code>&#39;5&#39;</code>키를 가질 수 있습니다. 객체에서 프로퍼티를 키로 사용하는 것과 매우 다릅니다. 왜냐하면 객체의 프로퍼티는 항상 문자열로 강제 변환합니다.</p>
+<p><code>set()</code> 메서드를 호출하고 키와 값을 전달하여 <em>Map</em>에 항목을 추가할 수 있습니다. 나중에 <code>get()</code> 메서드에 키를 전달하여 값을 검색할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>();</div><div class="line">map.set(<span class="string">"title"</span>, <span class="string">"Understanding ES6"</span>);</div><div class="line">map.set(<span class="string">"year"</span>, <span class="number">2016</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(map.get(<span class="string">"title"</span>));      <span class="comment">// "Understanding ES6"</span></div><div class="line"><span class="built_in">console</span>.log(map.get(<span class="string">"year"</span>));       <span class="comment">// 2016</span></div></pre></td></tr></table></figure>
+<p>이 예에서는 두 개의 키-값 쌍이 저장됩니다. <code>&quot;title&quot;</code>키에는 문자열이 저장되고 <code>&quot;year&quot;</code>키에는 숫자가 저장됩니다. <code>get()</code> 메서드는 나중에 호출되어 두 키의 값을 검색합니다. <em>Map</em>에 키가 하나도 없으면 <code>get()</code>은 값 대신에 <code>undefined</code>라는 특수 값을 반환했을 것입니다.</p>
+<p>객체를 키로 사용할 수도 있습니다. 이 방법은 이전에 객체 프로퍼티를 사용하여 <em>Map</em>을 만들던 방법으로는 불가능 했던걸 가능하게 합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>(),</div><div class="line">    key1 = &#123;&#125;,</div><div class="line">    key2 = &#123;&#125;;</div><div class="line"></div><div class="line">map.set(key1, <span class="number">5</span>);</div><div class="line">map.set(key2, <span class="number">42</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(map.get(key1));         <span class="comment">// 5</span></div><div class="line"><span class="built_in">console</span>.log(map.get(key2));         <span class="comment">// 42</span></div></pre></td></tr></table></figure>
+<p>이 코드는 <code>key1</code>과 <code>key2</code> 객체를 <em>Map</em>의 키로 사용하여 두 개의 다른 값을 저장합니다. 이러한 키는 다른 형태로 강제 변환되지 않으므로 각 객체는 고유 한 것으로 간주됩니다. 이렇게하면 객체 자체를 수정하지 않고도 객체에 추가 데이터를 연결할 수 있습니다.</p>
+<h3 id="Map-메서드"><a href="#Map-메서드" class="headerlink" title="Map 메서드"></a><em>Map</em> 메서드</h3><p><em>Map</em>은 여러 메서드를 <em>Set</em>과 공유합니다. 이는 의도적인 것이며, 비슷한 방식으로 <em>Map</em> 및 <em>Set</em>과 상호 작용할 수 있습니다. 아래의 세 가지 메서드는 <em>Map</em>과 <em>Set</em>에서 사용할 수 있습니다.</p>
+<ul>
+<li><code>has(key)</code> - 지정된 키가 <em>Map</em>에 있는지 확인합니다.</li>
+<li><code>delete(key)</code> - <em>Map</em>에서 키와 관련 값을 제거합니다.</li>
+<li><code>clear()</code> - <em>Map</em>에서 모든 키와 값을 제거합니다.</li>
+</ul>
+<p>또한 <em>Map</em>에는 키-값 쌍이 얼마나 많은지 나타내는 <code>size</code> 프로퍼티가 있습니다. 아래 코드는 세 가지 메서드와 사이즈를 모두 다른 방식으로 사용합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>();</div><div class="line">map.set(<span class="string">"name"</span>, <span class="string">"Nicholas"</span>);</div><div class="line">map.set(<span class="string">"age"</span>, <span class="number">25</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(map.size);          <span class="comment">// 2</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(map.has(<span class="string">"name"</span>));   <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(map.get(<span class="string">"name"</span>));   <span class="comment">// "Nicholas"</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(map.has(<span class="string">"age"</span>));    <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(map.get(<span class="string">"age"</span>));    <span class="comment">// 25</span></div><div class="line"></div><div class="line">map.delete(<span class="string">"name"</span>);</div><div class="line"><span class="built_in">console</span>.log(map.has(<span class="string">"name"</span>));   <span class="comment">// false</span></div><div class="line"><span class="built_in">console</span>.log(map.get(<span class="string">"name"</span>));   <span class="comment">// undefined</span></div><div class="line"><span class="built_in">console</span>.log(map.size);          <span class="comment">// 1</span></div><div class="line"></div><div class="line">map.clear();</div><div class="line"><span class="built_in">console</span>.log(map.has(<span class="string">"name"</span>));   <span class="comment">// false</span></div><div class="line"><span class="built_in">console</span>.log(map.get(<span class="string">"name"</span>));   <span class="comment">// undefined</span></div><div class="line"><span class="built_in">console</span>.log(map.has(<span class="string">"age"</span>));    <span class="comment">// false</span></div><div class="line"><span class="built_in">console</span>.log(map.get(<span class="string">"age"</span>));    <span class="comment">// undefined</span></div><div class="line"><span class="built_in">console</span>.log(map.size);          <span class="comment">// 0</span></div></pre></td></tr></table></figure>
+<p><em>Set</em>과 마찬가지로 <code>size</code> 프로퍼티는 항상 키-값 쌍의 수를 <em>Map</em>에 포함합니다. 이 예제에서 <code>Map</code> 인스턴스는 <code>&quot;name&quot;</code>과 <code>&quot;age&quot;</code>키들로 시작합니다. 그래서 <code>has()</code> 메서드는 <code>true</code>를 리턴합니다. <code>&quot;name&quot;</code> 키가 <code>delete()</code> 메서드에 의해 제거된 후에 <code>has()</code> 메서드는<br> <code>false</code>를 리턴하고 <code>size</code> 프로퍼티는 1을 나타냅니다. 그런 다음 <code>clear()</code> 메서드는 나머지 키를 제거하고, <code>size</code>프로퍼티는 <code>0</code>, <code>has()</code>는 <code>false</code>를 반환합니다.</p>
+<p><code>clear()</code> 메서드는 <em>Map</em>에서 많은 데이터를 빠르게 제거하는 방법이지만 한 번에 많은 데이터를 <em>Map</em>에 추가하는 방법도 있습니다.</p>
+<h3 id="Map-초기화"><a href="#Map-초기화" class="headerlink" title="Map 초기화"></a><em>Map</em> 초기화</h3><p>또한 <em>Set</em>과 유사하게 <em>Array</em>를 <code>Map</code> 생성자에 전달하여 데이터로 <em>Map</em>을 초기화할 수 있습니다. <em>Array</em>의 각 항목은 첫 번째 항목이 키이고 두 번째 항목이 키의 값인 <em>Array</em>이어야합니다. 따라서 전체 <em>Map</em>은 다음과 같은 <em>Array</em>의 <em>Array</em>입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>([[<span class="string">"name"</span>, <span class="string">"Nicholas"</span>], [<span class="string">"age"</span>, <span class="number">25</span>]]);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(map.has(<span class="string">"name"</span>));   <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(map.get(<span class="string">"name"</span>));   <span class="comment">// "Nicholas"</span></div><div class="line"><span class="built_in">console</span>.log(map.has(<span class="string">"age"</span>));    <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(map.get(<span class="string">"age"</span>));    <span class="comment">// 25</span></div><div class="line"><span class="built_in">console</span>.log(map.size);          <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<p>키 <code>&quot;name&quot;</code>과 <code>&quot;age&quot;</code>는 생성자의 초기화를 통해 <code>map</code>에 추가됩니다. <em>Array</em>의 <em>Array</em>가 조금 이상하게 보일 수도 있지만 키는 모든 데이터 타입이 될 수 있으므로 키를 정확하게 나타내야합니다. 키를 <em>Array</em>에 저장하는 것이 <em>Map</em>에 저장되기 전에 다른 데이터 타입으로 강제 변환되지 않도록하는 유일한 방법입니다.</p>
+<h3 id="Map에서의-forEach-메서드"><a href="#Map에서의-forEach-메서드" class="headerlink" title="Map에서의 forEach 메서드"></a><em>Map</em>에서의 forEach 메서드</h3><p><em>Map</em>에 대한 <code>forEach()</code> 메서드는 세 개의 파라미터를 받는 콜백 함수를 허용한다는 점에서 <em>Set</em> 및 <em>Array</em>의 <code>forEach()</code>와 유사합니다.</p>
+<ol>
+<li><em>Map</em>의 다음 위치 값</li>
+<li>그 값의 키</li>
+<li>값을 읽는 <em>Map</em></li>
+</ol>
+<p>이러한 콜백 파라미터는 첫 번째 파라미터가 값이고 두 번째 파라미터가 키 (<em>Array</em>의 숫자 인덱스에 해당) 인 <em>Array</em>의 forEach () 동작과 비슷합니다. 다음은 그 예입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>([ [<span class="string">"name"</span>, <span class="string">"Nicholas"</span>], [<span class="string">"age"</span>, <span class="number">25</span>]]);</div><div class="line"></div><div class="line">map.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">value, key, ownerMap</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(key + <span class="string">" "</span> + value);</div><div class="line">    <span class="built_in">console</span>.log(ownerMap === map);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><code>forEach()</code> 콜백 함수는 전달된 정보를 출력합니다. <code>value</code>와 <code>key</code>는 직접 출력되고, <code>ownerMap</code>은 <code>map</code>과 비교되어 값이 동일 함을 보여줍니다. 결과는 다음과 같습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">name Nicholas</div><div class="line">true</div><div class="line">age 25</div><div class="line">true</div></pre></td></tr></table></figure>
+<p><code>forEach()</code>에 전달된 콜백은 <em>Map</em>에 삽입된 순서대로 각 키-값 쌍을 받습니다. 이 동작은 콜백이 숫자 인덱스 순서대로 각 항목을 받는 <em>Array</em>의 <code>forEach()</code>가 호출되는 것과 약간 다릅니다.</p>
+<blockquote>
+<p><code>forEach()</code>에 두 번째 파라미터를 제공하여 콜백 함수 내에서 <code>this</code> 값을 지정할 수도 있습니다. 이와 같은 호출은 <em>Set</em> 버전의<br> <code>forEach()</code> 메서드와 동일하게 작동합니다.</p>
+</blockquote>
+<h3 id="Weak-Map"><a href="#Weak-Map" class="headerlink" title="Weak Map"></a>Weak Map</h3><p><em>Weak Map</em>은 약한 객체 참조를 저장하는 방법입니다. <em>Weak Map</em>에서는 모든 키가 객체여야 하며 (객체가 아닌 키를 사용하려고하면 오류가 발생 함) 이러한 객체 참조는 가비지 컬랙트를 방해하지 않도록 약하게 유지됩니다. <em>Weak Map</em> 외부의 키에 대한 참조가 없으면 <em>Weak Map</em>에서 키-값 쌍이 제거됩니다.</p>
+<p><em>Weak Map</em>을 사용하는 가장 유용한 장소는 웹 페이지의 특정 DOM 엘리먼트와 관련된 객체를 만드는 경우입니다. 예를 들어 웹 페이지용 JavaScript 라이브러리 중 일부는 라이브러리에서 참조하는 모든 DOM 엘리먼트에 대해 특정 사용자 정의 객체를 유지하고 해당 매핑은 내부적으로 객체 캐시에 저장됩니다.</p>
+<p>이 접근법의 어려운 부분은 DOM 엘리먼트가 웹 페이지에 더 이상 존재하지 않아 라이브러리가 관련 객체를 제거할 수 없을 때를 결정하는 것입니다. 그렇지 않으면 라이브러리가 참조 엘리먼트의 유용성을 넘어 DOM 엘리먼트 참조를 유지하고 메모리 누수가 발생합니다. <em>Weak Map</em>으로 DOM 엘리먼트를 추적하면 라이브러리가 모든 DOM 엘리먼트와 객체를 연결할 수 있으며 해당 객체의 DOM 엘러먼트가 더 이상 존재하지 않으면 <em>Map</em>의 객체를 자동으로 삭제할 수 있습니다.</p>
+<blockquote>
+<p><em>Weak Map</em> 값이 아닌 <em>Weak Map</em> 키만 약한 참조임을 유의해야합니다. <em>Weak Map</em> 값으로 저장된 오브젝트는 다른 모든 참조가 제거되어도 가비지 콜렉션 대상이 아닙니다.</p>
+</blockquote>
+<h4 id="Weak-Map-사용하기"><a href="#Weak-Map-사용하기" class="headerlink" title="Weak Map 사용하기"></a><em>Weak Map</em> 사용하기</h4><p>ECMAScript 6 <code>WeakMap</code> 타입은 키와 값 쌍의 정렬되지 않은 목록입니다. 여기서 키는 <code>null</code>이 아닌 객체여야 하며 값은 모든 타입이 될 수 있습니다. <code>WeakMap</code>은 <code>set()</code>과 <code>get()</code>이 각각 데이터를 추가하고 검색하는 데 사용된다는 점에서 <em>Map</em>의 인터페이스와 매우 유사합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">WeakMap</span>(),</div><div class="line">    element = <span class="built_in">document</span>.querySelector(<span class="string">".element"</span>);</div><div class="line"></div><div class="line">map.set(element, <span class="string">"Original"</span>);</div><div class="line"></div><div class="line"><span class="keyword">let</span> value = map.get(element);</div><div class="line"><span class="built_in">console</span>.log(value);             <span class="comment">// "Original"</span></div><div class="line"></div><div class="line"><span class="comment">// remove the element</span></div><div class="line">element.parentNode.removeChild(element);</div><div class="line">element = <span class="literal">null</span>;</div><div class="line"></div><div class="line"><span class="comment">// the weak map is empty at this point</span></div></pre></td></tr></table></figure>
+<p>이 예제는 키-값 쌍 하나가 저장됩니다. <code>element</code> 키는 해당 문자열 값을 저장하는 데 사용되는 DOM 엘리먼트입니다. 그 값은 DOM 엘레멘트를 <code>get()</code> 메서드에 전달해서 얻습니다. 나중에 DOM 엘리먼트가 Document에서 제거되고 이를 참조하는 변수가 <code>null</code>로 설정되면 데이터도 <em>Weak Map</em>에서 제거됩니다.</p>
+<p><em>Weak Set</em>과 마찬가지로 <code>size</code> 프로퍼티가 없기 때문에 <em>Weak Map</em>이 비어 있는지 확인할 방법이 없습니다. 키에 대한 참조가 남아 있지 않으므로 <code>get()</code> 메서드를 호출하여 값을 검색할 수 없습니다. <em>Weak Map</em>은 그 키에 대한 값의 액세스를 차단하고, 가비지 컬렉터가 실행될 때 값으로 점유된 메모리는 해제됩니다.</p>
+<h4 id="Weak-Map-초기화"><a href="#Weak-Map-초기화" class="headerlink" title="Weak Map 초기화"></a><em>Weak Map</em> 초기화</h4><p><em>Weak Map</em>을 초기화하려면 <code>WeakMap</code> 생성자에 <em>Array</em>의 <em>Array</em>를 전달합니다. 일반 <em>Map</em>을 초기화하는 것처럼 포함하는 <em>Array</em>의 각 <em>Array</em>에는 두 개의 항목이 있어야합니다. 첫 번째 항목은 <code>null</code>이 아닌 객체 키이고 두 번째 항목은 값 (모든 데이터 유형)입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> key1 = &#123;&#125;,</div><div class="line">    key2 = &#123;&#125;,</div><div class="line">    map = <span class="keyword">new</span> <span class="built_in">WeakMap</span>([[key1, <span class="string">"Hello"</span>], [key2, <span class="number">42</span>]]);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(map.has(key1));     <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(map.get(key1));     <span class="comment">// "Hello"</span></div><div class="line"><span class="built_in">console</span>.log(map.has(key2));     <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(map.get(key2));     <span class="comment">// 42</span></div></pre></td></tr></table></figure>
+<p><code>key1</code> 및 <code>key2</code> 객체는 <em>Weak Map</em>에서 키로 사용되며 <code>get()</code> 및 <code>has()</code> 메서드를 통해 해당 객체에 액세스할 수 있습니다. <code>WeakMap</code> 생성자가 어떤 키-값 쌍에서 객체가 아닌 키를 받으면 오류가 발생합니다.</p>
+<h4 id="Weak-Map-메서드"><a href="#Weak-Map-메서드" class="headerlink" title="Weak Map 메서드"></a><em>Weak Map</em> 메서드</h4><p><em>Weak Map</em>에는 키-값 쌍과 상호 작용할 수있는 두 가지 추가 방법이 있습니다. 특정 키가 <em>Map</em>에 있는지 확인하는 <code>has()</code> 메소드와 특정 키-값 쌍을 제거하는 <code>delete()</code> 메소드가 있습니다. <em>Weak Map</em>에서는 <em>Weak Set</em> 처럼 키를 열거하는 것이 불가능 하기 때문에 <code>clear()</code> 메서드가 없습니다. 아래 예제에서는 <code>has()</code> 및 <code>delete()</code> 메서드를 모두 사용합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">WeakMap</span>(),</div><div class="line">    element = <span class="built_in">document</span>.querySelector(<span class="string">".element"</span>);</div><div class="line"></div><div class="line">map.set(element, <span class="string">"Original"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(map.has(element));   <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(map.get(element));   <span class="comment">// "Original"</span></div><div class="line"></div><div class="line">map.delete(element);</div><div class="line"><span class="built_in">console</span>.log(map.has(element));   <span class="comment">// false</span></div><div class="line"><span class="built_in">console</span>.log(map.get(element));   <span class="comment">// undefined</span></div></pre></td></tr></table></figure>
+<p>위 예제에서 DOM 엘리먼트를 <em>Weak Map</em>에서 키로 사용됩니다. <code>has()</code> 메서드는 참조가 현재 <em>Weak Map</em>에서 키로 사용되고 있는지 확인하는 데 유용합니다. 이것은 키에 대한 <code>null</code>이 아닌 참조가 있는 경우에만 작동한다는 점에 유의하십시오. 키는 <code>delete()</code> 메서드에 의해 <em>Weak Map</em>에서 강제로 제거됩니다. 그리고 <code>has()</code>는 false를 반환하고 <code>get()</code>은 <code>undefined</code>를 반환합니다.</p>
+<h4 id="Private-Object-Data"><a href="#Private-Object-Data" class="headerlink" title="Private Object Data"></a>Private Object Data</h4><p>대부분의 개발자는 <em>Weak Map</em>의 주요 유스 케이스가 DOM 엘리먼트와 관련된 데이터라고 생각하지만 다른 많은 용도가 있습니다 (의심의 여지가 있지만 아직 발견되지 않은 것). <em>Weak Map</em>을 실제로 사용하는 한 가지 방법은 객체 인스턴스에 <em>Private</em> 데이터를 저장하는 것입니다. ECMAScript 6에서는 모든 객체 프로퍼티가 <code>public</code>이므로 객체에 액세스할 수있는 데이터를 만들려면 창의력을 사용해야하지만 모든 객체에 액세스할 수는 없습니다 다음 예제를 살펴 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>._name = name;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Person.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>._name;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>이 코드는 일반적인 규칙인 선행 밑줄을 사용하였기 때문에 프로퍼티가 <em>Private</em>으로 간주되므로 객체 인스턴스 외부에서 수정하면 안됩니다. 의도는 <code>getName()</code>을 사용하여 <code>this._name</code>을 읽고 <code>_name</code> 값을 변경하지 못하게하는 것입니다. 그러나 <code>_name</code> 프로퍼티를 작성하는 사람은 의도적으로 또는 실수로 덮어 쓸 수 있습니다.</p>
+<p>ECMAScript 5에서는 다음과 같은 패턴을 사용하여 객체를 생성하여 진정한 <em>Private</em> 데이터를 가질 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Person = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> privateData = &#123;&#125;,</div><div class="line">        privateId = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">        <span class="built_in">Object</span>.defineProperty(<span class="keyword">this</span>, <span class="string">"_id"</span>, &#123; <span class="attr">value</span>: privateId++ &#125;);</div><div class="line"></div><div class="line">        privateData[<span class="keyword">this</span>._id] = &#123;</div><div class="line">            <span class="attr">name</span>: name</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Person.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> privateData[<span class="keyword">this</span>._id].name;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> Person;</div><div class="line">&#125;());</div></pre></td></tr></table></figure>
+<p>이 예제는 두 개의 <em>Private</em> 변수 인 <code>privateData</code>와 <code>privateId</code>를 포함하는 IIFE에 <code>Person</code>의 정의를 래핑합니다. <code>privateData</code> 객체는 각 인스턴스에 대한 개인 정보를 저장하는 반면 <code>privateId</code>는 각 인스턴스에 대해 고유 한 ID를 생성하는데 사용됩니다. <code>Person</code> 생성자가 호출 될 때, nonumerable, nonconfigurable, 그리고 nonwritable  <code>_id</code> 프로퍼티가 추가됩니다.</p>
+<p>그런 다음 객체 인스턴스의 ID에 해당하는 <code>privateData</code> 객체에 항목이 만들어지고 그 이름이 저장됩니다. 나중에 <code>getName()</code> 함수에서 <code>this._id</code>를 <code>privateData</code>의 키로 사용하여 이름을 검색할 수 있습니다.  <code>privateData</code>는 IIFE 외부에서 접근할 수 없으므로<br> <code>this._id</code>가 공개 되어도 실제 데이터는 안전합니다.</p>
+<p>이 접근법의 가장 큰 문제점은 객체 인스턴스가 언제 파괴되는지를 알 수 없기 때문에 <code>privateData</code>의 데이터가 사라지지 않는다는 것입니다. <code>privateData</code> 객체는 항상 여분의 데이터를 포함합니다. 이 문제는 다음과 같이 <em>Weak Map</em>을 대신 사용하여 해결할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> Person = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">let</span> privateData = <span class="keyword">new</span> <span class="built_in">WeakMap</span>();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">        privateData.set(<span class="keyword">this</span>, &#123; <span class="attr">name</span>: name &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Person.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> privateData.get(<span class="keyword">this</span>).name;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> Person;</div><div class="line">&#125;());</div></pre></td></tr></table></figure>
+<p>이 버전의 <code>Person</code> 예제는 객체가 아닌 <em>Private</em> 데이터용 <em>Weak Map</em>을 사용합니다. <code>Person</code> 객체 인스턴스 자체를 키로 사용할 수 있기 때문에 별도의 ID를 추적할 필요가 없습니다. <code>Person</code> 생성자가 호출되면 weak 필드에 <code>this</code>키와 개인 정보가 들어있는 객체의 값을 가진 새로운 항목이 만들어집니다. 이 경우 값은 <code>name</code>만 포함하는 객체입니다. <code>getName()</code> 함수는 <code>privateData.get()</code> 메소드에 <code>this</code>를 전달하여 해당 개인 정보를 검색합니다. <code>privateData.get()</code> 메소드는 값 객체를 입력받아 <code>name</code> 프로퍼티에 액세스합니다. 이 기법은 개인 정보를 비공개로 유지하고, 관련 정보가 파괴될 때마다 정보도 파괴됩니다.</p>
+<h4 id="Weak-Map-사용-및-제한-사항"><a href="#Weak-Map-사용-및-제한-사항" class="headerlink" title="Weak Map 사용 및 제한 사항"></a><em>Weak Map</em> 사용 및 제한 사항</h4><p><em>Weak Map</em> 또는 일반 <em>Map</em>을 사용할지 여부를 결정할 때 고려해야 할 기본 결정은 객체 키만 사용할지 여부입니다. 언제든지 객체 키만 사용하려고 할 때 가장 좋은 선택은 <em>Weak map</em>입니다. 이렇게하면 여분의 데이터는 더이상 유지되지 않고 액세스할 수 없어 메모리 사용을 최적화하고 메모리 누수를 피할 수 있습니다.</p>
+<p><em>Weak Map</em>은 내용을 거의 볼 수 없으므로 <code>forEach()</code> 메서드, <code>size</code> 프로퍼티 또는 <code>clear()</code> 메서드를 사용하여 항목을 관리할 수 없습니다. 몇 가지 검사 기능이 필요한 경우 일반 <em>Map</em>을 사용하는 것이 좋습니다. 메모리 사용을 주시하십시오.</p>
+<p>물론 객체가 아닌 키만 사용하려는 경우 일반 <em>Map</em>만 선택할 수 있습니다.</p>
+<h2 id="요약"><a href="#요약" class="headerlink" title="요약"></a>요약</h2><p>ECMAScript 6은 정식으로 <em>Set</em>과 <em>Map</em>을 JavaScript에 도입했습니다. 이전에는 개발자가 객체를 사용하여 <em>Set</em>과 <em>Map</em>을 모방하는 경우가 많았습니다. 하지만 객체 프로퍼티와 관련된 제한으로 인해 종종 문제가 발생했습니다.</p>
+<p><em>Set</em>은 고유한 값의 정렬된 목록입니다. 같은지 여부를 판별하는 값을 가지고 있지 않습니다. <em>Set</em>는 중복값을 자동으로 제거하므로 <em>Set</em>을 사용하여 <em>Array</em>의 중복된 값을 필터링하고 결과를 반환할 수 있습니다. <em>Set</em>은 <em>Array</em>의 하위 클래스가 아니므로 <em>Set</em>의 값에 임의로 액세스할 수는 없습니다. 대신 <code>has()</code> 메서드를 사용하여 값이 <em>Set</em>에 포함되어 있는지 확인하고 <em>Set</em>의 개수를 알려주는 <code>size</code> 프로퍼티를 사용할 수 있습니다. <code>Set</code> 타입은 각 값을 처리하기 위한 <code>forEach()</code> 메서드를 가지고 있습니다.</p>
+<p><em>Weak Set</em>은 객체만 포함할 수있는 특수 <em>Set</em>입니다. 해당 객체는 약한 참조로 저장됩니다. 즉, <em>Weak Set</em>의 항목은 해당 항목이 객체에 대한 유일한 참조인 경우 가비지 컬렉트 대상이 됩니다. <em>Weak Set</em> 내용은 메모리 관리의 복잡성 때문에 검사할 수 없으므로 함께 그룹화 해야하는 객체 추적에만 <em>Weak Set</em>를 사용하는 것이 가장 좋습니다.</p>
+<p><em>Map</em>은 정렬된 키-값 쌍입니다. 여기서 키는 모든 데이터 타입이 될 수 있습니다. <em>Set</em>과 마찬가지로 키는 같음여부를 판별하기 위해 강제변환이 실행되지 않으므로 숫자 키 <code>5</code>와 문자열 <code>&quot;5&quot;</code>를 별개의 두 개의 키로 가질 수 있습니다. 모든 데이터 타입의 값은 <code>set()</code> 메서드를 사용하여 키의 값이 될수 있으며, 그 값은 나중에 <code>get()</code> 메소드를 사용하여 검색할 수 있습니다. <em>Map</em>에는 <code>size</code> 프로퍼티와 <code>forEach()</code> 메서드가 있어 보다 쉽게 항목에 액세스할 수 있습니다.</p>
+<p><em>Weak Map</em>은 객체 키만 가질 수있는 특별한 타입의 <em>Map</em>입니다. <em>Weak Set</em>과 마찬가지로 객체 키 참조는 약하며 객체에 대한 유일하게 남아있는 참조인 경우 가비지 컬렉트 대상이 됩니다. 키가 가비지 컬렉트되면 키와 연관된 값도 <em>Weak Map</em>에서 제거됩니다. 이 메모리 관리 측면은 추가 정보를 액세스하는 코드 외부에서 라이프사이클이 관리되는 구조에 <em>Weak Map</em>이 적합합니다.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://leanpub.com/understandinges6/read#leanpub-auto-sets-and-maps" target="_blank" rel="external">https://leanpub.com/understandinges6/read#leanpub-auto-sets-and-maps</a>]</p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a href="https://infoscis.github.io/2018/01/24/ecmascript-6-block-binding/">ECMAScript 6 Block Binding</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/ecmascript-6-strings-and-regular-expressions/">ECMAScript 6 문자열과 정규 표현식</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/ecmascript-6-functions/">ECMAScript 6 함수</a></li>
+<li><a href="https://infoscis.github.io/2018/01/25/ecmascript-6-expanded-object-functionality/">ECMAScript 6 객체의 확장된 기능</a></li>
+<li><a href="https://infoscis.github.io/2018/01/26/ecmascript-6-destructuring-for-easier-data-access/">ECMAScript 6 쉬운 데이터 액세스를 위한 Destructuring</a></li>
+<li><a href="https://infoscis.github.io/2018/01/27/ecmascript-6-symbols-and-symbol-properties/">ECMAScript 6 Symbol과 Symbol 프로퍼티</a></li>
+<li><a href="https://infoscis.github.io/2018/01/27/ecmascript-6-sets-and-maps/">ECMAScript 6 Set과 Map</a></li>
+<li><a href="https://infoscis.github.io/2018/01/31/ecmascript-6-iterators-and-generators/">ECMAScript 6 Iterator와 Generator</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/ecmascript-6-introducing-javascript-classes/">ECMAScript 6 JavaScript 클래스 소개</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/ecmascript-6-improved-array-capabilities/">ECMAScript 6 Array 기능 향상</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-promises-and-asynchronous-programming/">ECMAScript 6 Promise와 비동기 프로그램밍</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/">ECMAScript 6 프록시와 리플렉션 API</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-encapsulating-code-with-modules/">ECMAScript 6 Module로 코드 캡슐화하기</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-appendix-a-smaller-changes/">ECMAScript 6 부록 A. 작은 변경 사항</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/">ECMAScript 6 부록 B. ECMAScript 7(2016) 이해하기</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2018/01/27/ecmascript-6-sets-and-maps/" data-id="cjkl9102t0030jguzn3js697q" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/01/31/ecmascript-6-iterators-and-generators/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            ECMAScript 6 Iterator와 Generator
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2018/01/27/ecmascript-6-symbols-and-symbol-properties/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">ECMAScript 6 Symbol과 Symbol 프로퍼티</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2018/01/27/ecmascript-6-sets-and-maps/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>ECMAScript 6 함수 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="JavaScript,ECMAScript 2015" />
+    
+    <meta name="description" content="함수 (Function)함수는 JavaScript 프로그래밍 언어의 중요한 부분이며, JavaScript가 시작된 이후로 ECMAScript 6 이전까지 많이 변경되지 않았습니다. 이로 인해 실수가 많았고, 아주 기본적인 행동을하기 위해 더 많은 코드가 필요했으며, 미묘한 행동의 백 로그(backlog)가 남았습니다.
+ECMAScript 6 함수는 Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ECMAScript 6 함수">
+<meta property="og:url" content="http://infoscis.github.io/2018/01/24/ecmascript-6-functions/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="함수 (Function)함수는 JavaScript 프로그래밍 언어의 중요한 부분이며, JavaScript가 시작된 이후로 ECMAScript 6 이전까지 많이 변경되지 않았습니다. 이로 인해 실수가 많았고, 아주 기본적인 행동을하기 위해 더 많은 코드가 필요했으며, 미묘한 행동의 백 로그(backlog)가 남았습니다.
+ECMAScript 6 함수는 Java">
+<meta property="og:updated_time" content="2018-02-27T14:12:01.601Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ECMAScript 6 함수">
+<meta name="twitter:description" content="함수 (Function)함수는 JavaScript 프로그래밍 언어의 중요한 부분이며, JavaScript가 시작된 이후로 ECMAScript 6 이전까지 많이 변경되지 않았습니다. 이로 인해 실수가 많았고, 아주 기본적인 행동을하기 위해 더 많은 코드가 필요했으며, 미묘한 행동의 백 로그(backlog)가 남았습니다.
+ECMAScript 6 함수는 Java">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2018/01/24/ecmascript-6-functions/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-ecmascript-6-functions" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        ECMAScript 6 함수
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2018/01/24/ecmascript-6-functions/" class="article-date">
+            <time datetime="2018-01-24T14:15:28.000Z" itemprop="datePublished">2018-01-24</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a>, <a class="tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="함수-Function"><a href="#함수-Function" class="headerlink" title="함수 (Function)"></a>함수 (Function)</h1><p>함수는 JavaScript 프로그래밍 언어의 중요한 부분이며, JavaScript가 시작된 이후로 ECMAScript 6 이전까지 많이 변경되지 않았습니다. 이로 인해 실수가 많았고, 아주 기본적인 행동을하기 위해 더 많은 코드가 필요했으며, 미묘한 행동의 <code>백 로그(backlog)</code>가 남았습니다.</p>
+<p>ECMAScript 6 함수는 JavaScript 개발자의 수년간의 불만과 요청을 고려하여 큰 발전을 이루었습니다. 결과적으로 ECMAScript 5 기능 위에 점진적인 개선이 이루어져 JavaScript에서 오류를 발생시키지 않고 보다 강력하게 프로그래밍할 수있게 되었습니다.</p>
+<h2 id="Default-파라미터-값이-있는-함수"><a href="#Default-파라미터-값이-있는-함수" class="headerlink" title="Default 파라미터 값이 있는 함수"></a><em>Default 파라미터</em> 값이 있는 함수</h2><p>JavaScript의 함수는 함수 정의에 선언된 파라미터 수에 관계없이 여러 파라미터를 전달할 수 있다는 점에서 독특합니다. 이렇게하면 파라미터가 제공되지 않을 때 <em>Default</em> 값을 채우기만 하면 다른 개수의 파라미터를 처리할 수있는 함수를 정의할 수 있습니다. 이 절에서는 <em>Default 파라미터</em>가 ECMAScript 6에서 작동하는 방법과 <code>arguments</code> 객체에 대한 몇 가지 중요한 정보, 표현식을 파라미터로 사용하는 방법 및 또다른 TDZ에 대해 설명합니다.</p>
+<h3 id="ECMAScript-5에서-Default-파라미터-시뮬레이션"><a href="#ECMAScript-5에서-Default-파라미터-시뮬레이션" class="headerlink" title="ECMAScript 5에서 Default 파라미터 시뮬레이션"></a>ECMAScript 5에서 <em>Default 파라미터</em> 시뮬레이션</h3><p>ECMAScript 5 및 이전 버전에서는 다음 패턴을 사용하여 <em>Default 파라미터</em>가 있는 함수를 만들 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeRequest</span>(<span class="params">url, timeout, callback</span>) </span>&#123;</div><div class="line"></div><div class="line">    timeout = timeout || <span class="number">2000</span>;</div><div class="line">    callback = callback || <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</div><div class="line"></div><div class="line">    <span class="comment">// 함수의 나머지 부분</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이 예제에서, <code>timeout</code>과 <code>callback</code>은 실제로 파라미터가 제공되지 않을 때 <em>Default</em> 값이 주어지기 때문에 Optional입니다. 논리합 연산자 (<code>||</code>)는 첫 번째가 거짓 일 때 항상 두 번째 피연산자를 반환합니다. 명시적으로 제공되지 않은 명명된 함수 파라미터는 <code>undefined</code>로 설정되므로 논리 OR 연산자는 누락된 파라미터의 <em>Default</em>값을 제공하는 데 자주 사용됩니다. 그러나 <code>timeout</code>이 유효한 값 <code>0</code>일 수 있지만 <code>0</code>은 false이기 때문에 <code>2000</code>으로 바꿀 수 있다는 점에서 이 접근법에 결함이 있습니다.</p>
+<p>이 경우보다 안전한 대안은 다음 예와 같이 <code>typeof</code>를 사용하여 파라미터의 유형을 확인하는 것입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeRequest</span>(<span class="params">url, timeout, callback</span>) </span>&#123;</div><div class="line"></div><div class="line">    timeout = (<span class="keyword">typeof</span> timeout !== <span class="string">"undefined"</span>) ? timeout : <span class="number">2000</span>;</div><div class="line">    callback = (<span class="keyword">typeof</span> callback !== <span class="string">"undefined"</span>) ? callback : <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</div><div class="line"></div><div class="line">    <span class="comment">// 함수의 나머지 부분</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이 방법이 더 안전하지만 매우 기본적인 작업을 위해서는 많은 추가 코드가 필요합니다. 인기있는 JavaScript 라이브러리에는 이러한 비슷한 패턴으로 채워집니다. 이는 공통적으로 비슷한 패턴을 사용하기 때문입니다.</p>
+<h3 id="ECMAScript-6의-Default-파라미터-값"><a href="#ECMAScript-6의-Default-파라미터-값" class="headerlink" title="ECMAScript 6의 Default 파라미터 값"></a>ECMAScript 6의 <em>Default 파라미터</em> 값</h3><p>ECMAScript 6을 사용하면 파라미터가 전달되지 않을 때 사용되는 <em>Default</em>값을 보다 쉽게 제공할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeRequest</span>(<span class="params">url, timeout = <span class="number">2000</span>, callback = function(</span>) </span>&#123;&#125;) &#123;</div><div class="line"></div><div class="line">    <span class="comment">// 함수의 나머지 부분</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이 함수는 첫 번째 파라미터가 항상 전달될 것으로 예상합니다. 다른 두 파라미터에는 <em>Default</em> 값이 있으므로 누락된 값을 확인하기 위해 코드를 추가할 필요가 없으므로 함수 본문이 훨씬 단순해집니다.</p>
+<p><code>makeRequest()</code>가 세개의 파라미터 모두로 호출될 때, <em>Default</em>값은 사용되지 않습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// uses default timeout and callback</span></div><div class="line">makeRequest(<span class="string">"/foo"</span>);</div><div class="line"></div><div class="line"><span class="comment">// uses default callback</span></div><div class="line">makeRequest(<span class="string">"/foo"</span>, <span class="number">500</span>);</div><div class="line"></div><div class="line"><span class="comment">// doesn't use defaults</span></div><div class="line">makeRequest(<span class="string">"/foo"</span>, <span class="number">500</span>, <span class="function"><span class="keyword">function</span>(<span class="params">body</span>) </span>&#123;</div><div class="line">    doSomething(body);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>ECMAScript 6에서는 <code>url</code>이 필요하다고 생각하기 때문에 <code>makeRequest()</code>를 호출할 때마다 <code>&quot;/foo&quot;</code>가 전달됩니다. <em>Default</em>값이 있는 두 개의 파라미터는 선택적으로 간주됩니다.</p>
+<p><em>Default</em>값은 함수 선언에서 파라미터의 어느 위치나 지정할 수 있습니다. 그렇기 때문에 모든 파라미터에 <em>Default</em>값을 지정할 수 있습니다. 예를 들면 다음과 같습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeRequest</span>(<span class="params">url, timeout = <span class="number">2000</span>, callback</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// the rest of the function</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이 경우 <code>timeout</code>의 <em>Default</em>값은 두 번째 파라미터가 전달되지 않았거나 두 번째 파라미터가 명시 적으로 <code>undefined</code>로 전달된 경우에만 사용됩니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// default timeout을 사용합니다.</span></div><div class="line">makeRequest(<span class="string">"/foo"</span>, <span class="literal">undefined</span>, <span class="function"><span class="keyword">function</span>(<span class="params">body</span>) </span>&#123;</div><div class="line">    doSomething(body);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// default timeout을 사용합니다.</span></div><div class="line">makeRequest(<span class="string">"/foo"</span>);</div><div class="line"></div><div class="line"><span class="comment">// default timeout을 사용하지 않습니다.</span></div><div class="line">makeRequest(<span class="string">"/foo"</span>, <span class="literal">null</span>, <span class="function"><span class="keyword">function</span>(<span class="params">body</span>) </span>&#123;</div><div class="line">    doSomething(body);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><em>Default 파라미터</em>의 경우, <code>null</code>의 값은 유효하다고 간주됩니다. 즉,<code>makeRequest()</code>에 대한 세 번째 호출에서 <code>timeout</code>의 <em>Default</em> 값은 사용되지 않습니다</p>
+<h3 id="Default-파라미터-값이-arguments-Object에-미치는-영향"><a href="#Default-파라미터-값이-arguments-Object에-미치는-영향" class="headerlink" title="Default 파라미터 값이 arguments Object에 미치는 영향"></a><em>Default 파라미터</em> 값이 <code>arguments</code> Object에 미치는 영향</h3><p><em>Default 파라미터</em>가 존재할 때 <code>arguments</code> 객체의 동작이 다르다는 것을 기억 해야 합니다. ECMAScript 5 <code>nonstrict mode</code>에서<code>arguments</code> 객체는 함수의 명명된 파라미터의 변경을 반영합니다. 이러한 작동 방식을 보여주는 코드는 다음과 같습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mixArgs</span>(<span class="params">first, second</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(first === <span class="built_in">arguments</span>[<span class="number">0</span>]);</div><div class="line">    <span class="built_in">console</span>.log(second === <span class="built_in">arguments</span>[<span class="number">1</span>]);</div><div class="line">    first = <span class="string">"c"</span>;</div><div class="line">    second = <span class="string">"d"</span>;</div><div class="line">    <span class="built_in">console</span>.log(first === <span class="built_in">arguments</span>[<span class="number">0</span>]);</div><div class="line">    <span class="built_in">console</span>.log(second === <span class="built_in">arguments</span>[<span class="number">1</span>]);</div><div class="line">&#125;</div><div class="line"></div><div class="line">mixArgs(<span class="string">"a"</span>, <span class="string">"b"</span>);</div></pre></td></tr></table></figure>
+<p>출력 결과 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">true</div><div class="line">true</div><div class="line">true</div><div class="line">true</div></pre></td></tr></table></figure>
+<p><code>arguments</code> 객체는  <code>nonstrict</code> mode에서 명명된 파라미터의 변경은 항상 업데이트 합니다. 따라서 첫 번째와 두 번째가 새로운 값으로 할당될 때 <code>arguments[0]</code>과 <code>arguments[1]</code>는 그에 따라 업데이트되어 모든 <code>===</code> 비교가 <code>true</code>로 해석됩니다.</p>
+<p>ECMAScript 5의 <code>strict</code> 모드는 <code>arguments</code> 객체의 혼란스러운면을 제거합니다. <code>strict</code> 모드에서, <code>arguments</code> 객체는 명명된 파라미터에 대한 변경을 반영하지 않습니다. 아래의 예제는 <code>strict</code> 모드에서  <code>mixArgs()</code> 함수를 보여줍니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mixArgs</span>(<span class="params">first, second</span>) </span>&#123;</div><div class="line"><span class="meta">    "use strict"</span>;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(first === <span class="built_in">arguments</span>[<span class="number">0</span>]);</div><div class="line">    <span class="built_in">console</span>.log(second === <span class="built_in">arguments</span>[<span class="number">1</span>]);</div><div class="line">    first = <span class="string">"c"</span>;</div><div class="line">    second = <span class="string">"d"</span></div><div class="line">    <span class="built_in">console</span>.log(first === <span class="built_in">arguments</span>[<span class="number">0</span>]);</div><div class="line">    <span class="built_in">console</span>.log(second === <span class="built_in">arguments</span>[<span class="number">1</span>]);</div><div class="line">&#125;</div><div class="line"></div><div class="line">mixArgs(<span class="string">"a"</span>, <span class="string">"b"</span>);</div></pre></td></tr></table></figure>
+<p><code>mixArgs()</code>의 실행 결과는 다음과 같습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">true</div><div class="line">true</div><div class="line">false</div><div class="line">false</div></pre></td></tr></table></figure>
+<p>이번에는 <code>first</code>와 <code>second</code>를 변경해도 <code>arguments</code>에 영향을 미치지 않으므로 예상대로 실행됩니다.</p>
+<p>그러나 ECMAScript 6의 <em>Default 파라미터</em>를 사용하는 함수의 <code>arguments</code> 객체는 함수가 명시적으로 <code>strict</code> 모드로 실행되는지 여부에 관계없이 ECMAScript 5 <code>strict</code> 모드와 동일한 방식으로 동작합니다. <em>Default 파라미터</em>가 있으면 <code>arguments</code> 객체가 명명된 파라미터에서 분리된 상태로 유지됩니다. 이는 <code>arguments</code>객체가 어떻게 사용되는 지에 대한 미묘하지만 중요한 세부 변경사항입니다. 다음 코드를<br> 살펴 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// strict mode가 아님</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mixArgs</span>(<span class="params">first, second = <span class="string">"b"</span></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>.length);</div><div class="line">    <span class="built_in">console</span>.log(first === <span class="built_in">arguments</span>[<span class="number">0</span>]);</div><div class="line">    <span class="built_in">console</span>.log(second === <span class="built_in">arguments</span>[<span class="number">1</span>]);</div><div class="line">    first = <span class="string">"c"</span>;</div><div class="line">    second = <span class="string">"d"</span></div><div class="line">    <span class="built_in">console</span>.log(first === <span class="built_in">arguments</span>[<span class="number">0</span>]);</div><div class="line">    <span class="built_in">console</span>.log(second === <span class="built_in">arguments</span>[<span class="number">1</span>]);</div><div class="line">&#125;</div><div class="line"></div><div class="line">mixArgs(<span class="string">"a"</span>);</div></pre></td></tr></table></figure>
+<p>실행 결과 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1</div><div class="line">true</div><div class="line">false</div><div class="line">false</div><div class="line">false</div></pre></td></tr></table></figure>
+<p>이 예제에서 <code>arguments.length</code>는 1입니다. 왜냐하면 오직 하나의 파라미터가 <code>mixArgs()</code>에 전달 되었기 때문입니다. 이는 또한 <code>arguments[1]</code>이 <code>undefined</code>라는 것을 의미합니다. 이는 하나의 인수만 함수에 전달될 때 예상되는 동작입니다. 즉, <code>first</code>는<code>arguments[0]</code>과 같습니다. <code>first</code>와 <code>second</code>를 변경해도 <code>arguments</code>에는 아무런 영향을 미치지 않습니다. 이러한 현상은 <code>nonstrict</code>와 <code>strict</code> 모드 모두에서 발생하기 때문에 <code>arguments</code>를 사용하여 항상 초기 호출 상태를 확인할 수 있습니다.</p>
+<h3 id="Default-파라미터-표현식"><a href="#Default-파라미터-표현식" class="headerlink" title="Default 파라미터 표현식"></a><em>Default 파라미터</em> 표현식</h3><p>아마도 <em>Default 파라미터</em>의 가장 흥미로운 특징은 <em>Default</em> 값이 Primitive 값일 필요는 없다는 것입니다. 예를 들어, 다음과 같이 함수를 실행하여 <em>Default 파라미터</em>를 검색할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getValue</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">5</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">first, second = getValue(</span>)) </span>&#123;</div><div class="line">    <span class="keyword">return</span> first + second;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>, <span class="number">1</span>));     <span class="comment">// 2</span></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>));        <span class="comment">// 6</span></div></pre></td></tr></table></figure>
+<p>여기에서 마지막 파라미터가 제공되지 않으면 <code>getValue()</code> 함수가 호출되어 올바른 <em>Default</em> 값을 검색합니다. <code>getValue()</code>는 두 번째 파라미터 없이 <code>add()</code>가 호출될 때만 호출되며 함수 선언이 처음 구문 분석될 때 호출되지 않는다는 점에 유의하십시오. 즉, <code>getValue()</code>가 다르게 작성된 경우 잠재적으로 다른 값을 반환할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> value = <span class="number">5</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getValue</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> value++;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">first, second = getValue(</span>)) </span>&#123;</div><div class="line">    <span class="keyword">return</span> first + second;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>, <span class="number">1</span>));     <span class="comment">// 2</span></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>));        <span class="comment">// 6</span></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>));        <span class="comment">// 7</span></div></pre></td></tr></table></figure>
+<p>이 예제에서, value는 5로 시작하고 <code>getValue()</code>가 호출될 때마다 증가합니다. <code>add(1)</code>에 대한 첫 번째 호출은 6을 반환하고, 두 번째 호출은 value가 증가했기 때문에 <code>add(1)</code>에 대한 호출은 7을 반환합니다. second에 대한 <em>Default</em> 값은 함수가 호출될 때만 평가되기 때문에 언제든지 그 값을 변경할 수 있습니다.</p>
+<blockquote>
+<p>함수 호출을 <em>Default 파라미터</em>로 사용할 때는 주의하십시오. 마지막 예제에서 <code>second = getValue</code>와 같이 괄호를 잊어 버린 경우 함수 호출 결과가 아닌 함수에 대한 참조를 전달합니다.</p>
+</blockquote>
+<p>이 동작은 또 다른 흥미로운 기능을 제공합니다. 이전 파라미터를 이후 파라미터의 <em>Default</em>로 사용할 수 있습니다. 다음은 그 예입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">first, second = first</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> first + second;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>, <span class="number">1</span>));     <span class="comment">// 2</span></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>));        <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<p>이 코드에서 파라미터 <code>second</code>는 <code>first</code>를 <em>Default</em> 값으로 받습니다. 즉, 하나의 파라미터만 전달하면 두 인수가 같은 값으로 남게됩니다. <code>add(1)</code>은 2를 반환하고 <code>add(1, 1)</code>도 2를 반환합니다. 이 단계를 더 진행하면, <code>first</code>를 <code>second</code>의 값을 얻기위한 함수로 다음과 같이 전달할 수 있습니다 :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getValue</span>(<span class="params">value</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> value + <span class="number">5</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">first, second = getValue(first</span>)) </span>&#123;</div><div class="line">    <span class="keyword">return</span> first + second;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>, <span class="number">1</span>));     <span class="comment">// 2</span></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>));        <span class="comment">// 7</span></div></pre></td></tr></table></figure>
+<p>이 예제는 <code>second</code>를 <code>getValue(first)</code>에 의해 반환된 값과 동일하게 설정하므로 <code>add(1, 1)</code>은 여전히 2를 반환하지만 <code>add(1)</code>은 7 (1 + 6)을 반환합니다.</p>
+<p><em>Default 파라미터</em> 지정에서 파라미터를 참조하는 기능은 앞의 <code>arguments</code> 에 대해서만 작동하므로 앞서는 <code>arguments</code>는 나중 <code>arguments</code>를 액세스할 수 없습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">first = second, second</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> first + second;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>, <span class="number">1</span>));         <span class="comment">// 2</span></div><div class="line"><span class="built_in">console</span>.log(add(<span class="literal">undefined</span>, <span class="number">1</span>)); <span class="comment">// throws error</span></div></pre></td></tr></table></figure>
+<p><code>second</code>가 <code>first</code> 다음에 정의되고 따라서 <em>Default</em> 값으로 사용할 수 없기 때문에 <code>add(undefined, 1)</code>에 대한 호출은 에러를 던집니다. 그런 일이 일어나는 이유를 이해하려면 <code>Temporal dead zone</code>을 다시 이해해야 합니다.</p>
+<h3 id="Default-파라미터-Temporal-Dead-Zone"><a href="#Default-파라미터-Temporal-Dead-Zone" class="headerlink" title="Default 파라미터 Temporal Dead Zone"></a><em>Default 파라미터</em> Temporal Dead Zone</h3><p>1 장에서는 <code>let</code>과 <code>const</code>에 관련된 TDZ (Temporary Dead Zone)를 소개했고, <em>Default 파라미터</em> 중에 파라미터에 접근할 수 없는 TDZ도 있습니다. <code>let</code> 선언과 유사하게, 각 파라미터는 오류를 던지지 않고 초기화 전에 참조할 수 없는 새로운 식별자 바인딩을 생성합니다. 파라미터 초기화는 함수에 대한 값을 전달하거나 <em>Default 파라미터</em>를 사용하여 함수를 호출할 때 발생합니다.</p>
+<p><em>Default 파라미터</em> TDZ를 알아 보기위해 아래 예제와 같이 “<em>Default 파라미터</em> 표현식”에 대해 생각해 보겠습니다..</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getValue</span>(<span class="params">value</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> value + <span class="number">5</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">first, second = getValue(first</span>)) </span>&#123;</div><div class="line">    <span class="keyword">return</span> first + second;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>, <span class="number">1</span>));     <span class="comment">// 2</span></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>));        <span class="comment">// 7</span></div></pre></td></tr></table></figure>
+<p><code>add(1, 1)</code>과 <code>add(1)</code>에 대한 호출은 효과적으로 <code>first</code>와 <code>second</code> 파라미터 값을 생성하기 위해 다음 코드를 실행합니다 :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// add(1, 1)에 대한 JavaScript 표현</span></div><div class="line"><span class="keyword">let</span> first = <span class="number">1</span>;</div><div class="line"><span class="keyword">let</span> second = <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="comment">// add(1)에 대한 JavaScript 표현</span></div><div class="line"><span class="keyword">let</span> first = <span class="number">1</span>;</div><div class="line"><span class="keyword">let</span> second = getValue(first);</div></pre></td></tr></table></figure>
+<p><code>add()</code>함수가 처음 실행될 때, <code>first</code>와 <code>second</code> 바인딩은 특정한 파라미터의 TDZ에 추가됩니다 (<code>let</code>의 동작과 유사합니다). 따라서 <code>second</code>가 <code>first</code>의 값으로 초기화될 수 있습니다. 왜냐하면 <code>first</code>는 항상 그때 초기화 되기 때문이고, 그 반대는 성립하지 않습니다. 이제, 다시 작성된 <code>add()</code>함수를 살펴 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">first = second, second</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> first + second;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>, <span class="number">1</span>));         <span class="comment">// 2</span></div><div class="line"><span class="built_in">console</span>.log(add(<span class="literal">undefined</span>, <span class="number">1</span>)); <span class="comment">// throws error</span></div></pre></td></tr></table></figure>
+<p>이 예제에서 <code>add(1, 1)</code>과 <code>add(undefined, 1)</code>에 대한 호출은 이제 아래 코드와 매핑됩니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// add(1, 1) 호출의 JavaScript 표현</span></div><div class="line"><span class="keyword">let</span> first = <span class="number">1</span>;</div><div class="line"><span class="keyword">let</span> second = <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="comment">// add(undefined, 1) 호출의 JavaScript 표현</span></div><div class="line"><span class="keyword">let</span> first = second;</div><div class="line"><span class="keyword">let</span> second = <span class="number">1</span>;</div></pre></td></tr></table></figure>
+<p>이 예제에서 <code>add(undefined, 1)</code> 호출은 <code>first</code>가 초기화될 때 <code>second</code>가 아직 초기화되지 않았기 때문에 에러를 던집니다. 이 시점에서 <code>second</code>는 TDZ에 있으므로 <code>second</code>에 대한 참조는 오류를 발생시킵니다. 이것은 1 장에서 논의한 <code>let</code> 바인딩의 동작이 반영됩니다.</p>
+<blockquote>
+<p>함수의 파라미터는 자신의 <code>scope</code>와 함수 몸체 <code>scope</code>와는 별도의 TDZ를 가지고 있습니다. 즉, 파라미터의 <em>Default</em>값은 함수 본문 내에서 선언된 변수에 액세스할 수 없습니다.</p>
+</blockquote>
+<h2 id="Unnamed-파라미터로-작업하기"><a href="#Unnamed-파라미터로-작업하기" class="headerlink" title="Unnamed 파라미터로 작업하기"></a>Unnamed 파라미터로 작업하기</h2><p>지금까지 이 장의 예제는 함수 정의에서 명명된 파라미터만을 다뤘습니다. 그러나 JavaScript 함수는 정의된 이름이 부여된 파라미터의 개수로, 전달할 수있는 파라미터의 수를 제한하지 않습니다. 공식적으로 지정된 것보다 더 적은 또는 더 많은 파라미터를 항상 전달할 수 있습니다. <em>Default 파라미터</em> 값은 함수가 더 적은 수의 파라미터를 받아 들일 수 있을 때 명확하게하고, ECMAScript 6는 정의된 것보다 더 많은 파라미터를 전달하는 문제를 만들려고했습니다.</p>
+<h3 id="ECMAScript-5의-Unnamed-파라미터"><a href="#ECMAScript-5의-Unnamed-파라미터" class="headerlink" title="ECMAScript 5의 Unnamed 파라미터"></a>ECMAScript 5의 Unnamed 파라미터</h3><p>초기에 JavaScript는 각 파라미터를 개별적으로 정의하지 않고 전달된 모든 함수 파라미터를 검사하는 방법으로 <code>arguments</code> 객체를 제공했습니다. 대부분의 경우 <code>arguments</code>의 검사는 잘 작동하지만, 이 객체는 작업하기가 약간 번거로울 수 있습니다. 예를 들어, <code>arguments</code> 객체를 검사하는 이 코드를 생각해 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pick</span>(<span class="params">object</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> result = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</div><div class="line"></div><div class="line">    <span class="comment">// 두 번째 파라미터에서 시작</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>, len = <span class="built_in">arguments</span>.length; i &lt; len; i++) &#123;</div><div class="line">        result[<span class="built_in">arguments</span>[i]] = object[<span class="built_in">arguments</span>[i]];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> book = &#123;</div><div class="line">    <span class="attr">title</span>: <span class="string">"Understanding ECMAScript 6"</span>,</div><div class="line">    <span class="attr">author</span>: <span class="string">"Nicholas C. Zakas"</span>,</div><div class="line">    <span class="attr">year</span>: <span class="number">2015</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">let</span> bookData = pick(book, <span class="string">"author"</span>, <span class="string">"year"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(bookData.author);   <span class="comment">// "Nicholas C. Zakas"</span></div><div class="line"><span class="built_in">console</span>.log(bookData.year);     <span class="comment">// 2015</span></div></pre></td></tr></table></figure>
+<p>이 함수는 <em>Underscore.js</em> 라이브러리의 <code>pick ()</code> 메서드를 모방한 것입니다. 이 라이브러리는 원본 객체의 프로퍼티 중 일부가 복사된 객체를 반환합니다. 이 예에서는 하나의 파라미터만 정의하고 첫 번째 파라미터는 프로퍼티를 복사할 대상이될 것으로 예상합니다. 전달된 다른 모든 파라미터는 결과에 복사해야하는 프로퍼티의 이름입니다.</p>
+<p>이 <code>pick ()</code>함수에 대해 주의해야 할 몇 가지 점이 있습니다. 첫째, 함수가 둘 이상의 파라미터를 처리할 수 있다는 것이 전혀 분명하지 않습니다. 몇 가지 파라미터를 더 정의할 수는 있지만 이 함수가 여러 파라미터를 사용할 수 있음을 나타낼 수는 없습니다. 둘째, 첫 번째 파라미터의 이름이 지정되어 직접 사용되므로 복사할 속성을 찾을 때 인덱스 0 대신 인덱스 1의 <code>arguments</code> 객체에서 시작해야합니다. 적절한 파라미터를 <code>arguments</code>와 함께 사용하는 것을 기억하는 것은 반드시 어렵다고는 할 수 없지만, 추적이 용이한 것이 더 중요합니다.</p>
+<p>ECMAScript 6에서는 이러한 문제를 해결할 수있는 <em>Rest 파라미터</em>를 도입했습니다.</p>
+<h3 id="Rest-파라미터"><a href="#Rest-파라미터" class="headerlink" title="Rest 파라미터"></a>Rest 파라미터</h3><p><em>Rest 파라미터</em>는 명명된 파라미터 앞에 세 개의 점 (<code>...</code>)으로 표시됩니다. 이 명명된 파라미터는 함수에 전달된 나머지 파라미터를 포함하는 Array가 되며, 이것이 “<em>Rest</em>“ 파라미터 이름의 출처입니다. 예를 들어 <code>pick()</code>은 다음과 같이 <em>Rest 파라미터</em>를 사용하여 다시 작성할 수 있습니다 :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pick</span>(<span class="params">object, ...keys</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> result = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = keys.length; i &lt; len; i++) &#123;</div><div class="line">        result[keys[i]] = object[keys[i]];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이 버전의 함수에서 <code>keys</code>는 <code>object</code> 다음에 전달된 모든 파라미터를 포함하는 <em>Rest 파라미터</em>입니다 (첫 번째 파라미터를 포함하여 모든 파라미터를 포함하는 <code>arguments</code>와는 다릅니다). 즉, <code>keys</code>를 처음부터 끝까지 반복할 수 있다는 뜻입니다. 이 함수를 보면 보너스로 임의의 여러 파라미터를 처리할 수있다는 것을 알수 있습니다.</p>
+<blockquote>
+<p><em>Rest 파라미터</em>는 함수에서 이름이 지정된 파라미터의 수를 나타내는 <code>length</code> 프로퍼티에 영향을주지 않습니다. 이 예제에서 <code>pick()</code>에 대한<code>length</code> 값은<code>object</code> 만이 값으로 계산되기 때문에 1입니다.</p>
+</blockquote>
+<h4 id="Rest-파라미터-제약사항"><a href="#Rest-파라미터-제약사항" class="headerlink" title="Rest 파라미터 제약사항"></a><code>Rest</code> 파라미터 제약사항</h4><p><em>Rest 파라미터</em>에는 두 가지 제약이 있습니다. 첫 번째 제약 사항은 하나의 <em>Rest 파라미터</em>만 있을 수 있으며 <em>Rest 파라미터</em>가 마지막이어야 한다는 것입니다. 예를 들어 다음 코드는 작동하지 않습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Syntax error: rest 파라미터 다음에 명명된 파라미터를 가질 수 없습니다.</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">pick</span>(<span class="params">object, ...keys, last</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> result = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = keys.length; i &lt; len; i++) &#123;</div><div class="line">        result[keys[i]] = object[keys[i]];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>여기서 파라미터 <code>last</code>는 <em>Rest 파라미터</em> <code>keys</code> 다음에 오기 때문에 구문오류가 발생합니다.</p>
+<p>두 번째 제약은 <em>Rest 파라미터</em>를 객체 리터럴 <code>Setter</code>에서 사용할 수 없다는 것입니다. 즉, 아래 코드도 구문 오류를 발생시킵니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> object = &#123;</div><div class="line"></div><div class="line">    <span class="comment">// Syntax error: Can't use rest param in setter</span></div><div class="line">    set name(...value) &#123;</div><div class="line">        <span class="comment">// do something</span></div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>이 제약은 개체 리터럴 setter가 단일 파라미터로 제한되기 때문에 발생합니다. <em>Rest 파라미터</em>는 정의상 무한한 수의 파라미터이므로 이 문맥에서는 허용되지 않습니다.</p>
+<h4 id="Rest-파라미터가-arguments-객체에-미치는-영향"><a href="#Rest-파라미터가-arguments-객체에-미치는-영향" class="headerlink" title="Rest 파라미터가 arguments 객체에 미치는 영향"></a><em>Rest 파라미터</em>가 <code>arguments</code> 객체에 미치는 영향</h4><p><em>Rest 파라미터</em>는 ECMAScript의 <code>arguments</code>를 대체하도록 설계되었습니다. 원래 ECMAScript 4는 <code>arguments</code>를 없애고 <em>Rest 파라미터</em>를 추가하여 무제한의 파라미터를 함수에 전달할 수 있었습니다. 하지만 ECMAScript 4는 발표 되지 않았고, 이러한 내용은 ECMAScript 6에서 계속 유지되었습니다.</p>
+<p><code>arguments</code> 객체는 이 프로그램에서 처럼 호출될 때 함수에 전달된 <code>arguments</code>를 반영하여 <em>Rest 파라미터</em>와 함께 작동합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkArgs</span>(<span class="params">...args</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(args.length);</div><div class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>.length);</div><div class="line">    <span class="built_in">console</span>.log(args[<span class="number">0</span>], <span class="built_in">arguments</span>[<span class="number">0</span>]);</div><div class="line">    <span class="built_in">console</span>.log(args[<span class="number">1</span>], <span class="built_in">arguments</span>[<span class="number">1</span>]);</div><div class="line">&#125;</div><div class="line"></div><div class="line">checkArgs(<span class="string">"a"</span>, <span class="string">"b"</span>);</div></pre></td></tr></table></figure>
+<p><code>checkArgs()</code> 실행은 다음을 출력합니다 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">2</div><div class="line">2</div><div class="line">a a</div><div class="line">b b</div></pre></td></tr></table></figure>
+<p><code>arguments</code> 객체는 <em>Rest 파라미터</em> 사용에 관계없이 함수에 전달된 파라미터를 항상 정확하게 반영합니다.</p>
+<p>이러한 내용이 <em>Rest 파라미터</em>를 사용하기 위해 알아야 할 전부입니다.</p>
+<h2 id="함수-Constructor의-향상된-기능"><a href="#함수-Constructor의-향상된-기능" class="headerlink" title="함수 Constructor의 향상된 기능"></a>함수 Constructor의 향상된 기능</h2><p><code>Function</code>의 Constructor는 새로운 함수를 동적으로 생성할 수 있도록 하지만 JavaScript에서 자주 사용하지는 않습니다. Constructor에 대한 <code>arguments</code>는 함수 및 함수 본문에 대한 파라미터이며 모두 문자열입니다. 다음은 그 예입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> add = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">"first"</span>, <span class="string">"second"</span>, <span class="string">"return first + second"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>, <span class="number">1</span>));     <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<p>ECMAScript 6는 <em>Default 파라미터</em>와 <em>Rest 파라미터</em>를 허용하기 위해 Function Constructor 함수의 기능을 보강했습니다. <em>Default</em><br> 파라미터는 다음과 같이 파라미터 이름에 등호와 값을 추가하기 만하면됩니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> add = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">"first"</span>, <span class="string">"second = first"</span>,</div><div class="line">        <span class="string">"return first + second"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>, <span class="number">1</span>));     <span class="comment">// 2</span></div><div class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>));        <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<p>위의 예제에서 하나의 파라미터만 전달되면 <code>second</code> 파라미터에 <code>first</code>값이 할당됩니다. 이 구문은 <code>Function</code>을 사용하지 않는 함수 선언과 같습니다.</p>
+<p><em>Rest 파라미터</em>의 경우, 마지막 파라미터 앞에 <code>...</code>를 다음과 같이 추가할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pickFirst = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">"...args"</span>, <span class="string">"return args[0]"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(pickFirst(<span class="number">1</span>, <span class="number">2</span>));   <span class="comment">// 1</span></div></pre></td></tr></table></figure>
+<p>위 코드는 하나의 <em>Rest 파라미터</em>만을 사용하고 전달된 첫 번째 파라미터를 반환하는 함수를 만듭니다.</p>
+<p><em>Default</em>와 <em>Rest 파라미터</em>가 추가되어 <code>Function</code>이 함수의 선언적 형식과 동일한 기능을 모두 갖췄습니다.</p>
+<h2 id="Spread-연산자"><a href="#Spread-연산자" class="headerlink" title="Spread 연산자"></a>Spread 연산자</h2><p><em>Rest 파라미터</em>와 밀접하게 관련된 것은 <em>Spread 연산자</em>입니다. <em>Rest 파라미터</em>를 사용하면 여러 독립 파라미터를 <em>Array</em>에 결합해야 한다고 지정할 수 있지만 <em>Spread 연산자</em>를 사용하면 분할해야 하는 <em>Array</em>을 지정하고 해당 항목을 함수에 대한 별도 파라미터로 전달할 수 있습니다. <code>Math.max()</code> 메서드를 생각해 보겠습니다. 이 메서드는 파라미터를 받아들이고 값중 가장 큰 값을 반환합니다. 다음은 이 메서드의 간단한 사용 예입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> value1 = <span class="number">25</span>,</div><div class="line">    value2 = <span class="number">50</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max(value1, value2));      <span class="comment">// 50</span></div></pre></td></tr></table></figure>
+<p>이 예제에서와 같이 단지 두 개의 값을 다룰 때, <code>Math.max()</code>는 매우 사용하기 쉽습니다. 두 값이 전달되고 더 큰 값이 반환됩니다. 그러나 <em>Array</em>에서 값을 추적하고 있고 이제 가장 높은 값을 찾고 싶다면 어떻게해야 할까요? <code>Math.max()</code> 메서드는 <em>Array</em>을 전달할 수 없기 때문에, ECMAScript 5와 그 이전 버전에서는 <em>Array</em>을 직접 찾거나 다음과 같이 <code>apply()</code>를 사용했습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> values = [<span class="number">25</span>, <span class="number">50</span>, <span class="number">75</span>, <span class="number">100</span>]</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max.apply(<span class="built_in">Math</span>, values));  <span class="comment">// 100</span></div></pre></td></tr></table></figure>
+<p>이 방법으로 실행은 되지만, <code>apply()</code>를 이런 방식으로 사용하는 것은 다소 혼란스러울 수 있습니다. 실제로 추가 구문이 코드의 진정한 의미를 모호하게 만드는 것으로 보입니다.</p>
+<p>ECMAScript 6 <em>Spread 연산자</em>는 이 경우를 매우 간단하게 만듭니다. <code>apply()</code>를 호출하는 대신 <em>Array</em>을 <code>Math.max()</code>에 직접 전달하고 <em>Rest 파라미터</em>와 함께 사용되는 <code>...</code>패턴의 접두사를 붙일 수 있습니다. 그러면 JavaScript 엔진이 <em>Array</em>을 개별 파라미터로 분리하여 다음과 같이 전달합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> values = [<span class="number">25</span>, <span class="number">50</span>, <span class="number">75</span>, <span class="number">100</span>]</div><div class="line"></div><div class="line"><span class="comment">// console.log(Math.max(25, 50, 75, 100));</span></div><div class="line"><span class="comment">// 위 코드와 동일합니다.</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max(...values));           <span class="comment">// 100</span></div></pre></td></tr></table></figure>
+<p>이제 <code>Math.max()</code>에 대한 호출은 좀 더 보편적으로 보이며 간단한 수학 연산을 위해 <code>this</code>-binding(앞의 예제에서 <code>Math.max.apply()</code>의 첫 번째 파라미터)을 지정하는 복잡성을 피할 수 있습니다.</p>
+<p><em>Spread 연산자</em>를 다른 파라미터와 혼합하여 사용할 수도 있습니다. <code>Math.max()</code>에서 반환되는 가장 작은 숫자가 0이 되길 원한다고 가정하십시오. (음수가 <em>Array</em>에 들어가는 경우를 대비해서). 그 파라미터를 개별적으로 전달할 수 있으며 다음과 같이 다른 파라미터에 대해서는 여전히 <em>Spread 연산자</em>를 사용합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> values = [<span class="number">-25</span>, <span class="number">-50</span>, <span class="number">-75</span>, <span class="number">-100</span>]</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max(...values, <span class="number">0</span>));        <span class="comment">// 0</span></div></pre></td></tr></table></figure>
+<p>이 예제에서,<code>Math.max()</code>에 전달된 마지막 파라미터는 <code>0</code>이며, 다른 파라미터들은 <em>Spread 연산자</em>를 사용하여 전달됩니다.</p>
+<p>파라미터 전달을 위한 <em>Spread 연산자</em>는 함수 파라미터에 대한 <em>Array</em> 사용을 훨씬 쉽게 만듭니다. 대부분의 상황에서 <code>apply()</code> 메서드를 적절하게 대체할 수있을 것입니다.</p>
+<p>ECMAScript 6에서는 지금까지 <em>Default</em> 및 <em>Rest 파라미터</em>에서 사용한 용도 외에도 JavaScript의 Function 생성자에 두 파라미터 유형을 모두 적용할 수 있습니다.</p>
+<h2 id="ECMAScript-6의-name-프로퍼티"><a href="#ECMAScript-6의-name-프로퍼티" class="headerlink" title="ECMAScript 6의 name 프로퍼티"></a>ECMAScript 6의 name 프로퍼티</h2><p>JavaScript에서 다양한 방법으로 함수를 정의할 수 있어면 함수 식별이 어려울 수 있습니다. 또한, 익명 함수식이 널리 보급됨에 따라 디버깅이 조금 더 어려워지고, 종종 스택 추적의 읽기 및 해독이 어려워질수 있습니다. 이러한 이유로 ECMAScript 6은 모든 함수에 <code>name</code> 프로퍼티을 추가했습니다.</p>
+<h3 id="적절한-이름-선택하기"><a href="#적절한-이름-선택하기" class="headerlink" title="적절한 이름 선택하기"></a>적절한 이름 선택하기</h3><p>ECMAScript 6 프로그램의 모든 함수는 <code>name</code> 프로퍼티에 적절한 이름이 부여됩니다. 함수와 함수 표현식을 보여주는 다음 예제의 <code>name</code> 프로퍼티를 출력해 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> doAnotherThing = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(doSomething.name);          <span class="comment">// "doSomething"</span></div><div class="line"><span class="built_in">console</span>.log(doAnotherThing.name);       <span class="comment">// "doAnotherThing"</span></div></pre></td></tr></table></figure>
+<p>이 코드에서 <code>doSomething()</code>은 함수 선언이기 때문에 <code>&quot;doSomething&quot;</code>과 같은 <code>name</code> 프로퍼티를 가지고 있습니다. 익명 함수 표현 인 <code>doAnotherThing()</code>은 <code>&quot;doAnotherThing&quot;</code>의 <code>name</code>을 가지고 있습니다. 왜냐하면 그 이름이 할당된 변수의 이름이기 때문입니다.</p>
+<h3 id="name-프로퍼티의-특별한-Case"><a href="#name-프로퍼티의-특별한-Case" class="headerlink" title="name 프로퍼티의 특별한 Case"></a><code>name</code> 프로퍼티의 특별한 Case</h3><p>함수 선언 및 함수 표현식에 대한 이름은 쉽게 찾을 수 있습니다. 그리고 ECMAScript 6은 모든 함수가 적절한 이름을 갖도록합니다. 이것을 설명하기 위해 다음 프로그램을 살펴보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> doSomething = <span class="function"><span class="keyword">function</span> <span class="title">doSomethingElse</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = &#123;</div><div class="line">    get firstName() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Nicholas"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">sayName</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(doSomething.name);      <span class="comment">// "doSomethingElse"</span></div><div class="line"><span class="built_in">console</span>.log(person.sayName.name);   <span class="comment">// "sayName"</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> descriptor = <span class="built_in">Object</span>.getOwnPropertyDescriptor(person, <span class="string">"firstName"</span>);</div><div class="line"><span class="built_in">console</span>.log(descriptor.get.name); <span class="comment">// "get firstName"</span></div></pre></td></tr></table></figure>
+<p>이 예제에서,<code>doSomething.name</code>은 <code>&quot;doSomethingElse&quot;</code>입니다. 왜냐하면 함수 표현식 자체가 이름을 갖고, 그 이름이 함수가 할당된 변수보다 우선합니다. <code>person.sayName()</code>의 <code>name</code> 프로퍼티는 값이 객체 리터럴로부터 해석 되었기 때문에 <code>&quot;sayName&quot;</code>입니다. 비슷하게, <code>person.firstName</code>은 실제로 <code>Getter</code> 함수이므로 이 차이를 나타 내기 위해 이름은 <code>&quot;get firstName&quot;</code>입니다. <code>Setter</code> 함수 앞에는 <code>&quot;set&quot;</code>이 붙습니다.(<code>Getter</code> 및 <code>Setter</code> 함수는 모두 <code>Object.getOwnPropertyDescriptor()</code>를 사용하여 검색해야 합니다.)</p>
+<p>함수 이름에도 몇 가지 특별한 경우가 있습니다. <code>bind()</code>를 사용하여 생성된 함수의 이름은 <code>&quot;bound&quot;</code>로 시작하고, <code>Function</code> 생성자를 사용하여 생성된 함수의 이름은 <code>&quot;anonymous&quot;</code>입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> doSomething = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(doSomething.bind().name);   <span class="comment">// "bound doSomething"</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log((<span class="keyword">new</span> <span class="built_in">Function</span>()).name);     <span class="comment">// "anonymous"</span></div></pre></td></tr></table></figure>
+<p>Bound 함수의 <code>name</code>은 바운드되는 함수의 <code>name</code>에 문자열 <code>&quot;bound&quot;</code>로 접두사가 붙을 것이기 때문에 <code>doSomething()</code>의 바운드 버전은 <code>&quot;bound doSomething&quot;</code>입니다.</p>
+<p>함수의 <code>name</code> 값이 반드시 같은 <code>name</code> 변수를 참조하는 것은 아닙니다. <code>name</code> 프로퍼티는 정보를 얻는 수단이되고 디버깅에 유익하지만, <code>name</code>의 값을 사용하여 함수에 대한 참조를 얻는 방법은 없습니다.</p>
+<h2 id="함수의-이중-목적을-명확히-하기"><a href="#함수의-이중-목적을-명확히-하기" class="headerlink" title="함수의 이중 목적을 명확히 하기"></a>함수의 이중 목적을 명확히 하기</h2><p>ECMAScript 5 및 이전 버전에서는 함수가 <code>new</code> 유무에 관계없이 호출할 수있는 이중 목적을 제공합니다. <code>new</code>와 함께 사용하면, 함수 안에있는 이 값은 새로운 객체이며, 다음 예제와 같이 새로운 객체가 반환됩니다 :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person(<span class="string">"Nicholas"</span>);</div><div class="line"><span class="keyword">var</span> notAPerson = Person(<span class="string">"Nicholas"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(person);        <span class="comment">// "[Object object]"</span></div><div class="line"><span class="built_in">console</span>.log(notAPerson);    <span class="comment">// "undefined"</span></div></pre></td></tr></table></figure>
+<p><code>notAPerson</code>을 만들 때 <code>new</code>가 없이 <code>Person ()</code>을 호출하면 <code>undefined</code>가됩니다.(<code>nonstrict</code> 모드에서 전역 객체에 <code>name</code> 프로퍼티를 설정합니다). <code>Person</code>의 대문자 사용은 일반적인 JavaScript 프로그램에서 <code>new</code>를 사용하여 함수를 호출할 수 있다는 유일한 지표입니다. 함수의 이중 역할에 대한 혼란으로 인해 ECMAScript 6은 일부 변경되었습니다.</p>
+<p>JavaScript는 함수를 위한 두 가지 내부 전용 메서드를 가지고있습니다. :<code>[[Call]]</code>과<code>[[Construct]]</code>. <code>new</code> 없이 함수가 호출되면 <code>[[Call]]</code>메서드가 실행되고 코드의 함수 본문이 실행됩니다. <code>new</code>로 함수를 호출하면, <code>[[Construct]]</code>메서드가 호출됩니다. <code>[[Construct]]</code>메서드는 <code>new.target</code>이라는 새로운 객체를 생성 한 후 <code>this</code>를 <code>new.target</code>으로 설정하여 함수 본문을 실행합니다. <code>[[Construct]]</code>메서드를 가진 함수를 <em>Constructor</em>라고 부릅니다.</p>
+<blockquote>
+<p>모든 함수가 <code>[[Construct]]</code>를 가지고있는 것은 아니므로 <code>new</code>로 모든 함수를 호출할 수있는 것은 아닙니다. <em>“Arrow Function”</em> 섹션에서 논의된 <em>Arrow 함수</em>에는 <code>[[Construct]]</code> 메서드가 없습니다.</p>
+</blockquote>
+<h3 id="ECMAScript-5에서-함수-호출-방법-결정"><a href="#ECMAScript-5에서-함수-호출-방법-결정" class="headerlink" title="ECMAScript 5에서 함수 호출 방법 결정"></a>ECMAScript 5에서 함수 호출 방법 결정</h3><p>ECMAScript 5에서 함수가 <code>new</code>와 함께 (그리고 <em>Constructor</em>와 함께) 호출되었는지 결정하는 가장 보편적 인 방법은 <code>instanceof</code>를 사용하는 것입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> <span class="keyword">instanceof</span> Person) &#123;</div><div class="line">        <span class="keyword">this</span>.name = name;   <span class="comment">// using new</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"You must use new with Person."</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person(<span class="string">"Nicholas"</span>);</div><div class="line"><span class="keyword">var</span> notAPerson = Person(<span class="string">"Nicholas"</span>);  <span class="comment">// throws error</span></div></pre></td></tr></table></figure>
+<p>이 코드에서 <code>this</code> 값은 그것이 <em>Constructor</em>의 인스턴스인지를 검사하고, 만약 그렇다면 실행은 정상적으로 계속됩니다. <code>this</code>가<br> <code>Person</code>의 인스턴스가 아니라면 에러가 발생합니다. 이것은<code>[[Construct]]</code> 메서드가 <code>Person</code>의 새로운 인스턴스를 생성하고 이것을 <code>this</code>에 할당하기 때문에 작동합니다. 불행히도, 이 접근법은 완전히 신뢰할 만하지 않습니다. 왜냐하면 아래의 예제에서와 같이 <code>new</code>를 사용하지 않고 <code>Person</code>의 인스턴스가될 수 있기 때문입니다 :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> <span class="keyword">instanceof</span> Person) &#123;</div><div class="line">        <span class="keyword">this</span>.name = name;   <span class="comment">// using new</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"You must use new with Person."</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person(<span class="string">"Nicholas"</span>);</div><div class="line"><span class="keyword">var</span> notAPerson = Person.call(person, <span class="string">"Michael"</span>);    <span class="comment">// works!</span></div></pre></td></tr></table></figure>
+<p><code>Person.call()</code>을 호출하면 <code>person</code> 변수가 첫 번째 인수로 전달됩니다. 이는 <code>Person</code> 함수 안에서 <code>person</code>으로 설정되었음을 의미합니다. 이 함수에는 <code>new</code>로 불리는 것과 구별할 방법이 없습니다.</p>
+<h3 id="new-target-MetaProperty"><a href="#new-target-MetaProperty" class="headerlink" title="new.target MetaProperty"></a>new.target MetaProperty</h3><p>이 문제를 해결하기 위해 ECMAScript 6는 <code>new.target metaproperty</code>를 도입했습니다. 메타 속성은 대상과 관련된 추가 정보 (예 : <code>new</code>)를 제공하는 비 객체의 프로퍼티입니다. 함수의 <code>[[Construct]]</code> 메서드가 호출되면 <code>new.target</code>은 <code>new</code> 연산자의 대상으로 채워집니다. 이 타겟은 일반적으로 새로 생성된 객체 인스턴스의 생성자이며, 이 객체 인스턴스는 함수 본문에서 <code>this</code>가 됩니다. <code>[[Call]]</code>이 실행되면 <code>new.target</code>은 <code>undefined</code>가됩니다.</p>
+<p>이 새로운 메타 속성을 사용하면 <code>new.target</code>이 다음과 같이 정의되어 있는지 여부를 확인하여 <code>new</code> 함수가 호출되었는지를 안전하게 감지할 수 있습니다 :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">new</span>.target !== <span class="string">"undefined"</span>) &#123;</div><div class="line">        <span class="keyword">this</span>.name = name;   <span class="comment">// using new</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"You must use new with Person."</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person(<span class="string">"Nicholas"</span>);</div><div class="line"><span class="keyword">var</span> notAPerson = Person.call(person, <span class="string">"Michael"</span>);    <span class="comment">// error!</span></div></pre></td></tr></table></figure>
+<p>이 <code>instanceof Person</code> 대신 <code>new.target</code>을 사용함으로써, <code>Person</code> 생성자는 <code>new</code>없이 사용될 때 정확하게 에러를 던집니다.</p>
+<p>특정 생성자를 사용하여 <code>new.target</code>이 호출되었는지 확인할 수 있습니다. 예를 들어 다음 예제를 살펴보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">new</span>.target === Person) &#123;</div><div class="line">        <span class="keyword">this</span>.name = name;   <span class="comment">// using new</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"You must use new with Person."</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">AnotherPerson</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    Person.call(<span class="keyword">this</span>, name);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person(<span class="string">"Nicholas"</span>);</div><div class="line"><span class="keyword">var</span> anotherPerson = <span class="keyword">new</span> AnotherPerson(<span class="string">"Nicholas"</span>);  <span class="comment">// error!</span></div></pre></td></tr></table></figure>
+<p>이 코드를 보면 제대로 작동하기 위해서는 <code>new.target</code>이 <code>Person</code>이어야합니다. <code>new AnotherPerson( &quot;Nicholas&quot;)</code>가 호출될 때, <code>Person.call(this, name)</code>에 대한 후속 호출은 <code>new.target</code>이 <code>Person</code> 생성자 내부에서 <code>undefined</code>이기 때문에 오류를 던질 것입니다. (`new ‘없이 호출 되었다).</p>
+<blockquote>
+<p>경고 : 함수 밖에서 <code>new.target</code>을 사용하는 것은 구문 오류입니다.</p>
+</blockquote>
+<p><code>new.target</code>을 추가함으로써, ECMAScript 6은 함수 호출에 대한 모호함을 명확히하는 데 도움이되었습니다. 이 주제에 따라, ECMAScript 6은 언어의 또 다른 모호한 부분 인 <em>Block-level 함수</em>를 선언합니다.</p>
+<h2 id="Block-Level-함수"><a href="#Block-Level-함수" class="headerlink" title="Block-Level 함수"></a>Block-Level 함수</h2><p>ECMAScript 3 및 이전 버전에서는 블록 내부에서 발생하는 함수 선언 (<em>Block-level 함수</em>)은 기술적으로 구문 오류 였지만 모든 브라우저가 여전히 이를 지원했습니다. 불행히도 구문을 허용하는 각 브라우저는 약간 다른 방식으로 동작하므로 블록 내부에서 함수 선언을 피하는 것이 가장 좋습니다 (함수 표현식을 사용하는 것이 가장 좋습니다).</p>
+<p>이 호환되지 않는 동작을 억제하기 위해 ECMAScript 5 <code>strict</code> 모드에서는 함수 선언이 다음과 같이 블록 내부에서 사용될 때마다 오류가 발생했습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</div><div class="line"></div><div class="line">    <span class="comment">// ES5에서는 구문 오류가 발생하지만 ES6에서는 발생하지 않습니다.</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ECMAScript 5에서 이 코드는 구문 오류를 발생시킵니다. ECMAScript 6에서 <code>doSomething()</code> 함수는 <em>Block-level</em>선언으로 간주되며, 정의된 동일한 블록 내에서 액세스하고 호출할 수 있습니다. 예 :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> doSomething);        <span class="comment">// "function"</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    doSomething();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> doSomething);            <span class="comment">// "undefined"</span></div></pre></td></tr></table></figure>
+<p><em>Block-level 함수</em>는 정의된 블럭의 맨 위로 올라가므로 <code>typeof doSomething</code>은 코드의 함수 선언 앞에 나타나도, “function”을 반환합니다. <code>if</code> 블록의 실행이 끝나면 <code>doSomething()</code>은 더 이상 존재하지 않습니다.</p>
+<h3 id="Block-level-함수-사용시기-결정"><a href="#Block-level-함수-사용시기-결정" class="headerlink" title="Block-level 함수 사용시기 결정"></a>Block-level 함수 사용시기 결정</h3><p><em>Block-level 함수</em>는 <code>let</code> 함수 표현식과 유사합니다. 함수 정의는 함수가 정의된 블록에서 실행된 후 제거됩니다. 중요한 차이점은 <em>Block-level 함수</em>는 포함 블록의 상단에 <code>hoisting</code> 된다는 것입니다. <code>let</code>을 사용하는 함수 표현식은 다음 예제와 같이<code>hoisting</code>되지 않습니다 :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> doSomething);        <span class="comment">// throws error</span></div><div class="line"></div><div class="line">    <span class="keyword">let</span> doSomething = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    doSomething();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> doSomething);</div></pre></td></tr></table></figure>
+<p>여기서 <code>typeof doSomething</code>이 실행되면 <code>let</code> 문이 아직 실행되지 않았기 때문에 코드 실행이 멈추고 TDZ에 <code>doSomething()</code>이 남게됩니다. 이 차이점을 안다면, <em>Block-level 함수</em>를 사용할 것인지, <code>hoisting</code>동작을 원하는지 여부에 따라 <code>let</code> 표현식을 사용할 것인지 선택할 수 있습니다.</p>
+<h3 id="Nonstrict-모드의-Block-level-함수"><a href="#Nonstrict-모드의-Block-level-함수" class="headerlink" title="Nonstrict 모드의 Block-level 함수"></a>Nonstrict 모드의 <em>Block-level</em> 함수</h3><p>ECMAScript 6은 <code>nonstrict</code> 모드에서 <em>Block-level 함수</em>를 허용하지만, 동작은 약간 다릅니다. 함수 선언문을 블록의 상단으로 <code>hoisting</code> 하는 대신에, 함수를 포함하는 함수, 또는 전역 환경으로 계속 끌어 올립니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ECMAScript 6 behavior</span></div><div class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> doSomething);        <span class="comment">// "function"</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    doSomething();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> doSomething);            <span class="comment">// "function"</span></div></pre></td></tr></table></figure>
+<p>위 예제에서, <code>doSomething()</code>은 전역 Scope로 끌어 올려 지므로 <code>if</code> 블록의 바깥에 존재합니다. ECMAScript 6은 이 동작을 표준화하여 이전에는 존재하지 않는 호환되지 않는 브라우저 동작을 제거하므로 모든 ECMAScript 6 런타임은 동일한 방식으로 동작해야합니다.</p>
+<p><em>Block-level 함수</em>는 JavaScript에서 함수를 선언하는 기능이 향상시켰지만 ECMAScript 6에서는 함수를 선언하는 완전히 새로운 방법을 도입했습니다.</p>
+<h2 id="화살표-함수-Arrow-Function"><a href="#화살표-함수-Arrow-Function" class="headerlink" title="화살표 함수 (Arrow Function)"></a>화살표 함수 (Arrow Function)</h2><p>ECMAScript 6의 가장 흥미로운 부분 중 하나는 <em>Arrow 함수</em>입니다. <em>Arrow 함수</em>는 이름에서 알 수 있듯이 “Arrow”(<code>=&gt;</code>)를 사용하는 새로운 구문으로 정의된 함수입니다. 하지만 <em>Arrow 함수</em>는 여러 가지 중요한 부분이 기존의 JavaScript 함수와 다르게 작동합니다.</p>
+<ul>
+<li><strong>this, super, arguments 및 new.target 바인딩은 없습니다</strong> - 함수 내부의 this, super, arguments 및 new.target의 값은 가장 인접한 nonarrow 함수를 나타냅니다. (super는 4 장에서 다룬다.)</li>
+<li><strong>new로 호출할 수 없습니다</strong> - <em>Arrow 함수</em>는 <code>[[Construct]]</code> 메서드를 가지지 않으므로 생성자를 사용할 수 없습니다. <em>Arrow 함수</em>는 <code>new</code>와 함께 사용될 때 에러를 던집니다.</li>
+<li><strong>prototype이 없습니다</strong> - <em>Arrow 함수</em>에 <code>new</code>를 사용할 수 없으므로 prototype이 필요 없습니다. <em>Arrow 함수</em>는 prototype 프로퍼티가 존재하지 않습니다.</li>
+<li><strong>this를 바꿀 수 없습니다</strong> - 함수 안의 <code>this</code> 값은 변경할 수 없습니다. 함수의 전체 라이프 사이클 동안 동일하게 유지됩니다.</li>
+<li><strong>arguments 객체가 없습니다</strong> - <em>Arrow 함수</em>에는 <code>arguments</code> 바인딩이 없으므로 함수 파라미터에 액세스하려면 명명된 파라미터와 <em>rest 파라미터</em>에 의존해야합니다.</li>
+<li><strong>이름이 중복된 파라미터가 없습니다</strong> - <em>Arrow 함수</em>는 <code>nonstrict</code> 모드에서 중복된 이름의 파라미터를 가질수 있는 <code>nonarrow</code> 함수와는 달리 <code>strict</code> 또는 <code>nonstrict</code> 모드에서 중복된 이름의 파라미터를 가질수 없습니다.</li>
+</ul>
+<p>이러한 차이에는 몇 가지 이유가 있습니다. 무엇보다 먼저, <code>this</code> 바인딩은 JavaScript의 일반적인 오류 원인입니다. 의도하지 않은 프로그램 동작을 초래할 수있는 함수 내에서 <code>this</code>값을 추적하는 것을 잃어 버리기가 매우 쉽습니다. <em>Arrow 함수</em>는 이러한 혼란을 없애줍니다. 둘째, <em>Arrow 함수</em>를 단일 <code>this</code>값으로 코드를 실행하는 것으로 제한함으로써 JavaScript 엔진은 생성자로 사용되거나 수정될 수있는 일반 함수와 달리 연산을 보다 쉽게 최적화할 수 있습니다.</p>
+<p>나머지 차이점은 <em>Arrow 함수</em> 내부의 오류와 모호성을 줄이는 데에도 초점을 맞추고 있습니다. 그렇게함으로써, JavaScript 엔진은 <em>Arrow<br> 함수</em> 실행을 더 잘 최적화할 수 있습니다.</p>
+<blockquote>
+<p>참고 : <em>Arrow 함수</em>에는 다른 함수와 동일한 규칙을 따르는 <code>name</code> 프로퍼티는 있습니다.</p>
+</blockquote>
+<h3 id="Arrow-함수-Syntax"><a href="#Arrow-함수-Syntax" class="headerlink" title="Arrow 함수 Syntax"></a>Arrow 함수 Syntax</h3><p><em>Arrow 함수</em>의 구문은 여러분이 원하는 모양에 따라 다양한 형태로 가능합니다. 하지만 모든 <em>Arrow 함수는</em> 파라미터와 화살표, 함수 본문 순으로 시작됩니다. 파라미터와 본문 모두 사용법에 따라 다른 형태를 취할 수 있습니다. 예를 들어, 다음 <em>Arrow 함수</em>는 단일 파라미터를 받고 이를 단순히 반환합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> reflect = <span class="function"><span class="params">value</span> =&gt;</span> value;</div><div class="line"></div><div class="line"><span class="comment">// 다음과 동일한 효과를 나타냅니다.</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> reflect = <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> value;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><em>Arrow 함수</em>에 대해 파라미터가 하나만 있을 경우, 그 파라미터는 더 이상의 구문없이 직접 사용될 수 있습니다. 다음에 화살표가오고 화살표 오른쪽에 있는 표현식이 계산되어 반환됩니다. 명시적 return 문이 없더라도 이 <em>Arrow 함수</em>는 전달된 첫 번째 파라미터를 반환합니다.</p>
+<p>둘 이상의 파라미터를 전달하는 경우 다음과 같이 파라미터를 괄호로 묶어야합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sum = <span class="function">(<span class="params">num1, num2</span>) =&gt;</span> num1 + num2;</div><div class="line"></div><div class="line"><span class="comment">// 다음과 동일한 효과를 나타냅니다.</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> sum = <span class="function"><span class="keyword">function</span>(<span class="params">num1, num2</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> num1 + num2;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><code>sum()</code> 함수는 두개의 파라미터를 더하고 그 결과를 반환합니다. 이 <em>Arrow 함수</em>와 <code>reflect()</code> 함수의 유일한 차이점은 파라미터가 괄호 안에 쉼표로 구분되어 있습니다 (기존 함수처럼).</p>
+<p>함수에 대한 파라미터가가 없으면 다음과 같이 빈 괄호 세트를 선언에 포함해야합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> getName = <span class="function"><span class="params">()</span> =&gt;</span> <span class="string">"Nicholas"</span>;</div><div class="line"></div><div class="line"><span class="comment">// 다음과 동일한 효과를 나타냅니다.</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"Nicholas"</span>;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>두 개 이상의 표현식으로 구성되는 더 전통적인 함수 본문을 제공하려면 이 버전의 <code>sum ()</code>에서와 같이 함수 본문을 중괄호로 묶고 반환 값을 명시적으로 정의해야합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sum = <span class="function">(<span class="params">num1, num2</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> num1 + num2;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 다음과 동일한 효과를 나타냅니다.</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> sum = <span class="function"><span class="keyword">function</span>(<span class="params">num1, num2</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> num1 + num2;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>중괄호 내부는 <code>arguments</code>를 사용할 수 없다는 점을 제외하면 전통적인 함수와 동일합니다.</p>
+<p>아무 것도하지 않는 함수를 만들려면 다음과 같이 중괄호를 포함해야합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> doNothing = <span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 다음과 동일한 효과를 나타냅니다.</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> doNothing = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</div></pre></td></tr></table></figure>
+<p>중괄호는 함수의 몸체를 나타 내기 위해 사용되며, 지금까지 보았던 경우에는 잘 작동합니다. 그러나 객체 리터럴을 반환하고자하는 화살표 함수는 괄호 안에 리터럴을 래핑해야합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> getTempItem = <span class="function"><span class="params">id</span> =&gt;</span> (&#123; <span class="attr">id</span>: id, <span class="attr">name</span>: <span class="string">"Temp"</span> &#125;);</div><div class="line"></div><div class="line"><span class="comment">// 다음과 동일한 효과를 나타냅니다.</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> getTempItem = <span class="function"><span class="keyword">function</span>(<span class="params">id</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">id</span>: id,</div><div class="line">        <span class="attr">name</span>: <span class="string">"Temp"</span></div><div class="line">    &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>괄호 안에 객체 리터럴을 래핑하면 중괄호가 함수 본문 대신 객체 리터럴임을 알립니다.</p>
+<h3 id="즉시-호출-함수-표현식-만들기-Immediately-Invoked-Function-Expression"><a href="#즉시-호출-함수-표현식-만들기-Immediately-Invoked-Function-Expression" class="headerlink" title="즉시 호출 함수 표현식 만들기 (Immediately-Invoked Function Expression)"></a>즉시 호출 함수 표현식 만들기 (Immediately-Invoked Function Expression)</h3><p>JavaScript 함수의 인기있는 사용은 즉시 호출 함수 표현식 (Immediately-Invoked Function Expression - IIFE)을 작성하는 것입니다. IIFE를 사용하면 익명의 함수를 정의하여 참조를 저장하지 않고 즉시 호출할 수 있습니다. 이 패턴은 프로그램의 나머지 부분으로부터 보호되는 Scope를 만들 때 유용합니다. 예 :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> person = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">getName</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> name;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">&#125;(<span class="string">"Nicholas"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(person.getName());      <span class="comment">// "Nicholas"</span></div></pre></td></tr></table></figure>
+<p>이 코드에서 IIFE는 <code>getName()</code> 메서드를 사용하여 객체를 만드는 데 사용됩니다. 이 메서드는 <code>name</code> 파라미터를 리턴 값으로 사용하여 반환된 객체의 private 멤버를 만듭니다.</p>
+<p>괄호를 이용하여 래핑하면 동일한 작업을 수행 하는 <em>Arrow 함수</em>를 만들수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> person = <span class="function">(<span class="params">(name</span>) =&gt;</span> &#123;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">getName</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> name;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">&#125;)(<span class="string">"Nicholas"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(person.getName());      <span class="comment">// "Nicholas"</span></div></pre></td></tr></table></figure>
+<p>괄호는 <em>Arrow 함수</em> 정의 주위에서만 있고 <code>(&quot;Nicholas&quot;)</code>는 포함하지 않습니다. 이것이 기존의 함수와 다른데, 괄호는 입력된 파라미터를 포함하여 함수 정의 주변만 배치 할 수 있습니다.</p>
+<h3 id="this-바인딩이-없음"><a href="#this-바인딩이-없음" class="headerlink" title="this 바인딩이 없음"></a>this 바인딩이 없음</h3><p>JavaScript에서 가장 일반적인 오류 중 하나는 함수 내부에 <code>this</code>를 바인딩하는 것입니다. <code>this</code>의 값은 함수가 호출되는 문맥에 따라 하나의 함수 안에서 바뀔 수 있기 때문에, 의도하지 않지만 실수로 다른 객체에 영향을 미칠 수 있습니다. 다음 예제를 살펴보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> PageHandler = &#123;</div><div class="line"></div><div class="line">    <span class="attr">id</span>: <span class="string">"123456"</span>,</div><div class="line"></div><div class="line">    <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">document</span>.addEventListener(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">            <span class="keyword">this</span>.doSomething(event.type);     <span class="comment">// error</span></div><div class="line">        &#125;, <span class="literal">false</span>);</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">doSomething</span>: <span class="function"><span class="keyword">function</span>(<span class="params">type</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"Handling "</span> + type  + <span class="string">" for "</span> + <span class="keyword">this</span>.id);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>위 코드에서 객체 <code>PageHandler</code>는 페이지와 상호 작용을 처리하도록 설계되었습니다. 상호 작용을 설정하기 위해 <code>init()</code> 메서드가 호출되고, 그 메서드는 차례대로 <code>this.doSomething()</code>을 호출하는 이벤트 핸들러를 할당합니다. 그러나 이 코드는 의도 한대로 정확하게 작동하지 않습니다.</p>
+<p><code>this.doSomething()</code>에 대한 호출은 <code>this</code>가 <code>PageHandler</code>에 바인딩되는 대신 이벤트 대상 (이 경우 <code>document</code>)에 대한 참조이기 때문에 끊어집니다. 이 코드를 실행하려고하면 <code>this.doSomething()</code>이 대상 <code>document</code> 객체에 없기 때문에 이벤트 핸들러가 실행될 때 오류가 발생합니다.</p>
+<p><code>bind()</code> 메서드를 이용해 명시적으로 <code>PageHandler</code>에 바인딩함으로써 이 문제를 해결할 수 있습니다 :</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> PageHandler = &#123;</div><div class="line"></div><div class="line">    <span class="attr">id</span>: <span class="string">"123456"</span>,</div><div class="line"></div><div class="line">    <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">document</span>.addEventListener(<span class="string">"click"</span>, (<span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">            <span class="keyword">this</span>.doSomething(event.type);     <span class="comment">// no error</span></div><div class="line">        &#125;).bind(<span class="keyword">this</span>), <span class="literal">false</span>);</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">doSomething</span>: <span class="function"><span class="keyword">function</span>(<span class="params">type</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"Handling "</span> + type  + <span class="string">" for "</span> + <span class="keyword">this</span>.id);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>이제 코드는 예상대로 작동하지만 약간 이상하게 보일 수 있습니다. <code>bind(this)</code>를 호출함으로써 실제로 <code>this</code>가 현재 <code>this</code>에 바인드된 새로운 함수,<code>PageHandler</code>를 생성하고 있습니다. 이 코드를 수정하는 더 좋은 방법은 <em>Arrow 함수</em>를 사용하는 것입니다.</p>
+<p><em>Arrow 함수</em>에는 <code>this</code> 바인딩이 없습니다. 즉, <em>Arrow 함수</em> 안에있는 <code>this</code>의 값은 Scope 체인을 찾는 것으로만 결정될 수 있습니다. <em>Arrow 함수</em>가 <em>nonarrow 함수</em> 내에 포함되어 있다면, <code>this</code>는 포함 함수와 같습니다. 그렇지 않으면 <code>this</code>는 전역 Scope에서 <code>this</code>의 값과 같습니다. <em>Arrow 함수</em>를 사용하여 이 코드를 작성할 수있는 한 가지 방법은 다음과 같습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> PageHandler = &#123;</div><div class="line"></div><div class="line">    <span class="attr">id</span>: <span class="string">"123456"</span>,</div><div class="line"></div><div class="line">    <span class="attr">init</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">document</span>.addEventListener(<span class="string">"click"</span>,</div><div class="line">                event =&gt; <span class="keyword">this</span>.doSomething(event.type), <span class="literal">false</span>);</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">doSomething</span>: <span class="function"><span class="keyword">function</span>(<span class="params">type</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"Handling "</span> + type  + <span class="string">" for "</span> + <span class="keyword">this</span>.id);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>이 예제의 이벤트 핸들러는 <code>this.doSomething()</code>을 호출하는 <em>Arrow 함수</em>입니다. <code>this</code>의 값은 <code>init()</code> 안에있는 것과 같기 때문에, 이 버전의 코드는 <code>bind (this)</code>를 사용하는 것과 비슷하게 동작합니다. <code>doSomething()</code> 메서드는 값을 반환하지 않지만, 여전히 함수 본문 내에서 실행되는 유일한 명령문이므로, 중괄호를 포함할 필요가 없습니다.</p>
+<p><em>Arrow 함수</em>는 “제거 가능한(throwaway)” 함수로 설계되었으므로 새 타입을 정의하는 데 사용할 수 없습니다. 이것은 일반 함수에 있는 <code>prototype</code> 속성이 빠져 있음을 알 수 있습니다. 화살표 함수로 <code>new</code> 연산자를 사용하려고하면 다음 예제와 같이 오류가 발생합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> MyType = <span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;,</div><div class="line">    object = <span class="keyword">new</span> MyType();  <span class="comment">// error - you can't use arrow functions with 'new'</span></div></pre></td></tr></table></figure>
+<p>이 코드에서, <code>MyType</code>은 <em>Arrow 함수</em>이므로 <code>[[Construct]]</code> 행위를 하지 않기 때문에 새로운 <code>MyType()</code>에 대한 호출은 실패합니다. JavaScript 엔진은 <em>Arrow 함수</em>가 <code>new</code>와 함께 사용할 수 없다는 사실을 알게 되면 자신의 행동을 더욱 최적화할 수 있습니다.</p>
+<p>또한, <code>this</code>값은 <em>Arrow 함수</em>가 정의된 포함 함수에 의해 결정되므로 <code>call()</code>, <code>apply()</code> 또는 <code>bind()</code>를 사용하여 <code>this</code>의 값을 변경할 수 없습니다.</p>
+<h3 id="Arrow-함수와-Array"><a href="#Arrow-함수와-Array" class="headerlink" title="Arrow 함수와 Array"></a>Arrow 함수와 Array</h3><p><em>Arrow 함수</em>의 간결한 구문은 <em>Array</em> 처리와 함께 사용하기에 이상적입니다. 예를 들어, 사용자 정의 Comparator를 사용하여<em>Array</em>을 정렬하려면 일반적으로 다음과 같이 작성합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> result = values.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> a - b;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>이것은 매우 간단한 기능을 위해 많은 구문이 필요합니다. 더 간결한 <em>Arrow 함수</em> 버전과 비교해보십시오.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> result = values.sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a - b);</div></pre></td></tr></table></figure>
+<p><code>sort()</code>, <code>map()</code>, <code>reduce()</code>와 같은 콜백 함수를 받아들이는 Array 메서드는 단순한 코드로 복잡한 프로세스를 변경하는 <em>Arrow 함수</em> 구문의 이점을 모두 누릴 수 있습니다.</p>
+<h3 id="arguments-바인딩-없음"><a href="#arguments-바인딩-없음" class="headerlink" title="arguments 바인딩 없음"></a>arguments 바인딩 없음</h3><p><em>Arrow 함수</em>가 자신의 <code>arguments</code> 객체를 가지고 있지는 않지만 포함 함수의 <code>arguments</code> 객체에 접근할 수 있습니다. <em>Arrow<br>함수</em>가 어디에서 실행 되든 관계없이 포함 함수의 <code>arguments</code>객체를 사용할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">createArrowFunctionReturningFirstArg</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">arguments</span>[<span class="number">0</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> arrowFunction = createArrowFunctionReturningFirstArg(<span class="number">5</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(arrowFunction());       <span class="comment">// 5</span></div></pre></td></tr></table></figure>
+<p><code>createArrowFunctionReturningFirstArg()</code> 내부에서, <code>arguments[0]</code> 요소는 생성된 <em>Arrow 함수</em>에 의해 참조됩니다. 그 참조는<code>createArrowFunctionReturningFirstArg()</code> 함수에 전달 된 첫 번째 파라미터를 나타냅니다. <em>Arrow 함수</em>가 나중에 실행되면 5를 반환하는데, 이것은 <code>createArrowFunctionReturningFirstArg()</code>에 전달된 첫 번째 인파라미터입니다. <em>Arrow 함수</em>가 더 이상 자신를 생성 한 Scope에 없더라도 <code>arguments</code> 식별자의 Scope chain resolution 때문에 <code>arguments</code>는 여전히 접근 가능합니다.</p>
+<h3 id="Arrow-함수-식별하기"><a href="#Arrow-함수-식별하기" class="headerlink" title="Arrow 함수 식별하기"></a>Arrow 함수 식별하기</h3><p>다른 구문에도 불구하고 <em>Arrow 함수</em>는 여전히 함수이며 식별 가능합니다. 다음 코드를 생각해 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> comparator = <span class="function">(<span class="params">a, b</span>) =&gt;</span> a - b;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> comparator);                 <span class="comment">// "function"</span></div><div class="line"><span class="built_in">console</span>.log(comparator <span class="keyword">instanceof</span> <span class="built_in">Function</span>);    <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p><code>console.log()</code> 결과는, <code>typeof</code>와 <code>instanceof</code>가 다른 함수와 마찬가지로 <em>Arrow 함수</em>가 똑같이 행동한다는 것을 보여줍니다.</p>
+<p>함수의 <code>this</code>-binding은 영향을 받지 않지만, 다른 함수와 마찬가지로 <em>Arrow 함수</em>는 여전히 <code>call()</code>, <code>apply()</code> 및 <code>bind()</code>를 사용할 수 있습니다. 여기 몇 가지 예가 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sum = <span class="function">(<span class="params">num1, num2</span>) =&gt;</span> num1 + num2;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(sum.call(<span class="literal">null</span>, <span class="number">1</span>, <span class="number">2</span>));      <span class="comment">// 3</span></div><div class="line"><span class="built_in">console</span>.log(sum.apply(<span class="literal">null</span>, [<span class="number">1</span>, <span class="number">2</span>]));   <span class="comment">// 3</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boundSum = sum.bind(<span class="literal">null</span>, <span class="number">1</span>, <span class="number">2</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(boundSum());                <span class="comment">// 3</span></div></pre></td></tr></table></figure>
+<p><code>sum()</code> 함수는 다른 함수와 마찬가지로 <code>call()</code>과 <code>apply()</code>를 사용하여 파라미터를 전달합니다. <code>bind()</code>메서드는 <code>boundSum()</code>을 생성하는데 사용되며, 두개의 파라미터는 1과 2에 연결되어 직접 전달할 필요가 없습니다.</p>
+<p><em>Arrow 함수</em>는 콜백과 같이 현재의 익명 함수 표현식을 사용하고있는 곳이면 어디서든 사용하기에 적합합니다. 다음 섹션은 또 다른 주요한 ECMAScript 6을 다루지만, 이것은 모두 내부적이며 <code>new</code> 구문을 가지고 있지 않습니다.</p>
+<h2 id="Tail-Call-최적화"><a href="#Tail-Call-최적화" class="headerlink" title="Tail Call 최적화"></a>Tail Call 최적화</h2><p>아마도 ECMAScript 6의 기능 중 가장 흥미로운 변화는 Tail call 시스템을 변경하는 엔진 최적화입니다. Tail call은 함수가 다음과 같이  함수의 마지막 명령문으로 다른 함수를 호출하는 패턴입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> doSomethingElse();   <span class="comment">// tail call</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ECMAScript 5 엔진에서 구현된 Tail call은 다른 함수 호출과 마찬가지로 처리됩니다. 새 스택 프레임이 만들어지고 Call 스택에 푸시되어 함수 호출을 나타냅니다. 이는 모든 이전 스택 프레임이 메모리에 유지된다는 것을 의미하며, 호출 스택이 너무 커지면 문제가됩니다.</p>
+<h3 id="무엇이-다른가"><a href="#무엇이-다른가" class="headerlink" title="무엇이 다른가?"></a>무엇이 다른가?</h3><p>ECMAScript 6는 <code>strict</code> 모드에서 특정 Tail call에 대한 호출 스택의 크기를 줄이려고 시도합니다 (<code>nonstrict</code> 모드 Tail call은 그대로 유지됩니다). 이 최적화를 통해 Tail call에 대한 새 스택 프레임을 만드는 대신 다음 조건이 충족되는 한 현재 스택 프레임이 지워지고 다시 사용됩니다.</p>
+<ol>
+<li>Tail call은 현재 스택 프레임의 변수에 액세스할 필요가 없습니다 (함수가 클로저가 아님을 의미)</li>
+<li>Tail call을 수행하는 함수는 Tail call이 리턴 한 후에 더 이상 수행할 작업이 없습니다.</li>
+<li>Tail call의 결과는 함수 값으로 반환됩니다.</li>
+</ol>
+<p>예를 들어 다음 코드는 세 가지 기준 모두에 적합하기 때문에 이 코드를 쉽게 최적화할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// optimized</span></div><div class="line">    <span class="keyword">return</span> doSomethingElse();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>위의 함수는 <code>doSomethingElse()</code>에 대해 Tail call을 하고 결과를 즉시 반환하며 로컬 범위의 변수에 액세스하지 않습니다. 하지만 아래의 함수는 결과를 반환하지 않기 때문에 최적화되지 않습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// not optimized - no return</span></div><div class="line">    doSomethingElse();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>마찬가지로 Tail call에서 복귀 한 후 작업을 수행하는 경우 함수를 최적화할 수 없습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// not optimized - must add after returning</span></div><div class="line">    <span class="keyword">return</span> <span class="number">1</span> + doSomethingElse();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>위 예제는 값을 반환하기 전에 <code>doSomethingElse()</code>에 단지 1을 더하지만 최적화를 끄기에 충분합니다.</p>
+<p>실수로 최적화를 끄는 또 다른 일반적인 실수는 함수 호출 결과를 변수에 저장 한 다음 결과를 반환하는 것입니다. 예를 들면 다음과 같습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// not optimized - call isn't in tail position</span></div><div class="line">    <span class="keyword">var</span> result = doSomethingElse();</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>위 예제는 <code>doSomethingElse()</code>의 값이 즉시 리턴되지 않기 때문에 최적화될 수 없습니다.</p>
+<p>아마도 가장 어려운 상황은 클로저 사용에 있습니다. 클로저가 포함된 Scope의 변수에 액세스할 수 있으므로 Tail call 최적화가 해제될 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> num = <span class="number">1</span>,</div><div class="line">        func = <span class="function"><span class="params">()</span> =&gt;</span> num;</div><div class="line"></div><div class="line">    <span class="comment">// not optimized - 함수가 closure 입니다.</span></div><div class="line">    <span class="keyword">return</span> func();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>클로저 <code>func()</code>는 이 예제에서 지역 변수 <code>num</code>에 접근할 수 있습니다. <code>func()</code>를 호출하면 즉시 결과가 반환되지만 변수 <code>num</code>을 참조하기 때문에 최적화할 수 없습니다.</p>
+<h3 id="Tail-call-최적화를-활용하는-방법"><a href="#Tail-call-최적화를-활용하는-방법" class="headerlink" title="Tail call 최적화를 활용하는 방법"></a>Tail call 최적화를 활용하는 방법</h3><p>실제로 Tail call 최적화는 배후에서 발생하기 때문에 함수를 최적화하려고 시도하지 않는 한 생각할 필요가 없습니다. Tail call 최적화의 주요 사용 사례는 재귀 함수입니다. 최적화가 가장 큰 효과를 발휘하기 때문입니다. 팩토리얼을 계산하는 이 함수를 생각해 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorial</span>(<span class="params">n</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line"></div><div class="line">        <span class="comment">// not optimized - must multiply after returning</span></div><div class="line">        <span class="keyword">return</span> n * factorial(n - <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>곱셈이 <code>factorial()</code>을 재귀 호출 한 후에 일어나야하기 때문에 이 버전의 함수는 최적화될 수 없습니다. <code>n</code>이 매우 큰 경우 호출 스택 크기가 커지고 잠재적으로 스택 오버플로가 발생할 수 있습니다.</p>
+<p>함수를 최적화 하려면 마지막 함수 호출 후에 곱셈이 발생하지 않도록 해야합니다. 이를 위해 <em>Default 파라미터</em>를 사용하여 곱하기 연산을 return 문 외부로 옮길 수 있습니다. 결과 함수는 임시 결과를 따라 다음 반복으로 전달되어 동일하게 동작하지만 ECMAScript 6 엔진에서 최적화할 수있는 함수를 만듭니다. 다음은 새로운 코드입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorial</span>(<span class="params">n, p = <span class="number">1</span></span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span> * p;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">let</span> result = n * p;</div><div class="line"></div><div class="line">        <span class="comment">// optimized</span></div><div class="line">        <span class="keyword">return</span> factorial(n - <span class="number">1</span>, result);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이 다시 작성된 <code>factorial()</code> 버전에서 두 번째 파라미터 <code>p</code>가 추가되었고 <em>Default</em> 값이 1입니다. <code>p</code> 파라미터는 이전 곱셈 결과를 유지하므로 다른 함수 호출없이 다음 결과를 계산할 수 있습니다. <code>n</code>이 1보다 크면 곱셈이 먼저 수행된 후 두 번째 인수로 <code>factorial()</code>으로 전달됩니다. 이를 통해 ECMAScript 6 엔진이 재귀 호출을 최적화할 수 있습니다.</p>
+<p>Tail call 최적화는 재귀 함수를 작성할 때, 특히 연산이 많은 함수에 적용할 때 상당한 성능 향상을 제공할 수 있으므로 생각해야할 부분입니다.</p>
+<h2 id="요약"><a href="#요약" class="headerlink" title="요약"></a>요약</h2><p>함수는 ECMAScript 6에서 큰 변화를 겪지는 않았지만 일련의 점진적 변경으로 인해 작업이 더 쉬워졌습니다.</p>
+<p>함수의 <em>Default 파라미터</em>를 사용하면 특정 파라미터가 전달되지 않을 때 사용할 값을 쉽게 지정할 수 있습니다. ECMAScript 6 이전에는 함수 내부에 몇 가지 추가 코드가 필요 했으므로 파라미터가 있는지 확인하고 다른 값을 할당할 수 있었습니다.</p>
+<p><em>Rest 파라미터</em>를 사용하면 나머지 모든 파라미터를 배치할 <em>Array</em>을 지정할 수 있습니다. 실제 <em>Array</em>을 사용하고 포함시킬 파라미터를 지정하게하면 <em>Rest 파라미터</em>가 <code>arguments</code>보다 훨씬 더 유연한 해결책이됩니다.</p>
+<p><em>Spread 연산자</em>는 <em>Rest 파라미터</em>와 함께 사용되므로 함수를 호출할 때 <em>Array</em>을 개별 파라미터로 분해할 수 있습니다. ECMAScript 6 이전에는 <em>Array</em>에 포함된 개별 파라미터를 전달하는 두 가지 방법이 있었습니다. 수동으로 각 파라미터를 지정하거나 <code>apply()</code>를 사용하는 것입니다. <em>Spread 연산자</em>를 사용하면 함수의 ‘this’ 바인딩에 대한 걱정없이 모든 함수에 <em>Array</em>을 쉽게 전달할 수 있습니다.</p>
+<p><code>name</code> 프로퍼티을 추가하면 디버깅 및 평가 목적을 쉽게 식별할 수 있습니다. 또한 ECMAScript 6는 <em>Block-level 함수</em>의 동작을 공식적으로 정의하므로 더 이상 <code>strict</code> 모드에서는 구문 오류가 아닙니다.</p>
+<p>ECMAScript 6에서 함수의 동작은 <code>[[Call]]</code>, 일반 함수 실행, <code>[[Construct]]</code>에 의해 정의되며, <code>new</code>로 호출이 됩니다. <code>new.target</code> 메타 속성은 <code>new</code>를 사용하여 함수가 호출되었는지 아닌지를 결정할 수 있게합니다.</p>
+<p>ECMAScript 6에서 가장 많이 변경된 기능은 <em>Arrow 함수</em>가 추가된 것입니다. <em>Arrow 함수</em>는 익명의 함수 표현식 대신 사용되도록 설계되었습니다. <em>Arrow 함수</em>는 보다 간결한 문법, 어휘, <code>this</code> 바인딩 없음, <code>arguments</code> 객체를 가지고 있지 않습니다. 또한, <em>Arrow 함수</em>는 <code>this</code> 바인딩을 변경할 수 없으므로 Constructor로 사용할 수 없습니다.</p>
+<p>Tail call 최적화는 더 작은 호출 스택을 유지하고 더 적은 메모리를 사용하며 스택 오버플로 오류를 방지하기 위해 일부 함수 호출을 최적화할 수 있습니다. 이 최적화는 엔진에서 자동으로 적용되므로 안전하지만 이 최적화를 이용하려면 재귀 함수를 다시 작성하기로 결정할 수도 있습니다.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://leanpub.com/understandinges6/read#leanpub-auto-functions" target="_blank" rel="external">https://leanpub.com/understandinges6/read#leanpub-auto-functions</a>]</p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a href="https://infoscis.github.io/2018/01/24/ecmascript-6-block-binding/">ECMAScript 6 Block Binding</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/ecmascript-6-strings-and-regular-expressions/">ECMAScript 6 문자열과 정규 표현식</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/ecmascript-6-functions/">ECMAScript 6 함수</a></li>
+<li><a href="https://infoscis.github.io/2018/01/25/ecmascript-6-expanded-object-functionality/">ECMAScript 6 객체의 확장된 기능</a></li>
+<li><a href="https://infoscis.github.io/2018/01/26/ecmascript-6-destructuring-for-easier-data-access/">ECMAScript 6 쉬운 데이터 액세스를 위한 Destructuring</a></li>
+<li><a href="https://infoscis.github.io/2018/01/27/ecmascript-6-symbols-and-symbol-properties/">ECMAScript 6 Symbol과 Symbol 프로퍼티</a></li>
+<li><a href="https://infoscis.github.io/2018/01/27/ecmascript-6-sets-and-maps/">ECMAScript 6 Set과 Map</a></li>
+<li><a href="https://infoscis.github.io/2018/01/31/ecmascript-6-iterators-and-generators/">ECMAScript 6 Iterator와 Generator</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/ecmascript-6-introducing-javascript-classes/">ECMAScript 6 JavaScript 클래스 소개</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/ecmascript-6-improved-array-capabilities/">ECMAScript 6 Array 기능 향상</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-promises-and-asynchronous-programming/">ECMAScript 6 Promise와 비동기 프로그램밍</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/">ECMAScript 6 프록시와 리플렉션 API</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-encapsulating-code-with-modules/">ECMAScript 6 Module로 코드 캡슐화하기</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-appendix-a-smaller-changes/">ECMAScript 6 부록 A. 작은 변경 사항</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/">ECMAScript 6 부록 B. ECMAScript 7(2016) 이해하기</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2018/01/24/ecmascript-6-functions/" data-id="cjkl9102a002fjguzf1ycohc1" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/01/25/ecmascript-6-expanded-object-functionality/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            ECMAScript 6 객체의 확장된 기능
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2018/01/24/ecmascript-6-strings-and-regular-expressions/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">ECMAScript 6 문자열과 정규 표현식</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2018/01/24/ecmascript-6-functions/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

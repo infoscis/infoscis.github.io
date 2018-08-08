@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Angular 튜터리얼 - 라우팅 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Angular" />
+    
+    <meta name="description" content="RoutingTour of Heroes 앱에 대한 새로운 요구 사항이 있습니다.
+
+Dashboard View를 추가합니다.
+Heroes와 대시보드 보기 사이를 Navigation할 수있는 기능을 추가합니다.
+사용자가 Hero 이름을 클릭하면 선택한 Hero의 상세보기로 이동합니다.
+사용자가 이메일에서 딥 링크를 클릭하면 특정 Hero의 상세 보기를 엽니다.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 튜터리얼 - 라우팅">
+<meta property="og:url" content="http://infoscis.github.io/2017/07/21/angular-tutorial-routing/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="RoutingTour of Heroes 앱에 대한 새로운 요구 사항이 있습니다.
+
+Dashboard View를 추가합니다.
+Heroes와 대시보드 보기 사이를 Navigation할 수있는 기능을 추가합니다.
+사용자가 Hero 이름을 클릭하면 선택한 Hero의 상세보기로 이동합니다.
+사용자가 이메일에서 딥 링크를 클릭하면 특정 Hero의 상세 보기를 엽니다.">
+<meta property="og:image" content="https://angular.io/generated/images/guide/toh/nav-diagram.png">
+<meta property="og:updated_time" content="2018-01-27T15:21:46.136Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular 튜터리얼 - 라우팅">
+<meta name="twitter:description" content="RoutingTour of Heroes 앱에 대한 새로운 요구 사항이 있습니다.
+
+Dashboard View를 추가합니다.
+Heroes와 대시보드 보기 사이를 Navigation할 수있는 기능을 추가합니다.
+사용자가 Hero 이름을 클릭하면 선택한 Hero의 상세보기로 이동합니다.
+사용자가 이메일에서 딥 링크를 클릭하면 특정 Hero의 상세 보기를 엽니다.">
+<meta name="twitter:image" content="https://angular.io/generated/images/guide/toh/nav-diagram.png">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2017/07/21/angular-tutorial-routing/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Angular/">Angular</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-angular-tutorial-routing" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Angular 튜터리얼 - 라우팅
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/07/21/angular-tutorial-routing/" class="article-date">
+            <time datetime="2017-07-21T13:26:30.000Z" itemprop="datePublished">2017-07-21</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Angular/">Angular</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Routing"><a href="#Routing" class="headerlink" title="Routing"></a>Routing</h1><p>Tour of Heroes 앱에 대한 새로운 요구 사항이 있습니다.</p>
+<ul>
+<li>Dashboard View를 추가합니다.</li>
+<li>Heroes와 대시보드 보기 사이를 Navigation할 수있는 기능을 추가합니다.</li>
+<li>사용자가 Hero 이름을 클릭하면 선택한 Hero의 상세보기로 이동합니다.</li>
+<li>사용자가 이메일에서 딥 링크를 클릭하면 특정 Hero의 상세 보기를 엽니다.</li>
+</ul>
+<p>완료되면 사용자는 다음과 같이 앱을 Navigation할 수 있습니다.</p>
+<p><img src="https://angular.io/generated/images/guide/toh/nav-diagram.png" alt=""></p>
+<p>요구 사항을 충족 시키기 위해 Angular의 <em>Router</em>를 앱에 추가합니다.</p>
+<blockquote>
+<p><em>Router</em>에 대한 자세한 내용은 <a href="https://angular.io/guide/router" target="_blank" rel="external">Routing and Navigation</a> 페이지를 참조하십시오.</p>
+</blockquote>
+<p>이 페이지를 끝내면 앱은 이 <a href="https://angular.io/generated/live-examples/toh-pt5/eplnkr.html" target="_blank" rel="external">라이브 예제</a>/<a href="https://angular.io/generated/zips/toh-pt5/toh-pt5.zip" target="_blank" rel="external">예제 다운로드</a> 처럼 보일 것입니다.</p>
+<h2 id="어디까지-했었나"><a href="#어디까지-했었나" class="headerlink" title="어디까지 했었나?"></a>어디까지 했었나?</h2><p>Tour of Heroes를 계속하기 전에 다음과 같은 구조인지 확인하십시오.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">angular-tour-of-heroes</div><div class="line"> ┣ src</div><div class="line"> ┃  ┣ app</div><div class="line"> ┃  ┃  ┣ app.component.ts</div><div class="line"> ┃  ┃  ┣ app.module.ts</div><div class="line"> ┃  ┃  ┣ hero.ts</div><div class="line"> ┃  ┃  ┣ hero-detail.component.ts</div><div class="line"> ┃  ┃  ┣ hero.service.ts</div><div class="line"> ┃  ┃  ┗ mock-heroes.ts</div><div class="line"> ┃  ┣ main.ts</div><div class="line"> ┃  ┣ index.html</div><div class="line"> ┃  ┣ styles.css</div><div class="line"> ┃  ┣ systemjs.config.js</div><div class="line"> ┃  ┗ tsconfig.json</div><div class="line"> ┣ node_modules ...</div><div class="line"> ┗ package.json</div></pre></td></tr></table></figure>
+<h2 id="앱-실행과-트랜스파일을-유지하기"><a href="#앱-실행과-트랜스파일을-유지하기" class="headerlink" title="앱 실행과 트랜스파일을 유지하기"></a>앱 실행과 트랜스파일을 유지하기</h2><p>터미널 창에서 다음 명령을 입력하십시오.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm start</div></pre></td></tr></table></figure>
+<p>이 명령은 TypeScript 컴파일러를 “watch mode”에서 실행하여 코드가 변경되면 자동으로 다시 컴파일 하도록합니다. 또한 이 명령은 앱이 브라우저에서 동시에 실행되고 코드가 변경되면 브라우저를 새로 고칩니다.</p>
+<p>다시 컴파일하거나 새로 고치지 않고 브라우저를 일시 정지하지 않아 Tour of Heroes 앱을 계속 만들 수 있습니다.</p>
+<h2 id="Action-plan"><a href="#Action-plan" class="headerlink" title="Action plan"></a>Action plan</h2><p>계획은 다음과 같습니다.</p>
+<ul>
+<li><code>AppComponent</code>를 Navigation만 처리하는 어플리케이션으로 변경합니다.</li>
+<li>현재 <code>AppComponent</code> 내의 Hero들 관심사를 별도의 <code>HeroesComponent</code>로 재배치합니다.</li>
+<li><em>Router</em>를 추가합니다.</li>
+<li>새로운 <code>DashboardComponent</code>를 생성합니다.</li>
+<li>대시보드를 Navigation 구조에 연결합니다.</li>
+</ul>
+<blockquote>
+<p>Routing은 Navigation의 또 다른 이름입니다. <em>Router</em>는 View 사이의 Navigation을 위한 메커니즘입니다.</p>
+</blockquote>
+<h2 id="AppComponent-분할"><a href="#AppComponent-분할" class="headerlink" title="AppComponent 분할"></a>AppComponent 분할</h2><p>현재 앱은 <code>AppComponent</code>를 로드하고 즉시 Hero들의 목록을 표시합니다.</p>
+<p>수정된 앱은 뷰(Dashboard 및 Heroes)중 하나를 선택하여 표시하고 그중 하나를 기본값으로 설정합니다.</p>
+<p><code>AppComponent</code>는 Navigation만 처리 해야하므로, <code>AppComponent</code>에서 Hero들의 디스플레이를 자신의 <code>HeroesComponent</code>로 옮깁니다.</p>
+<h3 id="HeroesComponent"><a href="#HeroesComponent" class="headerlink" title="HeroesComponent"></a>HeroesComponent</h3><p><code>AppComponent</code>는 이미 Hero들 전용입니다. <code>AppComponent</code>에서 코드를 이동하는 대신 <code>HeroesComponent</code>로 이름을 바꾸고 별도의 <code>AppComponent</code>을 만듭니다.</p>
+<p>다음을 실행합니다.</p>
+<ul>
+<li><code>app.component.ts</code> 파일의 이름을 <code>heroes.component.ts</code>로 변경합니다.</li>
+<li><code>AppComponent</code> 클래스의 이름을 <code>HeroesComponent</code>로 변경합니다 (이 파일만).</li>
+<li><em>Selector</em> <code>my-app</code>의 이름을 <code>my-heroes</code>로 변경합니다.</li>
+</ul>
+<p><strong>src/app/heroes.component.ts (showing renamings only)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'my-heroes'</span>,</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> HeroesComponent <span class="keyword">implements</span> OnInit &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="AppComponent-생성"><a href="#AppComponent-생성" class="headerlink" title="AppComponent 생성"></a>AppComponent 생성</h3><p>새로운 <code>AppComponent</code>는 응용 프로그램 Shell입니다. 상단에는 Navigation 링크가 있고 아래에는 표시 영역이 있습니다.</p>
+<p>아래 단계를 수행합니다.</p>
+<ul>
+<li><code>src/app/app.component.ts</code> 파일을 생성합니다.</li>
+<li><code>export</code>될 <code>AppComponent</code> 클래스를 정의합니다.</li>
+<li><code>my-app</code> <em>Selector</em>를 사용하여 클래스 위에 <code>@Component</code> <em>Decorator</em>를 추가합니다.</li>
+<li><code>HeroesComponent</code>에서 <code>AppComponent</code>로 다음을 이동합니다.<ul>
+<li><code>title</code> 클래스 프로퍼티</li>
+<li><code>@Component</code> 템플릿 <code>&lt;h1&gt;</code> 엘리먼트는 <code>title</code>의 바인딩을 포함합니다.</li>
+</ul>
+</li>
+<li>제목 바로 아래의 앱 템플릿에 <code>&lt;my-heroes&gt;</code> 엘리먼트를 추가하면 Hero가 계속 표시됩니다.</li>
+<li><code>HeroesComponent</code>를 <code>AppModule</code>의 <code>declarations</code> 배열에 추가하여 Angular가 <code>&lt;my-heroes&gt;</code> 태그를 인식하도록합니다.</li>
+<li>다른 모든 View에서 <code>HeroService</code>가 필요하기 때문에 <code>HeroService</code>를 <code>AppModule</code>의 <code>providers</code> 배열에 추가합니다.</li>
+<li><code>HeroesComponent</code>의 <code>providers</code> 배열에서 <code>HeroService</code>를 제거합니다.</li>
+<li><code>AppComponent</code>에 대한 <code>import</code> 문을 추가합니다.</li>
+</ul>
+<p>첫 번째 초안은 다음과 같습니다.</p>
+<p><strong>src/app/app.component.ts (v1)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'my-app'</span>,</div><div class="line">  template: <span class="string">`</span></div><div class="line">    &lt;h1&gt;&#123;&#123;title&#125;&#125;&lt;/h1&gt;</div><div class="line">    &lt;my-heroes&gt;&lt;/my-heroes&gt;</div><div class="line">  `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent &#123;</div><div class="line">  title = <span class="string">'Tour of Heroes'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>src/app/app.module.ts (v1)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; NgModule &#125;       <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123; BrowserModule &#125;  <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</div><div class="line"><span class="keyword">import</span> &#123; FormsModule &#125;    <span class="keyword">from</span> <span class="string">'@angular/forms'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; AppComponent &#125;        <span class="keyword">from</span> <span class="string">'./app.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroDetailComponent &#125; <span class="keyword">from</span> <span class="string">'./hero-detail.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroesComponent &#125;     <span class="keyword">from</span> <span class="string">'./heroes.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroService &#125;         <span class="keyword">from</span> <span class="string">'./hero.service'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  imports: [</div><div class="line">    BrowserModule,</div><div class="line">    FormsModule</div><div class="line">  ],</div><div class="line">  declarations: [</div><div class="line">    AppComponent,</div><div class="line">    HeroDetailComponent,</div><div class="line">    HeroesComponent</div><div class="line">  ],</div><div class="line">  providers: [</div><div class="line">    HeroService</div><div class="line">  ],</div><div class="line">  bootstrap: [ AppComponent ]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>앱은 계속 실행되고 Hero를 표시할 것입니다.</p>
+<h2 id="라우팅-추가하기"><a href="#라우팅-추가하기" class="headerlink" title="라우팅 추가하기"></a>라우팅 추가하기</h2><p>자동으로 표시하는 대신 사용자가 버튼을 클릭하면 Hero가 표시됩니다. 즉, 사용자는 Hero들의 목록을 Navigate할 수 있어야합니다.</p>
+<p>Angular <em>Router</em>를 사용하여 Navigation을 활성화합니다.</p>
+<p>Angular <em>Router</em>는 <code>RouterModule</code>이라고 하는 외부의 선택적 Angular NgModule입니다. <em>Router</em>는 여러개의 제공된 <em>Service</em>(RouterModule), 여러개의 <em>Directive</em>(RouterOutlet, RouterLink, RouterLinkActive) 및 <em>Component</em>(Routes)의 조합입니다. 먼저 라우트를 설정합니다.</p>
+<h3 id="lt-base-href-gt"><a href="#lt-base-href-gt" class="headerlink" title="&lt;base href&gt;"></a><code>&lt;base href&gt;</code></h3><p><code>index.html</code>을 열고 <code>&lt;head href = &quot;... &quot;&gt;</code> 엘리먼트 (또는 이 엘리먼트를 동적으로 설정하는 스크립트)가 <code>&lt;head&gt;</code>섹션 맨 위에 있는지 확인합니다.</p>
+<p><strong>src/index.html (base-href)</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">base</span> <span class="attr">href</span>=<span class="string">"/"</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong><code>base href</code>는 필수입니다.</strong><br>자세한 내용은 <a href="https://angular.io/guide/router" target="_blank" rel="external">Routing and Navigation</a> 페이지의  <a href="https://angular.io/guide/router" target="_blank" rel="external">base href 설정</a> 섹션을 참조하십시오.</p>
+</blockquote>
+<h3 id="라우트-설정"><a href="#라우트-설정" class="headerlink" title="라우트 설정"></a>라우트 설정</h3><p>앱 라우트에 대한 설정 파일을 만듭니다.</p>
+<p><code>Routes</code>는 사용자가 링크를 클릭하거나, URL을 브라우저 주소 표시 줄에 붙여 넣을 때, 표시할 View를 라우터에 알립니다.</p>
+<p>Hero들 <em>Component</em>에 대한 라우트를 첫 번째 라우트로 정의합니다.</p>
+<p><strong>src/app/app.module.ts (heroes route)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; RouterModule &#125;   <span class="keyword">from</span> <span class="string">'@angular/router'</span>;</div><div class="line"></div><div class="line">RouterModule.forRoot([</div><div class="line">  &#123;</div><div class="line">    path: <span class="string">'heroes'</span>,</div><div class="line">    component: HeroesComponent</div><div class="line">  &#125;</div><div class="line">])</div></pre></td></tr></table></figure></p>
+<p><a href="https://angular.io/api/router/Routes" target="_blank" rel="external">Routes</a>는 라우트 정의 배열입니다.</p>
+<p>이 라우트 정의에는 다음과 같은 부분이 포함됩니다.</p>
+<ul>
+<li><em>Path</em> : <em>Router</em>가 이 라우트의 경로를 브라우저 주소 표시 줄의 URL과 일치시킵니다.(<code>heroes</code>)</li>
+<li><em>Component</em> :이 라우트로 이동할 때 <em>Router</em>가 만들어야하는 <em>Component</em>입니다. (<code>HeroesComponent</code>)</li>
+</ul>
+<blockquote>
+<p><a href="https://angular.io/guide/router" target="_blank" rel="external">Routing &amp; Navigation</a> 페이지에서 <a href="https://angular.io/api/router/Routes" target="_blank" rel="external">Routes</a>를 사용하여 라우트를 정의하는 방법에 대해 자세히 알아보십시오.</p>
+</blockquote>
+<h3 id="사용가능한-라우터-만들기"><a href="#사용가능한-라우터-만들기" class="headerlink" title="사용가능한 라우터 만들기"></a>사용가능한 라우터 만들기</h3><p><code>RouterModule</code>을 <code>import</code>해서 <code>AppModule</code>의 <code>imports</code> 배열에 추가합니다.</p>
+<p><strong>src/app/app.module.ts (app routing)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; NgModule &#125;       <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123; BrowserModule &#125;  <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</div><div class="line"><span class="keyword">import</span> &#123; FormsModule &#125;    <span class="keyword">from</span> <span class="string">'@angular/forms'</span>;</div><div class="line"><span class="keyword">import</span> &#123; RouterModule &#125;   <span class="keyword">from</span> <span class="string">'@angular/router'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; AppComponent &#125;        <span class="keyword">from</span> <span class="string">'./app.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroDetailComponent &#125; <span class="keyword">from</span> <span class="string">'./hero-detail.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroesComponent &#125;     <span class="keyword">from</span> <span class="string">'./heroes.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroService &#125;         <span class="keyword">from</span> <span class="string">'./hero.service'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  imports: [</div><div class="line">    BrowserModule,</div><div class="line">    FormsModule,</div><div class="line">    RouterModule.forRoot([</div><div class="line">      &#123;</div><div class="line">        path: <span class="string">'heroes'</span>,</div><div class="line">        component: HeroesComponent</div><div class="line">      &#125;</div><div class="line">    ])</div><div class="line">  ],</div><div class="line">  declarations: [</div><div class="line">    AppComponent,</div><div class="line">    HeroDetailComponent,</div><div class="line">    HeroesComponent</div><div class="line">  ],</div><div class="line">  providers: [</div><div class="line">    HeroService</div><div class="line">  ],</div><div class="line">  bootstrap: [ AppComponent ]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>설정된 <em>Router</em>가 앱의 루트에 제공되기 때문에 <code>forRoot()</code> 메서드를 호출합니다. <code>forRoot()</code> 메서드는 라우팅에 필요한 <em>Router Service providers</em>와 <em>Directive</em>를 제공하고 현재 브라우저 URL을 기반으로 초기 Navigation을 수행합니다.</p>
+</blockquote>
+<h3 id="라우터-아울렛"><a href="#라우터-아울렛" class="headerlink" title="라우터 아울렛"></a>라우터 아울렛</h3><p><code>/heroes</code> Path를 URL의 끝에있는 브라우저 주소창에 추가하면 <em>Router</em>는 그것을 <code>heroes</code> Path와 일치시키고 <code>HeroesComponent</code>를 표시합니다. 하지만 <em>Router</em>에 <em>Component</em>를 표시할 위치를 알려줘야합니다. 이렇게 하기 위해 템플릿 끝에 <code>&lt;router-outlet&gt;</code> 엘리먼트를 추가 합니다. <code>RouterOutlet</code>은 <code>RouterModule</code>이 제공하는 <em>Directive</em> 중 하나입니다. <em>Router</em>는 사용자가 앱을 Navigate할 때 <code>&lt;router-outlet&gt;</code>바로 아래에 각 <em>Component</em>를 표시합니다.</p>
+<h3 id="라우터-링크들"><a href="#라우터-링크들" class="headerlink" title="라우터 링크들"></a>라우터 링크들</h3><p>사용자는 주소 표시 줄에 라우트 URL을 붙여 넣을 필요가 없습니다. 대신 템플릿에 앵커 태그를 추가하여 클릭하면 <code>HeroesComponent</code>에 대한 Navigation이 시작됩니다.</p>
+<p>수정된 템플릿은 다음과 같습니다.</p>
+<p><strong>src/app/app.component.ts (template-v2)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">template: <span class="string">`</span></div><div class="line">   &lt;h1&gt;&#123;&#123;title&#125;&#125;&lt;/h1&gt;</div><div class="line">   &lt;a routerLink="/heroes"&gt;Heroes&lt;/a&gt;</div><div class="line">   &lt;router-outlet&gt;&lt;/router-outlet&gt;</div><div class="line"> `</div></pre></td></tr></table></figure>
+<p>앵커 태그의 <code>routerLink</code> 바인딩에 주목하세요. <code>RouterLink</code> <em>Directive</em> (<code>RouterModule</code>의 다른 <em>Directive</em>)는 사용자가 링크를 클릭할 때 Navigate할 위치를 <em>Router</em>에 알려주는 문자열이 바인딩됩니다.</p>
+<p>링크가 동적이 아니기 때문에, 라우팅 명령은 라우트 Path에 대한 1회 바인딩으로 정의됩니다. 라우트 설정을 살펴보면 <code>/heroes</code>가 <code>HeroesComponent</code>에 대한 라우트 Path임을 확인할 수 있습니다.</p>
+<blockquote>
+<p><a href="https://angular.io/guide/router" target="_blank" rel="external">Routing &amp; Navigation</a> 페이지의 <a href="https://angular.io/guide/router#link-parameters-array" target="_blank" rel="external">Appendix: Link Parameters Array</a> 섹션에서 동적 라우터 링크 및 링크 파라미터 배열에 대해 자세히 읽어보십시오.</p>
+</blockquote>
+<p>브라우저를 새로 고칩니다. 브라우저에는 앱 제목과 Hero 링크가 표시되지만 Hero들 목록은 표시되지 않습니다.</p>
+<blockquote>
+<p>브라우저의 주소 표시 줄에 <code>/</code>가 표시됩니다. <code>HeroesComponent</code> 라우트 Path는 <code>/</code>가 아닌 <code>/heroes</code>입니다. 곧 라우트 <code>/</code>와 일치하는 Path를 추가합니다.</p>
+</blockquote>
+<p><em>Heroes</em> Navigation 링크를 클릭하십시오. 주소 표시 줄이 <code>/heroes</code>로 업데이트되고 Heroes 목록이 표시됩니다.</p>
+<p><code>AppComponent</code>는 이제 다음과 같습니다.</p>
+<p><strong>src/app/app.component.ts (v2)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'my-app'</span>,</div><div class="line">  template: <span class="string">`</span></div><div class="line">     &lt;h1&gt;&#123;&#123;title&#125;&#125;&lt;/h1&gt;</div><div class="line">     &lt;a routerLink="/heroes"&gt;Heroes&lt;/a&gt;</div><div class="line">     &lt;router-outlet&gt;&lt;/router-outlet&gt;</div><div class="line">   `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent &#123;</div><div class="line">  title = <span class="string">'Tour of Heroes'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>이제 <code>AppComponent</code>가 <em>Router</em>에 연결되고 라우트된 View를 표시합니다. 이러한 이유로 다른 <em>Component</em>와 구별하기 위해 이 <em>Component</em> 타입을 <em>Router component</em>라고합니다.</p>
+<h2 id="Dashboard-추가"><a href="#Dashboard-추가" class="headerlink" title="Dashboard 추가"></a>Dashboard 추가</h2><p>라우팅은 여러 뷰가 있을 때만 의미가 있습니다. 다른 View를 추가하기 위해 사용자가 Navigate할 수있는 Placeholder <code>DashboardComponent</code>를 만듭니다.</p>
+<p><strong>src/app/dashboard.component.ts (v1)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"></div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'my-dashboard'</span>,</div><div class="line">  template: <span class="string">'&lt;h3&gt;My Dashboard&lt;/h3&gt;'</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> DashboardComponent &#123; &#125;</div></pre></td></tr></table></figure></p>
+<p>나중에 이 <em>Component</em>를 보다 유용하게 만들것입니다.</p>
+<h3 id="Dashboard-라우트-설정"><a href="#Dashboard-라우트-설정" class="headerlink" title="Dashboard 라우트 설정"></a>Dashboard 라우트 설정</h3><p><code>app.module.ts</code>를 수정하여 대시 보드로 Navigate 하려면 대시 보드 <em>Component</em>를 가져 와서 다음을 <a href="https://angular.io/api/router/Routes" target="_blank" rel="external">Routes</a> 배열의 정의에 추가합니다.</p>
+<p><strong>src/app/app.module.ts (Dashboard route)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  path: <span class="string">'dashboard'</span>,</div><div class="line">  component: DashboardComponent</div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<p>또한 <code>DashboardComponent</code>를 <code>import</code>하고 <code>AppModule</code>의 <code>declarations</code>에 추가합니다.</p>
+<p><strong>src/app/app.module.ts (dashboard)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">declarations: [</div><div class="line">  AppComponent,</div><div class="line">  DashboardComponent,</div><div class="line">  HeroDetailComponent,</div><div class="line">  HeroesComponent</div><div class="line">],</div></pre></td></tr></table></figure></p>
+<h3 id="Redirect-라우트-추가"><a href="#Redirect-라우트-추가" class="headerlink" title="Redirect 라우트 추가"></a>Redirect 라우트 추가</h3><p>현재 브라우저는 주소 표시 줄에 <code>/</code>로 시작합니다. 앱이 시작되면 대시 보드가 표시되고 브라우저 주소 표시 줄에 <code>/dashboard</code> URL이 표시됩니다.</p>
+<p>이를 가능하게 하기위해 redirect 라우트를 사용합니다. 라우트 정의 배열에 다음을 추가합니다.</p>
+<p><strong>src/app/app.module.ts (redirect)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  path: <span class="string">''</span>,</div><div class="line">  redirectTo: <span class="string">'/dashboard'</span>,</div><div class="line">  pathMatch: <span class="string">'full'</span></div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><a href="https://angular.io/guide/router" target="_blank" rel="external">Routing &amp; Navigation</a> 페이지의 <a href="https://angular.io/guide/router" target="_blank" rel="external">Redirecting routes</a> 섹션에서 <em>redirect</em>에 대해 자세히 알아보십시오.</p>
+</blockquote>
+<h3 id="Template으로-Navigation-추가"><a href="#Template으로-Navigation-추가" class="headerlink" title="Template으로 Navigation 추가"></a>Template으로 Navigation 추가</h3><p><em>Heroes</em> 링크 바로 위의 템플릿에 대시 보드 Navigation 링크를 추가합니다.</p>
+<p><strong>src/app/app.component.ts (template-v3)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">template: <span class="string">`</span></div><div class="line">   &lt;h1&gt;&#123;&#123;title&#125;&#125;&lt;/h1&gt;</div><div class="line">   &lt;nav&gt;</div><div class="line">     &lt;a routerLink="/dashboard"&gt;Dashboard&lt;/a&gt;</div><div class="line">     &lt;a routerLink="/heroes"&gt;Heroes&lt;/a&gt;</div><div class="line">   &lt;/nav&gt;</div><div class="line">   &lt;router-outlet&gt;&lt;/router-outlet&gt;</div><div class="line"> `</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><code>&lt;nav&gt;</code> 태그는 아직 아무 것도하지 않지만 나중에 링크 Style을 지정하면 유용합니다.</p>
+</blockquote>
+<p>브라우저에서 응용 프로그램 루트(<code>/</code>)로 가서 새로고침 합니다. 응용 프로그램은 대시 보드를 표시하고 Dashboard와 Heroes 사이를 Navigation할 수 있습니다.</p>
+<h2 id="Hero들을-Dashboard에-추가하기"><a href="#Hero들을-Dashboard에-추가하기" class="headerlink" title="Hero들을 Dashboard에 추가하기"></a>Hero들을 Dashboard에 추가하기</h2><p>대시 보드를 보다 재미있게 만들기 위해 상위 4명의 Heroes을 한눈에 볼 수 있게 수정합니다.</p>
+<p><code>template</code> 메타 데이터를 새로운 템플릿 파일을 가리키는 <code>templateUrl</code> 프로퍼티로 변경합니다.</p>
+<p><strong>src/app/dashboard.component.ts (metadata)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'my-dashboard'</span>,</div><div class="line">  templateUrl: <span class="string">'./dashboard.component.html'</span>,</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>다음 내용으로 파일을 만듭니다.</p>
+<p><strong>src/app/dashboard.component.html</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>Top Heroes<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"grid grid-pad"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngFor</span>=<span class="string">"let hero of heroes"</span> <span class="attr">class</span>=<span class="string">"col-1-4"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"module hero"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">h4</span>&gt;</span>&#123;&#123;hero.name&#125;&#125;<span class="tag">&lt;/<span class="name">h4</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>*ngFor</code>는 Heroes 목록을 반복하고 이름을 표시하는데 다시 사용됩니다. 여분의 <code>&lt;div&gt;</code> 엘리먼트는 나중에 Style을 지정하는데 도움이 됩니다.</p>
+<h3 id="HeroService-공유하기"><a href="#HeroService-공유하기" class="headerlink" title="HeroService 공유하기"></a>HeroService 공유하기</h3><p><code>HeroService</code>를 다시 사용하여 <em>Component</em>의 <code>heroes</code> 배열을 채울수 있습니다.</p>
+<p>이전에 <code>HeroesComponent</code>의 <code>providers</code> 배열에서 <code>HeroService</code>를 삭제하고 <code>AppModule</code>의 <code>providers</code> 배열에 추가했습니다. 이 변경으로 앱의 모든 <em>Component</em>에서 사용할 수 있는 싱글톤 <code>HeroService</code> 인스턴스가 생성되었습니다. <code>HeroService</code>를 Angular에서 Injects하기 때문에 <code>DashboardComponent</code>에서 사용할 수 있습니다.</p>
+<h3 id="Get-heroes"><a href="#Get-heroes" class="headerlink" title="Get heroes"></a>Get heroes</h3><p><code>dashboard.component.ts</code>에 다음 <code>import</code> 문을 추가합니다.</p>
+<p><strong>src/app/dashboard.component.ts (imports)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component, OnInit &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> &#123; Hero &#125; <span class="keyword">from</span> <span class="string">'./hero'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroService &#125; <span class="keyword">from</span> <span class="string">'./hero.service'</span>;</div></pre></td></tr></table></figure></p>
+<p>다음과 같이 <code>DashboardComponent</code> 클래스를 만듭니다.</p>
+<p><strong>src/app/dashboard.component.ts (class)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> DashboardComponent <span class="keyword">implements</span> OnInit &#123;</div><div class="line"></div><div class="line">  heroes: Hero[] = [];</div><div class="line"></div><div class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> heroService: HeroService</span>) &#123; &#125;</div><div class="line"></div><div class="line">  ngOnInit(): <span class="built_in">void</span> &#123;</div><div class="line">    <span class="keyword">this</span>.heroService.getHeroes()</div><div class="line">      .then(<span class="function"><span class="params">heroes</span> =&gt;</span> <span class="keyword">this</span>.heroes = heroes.slice(<span class="number">1</span>, <span class="number">5</span>));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>이 로직은 <code>HeroesComponent</code>에서도 사용됩니다.</p>
+<ul>
+<li><code>heroes</code> 배열 프로퍼티를 정의합니다.</li>
+<li>생성자에서 <code>HeroService</code>를 주입받고 private <code>heroService</code> 필드에 할당합니다.</li>
+<li>Angular <code>ngOnInit()</code> 라이프 사이클 후크에서 <em>Service</em>를 호출하여 Heroes을 얻습니다.</li>
+</ul>
+<p>이 Dashboard에서는 <code>Array.slice</code> 메서드로 4명의 Hero들(두 번째, 세 번째, 네 번째 및 다섯 번째)를 지정합니다.</p>
+<p>브라우저를 새로 고침하면 새로운 대시 보드에 4명의 Hero 이름이 표시됩니다.</p>
+<h2 id="Hero-상세보기로-Navigate-하기"><a href="#Hero-상세보기로-Navigate-하기" class="headerlink" title="Hero 상세보기로 Navigate 하기"></a>Hero 상세보기로 Navigate 하기</h2><p>선택된 Hero의 상세 보기가 <code>HeroesComponent</code>의 하단에 표시되지만, 사용자는 다음과 같은 추가 방법으로 <code>HeroDetailComponent</code>를 Navigate할 수 있어야합니다.</p>
+<ul>
+<li>대시 보드부터 선택한 Hero까지 Navigate.</li>
+<li>Heroes 목록부터 선택한 Hero까지 Navigate.</li>
+<li>브라우저 주소창에 붙여 넣은 “딥 링크” URL부터 Navigate.</li>
+</ul>
+<h3 id="Hero-상세보기로-라우팅-하기"><a href="#Hero-상세보기로-라우팅-하기" class="headerlink" title="Hero 상세보기로 라우팅 하기"></a>Hero 상세보기로 라우팅 하기</h3><p>다른 라우트가 설정된 <code>app.module.ts</code>의 <code>HeroDetailComponent</code>에 라우트를 추가할 수 있습니다.</p>
+<p>새로운 라우트는 어떤 Hero를 보여줘야 하는지 <code>HeroDetailComponent</code>에게 알려줘야 한다는 점에서 특이합니다. <code>HeroesComponent</code>나 <code>DashboardComponent</code>에는 아무것도 알려줄 필요가 없었습니다.</p>
+<p>현재 부모 <code>HeroesComponent</code>는 다음과 같은 바인딩을 사용하여 <em>Component</em>의 <code>hero</code> 프로퍼티를 Hero 객체로 설정합니다.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hero-detail</span> [<span class="attr">hero</span>]=<span class="string">"selectedHero"</span>&gt;</span><span class="tag">&lt;/<span class="name">hero-detail</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>그러나 이 바인딩은 어떠한 라우팅 시나리오에서도 작동하지 않습니다.</p>
+<h3 id="Parameterized-route"><a href="#Parameterized-route" class="headerlink" title="Parameterized route"></a>Parameterized route</h3><p>Hero의 아이디를 URL에 추가할 수 있습니다. id가 11인 Hero에게 라우팅할 때 다음과 같은 URL을 사용할 수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/detail/11</div></pre></td></tr></table></figure>
+<p>URL의 <code>/detail/</code> 부분은 상수입니다. 후행 숫자 <code>id</code>는 Hero에서 Hero로 바뀝니다. Hero의 <code>id</code>를 나타내는 파라미터 (또는 토큰)로 라우트의 변수 부분을 나타낼 필요가 있습니다.</p>
+<h3 id="파라미터를-이용한-라우트-설정"><a href="#파라미터를-이용한-라우트-설정" class="headerlink" title="파라미터를 이용한 라우트 설정"></a>파라미터를 이용한 라우트 설정</h3><p>다음 라우트 정의를 사용합니다.</p>
+<p><strong>src/app/app.module.ts (hero detail)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  path: <span class="string">'detail/:id'</span>,</div><div class="line">  component: HeroDetailComponent</div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<p>Path의 콜론(<code>:</code>)은 <code>HeroDetailComponent</code>로 Navigating할 때 <code>:id</code>가 특정 Hero id의 값임을 나타냅니다.</p>
+<blockquote>
+<p>이 라우트를 생성하기 전에 HeroDetailComponent를 <code>import</code> 해야합니다.</p>
+</blockquote>
+<p>앱 라우트가 완성되었습니다.</p>
+<p>사용자가 특정 Hero을보기 위해 Navigation 링크를 클릭하지 않기 때문에 템플릿에 <code>&#39;Hero Detail&#39;</code>링크를 추가하지 않았습니다. 이름이 Dashboard에 표시되는지 또는 Hero들 목록에 표시되는지 여부와 관계없이 Hero 이름을 클릭합니다.</p>
+<p><code>HeroDetailComponent</code>가 수정되어 Navigate할 준비가될 때까지는 Hero 클릭을 추가할 필요가 없습니다.</p>
+<h2 id="HeroDetailComponent-변경"><a href="#HeroDetailComponent-변경" class="headerlink" title="HeroDetailComponent 변경"></a>HeroDetailComponent 변경</h2><p>다음은 <code>HeroDetailComponent</code>의 현재 모습입니다.</p>
+<p><strong>src/app/hero-detail.component.ts (current)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component, Input &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123; Hero &#125; <span class="keyword">from</span> <span class="string">'./hero'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'hero-detail'</span>,</div><div class="line">  template: <span class="string">`</span></div><div class="line">    &lt;div *ngIf="hero"&gt;</div><div class="line">      &lt;h2&gt;&#123;&#123;hero.name&#125;&#125; details!&lt;/h2&gt;</div><div class="line">      &lt;div&gt;</div><div class="line">        &lt;label&gt;id: &lt;/label&gt;&#123;&#123;hero.id&#125;&#125;</div><div class="line">      &lt;/div&gt;</div><div class="line">      &lt;div&gt;</div><div class="line">        &lt;label&gt;name: &lt;/label&gt;</div><div class="line">        &lt;input [(ngModel)]="hero.name" placeholder="name"/&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> HeroDetailComponent &#123;</div><div class="line">  <span class="meta">@Input</span>() hero: Hero;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>템플릿은 변경되지 않습니다. Hero 이름도 같은 방식으로 표시됩니다. 주요 변경 사항은 Hero 이름을 얻는 방법에 의해 결정됩니다.</p>
+<p>부모 <em>Component</em> 프로퍼티 바인딩에서 Hero을 더이상 받지 않게됩니다. 새로운 <code>HeroDetailComponent</code>는 <a href="https://angular.io/api/router/ActivatedRoute" target="_blank" rel="external">ActivatedRoute</a> <em>Service</em>의 Observable <code>paramMap</code>에서 <code>id</code> 파라미터를 가져오고 <code>HeroService</code>를 사용하여 해당 <code>id</code>의 Hero을 가져와야합니다.</p>
+<p>다음 <code>import</code>를 추가하십시오.</p>
+<p><strong>src/app/hero-detail.component.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 지금은 Input import를 유지하지만 나중에는 제거합니다.</span></div><div class="line"><span class="keyword">import</span> &#123; Component, Input, OnInit &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123; ActivatedRoute, ParamMap &#125; <span class="keyword">from</span> <span class="string">'@angular/router'</span>;</div><div class="line"><span class="keyword">import</span> &#123; Location &#125;                 <span class="keyword">from</span> <span class="string">'@angular/common'</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> &#123; HeroService &#125; <span class="keyword">from</span> <span class="string">'./hero.service'</span>;</div></pre></td></tr></table></figure></p>
+<p><code>ActivatedRoute</code>, <code>HeroService</code> 및 <code>Location</code> <em>Service</em>를 생성자에서 주입받아 private 필드에 할당합니다.</p>
+<p><strong>src/app/hero-detail.component.ts (constructor)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">constructor</span>(<span class="params"></span></div><div class="line">  <span class="keyword">private</span> heroService: HeroService,</div><div class="line">  <span class="keyword">private</span> route: ActivatedRoute,</div><div class="line">  <span class="keyword">private</span> location: Location</div><div class="line">) &#123;&#125;</div></pre></td></tr></table></figure></p>
+<p><code>switchMap</code> 연산자를 가져 와서 나중에 <code>Observable</code> 매개 변수로 사용합니다.</p>
+<p><strong>src/app/hero-detail.component.ts (switchMap import)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">'rxjs/add/operator/switchMap'</span>;</div></pre></td></tr></table></figure></p>
+<p>클래스에서 <code>OnInit</code> 인터페이스를 구현합니다.</p>
+<p><strong>src/app/hero-detail.component.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> HeroDetailComponent <span class="keyword">implements</span> OnInit &#123;</div></pre></td></tr></table></figure></p>
+<p><code>ngOnInit()</code> 라이프 사이클 훅 내에서 <code>paramMap</code> Observable을 사용하여 <code>ActivatedRoute</code> 서비스에서 <code>id</code> 파라미터 값을 추출하고 <code>HeroService</code>를 사용하여 그 <code>id</code>를 가진 영웅을 가져옵니다.</p>
+<p><strong>src/app/hero-detail.component.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ngOnInit(): <span class="built_in">void</span> &#123;</div><div class="line">  <span class="keyword">this</span>.route.paramMap</div><div class="line">    .switchMap(<span class="function">(<span class="params">params: ParamMap</span>) =&gt;</span> <span class="keyword">this</span>.heroService.getHero(+params.get(<span class="string">'id'</span>)))</div><div class="line">    .subscribe(<span class="function"><span class="params">hero</span> =&gt;</span> <span class="keyword">this</span>.hero = hero);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>switchMap</code> 연산자는 <code>Observable</code> 라우트 파라미터의<code>id</code>를 <code>HeroService.getHero()</code>메소드의 결과인 새로운 <code>Observable</code>에 매핑합니다.</p>
+<p><code>getHero</code> 요청이 처리되는 동안 사용자가 이 <em>Component</em>를 다시 탐색하면 <code>switchMap</code>은 이전 요청을 취소한 다음 <code>HeroService.getHero()</code>를 다시 호출합니다.</p>
+<p>Hero <code>id</code>는 숫자입니다. 라우트 파라미터는 항상 문자열입니다. 따라서 라우트 파라미터는 JavaScript(<code>+</code>) 연산자를 사용하여 숫자로 변환됩니다.</p>
+<blockquote>
+<p><strong>구독 취소(unsubscribe)가 필요합니까?</strong><br><a href="https://angular.io/guide/router" target="_blank" rel="external">Routing &amp; Navigation</a> 페이지의 <a href="https://angular.io/guide/router#activated-route" target="_blank" rel="external">라우트 정보에 대한 one-stop-shop인 ActivatedRoute</a>에서 설명한대로 <a href="https://angular.io/api/router/Router" target="_blank" rel="external">Router</a>는 제공하는 Observable 정보를 관리하고 구독을 Localizes합니다. 구독은 <em>Component</em>가 소멸될 때 정리되어 메모리 누수를 방지하므로 <code>paramMap</code> Observable 라우트에서 구독을 취소할 필요가 없습니다. </p>
+</blockquote>
+<h3 id="HeroService-getHero-추가"><a href="#HeroService-getHero-추가" class="headerlink" title="HeroService.getHero() 추가"></a>HeroService.getHero() 추가</h3><p>이전 코드에서 <code>HeroService</code>에는 <code>getHero()</code> 메서드가 없습니다. 이 문제를 해결하려면 <code>HeroService</code>를 열고 <code>getHeroes()</code>에서 Heroes 목록을 <code>id</code>로 필터링하는 <code>getHero()</code> 메서드를 추가합니다.</p>
+<p><strong>src/app/hero.service.ts (getHero)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">getHero(id: <span class="built_in">number</span>): <span class="built_in">Promise</span>&lt;Hero&gt; &#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.getHeroes()</div><div class="line">             .then(<span class="function"><span class="params">heroes</span> =&gt;</span> heroes.find(<span class="function"><span class="params">hero</span> =&gt;</span> hero.id === id));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="뒤로가기-방법-추가"><a href="#뒤로가기-방법-추가" class="headerlink" title="뒤로가기 방법 추가"></a>뒤로가기 방법 추가</h3><p>사용자는 여러 가지 방법으로 <code>HeroDetailComponent</code>로 Navigate할 수 있습니다.</p>
+<p>다른 곳을 Navigate하기 위해, 사용자는 <code>AppComponent</code>의 두 링크 중 하나를 클릭하거나 브라우저의 뒤로 버튼을 클릭할 수 있습니다. 이제 이전에 삽입 한 <a href="https://angular.io/api/common/Location" target="_blank" rel="external">Location</a> <em>Service</em>를 사용하여 브라우저 히스토리 스택의 한 단계 뒤로 탐색하는<code>goBack()</code> 메서드를 추가합니다.</p>
+<p><strong>src/app/hero-detail.component.ts (goBack)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">goBack(): <span class="built_in">void</span> &#123;</div><div class="line">  <span class="keyword">this</span>.location.back();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>너무 멀리 되돌아 가면 사용자가 앱에서 빠져 나올 수 있습니다. 실제 앱에서는 <code>CanDeactivate</code> 가드로 이 문제를 방지할 수 있습니다. <a href="https://angular.io/api/router/CanDeactivate" target="_blank" rel="external">CanDeactivate</a> 페이지에서 자세한 내용을 읽어보십시오.</p>
+</blockquote>
+<p>이 메소드를 <em>Component</em> 템플릿에 추가할 <em>Back</em> 버튼에 대한 이벤트 바인딩으로 연결합니다.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">button</span> (<span class="attr">click</span>)=<span class="string">"goBack()"</span>&gt;</span>Back<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>템플릿을 <code>hero-detail.component.html</code> 파일로 옮깁니다.</p>
+<p><strong>src/app/hero-detail.component.html</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngIf</span>=<span class="string">"hero"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">h2</span>&gt;</span>&#123;&#123;hero.name&#125;&#125; details!<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">label</span>&gt;</span>id: <span class="tag">&lt;/<span class="name">label</span>&gt;</span>&#123;&#123;hero.id&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">label</span>&gt;</span>name: <span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> [(<span class="attr">ngModel</span>)]=<span class="string">"hero.name"</span> <span class="attr">placeholder</span>=<span class="string">"name"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">button</span> (<span class="attr">click</span>)=<span class="string">"goBack()"</span>&gt;</span>Back<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>방금 만든 템플릿 파일을 가리키는 <code>templateUrl</code>을 사용하여 <em>Component</em> 메타 데이터를 업데이트합니다.</p>
+<p><strong>src/app/hero-detail.component.ts (metadata)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'hero-detail'</span>,</div><div class="line">  templateUrl: <span class="string">'./hero-detail.component.html'</span>,</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>브라우저를 새로 고치고 결과를 확인합니다.</p>
+<h2 id="Dashboard-Hero-선택"><a href="#Dashboard-Hero-선택" class="headerlink" title="Dashboard Hero 선택"></a>Dashboard Hero 선택</h2><p>사용자가 대시 보드에서 Hero을 선택하면 앱이 <code>HeroDetailComponent</code>로 이동하여 선택한 Hero을 보고 편집해야합니다.</p>
+<p>대시 보드 Hero는 버튼과 같은 블록으로 표시되지만 앵커 태그처럼 행동해야합니다. Hero 블록 위로 마우스를 가져 가면 대상 URL이 브라우저 상태 표시 줄에 표시되고 사용자는 링크를 복사하거나 Hero 상세보기를 새 탭에 열 수 있습니다.</p>
+<p>이 효과를 얻으려면 <code>dashboard.component.html</code>을 다시 열고 반복된 <code>&lt;div * ngFor ...&gt;</code>태그를 <code>&lt;a&gt;</code>태그로 수정합니다. 여는 <code>&lt;a&gt;</code>태그를 다음과 같이 변경합니다.</p>
+<p><strong>src/app/dashboard.component.html (repeated <a> tag)</a></strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> *<span class="attr">ngFor</span>=<span class="string">"let hero of heroes"</span>  [<span class="attr">routerLink</span>]=<span class="string">"['/detail', hero.id]"</span>  <span class="attr">class</span>=<span class="string">"col-1-4"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>[routerLink]</code> 바인딩에 주목하십시오. 이 페이지의 <code>Router</code> 링크 섹션에서 설명했듯이, <code>AppComponent</code> 템플릿의 최상위 Navigation은 목적지 링크 <code>&quot;/dashboard&quot;</code>와 <code>&quot;/heroes&quot;</code>의 고정 경로로 설정된 라우터 링크를 가지고 있습니다.</p>
+<p>이번에는 <em>링크 파라미터 배열</em>을 포함하는 표현식에 바인딩됩니다. 배열은 대상 라우트의 <em>Path</em>와 현재 Hero의 <code>id</code> 값으로 설정된 라우트 파라미터라는 두가지 요소를 가지고 있습니다.</p>
+<p>두 개의 배열 항목은 이전에 <code>app.module.ts</code>에 추가한 Hero 세부 라우트 정의의 Path와 <code>:id</code> 토큰에 매핑됩니다.</p>
+<p><strong>src/app/app.module.ts (hero detail)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  path: <span class="string">'detail/:id'</span>,</div><div class="line">  component: HeroDetailComponent</div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<p>브라우저를 새로 고치고 대시 보드에서 Hero을 선택합니다. 그리고 Hero의 세부 사항을 Navigate합니다.</p>
+<h2 id="라우트를-라우팅모듈로-리팩토링"><a href="#라우트를-라우팅모듈로-리팩토링" class="headerlink" title="라우트를 라우팅모듈로 리팩토링"></a>라우트를 라우팅모듈로 리팩토링</h2><p><code>AppModule</code>의 약 20개의 라인이 4개의 라우트 구성에 사용됩니다. 대부분의 응용 프로그램에는 더 많은 라우트가 있으며 원하지 않거나 권한이 없는 Navigation을 방지하기 위해 Guard <em>Service</em>가 추가됩니다. <a href="https://angular.io/guide/router" target="_blank" rel="external">Routing &amp; Navigation</a> 페이지의 <a href="https://angular.io/guide/router#guards" target="_blank" rel="external">Route Guards</a> 섹션에서 Guard <em>Service</em>에 대해 자세히 알아보십시오. 라우팅은 모듈을 복잡하게 하고, Angular 컴파일러가 전체 앱에 대한 주요 내용을 판단하는 주된 목적을 불분명하게합니다.</p>
+<p>라우팅 구성을 자체 클래스로 리팩토링하는 것이 좋습니다. 현재 <code>RouterModule.forRoot()</code>는 Angular <code>ModuleWithProviders</code>를 생성합니다. 라우팅 전용 클래스는 <em>routing module</em>이어야합니다. 자세한 내용은 <a href="https://angular.io/guide/router" target="_blank" rel="external">Routing &amp; Navigation</a> 페이지의 <a href="https://angular.io/guide/router#routing-module" target="_blank" rel="external">Milestone #2: Routing Module</a> 섹션을 참조하십시오.</p>
+<p>규칙에 따라 라우팅 모듈 이름에는 “Routing”이라는 단어가 포함되어 있으며 Navigate된 <em>Component</em>를 선언하는 모듈의 이름과 맞춰야합니다.</p>
+<p><code>app-routing.module.ts</code> 파일을 <code>app.module.ts</code>와 같은 레벨로 만듭니다. <code>AppModule</code> 클래스에서 추출한 다음 내용을 포함합니다.</p>
+<p><strong>src/app/app-routing.module.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; NgModule &#125;             <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123; RouterModule, Routes &#125; <span class="keyword">from</span> <span class="string">'@angular/router'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; DashboardComponent &#125;   <span class="keyword">from</span> <span class="string">'./dashboard.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroesComponent &#125;      <span class="keyword">from</span> <span class="string">'./heroes.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroDetailComponent &#125;  <span class="keyword">from</span> <span class="string">'./hero-detail.component'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">const</span> routes: Routes = [</div><div class="line">  &#123; path: <span class="string">''</span>, redirectTo: <span class="string">'/dashboard'</span>, pathMatch: <span class="string">'full'</span> &#125;,</div><div class="line">  &#123; path: <span class="string">'dashboard'</span>,  component: DashboardComponent &#125;,</div><div class="line">  &#123; path: <span class="string">'detail/:id'</span>, component: HeroDetailComponent &#125;,</div><div class="line">  &#123; path: <span class="string">'heroes'</span>,     component: HeroesComponent &#125;</div><div class="line">];</div><div class="line"> </div><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  imports: [ RouterModule.forRoot(routes) ],</div><div class="line">  exports: [ RouterModule ]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppRoutingModule &#123;&#125;</div></pre></td></tr></table></figure></p>
+<p>라우팅 모듈의 일반적인 특징은 다음과 같습니다.</p>
+<ul>
+<li>라우팅 모듈은 라우트(경로)를 변수로 가져옵니다. 변수는 나중에 모듈을 <code>export</code>할 경우 라우팅 모듈 패턴을 명확하게합니다.</li>
+<li>라우팅 모듈은 <code>import</code>에 <code>RouterModule.forRoot (routes)</code>를 추가합니다.</li>
+<li>라우팅 모듈은 <code>RouterModule</code>을 <code>export</code>에 추가하여 사용하는 모듈의 <em>Component</em>가 <code>RouterLink</code> 및 <code>RouterOutlet</code>과 같은 라우터 선언문에 액세스할 수 있도록합니다.</li>
+<li><code>declarations</code>이 없습니다. <code>declarations</code>은 사용하는 모듈의 책임입니다.</li>
+<li>Guard <em>Service</em>가있는 경우 라우팅 모듈은 모듈 <code>providers</code>를 추가합니다. 이 예제에서는 아무 것도 없습니다.</li>
+</ul>
+<h3 id="Update-AppModule"><a href="#Update-AppModule" class="headerlink" title="Update AppModule"></a>Update AppModule</h3><p><code>AppModule</code>에서 라우팅 설정을 삭제하고 <code>AppRoutingModule</code>에 가져옵니다. ES2015 <code>import</code> 문을 사용하여 <code>NgModule.imports</code> 목록에 추가합니다.</p>
+<p>아래는 리팩토링 전의 상태와 비교한, 수정된 AppModule이 있습니다.</p>
+<p><strong>src/app/app.module.ts (after)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; NgModule &#125;       <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123; BrowserModule &#125;  <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</div><div class="line"><span class="keyword">import</span> &#123; FormsModule &#125;    <span class="keyword">from</span> <span class="string">'@angular/forms'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; AppComponent &#125;         <span class="keyword">from</span> <span class="string">'./app.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; DashboardComponent &#125;   <span class="keyword">from</span> <span class="string">'./dashboard.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroDetailComponent &#125;  <span class="keyword">from</span> <span class="string">'./hero-detail.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroesComponent &#125;      <span class="keyword">from</span> <span class="string">'./heroes.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroService &#125;          <span class="keyword">from</span> <span class="string">'./hero.service'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; AppRoutingModule &#125;     <span class="keyword">from</span> <span class="string">'./app-routing.module'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  imports: [</div><div class="line">    BrowserModule,</div><div class="line">    FormsModule,</div><div class="line">    AppRoutingModule</div><div class="line">  ],</div><div class="line">  declarations: [</div><div class="line">    AppComponent,</div><div class="line">    DashboardComponent,</div><div class="line">    HeroDetailComponent,</div><div class="line">    HeroesComponent</div><div class="line">  ],</div><div class="line">  providers: [ HeroService ],</div><div class="line">  bootstrap: [ AppComponent ]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123; &#125;</div></pre></td></tr></table></figure></p>
+<p><strong>src/app/app.module.ts (before)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; NgModule &#125;       <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123; BrowserModule &#125;  <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</div><div class="line"><span class="keyword">import</span> &#123; FormsModule &#125;    <span class="keyword">from</span> <span class="string">'@angular/forms'</span>;</div><div class="line"><span class="keyword">import</span> &#123; RouterModule &#125;   <span class="keyword">from</span> <span class="string">'@angular/router'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; AppComponent &#125;        <span class="keyword">from</span> <span class="string">'./app.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroDetailComponent &#125; <span class="keyword">from</span> <span class="string">'./hero-detail.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; DashboardComponent &#125;  <span class="keyword">from</span> <span class="string">'./dashboard.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroesComponent &#125;     <span class="keyword">from</span> <span class="string">'./heroes.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroService &#125;         <span class="keyword">from</span> <span class="string">'./hero.service'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  imports: [</div><div class="line">    BrowserModule,</div><div class="line">    FormsModule,</div><div class="line">    RouterModule.forRoot([</div><div class="line">      &#123;</div><div class="line">        path: <span class="string">''</span>,</div><div class="line">        redirectTo: <span class="string">'/dashboard'</span>,</div><div class="line">        pathMatch: <span class="string">'full'</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        path: <span class="string">'dashboard'</span>,</div><div class="line">        component: DashboardComponent</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        path: <span class="string">'detail/:id'</span>,</div><div class="line">        component: HeroDetailComponent</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        path: <span class="string">'heroes'</span>,</div><div class="line">        component: HeroesComponent</div><div class="line">      &#125;</div><div class="line">    ])</div><div class="line">  ],</div><div class="line">  declarations: [</div><div class="line">    AppComponent,</div><div class="line">    DashboardComponent,</div><div class="line">    HeroDetailComponent,</div><div class="line">    HeroesComponent</div><div class="line">  ],</div><div class="line">  providers: [</div><div class="line">    HeroService</div><div class="line">  ],</div><div class="line">  bootstrap: [ AppComponent ]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>수정 및 단순화된 <code>AppModule</code>은 앱의 주요 부분을 식별하는데 중점을 둡니다.</p>
+<h2 id="HeroesComponent에서-Hero-선택"><a href="#HeroesComponent에서-Hero-선택" class="headerlink" title="HeroesComponent에서 Hero 선택"></a>HeroesComponent에서 Hero 선택</h2><p><code>HeroesComponent</code>에서 현재 템플릿은 “master/detail” 스타일로 위에 Heroes 목록을 보여주고 아래에 선택된 Hero의 세부 사항을 보여줍니다.</p>
+<p><strong>src/app/heroes.component.ts (current template)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">template: <span class="string">`</span></div><div class="line">  &lt;h1&gt;&#123;&#123;title&#125;&#125;&lt;/h1&gt;</div><div class="line">  &lt;h2&gt;My Heroes&lt;/h2&gt;</div><div class="line">  &lt;ul class="heroes"&gt;</div><div class="line">    &lt;li *ngFor="let hero of heroes"</div><div class="line">      [class.selected]="hero === selectedHero"</div><div class="line">      (click)="onSelect(hero)"&gt;</div><div class="line">      &lt;span class="badge"&gt;&#123;&#123;hero.id&#125;&#125;&lt;/span&gt; &#123;&#123;hero.name&#125;&#125;</div><div class="line">    &lt;/li&gt;</div><div class="line">  &lt;/ul&gt;</div><div class="line">  &lt;hero-detail [hero]="selectedHero"&gt;&lt;/hero-detail&gt;</div><div class="line">`,</div></pre></td></tr></table></figure></p>
+<p>맨 위에있는 <code>&lt;h1&gt;</code>을 삭제합니다.</p>
+<p>템플릿의 마지막줄에 있는 <code>&lt;hero-detail&gt;</code> 태그를 삭제합니다.</p>
+<p>더 이상 <code>HeroDetailComponent</code> 전체를 표시하지 않습니다. 대신 자신의 페이지에 Hero 상세를 표시하고 대시 보드에서 했던것처럼 Hero 상세를 전달합니다.</p>
+<p>그러나 사용자가 목록에서 Hero을 선택하면 상세 보기 페이지로 이동하지 않습니다. 대신이 페이지에서 상세 보기를 볼 수 있으며 전체 상세보기 페이지로 이동하려면 버튼을 클릭해야합니다.</p>
+<h3 id="mini-상세보기-추가"><a href="#mini-상세보기-추가" class="headerlink" title="mini 상세보기 추가"></a><em>mini</em> 상세보기 추가</h3><p><code>&lt;hero-detail&gt;</code>을 사용되었던 템플릿의 맨 아래에 다음 HTML을 추가합니다.</p>
+<p><strong>src/app/heroes.component.ts</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngIf</span>=<span class="string">"selectedHero"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">h2</span>&gt;</span></div><div class="line">    &#123;&#123;selectedHero.name | uppercase&#125;&#125; is my hero</div><div class="line">  <span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">button</span> (<span class="attr">click</span>)=<span class="string">"gotoDetail()"</span>&gt;</span>View Details<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Hero를 클릭하면 사용자는 Hero들 목록 아래에 다음과 같은 내용을 보게됩니다.</p>
+<p><img src="https://angular.io/generated/images/guide/toh/mini-hero-detail.png" alt=""></p>
+<h3 id="uppercase-Pipe를-이용한-서식"><a href="#uppercase-Pipe를-이용한-서식" class="headerlink" title="uppercase Pipe를 이용한 서식"></a><code>uppercase</code> <em>Pipe</em>를 이용한 서식</h3><p>Hero의 이름은 <em>Pipe</em> 연산자 (<code>|</code>) 바로 뒤에있는 <code>uppercase</code> <em>Pipe</em> 때문에 대문자로 표시됩니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&#123;selectedHero.name | uppercase&#125;&#125; is my hero</div></pre></td></tr></table></figure>
+<p><em>Pipe</em>는 문자열, 통화 금액, 날짜 및 기타 디스플레이 데이터의 서식을 지정하는 좋은 방법입니다. Angular에서 제공하는 여러가지 <em>Pipe</em>를 사용하거나 직접 작성할 수 있습니다.</p>
+<blockquote>
+<p><em>Pipe</em>에 대한 자세한 내용은 <a href="https://angular.io/guide/pipes" target="_blank" rel="external">Pipe</a> 페이지를 참조하십시오.</p>
+</blockquote>
+<h3 id="Content를-Component-파일-밖으로-이동"><a href="#Content를-Component-파일-밖으로-이동" class="headerlink" title="Content를 Component 파일 밖으로 이동"></a>Content를 <em>Component</em> 파일 밖으로 이동</h3><p>사용자가 <em>View Details</em> 버튼을 클릭할 때 <code>HeroDetailComponent</code>에 대한 Navigation을 지원하도록 <em>Component</em> 클래스를 업데이트 해야합니다.</p>
+<p><em>Component</em> 파일은 큽니다. HTML과 CSS 속에서 컴포넌트 로직을 찾는 것은 어렵습니다.</p>
+<p>더 변경하기 전에 템플릿과 Style을 자체 파일로 마이그레이션합니다.</p>
+<p>먼저, 템플릿 컨텐츠를 <code>heroes.component.ts</code>에서 새로운 <code>heroes.component.html</code> 파일로 이동합니다. 그러나 백틱은 복사하지 않습니다. <code>heroes.component.ts</code>에 관해서는 잠시 후에 살펴보겠습니다. 다음으로, Style 내용을 새로운 <code>heroes.component.css</code> 파일로 이동합니다.</p>
+<p>새로운 두개의 파일은 다음과 같아야합니다.</p>
+<p><strong>src/app/heroes.component.html</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>My Heroes<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"heroes"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> *<span class="attr">ngFor</span>=<span class="string">"let hero of heroes"</span></span></div><div class="line">    [<span class="attr">class.selected</span>]=<span class="string">"hero === selectedHero"</span></div><div class="line">    (<span class="attr">click</span>)=<span class="string">"onSelect(hero)"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"badge"</span>&gt;</span>&#123;&#123;hero.id&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span> &#123;&#123;hero.name&#125;&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngIf</span>=<span class="string">"selectedHero"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">h2</span>&gt;</span></div><div class="line">    &#123;&#123;selectedHero.name | uppercase&#125;&#125; is my hero</div><div class="line">  <span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">button</span> (<span class="attr">click</span>)=<span class="string">"gotoDetail()"</span>&gt;</span>View Details<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>src/app/heroes.component.css</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.selected</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#CFD8DC</span> <span class="meta">!important</span>;</div><div class="line">  <span class="attribute">color</span>: white;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.heroes</span> &#123;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">2em</span> <span class="number">0</span>;</div><div class="line">  <span class="attribute">list-style-type</span>: none;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">15em</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.heroes</span> <span class="selector-tag">li</span> &#123;</div><div class="line">  <span class="attribute">cursor</span>: pointer;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#EEE</span>;</div><div class="line">  <span class="attribute">margin</span>: .<span class="number">5em</span>;</div><div class="line">  <span class="attribute">padding</span>: .<span class="number">3em</span> <span class="number">0</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">1.6em</span>;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">4px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.heroes</span> <span class="selector-tag">li</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#607D8B</span>;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#DDD</span>;</div><div class="line">  <span class="attribute">left</span>: .<span class="number">1em</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.heroes</span> <span class="selector-tag">li</span><span class="selector-class">.selected</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#BBD8DC</span> <span class="meta">!important</span>;</div><div class="line">  <span class="attribute">color</span>: white;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.heroes</span> <span class="selector-class">.text</span> &#123;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">top</span>: -<span class="number">3px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.heroes</span> <span class="selector-class">.badge</span> &#123;</div><div class="line">  <span class="attribute">display</span>: inline-block;</div><div class="line">  <span class="attribute">font-size</span>: small;</div><div class="line">  <span class="attribute">color</span>: white;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">0.8em</span> <span class="number">0.7em</span> <span class="number">0</span> <span class="number">0.7em</span>;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#607D8B</span>;</div><div class="line">  <span class="attribute">line-height</span>: <span class="number">1em</span>;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">left</span>: -<span class="number">1px</span>;</div><div class="line">  <span class="attribute">top</span>: -<span class="number">4px</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">1.8em</span>;</div><div class="line">  <span class="attribute">margin-right</span>: .<span class="number">8em</span>;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">4px</span> <span class="number">0</span> <span class="number">0</span> <span class="number">4px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">button</span> &#123;</div><div class="line">  <span class="attribute">font-family</span>: Arial;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#eee</span>;</div><div class="line">  <span class="attribute">border</span>: none;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">5px</span> <span class="number">10px</span>;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">4px</span>;</div><div class="line">  <span class="attribute">cursor</span>: pointer;</div><div class="line">  <span class="attribute">cursor</span>: hand;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">button</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#cfd8dc</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>이제 <code>heroes.component.ts</code>에 대한 <em>Component</em> 메타 데이터로 돌아가 <code>template</code>과 <code>styles</code>을 삭제하고 각각을 <code>templateUrl</code>과 <code>styleUrls</code>로 수정합니다. 그리고 새로운 파일을 참조하도록 해당 프로퍼티를 변경합니다.</p>
+<p><strong>src/app/heroes.component.ts (revised metadata)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'my-heroes'</span>,</div><div class="line">  templateUrl: <span class="string">'./heroes.component.html'</span>,</div><div class="line">  styleUrls: [ <span class="string">'./heroes.component.css'</span> ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><code>styleUrls</code> 프로퍼티는 Style 파일 이름의 배열입니다 (경로 포함). 필요한 경우 다른 위치의 여러 Style 파일을 나열할 수 있습니다.</p>
+</blockquote>
+<h3 id="HeroesComponent-클래스-업데이트"><a href="#HeroesComponent-클래스-업데이트" class="headerlink" title="HeroesComponent 클래스 업데이트"></a>HeroesComponent 클래스 업데이트</h3><p><code>HeroesComponent</code>는 버튼 클릭에 대한 응답으로 <code>HeroesDetailComponent</code>로 Navigate합니다. 버튼의 클릭 이벤트는 라우터에게 어디로 가야 하는지를 알려줌으로써 명령형으로 Navigate하는 <code>gotoDetail()</code> 메서드에 묶여있습니다.</p>
+<p>이 방법을 사용하려면 <em>Component</em> 클래스를 다음과 같이 변경해야합니다.</p>
+<ol>
+<li>Angular <em>Router</em> 라이브러리에서 <em>Router</em>를 <code>import</code>합니다.</li>
+<li><code>HeroService</code>의 생성자에 <em>Router</em>를 주입합니다.</li>
+<li><em>Router</em>의 <code>navigate()</code> 메서드에서 호출할 <code>goDetail()</code> 메서드를 구현합니다.</li>
+</ol>
+<p><strong>src/app/heroes.component.ts (gotoDetail)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">gotoDetail(): <span class="built_in">void</span> &#123;</div><div class="line">  <span class="keyword">this</span>.router.navigate([<span class="string">'/detail'</span>, <span class="keyword">this</span>.selectedHero.id]);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>DashboardComponent</code>의 <code>[routerLink]</code> 바인딩에서 했던 것처럼 두개의 엘리먼트로된 링크 파라미터 배열 (Path와 라우트 파라미터)을 라우터의  <code>navigate()</code> 메서드에 전달한다는 것에 주의합니다. 아래는 수정된 <code>HeroesComponent</code> 클래스입니다.</p>
+<p><strong>src/app/heroes.component.ts (class)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> HeroesComponent <span class="keyword">implements</span> OnInit &#123;</div><div class="line">  heroes: Hero[];</div><div class="line">  selectedHero: Hero;</div><div class="line"> </div><div class="line">  <span class="keyword">constructor</span>(<span class="params"></span></div><div class="line">    <span class="keyword">private</span> router: Router,</div><div class="line">    <span class="keyword">private</span> heroService: HeroService) &#123; &#125;</div><div class="line"> </div><div class="line">  getHeroes(): <span class="built_in">void</span> &#123;</div><div class="line">    <span class="keyword">this</span>.heroService.getHeroes().then(<span class="function"><span class="params">heroes</span> =&gt;</span> <span class="keyword">this</span>.heroes = heroes);</div><div class="line">  &#125;</div><div class="line"> </div><div class="line">  ngOnInit(): <span class="built_in">void</span> &#123;</div><div class="line">    <span class="keyword">this</span>.getHeroes();</div><div class="line">  &#125;</div><div class="line"> </div><div class="line">  onSelect(hero: Hero): <span class="built_in">void</span> &#123;</div><div class="line">    <span class="keyword">this</span>.selectedHero = hero;</div><div class="line">  &#125;</div><div class="line"> </div><div class="line">  gotoDetail(): <span class="built_in">void</span> &#123;</div><div class="line">    <span class="keyword">this</span>.router.navigate([<span class="string">'/detail'</span>, <span class="keyword">this</span>.selectedHero.id]);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>브라우저를 새로 고침하고 클릭합니다. 사용자는 Dashboard에서 Hero 상세보기, Heroes 목록에서 상세보기, Hero 상세보기, 다시 Heroes 목록으로 돌아갈 수 있습니다.</p>
+<p>이 페이지에서 추가한 모든 Navigation 요구 사항을 충족했습니다.</p>
+<h2 id="앱-Style"><a href="#앱-Style" class="headerlink" title="앱 Style"></a>앱 Style</h2><p>앱은 기능적이지만 Style이 필요합니다. 대시 보드 Hero는 사각형 row로 표시되어야합니다. 반응형 디자인을 위한 간단한 미디어 쿼리를 포함하여 약 60 줄의 CSS를 이 용도로 사용했습니다.</p>
+<p>알다시피, CSS를 <code>styles</code> 메타 데이터에 추가하면 <em>Component</em> 로직이 흐려집니다. 대신 CSS를 별도의 <code>.css</code> 파일로 저장합니다.</p>
+<p><code>dashboard.component.css</code> 파일을 app 폴더에 추가하고 <em>Component</em> 메타 데이터의 <code>styleUrls</code> 배열 프로퍼티에서 다음과 같이 이 파일을 참조합니다.</p>
+<p><strong>src/app/dashboard.component.ts (styleUrls)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">styleUrls: [ <span class="string">'./dashboard.component.css'</span> ]</div></pre></td></tr></table></figure></p>
+<h3 id="Hero-상세보기에-Style-추가"><a href="#Hero-상세보기에-Style-추가" class="headerlink" title="Hero 상세보기에 Style 추가"></a>Hero 상세보기에 Style 추가</h3><p>또한 <code>HeroDetailComponent</code> 용 CSS Style을 제공합니다.</p>
+<p><code>hero-detail.component.css</code>를 <code>app</code> 폴더에 추가하고 <code>styleUrls</code> 배열 안에 <code>DashboardComponent</code>에서 했던 것처럼 참조를 추가합니다. 또한 <code>hero-detail.component.ts</code>에서 <code>hero</code> 프로퍼티의 <code>@Input</code> <em>Decorator</em>와 <code>import</code>를 제거합니다.</p>
+<p>다음은 <em>Component</em>의 CSS 파일 내용입니다.</p>
+<p><strong>src/app/hero-detail.component.css</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">label</span> &#123;</div><div class="line">  <span class="attribute">display</span>: inline-block;</div><div class="line">  <span class="attribute">width</span>: <span class="number">3em</span>;</div><div class="line">  <span class="attribute">margin</span>: .<span class="number">5em</span> <span class="number">0</span>;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#607D8B</span>;</div><div class="line">  <span class="attribute">font-weight</span>: bold;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">input</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">2em</span>;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">1em</span>;</div><div class="line">  <span class="attribute">padding-left</span>: .<span class="number">4em</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">button</span> &#123;</div><div class="line">  <span class="attribute">margin-top</span>: <span class="number">20px</span>;</div><div class="line">  <span class="attribute">font-family</span>: Arial;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#eee</span>;</div><div class="line">  <span class="attribute">border</span>: none;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">5px</span> <span class="number">10px</span>;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">4px</span>;</div><div class="line">  <span class="attribute">cursor</span>: pointer; <span class="attribute">cursor</span>: hand;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">button</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#cfd8dc</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">button</span><span class="selector-pseudo">:disabled</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#eee</span>;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#ccc</span>; </div><div class="line">  <span class="attribute">cursor</span>: auto;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>src/app/dashboard.component.css</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"><span class="selector-attr">[class*='col-']</span> &#123;</div><div class="line">  <span class="attribute">float</span>: left;</div><div class="line">  <span class="attribute">padding-right</span>: <span class="number">20px</span>;</div><div class="line">  <span class="attribute">padding-bottom</span>: <span class="number">20px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-attr">[class*='col-']</span><span class="selector-pseudo">:last-of-type</span> &#123;</div><div class="line">  <span class="attribute">padding-right</span>: <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">a</span> &#123;</div><div class="line">  <span class="attribute">text-decoration</span>: none;</div><div class="line">&#125;</div><div class="line">*, *<span class="selector-pseudo">:after</span>, *<span class="selector-pseudo">:before</span> &#123;</div><div class="line">  <span class="attribute">-webkit-box-sizing</span>: border-box;</div><div class="line">  <span class="attribute">-moz-box-sizing</span>: border-box;</div><div class="line">  <span class="attribute">box-sizing</span>: border-box;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">h3</span> &#123;</div><div class="line">  <span class="attribute">text-align</span>: center; <span class="attribute">margin-bottom</span>: <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">h4</span> &#123;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.grid</span> &#123;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.col-1-4</span> &#123;</div><div class="line">  <span class="attribute">width</span>: <span class="number">25%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.module</span> &#123;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">20px</span>;</div><div class="line">  <span class="attribute">text-align</span>: center;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#eee</span>;</div><div class="line">  <span class="attribute">max-height</span>: <span class="number">120px</span>;</div><div class="line">  <span class="attribute">min-width</span>: <span class="number">120px</span>;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#607D8B</span>;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">2px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.module</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#EEE</span>;</div><div class="line">  <span class="attribute">cursor</span>: pointer;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#607d8b</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.grid-pad</span> &#123;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">10px</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.grid-pad</span> &gt; <span class="selector-attr">[class*='col-']</span><span class="selector-pseudo">:last-of-type</span> &#123;</div><div class="line">  <span class="attribute">padding-right</span>: <span class="number">20px</span>;</div><div class="line">&#125;</div><div class="line">@<span class="keyword">media</span> (max-width: <span class="number">600px</span>) &#123;</div><div class="line">  <span class="selector-class">.module</span> &#123;</div><div class="line">    <span class="attribute">font-size</span>: <span class="number">10px</span>;</div><div class="line">    <span class="attribute">max-height</span>: <span class="number">75px</span>; &#125;</div><div class="line">&#125;</div><div class="line">@<span class="keyword">media</span> (max-width: <span class="number">1024px</span>) &#123;</div><div class="line">  <span class="selector-class">.grid</span> &#123;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="selector-class">.module</span> &#123;</div><div class="line">    <span class="attribute">min-width</span>: <span class="number">60px</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Navigation-링크들에-Style-적용"><a href="#Navigation-링크들에-Style-적용" class="headerlink" title="Navigation 링크들에 Style 적용"></a>Navigation 링크들에 Style 적용</h3><p>제공된 CSS는 <code>AppComponent</code>의 Navigation 링크를 선택 가능한 버튼과 비슷하게 만듭니다. 이러한 링크는 <code>&lt;nav&gt;</code>태그로 감싸도록 하겠습니다.</p>
+<p>다음 내용으로 <code>app.component.css</code> 파일을 app 폴더에 추가합니다.</p>
+<p><strong>src/app/app.component.css (navigation styles)</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">h1</span> &#123;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">1.2em</span>;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#999</span>;</div><div class="line">  <span class="attribute">margin-bottom</span>: <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">h2</span> &#123;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">2em</span>;</div><div class="line">  <span class="attribute">margin-top</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">padding-top</span>: <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">nav</span> <span class="selector-tag">a</span> &#123;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">5px</span> <span class="number">10px</span>;</div><div class="line">  <span class="attribute">text-decoration</span>: none;</div><div class="line">  <span class="attribute">margin-top</span>: <span class="number">10px</span>;</div><div class="line">  <span class="attribute">display</span>: inline-block;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#eee</span>;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">4px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">nav</span> <span class="selector-tag">a</span><span class="selector-pseudo">:visited</span>, <span class="selector-tag">a</span><span class="selector-pseudo">:link</span> &#123;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#607D8B</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">nav</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#039be5</span>;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#CFD8DC</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">nav</span> <span class="selector-tag">a</span><span class="selector-class">.active</span> &#123;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#039be5</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>The routerLinkActive directive<br>Angular <em>Router</em>는 <code>routerLinkActive</code> <em>Directive</em>를 사용하여 라우트가 활성 라우트와 일치하는 HTML 탐색 요소에 클래스를 추가할 수 있습니다. 해야할 일은 Style을 정의하는 것뿐입니다.</p>
+</blockquote>
+<p><strong>src/app/app.component.ts (active router links)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">template: <span class="string">`</span></div><div class="line">  &lt;h1&gt;&#123;&#123;title&#125;&#125;&lt;/h1&gt;</div><div class="line">  &lt;nav&gt;</div><div class="line">    &lt;a routerLink="/dashboard" routerLinkActive="active"&gt;Dashboard&lt;/a&gt;</div><div class="line">    &lt;a routerLink="/heroes" routerLinkActive="active"&gt;Heroes&lt;/a&gt;</div><div class="line">  &lt;/nav&gt;</div><div class="line">  &lt;router-outlet&gt;&lt;/router-outlet&gt;</div><div class="line">`,</div></pre></td></tr></table></figure></p>
+<p>다음과 같이 이 CSS 파일을 참조하는 <code>styleUrls</code> 프로퍼티를 추가합니다.</p>
+<p><strong>src/app/app.component.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">styleUrls: [<span class="string">'./app.component.css'</span>],</div></pre></td></tr></table></figure></p>
+<h3 id="전체-앱-Style"><a href="#전체-앱-Style" class="headerlink" title="전체 앱 Style"></a>전체 앱 Style</h3><p><em>Component</em>에 Style을 추가하면 <em>Component</em>가 필요로하는 것을 HTML, CSS 및 코드 한 곳에 편리하게 보관할 수 있습니다. 패키지로 만들면 <em>Component</em>를 다른 곳에서 재사용하기 쉽습니다.</p>
+<p><em>Component</em> 외부의 응용 프로그램 레벨에서 Style을 만들 수도 있습니다.</p>
+<p>디자이너는 전체 앱의 엘리먼트에 적용할 수 있는 기본 Style을 제공합니다. 이는 <a href="https://angular.io/guide/setup" target="_blank" rel="external">setup</a> 중 이전에 설치 한 전체 마스터 Style 세트에 해당합니다. 다음은 일부 발췌한 내용입니다.</p>
+<p><strong>src/styles.css (excerpt)</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Master Styles */</span></div><div class="line"><span class="selector-tag">h1</span> &#123;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#369</span>;</div><div class="line">  <span class="attribute">font-family</span>: Arial, Helvetica, sans-serif;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">250%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">h2</span>, <span class="selector-tag">h3</span> &#123;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#444</span>;</div><div class="line">  <span class="attribute">font-family</span>: Arial, Helvetica, sans-serif;</div><div class="line">  <span class="attribute">font-weight</span>: lighter;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">2em</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">body</span>, <span class="selector-tag">input</span><span class="selector-attr">[text]</span>, <span class="selector-tag">button</span> &#123;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#888</span>;</div><div class="line">  <span class="attribute">font-family</span>: Cambria, Georgia;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* everywhere else */</span></div><div class="line">* &#123;</div><div class="line">  <span class="attribute">font-family</span>: Arial, Helvetica, sans-serif;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>styles.css</code> 파일을 만듭니다. 파일에 <a href="https://raw.githubusercontent.com/angular/angular/master/aio/tools/examples/shared/boilerplate/src/styles.css" target="_blank" rel="external">여기에 제공된 마스터 Style</a>을 포함합니다. 이 Style 시트를 참조하려면 index.html도 편집합니다.</p>
+<p><strong>src/index.html (link ref)</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"styles.css"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>지금 앱을 보면 대시 보드, Hero 및 Navigation 링크 Style이 지정되어 있습니다.</p>
+<p><img src="https://angular.io/generated/images/guide/toh/heroes-dashboard-1.png" alt=""></p>
+<h2 id="Application-구조와-코드"><a href="#Application-구조와-코드" class="headerlink" title="Application 구조와 코드"></a>Application 구조와 코드</h2><p>이 예제 페이지의 <a href="https://angular.io/generated/live-examples/toh-pt5/eplnkr.html" target="_blank" rel="external">라이브 예제</a>/<a href="https://angular.io/generated/zips/toh-pt5/toh-pt5.zip" target="_blank" rel="external">예제 다운로드</a>에서 샘플 소스 코드를 확인하십시오. 다음과 같은 구조인지 확인하십시오.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">angular-tour-of-heroes</div><div class="line"> ┣ src</div><div class="line"> ┃  ┣ app</div><div class="line"> ┃  ┃  ┣ app.component.ts</div><div class="line"> ┃  ┃  ┣ app.module.ts</div><div class="line"> ┃  ┃  ┣ app-routing.module.ts</div><div class="line"> ┃  ┃  ┣ dashboard.component.css</div><div class="line"> ┃  ┃  ┣ dashboard.component.html</div><div class="line"> ┃  ┃  ┣ dashboard.component.ts</div><div class="line"> ┃  ┃  ┣ hero.service.ts</div><div class="line"> ┃  ┃  ┣ hero.ts</div><div class="line"> ┃  ┃  ┣ hero-detail.component.css</div><div class="line"> ┃  ┃  ┣ hero-detail.component.html</div><div class="line"> ┃  ┃  ┣ hero-detail.component.ts</div><div class="line"> ┃  ┃  ┣ heroes.component.css</div><div class="line"> ┃  ┃  ┣ heroes.component.html</div><div class="line"> ┃  ┃  ┣ heroes.component.ts</div><div class="line"> ┃  ┃  ┗ mock-heroes.ts</div><div class="line"> ┃  ┣ main.ts</div><div class="line"> ┃  ┣ index.html</div><div class="line"> ┃  ┣ styles.css</div><div class="line"> ┃  ┣ systemjs.config.js</div><div class="line"> ┃  ┗ tsconfig.json</div><div class="line"> ┣ node_modules ...</div><div class="line"> ┗ package.json</div></pre></td></tr></table></figure>
+<h2 id="어디까지-했나"><a href="#어디까지-했나" class="headerlink" title="어디까지 했나?"></a>어디까지 했나?</h2><p>이 페이지에서 얻은 결과는 다음과 같습니다.</p>
+<ul>
+<li>각기 다른 <em>Component</em>를 Navigate하기 위해 Angular <em>Router</em>를 추가했습니다.</li>
+<li>탐색 메뉴 항목을 나타내는 라우터 링크를 만드는 방법을 배웠습니다.</li>
+<li>라우터 링크 파라미터를 사용하여 사용자가 선택한 Hero의 상세보기를 탐색했습니다.</li>
+<li>여러 <em>Component</em>간에 <code>HeroService</code>를 공유했습니다.</li>
+<li>HTML과 CSS를 컴포넌트 파일에서 자신의 파일로 옮겼습니다.</li>
+<li>데이터 서식을 지정하기 위해 <code>uppercase</code> <em>Pipe</em>를 추가했습니다.</li>
+</ul>
+<p>앱은 이 <a href="https://angular.io/generated/live-examples/toh-pt5/eplnkr.html" target="_blank" rel="external">라이브 예제</a>/<a href="https://angular.io/generated/zips/toh-pt5/toh-pt5.zip" target="_blank" rel="external">예제 다운로드</a>와 비슷해야합니다.</p>
+<h3 id="앞으로의-여정"><a href="#앞으로의-여정" class="headerlink" title="앞으로의 여정"></a>앞으로의 여정</h3><p>앱을 제작하는데 기초가 많이 필요합니다. 중요한 원격 데이터 액세스에 대한 부분이 빠져있습니다.</p>
+<p><a href="https://angular.io/tutorial/toh-pt6" target="_blank" rel="external">다음 튜토리얼</a> 페이지에서 Mock 데이터를 <code>http</code>를 사용하여 서버에서 검색한 데이터로 바꿀것이다.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://angular.io/tutorial/toh-pt5" target="_blank" rel="external">https://angular.io/tutorial/toh-pt5</a>]</p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-introduction/">Angular 튜토리얼 - 소개</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-the-hero-editor/">Angular 튜터리얼 - Hero 에디터</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-master-detail/">Angular 튜터리얼 - Master/Detail</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-multiple-components/">Angular 튜터리얼 - 다중 콤포넌트</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-services/">Angular 튜터리얼 - 서비스</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-http/">Angular 튜터리얼 - HTTP</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-http-client/">Angular HttpClient</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/angular-dynamic-component/">Angular 동적 컴포넌트 로딩</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2017/07/21/angular-tutorial-routing/" data-id="cjkl910220022jguzoefr5sei" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/07/21/angular-tutorial-services/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            Angular 튜터리얼 - 서비스
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/07/21/angular-tutorial-the-hero-editor/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">Angular 튜터리얼 - Hero 에디터</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2017/07/21/angular-tutorial-routing/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

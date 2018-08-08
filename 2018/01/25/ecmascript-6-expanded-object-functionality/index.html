@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>ECMAScript 6 객체의 확장된 기능 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="JavaScript,ECMAScript 2015" />
+    
+    <meta name="description" content="객체의 확장된 기능ECMAScript 6은 객체의 유용성을 향상 시키는데 중점을 두고 있습니다. 이것은 JavaScript의 거의 모든 값이 어떤 유형의 객체이기 때문에 의미가 있습니다. 또한 JavaScript 프로그램에 평균적으로 사용되는 객체의 수는 JavaScript 응용 프로그램의 복잡성이 증가함에 따라 계속 증가하고 있습니다. 이는 복잡한 프로그">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ECMAScript 6 객체의 확장된 기능">
+<meta property="og:url" content="http://infoscis.github.io/2018/01/25/ecmascript-6-expanded-object-functionality/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="객체의 확장된 기능ECMAScript 6은 객체의 유용성을 향상 시키는데 중점을 두고 있습니다. 이것은 JavaScript의 거의 모든 값이 어떤 유형의 객체이기 때문에 의미가 있습니다. 또한 JavaScript 프로그램에 평균적으로 사용되는 객체의 수는 JavaScript 응용 프로그램의 복잡성이 증가함에 따라 계속 증가하고 있습니다. 이는 복잡한 프로그">
+<meta property="og:updated_time" content="2018-02-27T14:12:12.901Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ECMAScript 6 객체의 확장된 기능">
+<meta name="twitter:description" content="객체의 확장된 기능ECMAScript 6은 객체의 유용성을 향상 시키는데 중점을 두고 있습니다. 이것은 JavaScript의 거의 모든 값이 어떤 유형의 객체이기 때문에 의미가 있습니다. 또한 JavaScript 프로그램에 평균적으로 사용되는 객체의 수는 JavaScript 응용 프로그램의 복잡성이 증가함에 따라 계속 증가하고 있습니다. 이는 복잡한 프로그">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2018/01/25/ecmascript-6-expanded-object-functionality/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-ecmascript-6-expanded-object-functionality" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        ECMAScript 6 객체의 확장된 기능
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2018/01/25/ecmascript-6-expanded-object-functionality/" class="article-date">
+            <time datetime="2018-01-25T14:51:56.000Z" itemprop="datePublished">2018-01-25</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a>, <a class="tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="객체의-확장된-기능"><a href="#객체의-확장된-기능" class="headerlink" title="객체의 확장된 기능"></a>객체의 확장된 기능</h1><p>ECMAScript 6은 객체의 유용성을 향상 시키는데 중점을 두고 있습니다. 이것은 JavaScript의 거의 모든 값이 어떤 유형의 객체이기 때문에 의미가 있습니다. 또한 JavaScript 프로그램에 평균적으로 사용되는 객체의 수는 JavaScript 응용 프로그램의 복잡성이 증가함에 따라 계속 증가하고 있습니다. 이는 복잡한 프로그램이 항상 더 많은 객체를 생성한다는 것을 의미합니다. 객체가 많을수록 객체를 보다 효과적으로 사용할 필요성이 커집니다.</p>
+<p>ECMAScript 6는 간단한 구문 확장부터 조작 및 상호 작용을 위한 옵션에 이르기까지 다양한 방법으로 객체의 사용성을 향상시킵니다.</p>
+<h2 id="객체-카테고리-Object-Category"><a href="#객체-카테고리-Object-Category" class="headerlink" title="객체 카테고리 (Object Category)"></a>객체 카테고리 (Object Category)</h2><p>JavaScript는 브라우저나 Node.js와 같은 실행 환경에 의해 추가된 것과 다르게, 표준에 정의된 객체를 설명하기 위해 여러 용어를 사용하며, ECMAScript 6 사양은 이러한 객체의 각 카테고리에 대한 명확한 정의를 가지고 있습니다.</p>
+<p>또한 언어 전체를 잘 이해하려면 이러한 용어를 이해하는 것이 매우 중요합니다. 객체의 카테고리는 다음과 같습니다.</p>
+<ul>
+<li><em>평범한 객체(Ordinary object)</em>는 JavaScript의 객체에 대한 모든 기본 내부 동작을 가집니다.</li>
+<li><em>특수한 객체(Exotic object)</em>는 어떤면에서 기본과 다른 내부 동작이 있습니다.</li>
+<li><em>표준 객체(Standard object)</em>는 <code>Array</code>, <code>Date</code>등과 같이 ECMAScript 6에 의해 정의된 객체입니다. 표준 객체는 평범하거나 특이할 수 있습니다.</li>
+<li><em>Built-in 객체</em>는 스크립트가 실행되기 시작하면 JavaScript 실행 환경에 존재하게 됩니다. 모든 표준 객체는 Built-in 객체입니다.</li>
+</ul>
+<p>ECMAScript 6에 정의된 다양한 객체를 설명하기 위해 위의 용어를 사용합니다.</p>
+<h2 id="객체-리터럴-문법-확장"><a href="#객체-리터럴-문법-확장" class="headerlink" title="객체 리터럴 문법 확장"></a>객체 리터럴 문법 확장</h2><p>객체 리터럴은 JavaScript에서 가장 인기있는 패턴 중 하나입니다. 구문에 따라 작성된 JSON은 인터넷의 거의 모든 JavaScript 파일에 있습니다. 객체 리터럴은 여러줄의 코드를 필요로하는 객체를 만드는 간결한 구문이기 때문에 매우 유용합니다. 다행히도 개발자를 위해 ECMAScript 6은 여러 가지 방법으로 구문을 확장하여 객체 리터럴을 더욱 강력하고 간결하게 만듭니다.</p>
+<h3 id="프로퍼티-초기화-단축-Property-Initializer-Shorthand-기능"><a href="#프로퍼티-초기화-단축-Property-Initializer-Shorthand-기능" class="headerlink" title="프로퍼티 초기화 단축 (Property Initializer Shorthand) 기능"></a>프로퍼티 초기화 단축 (Property Initializer Shorthand) 기능</h3><p>ECMAScript 5 및 이전 버전에서 객체 리터럴은 단순히 name-value 쌍의 모음이었습니다. 즉, 값을 초기화할 때 중복이 있을 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span>(<span class="params">name, age</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">name</span>: name,</div><div class="line">        <span class="attr">age</span>: age</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>createPerson()</code> 함수는 프로퍼티 이름이 함수 파라미터 이름과 같은 객체를 생성합니다. 하나는 객체 프로퍼티의 이름이고 다른 하나는 그 프로퍼티에 대한 값을 제공하지만 결과는 <code>name</code>과 <code>age</code>의 중복으로 나타납니다. 리턴 객체의 키 <code>name</code>에는 파라미터 <code>name</code> 값이 할당되고 키 <code>age</code>에는 파라미터 <code>age</code>의 값이 할당됩니다.</p>
+<p>ECMAScript 6에서는 프로퍼티 초기화의 단축(Property Initializer Shorthand)을 사용하여 프로퍼티 이름과 로컬 변수에 존재하는 중복을 제거할 수 있습니다. 객체 프로퍼티 이름이 로컬 변수 이름과 같으면 콜론과 값 없이 <code>name</code>을 포함할 수 있습니다. 예를 들어, <code>createPerson()</code>은 다음과 같이 ECMAScript 6으로 재작성할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span>(<span class="params">name, age</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        name,</div><div class="line">        age</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>객체 리터럴의 프로퍼티에 이름만 있으면 JavaScript 엔진은 Scope내의 같은 이름의 변수를 조사합니다. 변수를 찾으면 해당 변수의 값이 객체 리터럴의 동일한 이름에 지정됩니다. 위 예제에서, 객체 리터럴 프로퍼티 <code>name</code>에는 로컬 변수 <code>name</code>의 값이 할당됩니다.</p>
+<p>이러한 확장 기능은 객체 리터럴 초기화를 훨씬 간결하게 만들고 명명 오류를 제거하는데 도움이됩니다. 로컬 변수와 같은 이름의 프로퍼티를 할당하는 것은 JavaScript에서 매우 빈번히 발견되는 패턴이므로 이런 확장기능은 환영할만 합니다.</p>
+<h3 id="간결한-메서드-Concise-Method"><a href="#간결한-메서드-Concise-Method" class="headerlink" title="간결한 메서드 (Concise Method)"></a>간결한 메서드 (Concise Method)</h3><p>또한 ECMAScript 6은 메서드를 객체 리터럴에 할당하는 구문을 향상시켰습니다. ECMAScript 5 및 이전 버전에서는 다음과 같이 이름을 먼저 지정하고 함수 정의를 지정하여 객체에 메서드를 추가해야합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"Nicholas"</span>,</div><div class="line">    <span class="attr">sayName</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>ECMAScript 6에서는 콜론 및 <code>function</code> 키워드를 제거하여 구문을 보다 간결하게 만듭니다. 이전 예제를 다음과 같이 다시 작성할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"Nicholas"</span>,</div><div class="line">    sayName() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>간결한 메서드 (Concise Method) 구문 이라고 하는 이 단축 구문은 앞의 예와 마찬가지로 <code>person</code> 객체에 대한 메서드를 만듭니다. <code>sayName()</code> 프로퍼티는 익명의 함수에 할당되며 ECMAScript 5 <code>sayName()</code> 함수와 동일한 특성을 가지고 있습니다. 한가지 차이점은 간결한 메서드 (Concise Method) 구문은 <code>super</code>(“super 참조를 사용한 쉬운 프로토 타입 액세스”섹션에서 나중에 설명합니다.)를 사용하는 반면 간결하지 않는 방법은 사용할 수 없다는 점입니다.</p>
+<blockquote>
+<p>간결한 메서드 (Concise Method) 구문을 사용하여 생성된 메서드의 <code>name</code> 프로퍼티는 괄호 앞에 사용된 이름입니다. 마지막 예제에서 <code>person.sayName()</code>의 <code>name</code> 프로퍼티는 “sayName”입니다.</p>
+</blockquote>
+<h3 id="프로퍼티의-계산된-이름"><a href="#프로퍼티의-계산된-이름" class="headerlink" title="프로퍼티의 계산된 이름"></a>프로퍼티의 계산된 이름</h3><p>ECMAScript 5 및 이전 버전에서는 프로퍼티를 점 표기 대신 대괄호로 설정하면 객체 인스턴스의 프로퍼티 이름을 계산하여 지정할 수 있었습니다. 대괄호를 사용하여 변수의 식별자를 사용하면, 구문 오류가 발생할 수 있는 문자가 포함된 문자열 및 문자열 리터럴을 사용하여 프로퍼티 이름을 지정할 수 있습니다. 아래 예제를 살펴보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person = &#123;&#125;,</div><div class="line">    lastName = <span class="string">"last name"</span>;</div><div class="line"></div><div class="line">person[<span class="string">"first name"</span>] = <span class="string">"Nicholas"</span>;</div><div class="line">person[lastName] = <span class="string">"Zakas"</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(person[<span class="string">"first name"</span>]);      <span class="comment">// "Nicholas"</span></div><div class="line"><span class="built_in">console</span>.log(person[lastName]);          <span class="comment">// "Zakas"</span></div></pre></td></tr></table></figure>
+<p><code>lastName</code>에 <code>&quot;last name&quot;</code> 값이 할당되어 이 예제의 두 프로퍼티 이름 모두 공백을 사용합니다. 그러므로 점 표기법을 사용하여 프로퍼티 이름을 참조할 수 없습니다. 그러나 대괄호 표기법을 사용하면 모든 문자열 값을 프로퍼티 이름으로 사용할 수 있으므로 <code>&quot;first name&quot;</code>을 <code>&quot;Nicholas&quot;</code>에 할당하고, <code>&quot;last name&quot;</code>을 “Zakas”에 할당하면 정상 실행됩니다.</p>
+<p>또한 아래와 같이 문자열 리터럴을 객체 리터럴의 프로퍼티 이름으로 직접 사용할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person = &#123;</div><div class="line">    <span class="string">"first name"</span>: <span class="string">"Nicholas"</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(person[<span class="string">"first name"</span>]);      <span class="comment">// "Nicholas"</span></div></pre></td></tr></table></figure>
+<p>이 패턴은 미리 알려진 프로퍼티 이름에 적용되며 문자열 리터럴로 나타낼 수 있습니다. 그러나 프로퍼티 이름 <code>&quot;first name&quot;</code>이 변수에 포함되어 있거나 (앞의 예에서와 같이) 계산되어야 하는 경우 ECMAScript 5에서 객체 리터럴을 사용하여 해당 프로퍼티를 정의할 수 있는 방법이 없습니다.</p>
+<p>ECMAScript 6에서 계산된 프러퍼티 이름은 객체 리터럴 구문의 일부이며 객체 인스턴스에서 계산된 프로퍼티 이름을 참조하는데 사용된 동일한 대괄호 표기법을 사용합니다. </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> lastName = <span class="string">"last name"</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = &#123;</div><div class="line">    <span class="string">"first name"</span>: <span class="string">"Nicholas"</span>,</div><div class="line">    [lastName]: <span class="string">"Zakas"</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(person[<span class="string">"first name"</span>]);      <span class="comment">// "Nicholas"</span></div><div class="line"><span class="built_in">console</span>.log(person[lastName]);          <span class="comment">// "Zakas"</span></div></pre></td></tr></table></figure>
+<p>객체 리터럴 안의 대괄호는 속성 이름이 계산됨을 나타내므로 내용이 문자열로 평가됩니다. 즉, 다음과 같이 표현식을 포함할 수도 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> suffix = <span class="string">" name"</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = &#123;</div><div class="line">    [<span class="string">"first"</span> + suffix]: <span class="string">"Nicholas"</span>,</div><div class="line">    [<span class="string">"last"</span> + suffix]: <span class="string">"Zakas"</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(person[<span class="string">"first name"</span>]);      <span class="comment">// "Nicholas"</span></div><div class="line"><span class="built_in">console</span>.log(person[<span class="string">"last name"</span>]);       <span class="comment">// "Zakas"</span></div></pre></td></tr></table></figure>
+<p>이러한 속성은 “first name”과 “last name”으로 평가되며 나중에 이 문자열을 사용하여 프로퍼티를 참조할 수 있습니다. 객체 인스턴스에 대괄호 표기법을 사용하면, 객체 리터럴 내에서 계산된 프로퍼티 이름으로 적용되기 때문에 어떤것 이든 대괄호 안에 넣을 수 있습니다.</p>
+<h2 id="새로운-메서드들"><a href="#새로운-메서드들" class="headerlink" title="새로운 메서드들"></a>새로운 메서드들</h2><p>ECMAScript가 ECMAScript 5를 시작할때 디자인한 목표 중 하나는 <code>Object.prototype</code>에 새로운 전역 함수 또는 메서드를 만드는 것을 피하고 대신 새 메서드를 사용할 수 있는 객체를 찾으려고 했습니다. 결과적으로, Global <code>Object</code>는 다른 오브젝트가 더 적합하지 않을 때 점점 많은 메서드가 추가되었습니다. ECMAScript 6에서는 특정 작업을 보다 쉽게하기 위해 디자인된 Global <code>Object</code>에 몇 가지 새로운 메서드를 도입했습니다.</p>
+<h3 id="Object-is-메서드"><a href="#Object-is-메서드" class="headerlink" title="Object.is() 메서드"></a>Object.is() 메서드</h3><p>JavaScript에서 두 값을 비교하고자 할 때, <code>==</code>(equals 연산자) 또는 <code>===</code>(Identically equals 연산자)를 사용하는 데 익숙합니다. 많은 개발자들이 비교하는 동안 타입 강제(Type coercion)를 피하기 위해 후자를 선호합니다. 그러나 <code>===</code> 연산자조차도 완전히 정확하지는 않습니다. 예를 들어, +0과 -0 값은 JavaScript 엔진에서 다르게 표현 되더라도 <code>===</code>는 같은 값으로 간주됩니다. 또한 <code>NaN === NaN</code>은 <code>false</code>를 반환합니다. <code>NaN</code> 프로퍼티를 적절히 감지하기 위해서는 <code>isNaN()</code>을 사용해야합니다.</p>
+<p>ECMAScript 6는 Identically equals 연산자의 단점을 보충하기 위해 <code>Object.is()</code> 메서드를 도입했습니다. 이 메서드는 두 개의 파라미터를 받아들여 값이 동일하면 true를 리턴합니다. 두 값은 동일한 타입이고 동일한 값을 가질 때 동등한 것으로 간주됩니다. 여기 몇 가지 예제를 살펴보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(+<span class="number">0</span> == <span class="number">-0</span>);              <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(+<span class="number">0</span> === <span class="number">-0</span>);             <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.is(+<span class="number">0</span>, <span class="number">-0</span>));     <span class="comment">// false</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="literal">NaN</span> == <span class="literal">NaN</span>);            <span class="comment">// false</span></div><div class="line"><span class="built_in">console</span>.log(<span class="literal">NaN</span> === <span class="literal">NaN</span>);           <span class="comment">// false</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.is(<span class="literal">NaN</span>, <span class="literal">NaN</span>));   <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="number">5</span> == <span class="number">5</span>);                <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(<span class="number">5</span> == <span class="string">"5"</span>);              <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(<span class="number">5</span> === <span class="number">5</span>);               <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(<span class="number">5</span> === <span class="string">"5"</span>);             <span class="comment">// false</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.is(<span class="number">5</span>, <span class="number">5</span>));       <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.is(<span class="number">5</span>, <span class="string">"5"</span>));     <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p>대부분의 경우 <code>Object.is()</code>는 <code>===</code> 연산자와 똑같이 작동합니다. 유일한 차이점은 <code>+0</code>과 <code>-0</code>이 동등하지 않은 것으로 간주되고 <code>NaN</code>이 <code>NaN</code>과 같은 것으로 간주된다는 것입니다. 그렇기 때문에 Equal 연산자 사용을 중지할 필요는 없습니다. 위와 같이 특수한 경우에 <code>==</code> 또는 <code>===</code> 대신 <code>Object.is()</code> 사용을 선택할 수도 있습니다.</p>
+<h3 id="Object-assign-메서드"><a href="#Object-assign-메서드" class="headerlink" title="Object.assign() 메서드"></a>Object.assign() 메서드</h3><p>Mixin은 JavaScript에서 객체 구성을 위한 가장 인기있는 패턴 중 하나입니다. Mixin에서 한 객체는 다른 객체에서 프로퍼티와 메서드를 받습니다. 많은 JavaScript 라이브러리에는 다음과 유사한 Mixin 메서드가 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mixin</span>(<span class="params">receiver, supplier</span>) </span>&#123;</div><div class="line">    <span class="built_in">Object</span>.keys(supplier).forEach(<span class="function"><span class="keyword">function</span>(<span class="params">key</span>) </span>&#123;</div><div class="line">        receiver[key] = supplier[key];</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> receiver;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>mixin()</code> 함수는 <code>supplier</code> 자신의 프로퍼티를 반복하여 <code>receiver</code>에 복사합니다 (얕은 복사, 프로퍼티 값이 객체 일 때 객체 참조가 공유됩니다). 이렇게하면 아래 코드와 같이 <code>receiver</code>가 상속 없이 새 프로퍼티를 얻을 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">EventTarget</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*...*/</span> &#125;</div><div class="line">EventTarget.prototype = &#123;</div><div class="line">    <span class="attr">constructor</span>: EventTarget,</div><div class="line">    <span class="attr">emit</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*...*/</span> &#125;,</div><div class="line">    <span class="attr">on</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*...*/</span> &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> myObject = &#123;&#125;;</div><div class="line">mixin(myObject, EventTarget.prototype);</div><div class="line"></div><div class="line">myObject.emit(<span class="string">"somethingChanged"</span>);</div></pre></td></tr></table></figure>
+<p>위 코드에서 <code>myObject</code>는 <code>EventTarget.prototype</code> 객체로부터 메서드를 받습니다. 이것은 <code>myObject</code>에게 이벤트를 퍼블리시하고 <code>emit()</code>과 <code>on()</code>메서드를 사용하여 이벤트를 구독하는 기능을 제공합니다.</p>
+<p>이 패턴은 ECMAScript 6가 <code>Object.assign()</code> 메서드를 추가할 만큼 충분히 대중적이되어, 같은 방식으로 동작하고, Receiver 와 임의의 Supplier를 받아 들인 다음 Receiver를 반환합니다. <code>mixin()</code>에서 <code>assign()</code>으로 이름을 바꾸면 실제 작업이 반영됩니다. <code>mixin()</code>함수는 대입 연산자(<code>=</code>)를 사용하기 때문에 접근자(accessor) 프로퍼티를 접근자(accessor) 프로퍼티로 Receiver에 복사할 수 없습니다. 이러한 차이를 반영하기 위해 <code>Object.assign()</code>이라는 이름이 선택되었습니다.</p>
+<blockquote>
+<p>다양한 라이브러리에서 동일한 기능을 수행하는 비슷한 메서드가 있을 수 있으며 대부분 <code>extend()</code>및 <code>mix()</code>을 사용합니다. ECMAScript 6에는 <code>Object.assign()</code> 메서드 외에도 <code>Object.mixin()</code> 메서드가 있습니다. 가장 큰 차이점은 <code>Object.mixin()</code>도 접근자 프로퍼티를 이용해 복사되었지만 super (이 장의 “Super 참조를 이용한 쉬운 프로토 타입 액세스”절에서 설명 함) 사용에 대한 우려로 이 메서드가 제거 되었습니다.</p>
+</blockquote>
+<p><code>mixin()</code> 함수가 사용된 곳이면 어디에서나 <code>Object.assign()</code>을 사용할 수 있습니다. 다음 코드는 그러한 예제입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">EventTarget</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*...*/</span> &#125;</div><div class="line">EventTarget.prototype = &#123;</div><div class="line">    <span class="attr">constructor</span>: EventTarget,</div><div class="line">    <span class="attr">emit</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*...*/</span> &#125;,</div><div class="line">    <span class="attr">on</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*...*/</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> myObject = &#123;&#125;</div><div class="line"><span class="built_in">Object</span>.assign(myObject, EventTarget.prototype);</div><div class="line"></div><div class="line">myObject.emit(<span class="string">"somethingChanged"</span>);</div></pre></td></tr></table></figure>
+<p><code>Object.assign()</code> 메서드는 여러 <code>Supplier</code>를 받아들이며 <code>Receiver</code>는 <code>Supplier</code>가 지정된 순서대로 프로퍼티를 수신합니다. 이는 두 번째 <code>Supplier</code>가 <code>Receiver</code>의 첫 번째 <code>Supplier</code>의 값을 덮어 쓸 수 있음을 의미합니다. 다음 코드를 살펴 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> receiver = &#123;&#125;;</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.assign(receiver,</div><div class="line">    &#123;</div><div class="line">        <span class="attr">type</span>: <span class="string">"js"</span>,</div><div class="line">        <span class="attr">name</span>: <span class="string">"file.js"</span></div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">        <span class="attr">type</span>: <span class="string">"css"</span></div><div class="line">    &#125;</div><div class="line">);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(receiver.type);     <span class="comment">// "css"</span></div><div class="line"><span class="built_in">console</span>.log(receiver.name);     <span class="comment">// "file.js"</span></div></pre></td></tr></table></figure>
+<p><code>receiver.type</code>의 값은 “css”입니다. 왜냐하면 두 번째 <code>Supplier</code>가 첫 번째 <code>Supplier</code>의 값을 덮어 쓰기 때문입니다.</p>
+<p><code>Object.assign()</code> 메서드는 ECMAScript 6에 큰 변경사항은 아니지만 많은 JavaScript 라이브러리에서 볼 수있는 공통 기능을 공식화 한것입니다.</p>
+<h3 id="접근자-Accessor-프로퍼티로-작업하기"><a href="#접근자-Accessor-프로퍼티로-작업하기" class="headerlink" title="접근자(Accessor) 프로퍼티로 작업하기"></a>접근자(Accessor) 프로퍼티로 작업하기</h3><p><code>Object.assign()</code>은 Supplier가 접근자(Accessor) 프로퍼티를 가질 때 Receiver에 접근자(Accessor) 프로퍼티를 생성하지 않는다는 것을 명심하십시오. <code>Object.assign()</code>은 대입 연산자를 사용하기 때문에 Supplier의 접근자(Accessor) 프로퍼티는 Receiver의 데이터 프로퍼티가 됩니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> receiver = &#123;&#125;,</div><div class="line">    supplier = &#123;</div><div class="line">        get name() &#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"file.js"</span></div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.assign(receiver, supplier);</div><div class="line"></div><div class="line"><span class="keyword">var</span> descriptor = <span class="built_in">Object</span>.getOwnPropertyDescriptor(receiver, <span class="string">"name"</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(descriptor.value);      <span class="comment">// "file.js"</span></div><div class="line"><span class="built_in">console</span>.log(descriptor.get);        <span class="comment">// undefined</span></div></pre></td></tr></table></figure>
+<p>이 코드에서 Supplier는 <code>name</code>이라는 접근자(Accessor) 프로퍼티를 가지고 있습니다.</p>
+<p><code>Object.assign()</code> 메서드를 사용한 후에 <code>receiver.name</code>의 값은 <code>&quot;file.js&quot;</code>인 데이터 프로퍼티로서 존재합니다. 왜냐하면 <code>Object.assign()</code>을 호출 했기 때문에 <code>supplier.name</code>이 <code>&quot;file.js&quot;</code>를 리턴했기 때문입니다.</p>
+<h2 id="객체-리터럴의-중복-프로퍼티-처리"><a href="#객체-리터럴의-중복-프로퍼티-처리" class="headerlink" title="객체 리터럴의 중복 프로퍼티 처리"></a>객체 리터럴의 중복 프로퍼티 처리</h2><p>ECMAScript 5 <em>strict</em> 모드는 중복이 발견되면 오류를 던질 중복 객체 프로퍼티에 대한 검사를 도입했습니다. 예를 들어, 이 코드는 문제가 있었습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"Nicholas"</span>,</div><div class="line">    <span class="attr">name</span>: <span class="string">"Greg"</span>        <span class="comment">// ES5 strict mode에서는 구문오류가 발생합니다.</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>ECMAScript 5의 <em>strict</em> 모드에서 실행될 때, 두 번째 <code>name</code> 프로퍼티는 구문 오류를 일으킵니다. 그러나 ECMAScript 6에서는 중복 프로퍼티 검사가 제거되었습니다. <em>strict</em>와 <em>nonstrict</em> 모드 코드는 더 이상 중복 프로퍼티를 검사하지 않습니다. 대신, 아래 코드에서 보여주는 대로 같은 이름의 마지막 프로퍼티가 프로퍼티의 실제값이 됩니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">"use strict"</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"Nicholas"</span>,</div><div class="line">    <span class="attr">name</span>: <span class="string">"Greg"</span>        <span class="comment">// ES6 strict mode에서 에러가 발생하지 않습니다.</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(person.name);       <span class="comment">// "Greg"</span></div></pre></td></tr></table></figure>
+<p>위 예제에서 <code>person.name</code>의 값은 그 프로퍼티에 할당된 마지막 값이기 때문에 “Greg”입니다.</p>
+<h2 id="자신의-프로퍼티-열거-순서"><a href="#자신의-프로퍼티-열거-순서" class="headerlink" title="자신의 프로퍼티 열거 순서"></a>자신의 프로퍼티 열거 순서</h2><p>ECMAScript 5는 객체 프로퍼티의 열거순서를 정의하지 않았습니다. JavaScript 엔진 공급 업체에 맡겨 놓았기 때문입니다. 그러나 ECMAScript 6에서는 열거될 경우 자신의 프로퍼티를 반환해야하는 순서를 엄격하게 정의합니다. 이것은 <code>Object.getOwnPropertyNames()</code>와 <code>Reflect.ownKeys</code> (12 장에서 다룹니다.)를 사용하여 프로퍼티를 반환하는 방법에 영향을 미칩니다. 그리고 <code>Object.assign()</code>에 의해 프로퍼티가 처리되는 순서에도 영향을 미칩니다.</p>
+<p>자신의 프로퍼티 기본 열거 순서는 다음과 같습니다.</p>
+<ol>
+<li>모든 숫자키는 오름차순으로 표시됩니다.</li>
+<li>모든 문자열키는 객체에 추가된 순서대로 표시됩니다.</li>
+<li>모든 <em>Symbol</em>(6 장에서 다룹니다.)키는 객체에 추가된 순서대로 표시됩니다.</li>
+</ol>
+<p>아래 예제를 살펴보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">    <span class="attr">a</span>: <span class="number">1</span>,</div><div class="line">    <span class="number">0</span>: <span class="number">1</span>,</div><div class="line">    <span class="attr">c</span>: <span class="number">1</span>,</div><div class="line">    <span class="number">2</span>: <span class="number">1</span>,</div><div class="line">    <span class="attr">b</span>: <span class="number">1</span>,</div><div class="line">    <span class="number">1</span>: <span class="number">1</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line">obj.d = <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyNames(obj).join(<span class="string">""</span>));     <span class="comment">// "012acbd"</span></div></pre></td></tr></table></figure>
+<p><code>Object.getOwnPropertyNames()</code> 메서드는 <code>obj</code>의 프로퍼티를 <code>0</code>, <code>1</code>, <code>2</code>, <code>a</code>, <code>c</code>, <code>b</code>, <code>d</code> 순서로 리턴합니다. 숫자 키는 객체 리터럴에서 순서가 어긋나지만 함께 그룹화되고 정렬됩니다. 문자열 키는 숫자 키 뒤에 오며 <code>obj</code>에 추가된 순서대로 나타납니다. 객체 리터럴 자신의 키가 먼저오고 나중에 추가된 동적 키 (이 경우 d)가 옵니다.</p>
+<blockquote>
+<p><code>for-in</code> loop는 여전히 모든 JavaScript 엔진이 같은 방식으로 구현하지 않았기 때문에 불특정한 열거 순서를 가지고 있습니다. <code>Object.keys()</code> 메서드와 <code>JSON.stringify()</code>는 모두 <code>for-in</code>과 같은 (불특정한) 열거 순서를 사용하도록 지정되어 있습니다.</p>
+</blockquote>
+<p>열거 순서는 JavaScript가 작동하는 방식에 미묘한 변화이지만, 정확한 열거에 의존하는 프로그램을 찾는건 드문일이 아닙니다. 열거 순서를 정의함으로써 ECMAScript 6은 열거형에 의존하는 JavaScript 코드가 어디에 실행되는지에 관계없이 올바르게 작동하도록합니다.</p>
+<h2 id="더-강력한-프로퍼티들"><a href="#더-강력한-프로퍼티들" class="headerlink" title="더 강력한 프로퍼티들"></a>더 강력한 프로퍼티들</h2><p><em>Prototype</em>은 JavaScript의 상속의 토대이며 ECMAScript 6는 <em>Prototype</em>을 계속해서 더 강력하게 만듭니다. 초기 버전의 JavaScript는 <em>Prototype</em>을 통해 수행할 수있는 작업을 심각하게 제한했습니다. 그러나 언어가 발전하고 개발자가 <em>Prototype</em>이 어떻게 작동하는지 더 잘 알게됨에 따라 개발자들은 <em>Prototype</em>을 더 많이 컨트롤 하고, 쉬운 방법으로 제어하기를 원했습니다. 결과적으로 ECMAScript 6는 <em>Prototype</em>을 약간 개선했습니다.</p>
+<h3 id="Object의-Prototype-변경"><a href="#Object의-Prototype-변경" class="headerlink" title="Object의 Prototype 변경"></a>Object의 <em>Prototype</em> 변경</h3><p>일반적으로 객체의 <em>Prototype</em>은 객체가 생성될 때 생성자 또는 <code>Object.create()</code>메서드를 통해 지정됩니다. 인스턴스 생성후 객체의 <em>Prototype</em>이 변경되지 않는다는 생각은 ECMAScript 5까지 JavaScript 프로그래밍에서 가장 큰 가정 중 하나였습니다. ECMAScript 5는 주어진 객체의 <em>Prototype</em>을 찾기하기 위해 <code>Object.getPrototypeOf()</code> 메서드를 추가했지만 인스턴스화 후에 객체의 <em>Prototype</em>을 변경하는 표준 방법이 여전히 부족했습니다.</p>
+<p>ECMAScript 6는 <code>Object.setPrototypeOf()</code> 메서드를 추가함으로써 이러한 가정을 바꿉니다. 이 메서드는 주어진 객체의 <em>Prototype</em>을 변경할 수 있게합니다. <code>Object.setPrototypeOf()</code> 메서드는 두 개의 파라미터를 받는데, 첫 번째는 <em>Prototype</em>이 변경 되어야하는 객체, 그리고 두 번째는 첫 번째 파라미터의 <em>Prototype</em>이 되어야하는 객체입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> person = &#123;</div><div class="line">    getGreeting() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Hello"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">let</span> dog = &#123;</div><div class="line">    getGreeting() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Woof"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// prototype은 person</span></div><div class="line"><span class="keyword">let</span> friend = <span class="built_in">Object</span>.create(person);</div><div class="line"><span class="built_in">console</span>.log(friend.getGreeting());                      <span class="comment">// "Hello"</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(friend) === person);  <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="comment">// prototype을 dog로 설정</span></div><div class="line"><span class="built_in">Object</span>.setPrototypeOf(friend, dog);</div><div class="line"><span class="built_in">console</span>.log(friend.getGreeting());                      <span class="comment">// "Woof"</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(friend) === dog);     <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>위 코드는 <code>person</code>과 <code>dog</code>라는 두 개의 기본 객체를 정의합니다. 두객체 모두 문자열을 반환하는 <code>getGreeting()</code> 메서드를 가지고 있습니다. 객체 <code>friend</code>는 먼저 <code>person</code> 객체를 상속받았기 때문에 <code>getGreeting()</code>은 <code>&quot;Hello&quot;</code>를 출력합니다. 그리고 <em>Prototype</em>이 <code>dog</code> 객체가 될 때 <code>person.getGreeting()</code>은 원래의 <code>person</code>과 관계가 깨졌기 때문에 <code>&quot;Woof&quot;</code>를 출력합니다.</p>
+<p>객체의 <em>Prototype</em>의 실제 값은<code>[[Prototype]]</code>이라는 내부 전용 프로퍼티에 저장됩니다. <code>Object.getPrototypeOf()</code> 메서드는 <code>[[Prototype]]</code>에 저장된 값을 리턴하고 <code>Object.setPrototypeOf()</code>는 <code>[[Prototype]]</code>에 저장된 값을 변경합니다. 그러나 이 메서드들이 <code>[[Prototype]]</code>의 값을 이용해 작업하는 유일한 방법은 아닙니다.</p>
+<h3 id="Super-참조를-이용한-쉬운-Prototype-접근"><a href="#Super-참조를-이용한-쉬운-Prototype-접근" class="headerlink" title="Super 참조를 이용한 쉬운 Prototype 접근"></a>Super 참조를 이용한 쉬운 <em>Prototype</em> 접근</h3><p>앞서 언급했듯이, <em>Prototype</em>은 JavaScript에 매우 중요하며 많은 작업이 ECMAScript 6에서 사용하기가 더 쉬워졌습니다. 또 다른 개선점은 객체의 <em>Prototype</em>에 대한 기능을 보다 쉽게 액세스할 수 있게 해주는 <code>super</code> 참조의 도입입니다. 예를 들어, 객체 인스턴스의 메서드를 오버라이드하여 동일한 이름의 <em>Prototype</em> 메서드도 호출하도록 하는 다음 예제를 참고하세요.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> person = &#123;</div><div class="line">    getGreeting() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Hello"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">let</span> dog = &#123;</div><div class="line">    getGreeting() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Woof"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">let</span> friend = &#123;</div><div class="line">    getGreeting() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="built_in">Object</span>.getPrototypeOf(<span class="keyword">this</span>).getGreeting.call(<span class="keyword">this</span>) + <span class="string">", hi!"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// prototype을 person으로 설정</span></div><div class="line"><span class="built_in">Object</span>.setPrototypeOf(friend, person);</div><div class="line"><span class="built_in">console</span>.log(friend.getGreeting());                      <span class="comment">// "Hello, hi!"</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(friend) === person);  <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="comment">// prototype을 dog로 설정</span></div><div class="line"><span class="built_in">Object</span>.setPrototypeOf(friend, dog);</div><div class="line"><span class="built_in">console</span>.log(friend.getGreeting());                      <span class="comment">// "Woof, hi!"</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(friend) === dog);     <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>위의 예제에서, <code>friend</code>에 대한 <code>getGreeting()</code>은 같은 이름의 <em>Prototype</em> 메서드를 호출합니다. <code>Object.getPrototypeOf()</code> 메서드는 올바른 <em>Prototype</em>이 호출되었는지 확인한 다음 추가 문자열이 출력에 더해집니다. 게다가 <code>.call(this)</code>는 <em>Prototype</em> 메서드 내의 <code>this</code> 값이 올바르게 설정되도록합니다.</p>
+<p><em>Prototype</em>에서 메서드를 호출하기 위해 <code>Object.getPrototypeOf()</code>와 <code>.call(this)</code>를 사용하는 것은 다소 복잡하기 때문에 ECMAScript 6는 <code>super</code>를 도입했습니다. 간단히 말해,<code>super</code>는 현재 객체의 <em>Prototype</em>을 가리키는 포인터이며, 사실상<code>Object.getPrototypeOf(this)</code> 값입니다. 다음과 같이 <code>getGreeting()</code> 메서드를 단순화할 수있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> friend = &#123;</div><div class="line">    getGreeting() &#123;</div><div class="line">        <span class="comment">// 이전 예제에서 이것은 다음과 같습니다.</span></div><div class="line">        <span class="comment">// Object.getPrototypeOf(this).getGreeting.call(this)</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getGreeting() + <span class="string">", hi!"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>위 예제에서 <code>super.getGreeting()</code>에 대한 호출은 <code>Object.getPrototypeOf(this).getGreeting.call(this)</code>와 동일합니다. 비슷하게, 간결한 메서드 내부에 있는 경우 <code>super</code> 참조를 사용하여 객체 <em>Prototype</em>의 모든 메서드를 호출할 수 있습니다. 하지만 간결한 메서드 밖에서 <code>super</code>를 사용하려고 시도하면 다음과 같이 구문 오류가 발생합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> friend = &#123;</div><div class="line">    <span class="attr">getGreeting</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="comment">// syntax error</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getGreeting() + <span class="string">", hi!"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>이 예제는 함수와 함께 명명된 프로퍼티를 사용하고 <code>super</code>가 이 컨텍스트에서 유효하지 않기 때문에 <code>super.getGreeting()</code>을 호출하면 구문 오류가 발생합니다.</p>
+<p><code>super</code> 레퍼런스는 여러 레벨의 상속이있을 때 정말 강력합니다. 왜냐하면 <code>Object.getPrototypeOf()</code>가 더 이상 모든 상황에서 작동하지 않기 때문입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> person = &#123;</div><div class="line">    getGreeting() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Hello"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// prototype is person</span></div><div class="line"><span class="keyword">let</span> friend = &#123;</div><div class="line">    getGreeting() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="built_in">Object</span>.getPrototypeOf(<span class="keyword">this</span>).getGreeting.call(<span class="keyword">this</span>) + <span class="string">", hi!"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="built_in">Object</span>.setPrototypeOf(friend, person);</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// prototype is friend</span></div><div class="line"><span class="keyword">let</span> relative = <span class="built_in">Object</span>.create(friend);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(person.getGreeting());                  <span class="comment">// "Hello"</span></div><div class="line"><span class="built_in">console</span>.log(friend.getGreeting());                  <span class="comment">// "Hello, hi!"</span></div><div class="line"><span class="built_in">console</span>.log(relative.getGreeting());                <span class="comment">// error!</span></div></pre></td></tr></table></figure>
+<p><code>relative.getGreeting()</code>이 호출되어 <code>Object.getPrototypeOf()</code>를 호출하면 오류가 발생합니다. 그것은 <code>this</code>가 <code>relative</code>이고, <code>relative</code>의 <em>Prototype</em>이 <code>friend</code> 객체이기 때문입니다. <code>friend.getGreeting().call()</code>이 <code>relative</code>를 <code>this</code>로 호출하면 프로세스는 다시 시작되어 스택 오버 플로우 오류가 발생할 때까지 재귀적으로 계속 호출됩니다.</p>
+<p>이 문제를 ECMAScript 5에서는 해결하기가 어렵지만 ECMAScript 6의 <code>super</code>를 이용하면 쉽게 해결할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> person = &#123;</div><div class="line">    getGreeting() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Hello"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// prototype is person</span></div><div class="line"><span class="keyword">let</span> friend = &#123;</div><div class="line">    getGreeting() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getGreeting() + <span class="string">", hi!"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="built_in">Object</span>.setPrototypeOf(friend, person);</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// prototype is friend</span></div><div class="line"><span class="keyword">let</span> relative = <span class="built_in">Object</span>.create(friend);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(person.getGreeting());                  <span class="comment">// "Hello"</span></div><div class="line"><span class="built_in">console</span>.log(friend.getGreeting());                  <span class="comment">// "Hello, hi!"</span></div><div class="line"><span class="built_in">console</span>.log(relative.getGreeting());                <span class="comment">// "Hello, hi!"</span></div></pre></td></tr></table></figure>
+<p><code>super</code> 참조는 동적이 아니기 때문에 항상 올바른 객체를 참조합니다. 이 경우, <code>super.getGreeting()</code>은 얼마나 많은 다른 객체가 그 메서드를 상속 받았는지에 관계없이 항상 <code>person.getGreeting ()</code>을 참조합니다.</p>
+<h2 id="Method의-공식적인-정의"><a href="#Method의-공식적인-정의" class="headerlink" title="Method의 공식적인 정의"></a>Method의 공식적인 정의</h2><p>ECMAScript 6 이전에는 <code>&quot;Method&quot;</code>의 개념이 공식적으로 정의되지 않았습니다. <code>Method</code>는 데이터 대신 함수가 포함된 객체 프로퍼티었습니다. ECMAScript 6는 <code>Method</code>를 객체 내부의 <code>[[HomeObject]]</code> 프라퍼티를 가진 함수로 공식적으로 정의합니다. 다음 내용을 살펴보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> person = &#123;</div><div class="line"></div><div class="line">    <span class="comment">// method</span></div><div class="line">    getGreeting() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Hello"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// not a method</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">shareGreeting</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"Hi!"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>위 예제는 <code>getGreeting()</code>이라는 단일 메서드로 <code>person</code>을 정의합니다. <code>getGreeting()</code>의 <code>[[HomeObject]]</code>는 함수를 객체에 직접 할당함으로써 <code>person</code>을 정의합니다. 반면에 <code>shareGreeting()</code> 함수는 생성될 때 객체에 할당되지 않았으므로 <code>[[HomeObject]]</code>가 지정되어 있지 않습니다. 대부분의 경우 이 차이는 중요하지 않지만 <code>super</code> 참조를 사용할 때 매우 중요합니다.</p>
+<p><code>super</code>에 대한 참조는 무엇을 할 것인가를 결정하기 위해 <code>[[HomeObject]]</code>를 사용합니다. 첫 번째 단계는 <code>[[HomeObject]]</code>에서 <code>Object.getPrototypeOf()</code>를 호출하여 <em>Prototype</em>에 대한 참조를 가져 오는 것입니다. 그런 다음 <em>Prototype</em>의 이름이 같은 함수가 검색됩니다. 마지막으로, 바인딩이 설정되고 <code>Method</code>가 호출됩니다. 다음은 예제를 살펴보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> person = &#123;</div><div class="line">    getGreeting() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Hello"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// prototype is person</span></div><div class="line"><span class="keyword">let</span> friend = &#123;</div><div class="line">    getGreeting() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getGreeting() + <span class="string">", hi!"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="built_in">Object</span>.setPrototypeOf(friend, person);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(friend.getGreeting());  <span class="comment">// "Hello, hi!"</span></div></pre></td></tr></table></figure>
+<p><code>friend.getGreeting()</code> 호출은 <code>person.getGreeting()</code>의 값을 <code>&quot;, hi!&quot;</code>와 결합된 문자열을 반환합니다. <code>friend.getGreeting()</code>의<br> <code>[[HomeObject]]</code>는 <code>friend</code>이고 <code>friend</code>의 <em>Prototype</em>은 <code>person</code>이므로 <code>super.getGreeting()</code>은 <code>person.getGreeting.call(this)</code>와 동일합니다.</p>
+<h2 id="요약"><a href="#요약" class="headerlink" title="요약"></a>요약</h2><p>객체는 JavaScript 프로그래밍의 중심이며, ECMAScript 6는 객체를 보다 쉽게 다루고 더 강력하게 만드는 유용한 변경 사항을 만들었습니다.</p>
+<p>ECMAScript 6은 객체 리터럴을 몇 가지 변경했습니다. 간략한 프로퍼티 정의는 Scope 내 변수와 동일한 이름을 가진 프로퍼티를 쉽게 지정합니다. 계산된 프로퍼티 이름을 사용하면 리터럴 이외의 값을 프로퍼티 이름으로 지정할 수 있습니다. 간략한 메서드는 콜론과 <code>function</code> 키워드를 완전히 생략함으로써 훨씬 적은 수의 문자를 입력하여 객체 리터럴에 대한 메서드를 정의할 수 있게합니다. ECMAScript 6는 객체의 중복 프로퍼티 이름에 대해서도 strict 모드 검사를 느슨하게합니다. 즉, 객체 리터럴에 오류가 발생하지 않고 같은 이름의 두 프로퍼티를 가질 수 있습니다.</p>
+<p><code>Object.assign()</code> 메서드는 한번에 하나의 객체에 대해 여러 속성을 변경하는 것을 더 쉽게 만듭니다. <code>mixin</code> 패턴을 사용하면 매우 유용할 수 있습니다. <code>Object.is()</code> 메서드는 어떤 값에 대해서도 엄격한 <em>equal</em>을 수행하며 특별한 JavaScript 값을 다룰 때 효과적인<br> <code>===</code>의 안전한 버전입니다.</p>
+<p>ECMAScript 6에서는 자체 프로퍼티에 대한 열거 순서가 명확하게 정의되었습니다. 프로퍼티를 열거하면 숫자 키가 항상 오름차순으로 먼저 나오고 문자열 키가 삽입 순서에 맞춰 나오고 Symbol 키가 삽입 순서로 옵니다.</p>
+<p>ECMAScript 6의<code>Object.setPrototypeOf()</code>메서드 덕택에 객체의 <em>Prototype</em>을 이미 생성 한 후에 수정할 수 있습니다.</p>
+<p>마지막으로,<code>super</code> 키워드를 사용하여 객체의 <em>Prototype</em>에 대한 메서드를 호출할 수 있습니다. <code>super</code>를 사용하여 호출된 메서드 내부의 <code>this</code> 바인딩은 <code>this</code>의 현재 값으로 자동으로 작동하도록 설정됩니다.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://leanpub.com/understandinges6/read#leanpub-auto-expanded-object-functionality" target="_blank" rel="external">https://leanpub.com/understandinges6/read#leanpub-auto-expanded-object-functionality</a>]</p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a href="https://infoscis.github.io/2018/01/24/ecmascript-6-block-binding/">ECMAScript 6 Block Binding</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/ecmascript-6-strings-and-regular-expressions/">ECMAScript 6 문자열과 정규 표현식</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/ecmascript-6-functions/">ECMAScript 6 함수</a></li>
+<li><a href="https://infoscis.github.io/2018/01/25/ecmascript-6-expanded-object-functionality/">ECMAScript 6 객체의 확장된 기능</a></li>
+<li><a href="https://infoscis.github.io/2018/01/26/ecmascript-6-destructuring-for-easier-data-access/">ECMAScript 6 쉬운 데이터 액세스를 위한 Destructuring</a></li>
+<li><a href="https://infoscis.github.io/2018/01/27/ecmascript-6-symbols-and-symbol-properties/">ECMAScript 6 Symbol과 Symbol 프로퍼티</a></li>
+<li><a href="https://infoscis.github.io/2018/01/27/ecmascript-6-sets-and-maps/">ECMAScript 6 Set과 Map</a></li>
+<li><a href="https://infoscis.github.io/2018/01/31/ecmascript-6-iterators-and-generators/">ECMAScript 6 Iterator와 Generator</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/ecmascript-6-introducing-javascript-classes/">ECMAScript 6 JavaScript 클래스 소개</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/ecmascript-6-improved-array-capabilities/">ECMAScript 6 Array 기능 향상</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-promises-and-asynchronous-programming/">ECMAScript 6 Promise와 비동기 프로그램밍</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/">ECMAScript 6 프록시와 리플렉션 API</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-encapsulating-code-with-modules/">ECMAScript 6 Module로 코드 캡슐화하기</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-appendix-a-smaller-changes/">ECMAScript 6 부록 A. 작은 변경 사항</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/">ECMAScript 6 부록 B. ECMAScript 7(2016) 이해하기</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2018/01/25/ecmascript-6-expanded-object-functionality/" data-id="cjkl9102m002rjguz1v7cpr2t" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/01/26/ecmascript-6-destructuring-for-easier-data-access/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            ECMAScript 6 쉬운 데이터 액세스를 위한 Destructuring
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2018/01/24/ecmascript-6-functions/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">ECMAScript 6 함수</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2018/01/25/ecmascript-6-expanded-object-functionality/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

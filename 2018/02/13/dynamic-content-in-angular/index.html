@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Angular에서 동적 컨텐츠 생성 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Angular" />
+    
+    <meta name="description" content="Angular에서 동적 컨텐츠 생성이 글에서 Angular로 동적 컨텐츠를 만드는 몇가지 방법을 보여 드리겠습니다. 사용자 지정 리스트 템플릿, 동적 Component 생성, 런타임 Component 및 모듈 컴파일의 예제를 보여줍니다. 전체 소스 코드는 이 글의 끝부분에서 보실수 있습니다.
+제가 작업하고 있는 Developing with Angular에서">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular에서 동적 컨텐츠 생성">
+<meta property="og:url" content="http://infoscis.github.io/2018/02/13/dynamic-content-in-angular/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="Angular에서 동적 컨텐츠 생성이 글에서 Angular로 동적 컨텐츠를 만드는 몇가지 방법을 보여 드리겠습니다. 사용자 지정 리스트 템플릿, 동적 Component 생성, 런타임 Component 및 모듈 컴파일의 예제를 보여줍니다. 전체 소스 코드는 이 글의 끝부분에서 보실수 있습니다.
+제가 작업하고 있는 Developing with Angular에서">
+<meta property="og:image" content="https://denysvuika.files.wordpress.com/2017/10/angular-dynamic-content-01.png">
+<meta property="og:updated_time" content="2018-02-13T15:10:29.661Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular에서 동적 컨텐츠 생성">
+<meta name="twitter:description" content="Angular에서 동적 컨텐츠 생성이 글에서 Angular로 동적 컨텐츠를 만드는 몇가지 방법을 보여 드리겠습니다. 사용자 지정 리스트 템플릿, 동적 Component 생성, 런타임 Component 및 모듈 컴파일의 예제를 보여줍니다. 전체 소스 코드는 이 글의 끝부분에서 보실수 있습니다.
+제가 작업하고 있는 Developing with Angular에서">
+<meta name="twitter:image" content="https://denysvuika.files.wordpress.com/2017/10/angular-dynamic-content-01.png">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2018/02/13/dynamic-content-in-angular/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Angular/">Angular</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-dynamic-content-in-angular" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Angular에서 동적 컨텐츠 생성
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2018/02/13/dynamic-content-in-angular/" class="article-date">
+            <time datetime="2018-02-13T14:42:55.000Z" itemprop="datePublished">2018-02-13</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Angular/">Angular</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Angular에서-동적-컨텐츠-생성"><a href="#Angular에서-동적-컨텐츠-생성" class="headerlink" title="Angular에서 동적 컨텐츠 생성"></a>Angular에서 동적 컨텐츠 생성</h1><p>이 글에서 Angular로 동적 컨텐츠를 만드는 몇가지 방법을 보여 드리겠습니다. 사용자 지정 리스트 템플릿, 동적 <em>Component</em> 생성, 런타임 <em>Component</em> 및 모듈 컴파일의 예제를 보여줍니다. 전체 소스 코드는 이 글의 끝부분에서 보실수 있습니다.</p>
+<p>제가 작업하고 있는 <a href="https://leanpub.com/developing-with-angular" target="_blank" rel="external">Developing with Angular</a>에서 Angular 개발에 대한 더 많은 정보를 얻을 수 있습니다.</p>
+<h2 id="List-item-templates"><a href="#List-item-templates" class="headerlink" title="List item templates"></a>List item templates</h2><p>사용자 정의 템플릿을 제공하여 Angular <em>Component</em>를 풍성하게 만드는 방법을 살펴 보겠습니다. 개발자가 선언한 외부 Row(행) 템플릿을 지원하는 간단한 리스트 <em>Component</em>를 작성하며 시작하겠습니다.</p>
+<h3 id="List-component"><a href="#List-component" class="headerlink" title="List component"></a>List component</h3><p>먼저 바인딩된 항목 컬렉션을 표시하는 간단한 리스트 <em>Component</em>를 만듭니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'tlist'</span>,</div><div class="line">    template: <span class="string">`</span></div><div class="line">    &lt;ul&gt;</div><div class="line">        &lt;li *ngFor="let item of items"&gt;</div><div class="line">            &#123;&#123; item.title &#125;&#125;</div><div class="line">        &lt;/li&gt;</div><div class="line">    &lt;/ul&gt;</div><div class="line">  `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> TListComponent &#123;</div><div class="line"></div><div class="line">    <span class="meta">@Input</span>()</div><div class="line">    items: <span class="built_in">any</span>[] = [];</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이제 메인 응용 프로그램 <em>Component</em>를 업데이트 하거나 다음 예제와 같이 별도의 데모 <em>Component</em>를 만듭니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'tlist-demo'</span>,</div><div class="line">    template: <span class="string">`</span></div><div class="line">        &lt;h1&gt;Templated list&lt;/h1&gt;</div><div class="line">        &lt;tlist [items]="items"&gt;&lt;/tlist&gt;</div><div class="line">    `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent &#123;</div><div class="line"></div><div class="line">    items: <span class="built_in">any</span>[] = [</div><div class="line">        &#123; title: <span class="string">'Item 1'</span> &#125;,</div><div class="line">        &#123; title: <span class="string">'Item 2'</span> &#125;,</div><div class="line">        &#123; title: <span class="string">'Item 3'</span> &#125;</div><div class="line">    ];</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>그러면 다음과 같이 정렬되지 않은 HTML 목록이 렌더링됩니다.</p>
+<p><img src="https://denysvuika.files.wordpress.com/2017/10/angular-dynamic-content-01.png" alt=""></p>
+<h3 id="Row-templates"><a href="#Row-templates" class="headerlink" title="Row templates"></a>Row templates</h3><p>우리는 객체의 배열에 바인딩하고 정렬되지 않은 표준 HTML리스트를 렌더링하는 간단한 리스트 컴포넌트를 만들었습니다. 그리고 모든 리스트 항목은 <code>title</code> 프로퍼티 값에 바인딩됩니다. 이제 외부 템플릿을 지원하도록 코드를 변경해 보겠습니다. 아래 그림과 같이 코드를 업데이트 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component, Input, ContentChild, TemplateRef &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"></div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'tlist'</span>,</div><div class="line">    template: <span class="string">`</span></div><div class="line">        &lt;ul&gt;</div><div class="line">            &lt;template ngFor [ngForOf]="items" [ngForTemplate]="template"&gt;</div><div class="line">            &lt;/template&gt;</div><div class="line">        &lt;/ul&gt;</div><div class="line">    `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> TListComponent &#123;</div><div class="line"></div><div class="line">    <span class="meta">@ContentChild</span>(TemplateRef)</div><div class="line">    template: TemplateRef&lt;<span class="built_in">any</span>&gt;;</div><div class="line"></div><div class="line">    <span class="meta">@Input</span>()</div><div class="line">    items: <span class="built_in">any</span>[] = [];</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이제 <code>TListComponent</code>는 자식 컨텐츠에서 정의될 템플릿을 참조합니다. 그리고 템플릿 내용을 받아 각 <code>*ngFor</code> 항목에 적용합니다. 따라서 이 <em>Component</em>를 사용하는 응용 프로그램 개발자는 다음과 같이 전체 Row 템플릿을 정의할 수 있습니다.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">tlist</span> [<span class="attr">items</span>]=<span class="string">"items"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">            Row template content</div><div class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tlist</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>이제 아래 예제와 같이 업데이트합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"></div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'tlist-demo'</span>,</div><div class="line">    template: <span class="string">`</span></div><div class="line">        &lt;div&gt;</div><div class="line">            &lt;h2&gt;Templated list&lt;/h2&gt;</div><div class="line">            &lt;tlist [items]="items"&gt;</div><div class="line">                &lt;template let-item="$implicit" let-i="index"&gt;</div><div class="line">                    &lt;li&gt;[&#123;&#123;i&#125;&#125;] Hello: &#123;&#123;item.title&#125;&#125;&lt;/li&gt;</div><div class="line">                &lt;/template&gt;</div><div class="line">            &lt;/tlist&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> TListComponentDemo &#123;</div><div class="line">    items: <span class="built_in">any</span>[] = [</div><div class="line">        &#123; title: <span class="string">'Item 1'</span> &#125;,</div><div class="line">        &#123; title: <span class="string">'Item 2'</span> &#125;,</div><div class="line">        &#123; title: <span class="string">'Item 3'</span> &#125;</div><div class="line">    ];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>각 Row에 대한 기본 데이터 바인딩 컨텍스트에 액세스하기 위해 <code>let-item = &quot;$implicit&quot;</code> 프로퍼티를 사용하여 <code>item</code> 변수에 매핑합니다. 따라서 <code>item</code>은 <code>TListComponentDemo</code>의 <code>items</code> 컬렉션에 있는 항목을 가리키며 <code>title</code> 프로퍼티에 바인딩할 수 있습니다. 또한 <code>let-i = &quot;index&quot;</code>를 통해 <code>i</code> 변수에 Row 인덱스 프로퍼티 값을 할당합니다.</p>
+<p>또 다른 개선점은 <code>TListComponent</code>가 더 이상 모든 바인딩된 객체가 <code>title</code> 프로퍼티를 갖도록 강요하지 않는다는 것입니다. 이제 템플릿과 기본 컨텍스트가 모두 응용 프로그램 수준에서 정의됩니다.</p>
+<p>변경 사항이 렌더링된 결과는 다음과 같습니다.</p>
+<p><img src="https://denysvuika.files.wordpress.com/2017/10/angular-dynamic-content-02.png" alt=""></p>
+<h2 id="동적-Component"><a href="#동적-Component" class="headerlink" title="동적 Component"></a>동적 Component</h2><p>또 다른 일반적인 시나리오는 일부 조건에 따라 <em>Component</em>의 내용을 변경하는 것입니다. 예를 들어 아래와 같이 <code>type</code> 프로퍼티 값을 기반으로 다른 하위 <em>Component</em>를 렌더링하는 경우입니다.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">component</span> <span class="attr">type</span>=<span class="string">"my-type-1"</span>&gt;</span><span class="tag">&lt;/<span class="name">component</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">component</span> <span class="attr">type</span>=<span class="string">"my-type-2"</span>&gt;</span><span class="tag">&lt;/<span class="name">component</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>기본 <em>Component</em> 구조부터 살펴 보겠습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'dynamic-content'</span>,</div><div class="line">    template: <span class="string">`</span></div><div class="line">        &lt;div&gt;</div><div class="line">            &lt;div #container&gt;&lt;/div&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> DynamicContentComponent &#123;</div><div class="line">  </div><div class="line">  <span class="meta">@ViewChild</span>(<span class="string">'container'</span>, &#123; read: ViewContainerRef &#125;)</div><div class="line">  container: ViewContainerRef;</div><div class="line"></div><div class="line">  <span class="meta">@Input</span>()</div><div class="line">  <span class="keyword">type</span>: <span class="built_in">string</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>container</code> 사용법에 유의하십시오. 주입 지점으로 사용되며, 모든 동적 컨텐츠가 이 요소 아래의 DOM에 삽입됩니다. 또한 <code>ViewContainerRef</code> 유형의 프로퍼티를 사용하면 코드에서 <code>container</code>에 액세스할 수 있습니다.</p>
+<p>이 <em>Component</em>는 나중에 다음과 같이 사용할 수 있습니다.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dynamic-content</span> <span class="attr">type</span>=<span class="string">"some-value"</span>&gt;</span><span class="tag">&lt;/<span class="name">dynamic-type</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>이제 “type” 값을 기반으로 표시할 두 가지 간단한 <em>Component</em>와 추가적으로 “unknown” 타입에 대한 하나의 대체 <em>Component</em>를 소개합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'dynamic-sample-1'</span>,</div><div class="line">    template: <span class="string">`&lt;div&gt;Dynamic sample 1&lt;/div&gt;`</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> DynamicSample1Component &#123;&#125;</div><div class="line"></div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'dynamic-sample-2'</span>,</div><div class="line">    template: <span class="string">`&lt;div&gt;Dynamic sample 2&lt;/div&gt;`</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> DynamicSample2Component &#123;&#125;</div><div class="line"></div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'unknown-component'</span>,</div><div class="line">    template: <span class="string">`&lt;div&gt;Unknown component&lt;/div&gt;`</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> UnknownDynamicComponent &#123;&#125;</div></pre></td></tr></table></figure>
+<p>또한 해당 문자열을 <em>Component</em>로 변환할 수 있도록 “string” - “type” 매핑이 필요합니다. 별도의 <em>Injectable</em> 서비스 (권장) 또는 <em>Component</em> 구현의 일부일 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> mappings = &#123;</div><div class="line">   <span class="string">'sample1'</span>: DynamicSample1Component,</div><div class="line">   <span class="string">'sample2'</span>: DynamicSample2Component</div><div class="line">&#125;;</div><div class="line">getComponentType(typeName: <span class="built_in">string</span>) &#123;</div><div class="line">    <span class="keyword">let</span> <span class="keyword">type</span> = <span class="keyword">this</span>.mappings[typeName];</div><div class="line">    <span class="keyword">return</span> <span class="keyword">type</span> || UnknownDynamicComponent;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>그리고 <code>type</code> 이름이 없을 경우 <code>UnknownDynamicComponent</code>가 자동으로 반환됩니다.</p>
+<p>이제 <em>Component</em>를 동적으로 만들 준비가 되었습니다. 다음은 동적 <em>Component</em> 생성에 관심이 있는 주요 블록이 있는 <em>Component</em>의 단순 버전입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> DynamicContentComponent <span class="keyword">implements</span> OnInit, OnDestroy &#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> componentRef: ComponentRef&lt;&#123;&#125;&gt;;</div><div class="line"></div><div class="line">    <span class="keyword">constructor</span>(<span class="params"></span></div><div class="line">        <span class="keyword">private</span> componentFactoryResolver: ComponentFactoryResolver) &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    ngOnInit() &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.type) &#123;</div><div class="line">            <span class="keyword">let</span> componentType = <span class="keyword">this</span>.getComponentType(<span class="keyword">this</span>.type);</div><div class="line">            <span class="keyword">let</span> factory = <span class="keyword">this</span>.componentFactoryResolver.resolveComponentFactory(componentType);</div><div class="line">            <span class="keyword">this</span>.componentRef = <span class="keyword">this</span>.container.createComponent(factory);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    ngOnDestroy() &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.componentRef) &#123;</div><div class="line">            <span class="keyword">this</span>.componentRef.destroy();</div><div class="line">            <span class="keyword">this</span>.componentRef = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>동적으로 생성하려는 모든 <em>Component</em>는 모듈의 <code>entryComponents</code> 섹션에 등록해야합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  imports: [...],</div><div class="line">  declarations: [...],</div><div class="line">  entryComponents: [</div><div class="line">    DynamicSample1Component,</div><div class="line">    DynamicSample2Component,</div><div class="line">    UnknownDynamicComponent</div><div class="line">  ],</div><div class="line">  bootstrap: [ AppComponent ]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123; &#125;</div></pre></td></tr></table></figure>
+<p>이제 세 가지 모든 경우를 테스트 할 수 있습니다.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dynamic-content</span> <span class="attr">type</span>=<span class="string">"sample1"</span>&gt;</span><span class="tag">&lt;/<span class="name">dynamic-content</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dynamic-content</span> <span class="attr">type</span>=<span class="string">"sample2"</span>&gt;</span><span class="tag">&lt;/<span class="name">dynamic-content</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dynamic-content</span> <span class="attr">type</span>=<span class="string">"some-other-type"</span>&gt;</span><span class="tag">&lt;/<span class="name">dynamic-content</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>아마도 대부분의 경우 새로 작성된 하위 <em>Component</em>에 런타임 컨텍스트를 전달하려고 할 것입니다.</p>
+<p>서로 다른 타입의 동적 <em>Component</em>를 유지하는 가장 쉬운 방법은 공통 인터페이스 또는 추상 클래스를 작성하는 것입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> DynamicComponent &#123;</div><div class="line">   context: <span class="built_in">any</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>간단히 하기 위해, <code>context</code>에 <code>any</code> 타입을 사용했습니다. 실제 시나리오에서는 정적 검사의 이점을 얻기위해 타입을 선언할 수 있습니다.</p>
+<p><code>context</code>를 고려하여 이전에 생성된 모든 <em>Component</em>를 업데이트 할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">abstract</span> <span class="keyword">class</span> DynamicComponent &#123;</div><div class="line">    context: <span class="built_in">any</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'dynamic-sample-1'</span>,</div><div class="line">    template: <span class="string">`&lt;div&gt;Dynamic sample 1 (&#123;&#123;context?.text&#125;&#125;)&lt;/div&gt;`</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> DynamicSample1Component <span class="keyword">extends</span> DynamicComponent &#123;&#125;</div><div class="line"></div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'dynamic-sample-2'</span>,</div><div class="line">    template: <span class="string">`&lt;div&gt;Dynamic sample 2 (&#123;&#123;context?.text&#125;&#125;)&lt;/div&gt;`</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> DynamicSample2Component <span class="keyword">extends</span> DynamicComponent &#123;&#125;</div><div class="line"></div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'unknown-component'</span>,</div><div class="line">    template: <span class="string">`&lt;div&gt;Unknown component (&#123;&#123;context?.text&#125;&#125;)&lt;/div&gt;`</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> UnknownDynamicComponent <span class="keyword">extends</span> DynamicComponent &#123;&#125;</div></pre></td></tr></table></figure>
+<p>그리고 동적 <em>Component</em>도 업데이트 해야합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> DynamicContentComponent <span class="keyword">implements</span> OnInit, OnDestroy &#123;</div><div class="line">  ...</div><div class="line"> </div><div class="line">  <span class="meta">@Input</span>()</div><div class="line">  context: <span class="built_in">any</span>;</div><div class="line"> </div><div class="line">  ...</div><div class="line">  ngOnInit() &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.type) &#123;</div><div class="line">      ...</div><div class="line">      <span class="keyword">let</span> instance = &lt;DynamicComponent&gt; <span class="keyword">this</span>.componentRef.instance;</div><div class="line">      instance.context = <span class="keyword">this</span>.context;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>위의 변경 사항으로 이제 부모 <em>Component</em> 내에서 <code>context</code> 객체를 바인딩 할 수 있습니다. 다음은 간단한 데모입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'dynamic-component-demo'</span>,</div><div class="line">    template: <span class="string">`</span></div><div class="line">        &lt;div&gt;</div><div class="line">            &lt;h2&gt;Dynamic content&lt;/h2&gt;</div><div class="line">            &lt;h3&gt;Context: &lt;input type="text" [(ngModel)]="context.text"&gt;&lt;/h3&gt;</div><div class="line">            &lt;dynamic-content type="sample1" [context]="context"&gt;&lt;/dynamic-content&gt;</div><div class="line">            &lt;dynamic-content type="sample2" [context]="context"&gt;&lt;/dynamic-content&gt;</div><div class="line">            &lt;dynamic-content type="some-other-type" [context]="context"&gt;&lt;/dynamic-content&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> DynamicContentComponentDemo &#123;</div><div class="line"></div><div class="line">    context: <span class="built_in">any</span> = &#123;</div><div class="line">        text: <span class="string">'test'</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>런타임에는 세 가지 <em>Component</em>(Fallback된 <code>UnknownDynamicComponent</code> 포함)를 볼 수 있어야합니다. <code>Context</code> 입력란의 텍스트를 변경하면 모든 위젯이 자동으로 업데이트됩니다.</p>
+<p><img src="https://denysvuika.files.wordpress.com/2017/10/angular-dynamic-content-03.png" alt=""></p>
+<h3 id="일반적인-사용-사례"><a href="#일반적인-사용-사례" class="headerlink" title="일반적인 사용 사례"></a>일반적인 사용 사례</h3><p>정의 파일 (JSON, XML 등)을 기반으로 Form(또는 복합 <em>Component</em>)을 표시해야하는 경우 스키마 또는 상태를 기반으로 최종 컨텐츠를 빌드하는 동적 <em>Component</em>와 여러 동적 컨텐츠 컨테이너에서 빌드된 <em>Form Component</em>를 갖게 될 수 있습니다.</p>
+<h2 id="런타임-컴파일"><a href="#런타임-컴파일" class="headerlink" title="런타임 컴파일"></a>런타임 컴파일</h2><p>일부 고급 시나리오의 경우 Angular <em>Component</em> 또는 템플릿 편집을 완전히 제어 할 필요가 있을 수 있습니다.</p>
+<p>이 장에서는 다음 기능을 구현합니다.</p>
+<ul>
+<li>사용자에게 <em>Component</em> 템플릿을 정의하도록 합니다.</li>
+<li><em>Component</em>를 즉석에서 컴파일(사용자 정의 템플릿 + 클래스)합니다.</li>
+<li>컴포넌트를 생성하면서 NgModule을 즉시 컴파일합니다.</li>
+<li>새로 생성된 <em>Component</em> 표시합니다.</li>
+</ul>
+<p>구현은 이전 장의 동적 <em>Component</em>를 기반으로 합니다. 그리고 콘텐츠를 삽입하기위한 전용 자리 표시자가있는 기본 <em>Component</em>가 필요합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'runtime-content'</span>,</div><div class="line">    template: <span class="string">`</span></div><div class="line">        &lt;div&gt;</div><div class="line">            &lt;div #container&gt;&lt;/div&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> RuntimeContentComponent &#123;</div><div class="line"></div><div class="line">    <span class="meta">@ViewChild</span>(<span class="string">'container'</span>, &#123; read: ViewContainerRef &#125;)</div><div class="line">    container: ViewContainerRef;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>사용자가 <em>Component</em> 템플릿을 편집 할 수 있도록 기본 UI를 수정합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">    selector: <span class="string">'runtime-content'</span>,</div><div class="line">    template: <span class="string">`</span></div><div class="line">        &lt;div&gt;</div><div class="line">            &lt;h3&gt;Template&lt;/h3&gt;</div><div class="line">            &lt;div&gt;</div><div class="line">                &lt;textarea rows="5" [(ngModel)]="template"&gt;&lt;/textarea&gt;</div><div class="line">            &lt;/div&gt;</div><div class="line">            &lt;button (click)="compileTemplate()"&gt;Compile&lt;/button&gt;</div><div class="line">            &lt;h3&gt;Output&lt;/h3&gt;</div><div class="line">            &lt;div #container&gt;&lt;/div&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> RuntimeContentComponent &#123;</div><div class="line"></div><div class="line">  template: <span class="built_in">string</span> = <span class="string">'&lt;div&gt;\nHello, &#123;&#123;name&#125;&#125;\n&lt;/div&gt;'</span>;</div><div class="line">  </div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>ngModel</code>을 사용하려면 <code>AppModule</code> 내에서 <code>FormsModule</code>을 가져 와서 참조해야합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123; BrowserModule &#125; <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</div><div class="line"><span class="keyword">import</span> &#123; FormsModule &#125; <span class="keyword">from</span> <span class="string">'@angular/forms'</span>;</div><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  imports: [BrowserModule, FormsModule],</div><div class="line">  declarations: [...],</div><div class="line">  bootstrap: [ AppComponent ]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123; &#125;</div></pre></td></tr></table></figure>
+<p>렌더링될 때 다음과 같이 보일 것입니다.</p>
+<p><img src="https://denysvuika.files.wordpress.com/2017/10/angular-dynamic-content-04.png" alt=""></p>
+<p>이제 <em>Component</em> 구현의 가장 중요한 부분인 런타임 컴파일입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> RuntimeContentComponent &#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> createComponentFactorySync(compiler: Compiler, metadata: Component, componentClass: <span class="built_in">any</span>): ComponentFactory&lt;<span class="built_in">any</span>&gt; &#123;</div><div class="line">        <span class="keyword">const</span> cmpClass = componentClass || <span class="keyword">class</span> RuntimeComponent &#123; name: <span class="built_in">string</span> = <span class="string">'Denys'</span> &#125;;</div><div class="line">        <span class="keyword">const</span> decoratedCmp = Component(metadata)(cmpClass);</div><div class="line"></div><div class="line">        <span class="meta">@NgModule</span>(&#123; imports: [CommonModule], declarations: [decoratedCmp] &#125;)</div><div class="line">        <span class="keyword">class</span> RuntimeComponentModule &#123; &#125;</div><div class="line"></div><div class="line">        <span class="keyword">let</span> <span class="keyword">module</span>: ModuleWithComponentFactories&lt;any&gt; = compiler.compileModuleAndAllComponentsSync(RuntimeComponentModule);</div><div class="line">        return <span class="keyword">module</span>.componentFactories.find(f =&gt; f.componentType === decoratedCmp);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>위 코드는 사용자 지정 메타 데이터와 선택적으로 <em>Component</em> 클래스를 받습니다. 클래스가 제공되어 있지 않은 경우, 대신 <code>RuntimeComponent</code>를 미리 정의된 <code>name</code> 프로퍼티와 함께 사용됩니다. 이것은 우리가 테스트를 위해 사용할 것입니다. 그런 다음 결과 <em>Component</em>는 제공된 메타 데이터로 장식(Decorate)됩니다.</p>
+<p>다음으로, <code>RuntimeComponentModule</code> 모듈은 미리 정의된 <code>CommonModule</code>을 import(필요한 경우 목록을 확장 할 수 있음)하고, <code>declarations</code> 섹션의 일부로 이전에 생성되어 장식(Decorate)된 <em>Component</em>로 만들어집니다.</p>
+<p>마지막으로 이 함수는 Angular의 <code>Compiler</code> 서비스를 사용하여 모듈과 포함된 <em>Component</em>를 컴파일합니다. 컴파일된 모듈은 기본 <em>Component</em> 팩토리에 대한 액세스를 제공하며 이는 정확히 우리가 필요로하는 것입니다.</p>
+<p>마지막 단계에서는 다음 코드로 <code>Compile</code> 버튼을 연결합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> RuntimeContentComponent &#123;</div><div class="line"></div><div class="line">    compileTemplate() &#123;</div><div class="line"></div><div class="line">        <span class="keyword">let</span> metadata = &#123;</div><div class="line">            selector: <span class="string">`runtime-component-sample`</span>,</div><div class="line">            template: <span class="keyword">this</span>.template</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        <span class="keyword">let</span> factory = <span class="keyword">this</span>.createComponentFactorySync(<span class="keyword">this</span>.compiler, metadata, <span class="literal">null</span>);</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.componentRef) &#123;</div><div class="line">            <span class="keyword">this</span>.componentRef.destroy();</div><div class="line">            <span class="keyword">this</span>.componentRef = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.componentRef = <span class="keyword">this</span>.container.createComponent(factory);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>사용자가 <code>Compile</code> 버튼을 클릭할 때 마다 템플릿을 가져 와서 (<code>RuntimeComponent</code> 클래스가 미리 정의된 <code>name</code> 프로퍼티를 사용하여) 새 <em>Component</em>를 컴파일하고 렌더링합니다.</p>
+<p><img src="https://denysvuika.files.wordpress.com/2017/10/angular-dynamic-content-05.png" alt=""></p>
+<p>어디에서든 <em>Component</em> 템플릿을 저장하고 즉시 <em>Component</em>를 생성하려는 경우 가장 좋은 옵션입니다.</p>
+<h2 id="소스코드"><a href="#소스코드" class="headerlink" title="소스코드"></a>소스코드</h2><p>이 <a href="https://github.com/DenisVuyka/ng2-dynamic-content" target="_blank" rel="external">GitHub 저장소</a>에서 모든 소스 코드와 실제 예제 프로젝트를 얻을 수 있습니다.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://denysvuika.blog/2017/10/07/dynamic-content-in-angular/" target="_blank" rel="external">https://denysvuika.blog/2017/10/07/dynamic-content-in-angular/</a>]</p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-introduction/">Angular 튜토리얼 - 소개</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-the-hero-editor/">Angular 튜터리얼 - Hero 에디터</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-master-detail/">Angular 튜터리얼 - Master/Detail</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-multiple-components/">Angular 튜터리얼 - 다중 콤포넌트</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-services/">Angular 튜터리얼 - 서비스</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-routing/">Angular 튜터리얼 - 라우팅</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-http/">Angular 튜터리얼 - HTTP</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-http-client/">Angular HttpClient</a></li>
+<li><a href="https://infoscis.github.io/2017/06/15/angular-webpack-configuration/">Angular Webpack 설정</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/angular-translation-service/">Angular에서 간단하게 번역기능 구현하기</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/angular-dynamic-component/">Angular 동적 컴포넌트 로딩</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/dynamic-content-in-angular/">Angular에서 동적 컨텐츠 생성</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/understanding-viewchildren-contentchildren-and-querylist-in-angular/">Angular에서 ViewChildren, ContentChildren, 그리고 QueryList 이해하기</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2018/02/13/dynamic-content-in-angular/" data-id="cjkl9102y0035jguz432t8zar" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/02/13/understanding-viewchildren-contentchildren-and-querylist-in-angular/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            Angular에서 ViewChildren, ContentChildren, 그리고 QueryList 이해하기
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2018/01/31/ecmascript-6-iterators-and-generators/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">ECMAScript 6 Iterator와 Generator</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2018/02/13/dynamic-content-in-angular/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

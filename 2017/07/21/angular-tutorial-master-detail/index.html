@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Angular 튜터리얼 - Master/Detail | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Angular" />
+    
+    <meta name="description" content="Master/Detail이 페이지에서는 Tour of Heroes 앱을 확장하여 Heroes 목록을 표시하고 사용자가 Hero를 선택하고 Hero의 세부 정보를 표시하도록 합니다.
+이 페이지를 끝내면 앱은 이 라이브 예제/예제 다운로드처럼 보일 것입니다.
+어디까지 했나?Tour of Heroes 페이지를 계속하기 전에 The Hero Editor 이후에 아">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 튜터리얼 - Master/Detail">
+<meta property="og:url" content="http://infoscis.github.io/2017/07/21/angular-tutorial-master-detail/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="Master/Detail이 페이지에서는 Tour of Heroes 앱을 확장하여 Heroes 목록을 표시하고 사용자가 Hero를 선택하고 Hero의 세부 정보를 표시하도록 합니다.
+이 페이지를 끝내면 앱은 이 라이브 예제/예제 다운로드처럼 보일 것입니다.
+어디까지 했나?Tour of Heroes 페이지를 계속하기 전에 The Hero Editor 이후에 아">
+<meta property="og:image" content="https://angular.io/generated/images/guide/toh/heroes-list-selected.png">
+<meta property="og:updated_time" content="2018-01-27T15:24:29.837Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular 튜터리얼 - Master/Detail">
+<meta name="twitter:description" content="Master/Detail이 페이지에서는 Tour of Heroes 앱을 확장하여 Heroes 목록을 표시하고 사용자가 Hero를 선택하고 Hero의 세부 정보를 표시하도록 합니다.
+이 페이지를 끝내면 앱은 이 라이브 예제/예제 다운로드처럼 보일 것입니다.
+어디까지 했나?Tour of Heroes 페이지를 계속하기 전에 The Hero Editor 이후에 아">
+<meta name="twitter:image" content="https://angular.io/generated/images/guide/toh/heroes-list-selected.png">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2017/07/21/angular-tutorial-master-detail/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Angular/">Angular</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-angular-tutorial-master-detail" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Angular 튜터리얼 - Master/Detail
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/07/21/angular-tutorial-master-detail/" class="article-date">
+            <time datetime="2017-07-21T13:26:30.000Z" itemprop="datePublished">2017-07-21</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Angular/">Angular</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Master-Detail"><a href="#Master-Detail" class="headerlink" title="Master/Detail"></a>Master/Detail</h1><p>이 페이지에서는 Tour of Heroes 앱을 확장하여 Heroes 목록을 표시하고 사용자가 Hero를 선택하고 Hero의 세부 정보를 표시하도록 합니다.</p>
+<p>이 페이지를 끝내면 앱은 이 <a href="https://angular.io/generated/live-examples/toh-pt2/eplnkr.html" target="_blank" rel="external">라이브 예제</a>/<a href="https://angular.io/generated/zips/toh-pt2/toh-pt2.zip" target="_blank" rel="external">예제 다운로드</a>처럼 보일 것입니다.</p>
+<h2 id="어디까지-했나"><a href="#어디까지-했나" class="headerlink" title="어디까지 했나?"></a>어디까지 했나?</h2><p>Tour of Heroes 페이지를 계속하기 전에 <a href="https://angular.io/tutorial/toh-pt1" target="_blank" rel="external">The Hero Editor</a> 이후에 아래와 같은 구조인지 확인하십시오. 구조가 일치하지 않으면 그 페이지로 돌아가서 무엇을 놓쳤는지 파악하십시오.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">angular-tour-of-heroes</div><div class="line"> ┣ src</div><div class="line"> ┃  ┣ app</div><div class="line"> ┃  ┃  ┣ app.component.ts</div><div class="line"> ┃  ┃  ┗ app.module.ts</div><div class="line"> ┃  ┣ main.ts</div><div class="line"> ┃  ┣ index.html</div><div class="line"> ┃  ┣ styles.css</div><div class="line"> ┃  ┣ systemjs.config.js</div><div class="line"> ┃  ┗ tsconfig.json</div><div class="line"> ┣ node_modules ...</div><div class="line"> ┗ package.json</div></pre></td></tr></table></figure>
+<h2 id="앱-실행과-트랜스파일을-유지하기"><a href="#앱-실행과-트랜스파일을-유지하기" class="headerlink" title="앱 실행과 트랜스파일을 유지하기"></a>앱 실행과 트랜스파일을 유지하기</h2><p>터미널 창에서 다음 명령을 입력하십시오.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm start</div></pre></td></tr></table></figure>
+<p>이 명령은 TypeScript 컴파일러를 “watch mode”에서 실행하여 코드가 변경되면 자동으로 다시 컴파일 하도록합니다. 또한 이 명령은 앱이 브라우저에서 동시에 실행되고 코드가 변경되면 브라우저를 새로 고칩니다.</p>
+<p>다시 컴파일하거나 새로 고치지 않고 브라우저를 일시 정지하지 않아 Tour of Heroes 앱을 계속 만들 수 있습니다.</p>
+<h2 id="Hero들-표시하기"><a href="#Hero들-표시하기" class="headerlink" title="Hero들 표시하기"></a>Hero들 표시하기</h2><p>Heroes의 목록을 표시하기 위해 Hero 템플릿 view를 추가합니다.</p>
+<h3 id="Hero들-생성"><a href="#Hero들-생성" class="headerlink" title="Hero들 생성"></a>Hero들 생성</h3><p>10 명의 Hero로 구성된 배열을 만듭니다.</p>
+<p><strong>src/app/app.component.ts (hero array)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> HEROES: Hero[] = [</div><div class="line">  &#123; id: <span class="number">11</span>, name: <span class="string">'Mr. Nice'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">12</span>, name: <span class="string">'Narco'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">13</span>, name: <span class="string">'Bombasto'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">14</span>, name: <span class="string">'Celeritas'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">15</span>, name: <span class="string">'Magneta'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">16</span>, name: <span class="string">'RubberMan'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">17</span>, name: <span class="string">'Dynama'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">18</span>, name: <span class="string">'Dr IQ'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">19</span>, name: <span class="string">'Magma'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">20</span>, name: <span class="string">'Tornado'</span> &#125;</div><div class="line">];</div></pre></td></tr></table></figure>
+<p><code>HEROES</code> 배열은 이전 페이지에서 정의된 <code>Hero</code> 타입입니다. 나중에는 앱이 웹 서비스에서 Hero들의 목록을 가져 오지만 지금은 Mock Hero를 표시 합니다.</p>
+<h3 id="Hero들-노출"><a href="#Hero들-노출" class="headerlink" title="Hero들 노출"></a>Hero들 노출</h3><p><code>AppComponent</code>에 Hero들을 노출하는 바인딩을 위해 public 프로퍼티를 만듭니다.</p>
+<p><strong>app.component.ts (hero array property)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">heroes = HEROES;</div></pre></td></tr></table></figure></p>
+<p>TypeScript는 HEROES의 <code>array</code>에서 유추하기 때문에 <code>heroes</code> 타입은 따로 정의하지 않습니다.</p>
+<blockquote>
+<p>궁극적으로 Hero의 이름은 데이터 서비스에서 나올 것이므로 Hero 데이터는 클래스 구현과 분리됩니다.</p>
+</blockquote>
+<h3 id="Template에-Hero-이름-표시하기"><a href="#Template에-Hero-이름-표시하기" class="headerlink" title="Template에 Hero 이름 표시하기"></a>Template에 Hero 이름 표시하기</h3><p>정렬되지 않은 목록에 Hero 이름을 표시하려면 title 아래, detail 위에 다음 HTML을 삽입합니다.</p>
+<p><strong>app.component.ts (heroes template)</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>My Heroes<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"heroes"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- each hero goes here --&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>이제 Hero 이름으로 템플릿을 채울 수 있습니다.</p>
+<h3 id="ngFor를-이용한-Hero들-목록"><a href="#ngFor를-이용한-Hero들-목록" class="headerlink" title="ngFor를 이용한 Hero들 목록"></a>ngFor를 이용한 Hero들 목록</h3><p>목표는 <em>Component</em>의 Hero 배열을 템플릿에 바인딩하고, 반복하여 개별적으로 표시하는 것입니다.</p>
+<p>내장 <em>Directive</em> <code>*ngFor</code>를 추가하여 <code>&lt;li&gt;</code>태그를 수정합니다.</p>
+<p><strong>app.component.ts (ngFor)</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> *<span class="attr">ngFor</span>=<span class="string">"let hero of heroes"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><code>ngFor</code>의 접두사(<code>*</code>)는 이 구문에서 중요한 부분입니다. <code>&lt;li&gt;</code> 요소와 그 하위 요소가 <em>master</em> 템플릿을 구성함을 나타냅니다.</p>
+<p><code>ngFor</code> <em>Directive</em>는 <em>Component</em>의 <code>heroes</code> 배열을 반복하고 그 배열의 각 Hero에 대해 이 템플릿 인스턴스를 렌더링합니다.</p>
+<p>표현식의 <code>let hero</code> 부분은 <code>hero</code>를 템플릿 입력 변수로 식별합니다. 이 변수는 각 반복마다 현재 Hero 아이템을 보유합니다. 템플릿내에서 이 변수를 참조하여 현재 Hero의 프로퍼티에 액세스할 수 있습니다.</p>
+<p><code>ngFor</code> 및 템플릿 입력 변수에 대한 자세한 내용은 <a href="https://angular.io/guide/displaying-data" target="_blank" rel="external">데이터 표시</a> 페이지의 <a href="https://angular.io/guide/displaying-data#ngFor" target="_blank" rel="external">배열 속성 표시와 템플릿 구문 페이지의 *ngFor</a> 섹션과, <a href="https://angular.io/guide/template-syntax" target="_blank" rel="external">템플릿 구문</a> 페이지의 <a href="https://angular.io/guide/template-syntax#ngFor" target="_blank" rel="external">ngFor</a> 섹션을 참조하십시오.</p>
+</blockquote>
+<p><code>&lt;li&gt;</code>태그 안에 <code>hero</code> 템플릿 변수를 사용하여 Hero의 프로퍼티를 나타내는 내용을 추가합니다.</p>
+<p><strong>app.component.ts (ngFor template)</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> *<span class="attr">ngFor</span>=<span class="string">"let hero of heroes"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"badge"</span>&gt;</span>&#123;&#123;hero.id&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span> &#123;&#123;hero.name&#125;&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>브라우저가 새로 고침되면 Heroes의 목록이 나타납니다.</p>
+<h3 id="Hero들-스타일"><a href="#Hero들-스타일" class="headerlink" title="Hero들 스타일"></a>Hero들 스타일</h3><p>사용자에게 그들이 Hovering하는 Hero와 선택한 Hero를 시각적으로 표현해야 합니다.</p>
+<p><em>Component</em>에 스타일을 추가하기 위해 <code>@Component</code> <em>Decorator</em>의 <code>styles</code> 프로퍼티를 다음의 CSS 클래스로 설정합니다.</p>
+<p><strong>src/app/app.component.ts (styles)</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">styles: [`</div><div class="line">  .selected &#123;</div><div class="line">    background-color: #CFD8DC !important;</div><div class="line">    color: white;</div><div class="line">  &#125;</div><div class="line">  .heroes &#123;</div><div class="line">    margin: 0 0 2em 0;</div><div class="line">    list-style-type: none;</div><div class="line">    padding: 0;</div><div class="line">    width: 15em;</div><div class="line">  &#125;</div><div class="line">  .heroes li &#123;</div><div class="line">    cursor: pointer;</div><div class="line">    position: relative;</div><div class="line">    left: 0;</div><div class="line">    background-color: #EEE;</div><div class="line">    margin: .5em;</div><div class="line">    padding: .3em 0;</div><div class="line">    height: 1.6em;</div><div class="line">    border-radius: 4px;</div><div class="line">  &#125;</div><div class="line">  .heroes li.selected:hover &#123;</div><div class="line">    background-color: #BBD8DC !important;</div><div class="line">    color: white;</div><div class="line">  &#125;</div><div class="line">  .heroes li:hover &#123;</div><div class="line">    color: #607D8B;</div><div class="line">    background-color: #DDD;</div><div class="line">    left: .1em;</div><div class="line">  &#125;</div><div class="line">  .heroes .text &#123;</div><div class="line">    position: relative;</div><div class="line">    top: -3px;</div><div class="line">  &#125;</div><div class="line">  .heroes .badge &#123;</div><div class="line">    display: inline-block;</div><div class="line">    font-size: small;</div><div class="line">    color: white;</div><div class="line">    padding: 0.8em 0.7em 0 0.7em;</div><div class="line">    background-color: #607D8B;</div><div class="line">    line-height: 1em;</div><div class="line">    position: relative;</div><div class="line">    left: -1px;</div><div class="line">    top: -4px;</div><div class="line">    height: 1.8em;</div><div class="line">    margin-right: .8em;</div><div class="line">    border-radius: 4px 0 0 4px;</div><div class="line">  &#125;</div><div class="line">`]</div></pre></td></tr></table></figure></p>
+<p>여러줄 문자열을 위해 백틱 표기법을 사용해야합니다.</p>
+<p>이러한 스타일은 별도의 파일에 추가하여 사용하면 훨씬 유용합니다. 이후 페이지에서 스타일을 별도의 파일로 옮깁니다.</p>
+<p><em>Component</em>에 스타일을 지정하면 특정 <em>Component</em>로 범위가 지정됩니다. 이 스타일은 <code>AppComponent</code>에만 적용되며 외부 HTML에는 영향을 미치지 않습니다.</p>
+<p>Hero들을 표시하기 위한 템플릿은 다음과 같습니다.</p>
+<p><strong>src/app/app.component.ts (styled heroes)</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>My Heroes<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"heroes"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> *<span class="attr">ngFor</span>=<span class="string">"let hero of heroes"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"badge"</span>&gt;</span>&#123;&#123;hero.id&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span> &#123;&#123;hero.name&#125;&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="Hero-선택하기"><a href="#Hero-선택하기" class="headerlink" title="Hero 선택하기"></a>Hero 선택하기</h2><p>이제 앱에서 Heroes 목록과 상세 보기에 한명의 Hero를 표시합니다. 하지만 목록과 세부정보 보기는 연결되어 있지 않습니다. 사용자가 목록에서 Hero를 선택하면 선택한 Hero가 세부정보 보기에 나타나야 합니다. 이 UI 패턴을 “master/detail”이라고 합니다. 이 경우, <em>master</em>는 Heroes 목록이고 <em>detail</em>은 선택된 Hero입니다.</p>
+<p>다음으로 click 이벤트에 바인딩된 <code>selectedHero</code> <em>Component</em> 프로퍼티를 통해 마스터를 세부 정보에 연결합니다.</p>
+<h3 id="Click-이벤트-핸들"><a href="#Click-이벤트-핸들" class="headerlink" title="Click 이벤트 핸들"></a>Click 이벤트 핸들</h3><p>다음과 같이 <code>&lt;li&gt;</code> 클릭 이벤트 바인딩을 추가합니다.</p>
+<p><strong>app.component.ts (template excerpt)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;li *ngFor=<span class="string">"let hero of heroes"</span> (click)=<span class="string">"onSelect(hero)"</span>&gt;</div><div class="line">  ...</div><div class="line">&lt;<span class="regexp">/li&gt;</span></div></pre></td></tr></table></figure></p>
+<p>괄호는 <code>&lt;li&gt;</code>요소의 클릭 이벤트를 대상으로 식별합니다. <code>onSelect(hero)</code> 표현식은 <code>AppComponent</code> 메소드인 <code>onSelect()</code>를 호출하여 템플릿 입력 변수 <code>hero</code>를 파라미터로 전달합니다. 이것은 이전에 <code>ngFor</code> <em>Directive</em>에서 정의한 것과 동일한 <code>hero</code> 변수입니다.</p>
+<blockquote>
+<p><a href="https://angular.io/guide/user-input" target="_blank" rel="external">사용자 입력</a> 페이지 및 <a href="https://angular.io/guide/template-syntax" target="_blank" rel="external">템플릿 구문</a> 페이지의 <a href="https://angular.io/guide/template-syntax#event-binding" target="_blank" rel="external">이벤트 바인딩</a> 섹션에서 이벤트 바인딩에 대해 자세히 알수 있습니다.</p>
+</blockquote>
+<h3 id="선택된-Hero를-노출하는-Click-핸들러-추가"><a href="#선택된-Hero를-노출하는-Click-핸들러-추가" class="headerlink" title="선택된 Hero를 노출하는 Click 핸들러 추가"></a>선택된 Hero를 노출하는 Click 핸들러 추가</h3><p>더이상 한명의 Hero만 표시하지 않으므로 <code>hero</code> 프로퍼티가 필요하지 않습니다. 당신은 Hero들의 목록을 보여주고 있습니다. 그러나 사용자는 Hero중 하나를 클릭하여 선택할 수 있습니다. 그러므로 <code>hero</code> 프로퍼티를 다음과 같은 간단한 <code>selectedHero</code> 프로퍼티로 대체합니다.</p>
+<p><strong>src/app/app.component.ts (selectedHero)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">selectedHero: Hero;</div></pre></td></tr></table></figure></p>
+<p>사용자가 Hero를 선택하기 전에 Hero의 이름을 모두 선택 해제 해야하므로 <code>hero</code>와  마찬가지로 <code>selectedHero</code>도 초기화할 필요 없습니다.</p>
+<p><code>selectedHero</code> 프로퍼티를 사용자가 클릭하는 <code>hero</code>로 설정하는 <code>onSelect()</code> 메서드를 추가합니다.</p>
+<p><strong>src/app/app.component.ts (onSelect)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">onSelect(hero: Hero): <span class="built_in">void</span> &#123;</div><div class="line">  <span class="keyword">this</span>.selectedHero = hero;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>템플릿은 여전히 오래된 <code>hero</code> 프로퍼티를 참조합니다. 다음과 같이 새로운 <code>selectedHero</code> 프로퍼티에 바인딩합니다.</p>
+<p><strong>app.component.ts (template excerpt)</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>&#123;&#123;selectedHero.name&#125;&#125; details!<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">label</span>&gt;</span>id: <span class="tag">&lt;/<span class="name">label</span>&gt;</span>&#123;&#123;selectedHero.id&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">label</span>&gt;</span>name: <span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> [(<span class="attr">ngModel</span>)]=<span class="string">"selectedHero.name"</span> <span class="attr">placeholder</span>=<span class="string">"name"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="ngIf를-이용해-빈-상세보기-숨기기"><a href="#ngIf를-이용해-빈-상세보기-숨기기" class="headerlink" title="ngIf를 이용해 빈 상세보기 숨기기"></a>ngIf를 이용해 빈 상세보기 숨기기</h3><p>앱이 로드되면 <code>selectedHero</code>는 <code>undefined</code>입니다.. <code>selectedHero</code>는 사용자가 Hero의 이름을 클릭할 때 초기화됩니다. Angular는 <code>undefined</code>한 <code>selectedHero</code>의 프로퍼티를 표시할 수 없으며 다음 오류를 브라우저의 콘솔에 표시합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">EXCEPTION: TypeError: Cannot read property &apos;name&apos; of undefined in [null]</div></pre></td></tr></table></figure>
+<p>템플릿에 <code>selectedHero.name</code>이 표시 되더라도 선택한 Hero가 있을 때까지 Hero 상세 보기를 DOM 밖에서 유지해야합니다.</p>
+<p>템플릿의 HTML Hero 상세 보기를 <code>&lt;div&gt;</code>로 묶습니다. 그런 다음 내장 <code>ngIf</code> <em>Directive</em>를 추가하고 <em>Component</em>의 <code>selectedHero</code> 프로퍼티를 설정합니다.</p>
+<p><strong>src/app/app.component.ts (ngIf)</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngIf</span>=<span class="string">"selectedHero"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">h2</span>&gt;</span>&#123;&#123;selectedHero.name&#125;&#125; details!<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">label</span>&gt;</span>id: <span class="tag">&lt;/<span class="name">label</span>&gt;</span>&#123;&#123;selectedHero.id&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">label</span>&gt;</span>name: <span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> [(<span class="attr">ngModel</span>)]=<span class="string">"selectedHero.name"</span> <span class="attr">placeholder</span>=<span class="string">"name"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><code>ngIf</code> 앞에 별표 (<code>*</code>)를 잊지 마십시오.</p>
+</blockquote>
+<p>앱은 더 이상 오류가 발생하지 않고 브라우저에 Hero들의 이름 목록이 다시 표시됩니다.</p>
+<p>선택된 Hero가 없을 때 <code>ngIf</code> <em>Directive</em>는 Hero 상세 보기 HTML을 DOM에서 제거합니다. 문제가될 Hero 상세 보기나 바인딩이 없습니다.</p>
+<p>사용자가 Hero를 선택하면 <code>selectedHero</code>가 정의되고 <code>ngIf</code>는 Hero 상세 보기 내용을 DOM에 넣고 중첩된 바인딩을 평가합니다.</p>
+<blockquote>
+<p><code>ngIf</code> 및 <code>ngFor</code>에 대한 자세한 내용은 <a href="https://angular.io/guide/structural-directives" target="_blank" rel="external">Directive 구조</a> 페이지 및 <a href="https://angular.io/guide/template-syntax" target="_blank" rel="external">템플릿 구문</a> 페이지의 <a href="https://angular.io/guide/template-syntax#directives" target="_blank" rel="external">기본 제공 Directive</a> 섹션을 참조하십시오.</p>
+</blockquote>
+<h3 id="선택된-Hero의-스타일"><a href="#선택된-Hero의-스타일" class="headerlink" title="선택된 Hero의 스타일"></a>선택된 Hero의 스타일</h3><p>선택한 Hero의 세부 정보가 목록 아래에 표시되지만 목록 내에서 선택한 Hero를 식별하는 것은 어렵습니다.</p>
+<p>위에서 추가 한 <code>styles</code> 메타 데이터에는 <code>selected</code>라는 사용자 정의 CSS 클래스가 있습니다. 선택한 Hero를 더 잘 보이게 하려면 사용자가 Hero 이름을 클릭하면 이 선택된 클래스를 <code>&lt;li&gt;</code>에 적용합니다. 예를 들어, 사용자가 “Magneta”를 클릭하면 다음과 같이 독특하지만 미묘한 배경색으로 렌더링해야합니다.</p>
+<p><img src="https://angular.io/generated/images/guide/toh/heroes-list-selected.png" alt=""></p>
+<p>템플릿에서 다음 <code>[class.selected]</code> 바인딩을 <code>&lt;li&gt;</code>에 추가합니다.</p>
+<p><strong>app.component.ts (setting the CSS class)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="keyword">class</span>.selected]=<span class="string">"hero === selectedHero"</span></div></pre></td></tr></table></figure></p>
+<p>표현식 (<code>hero === selectedHero</code>)가 <code>true</code> 일 때, Angular는 <code>selected</code> CSS 클래스를 추가합니다. 그리고 표현식이 <code>false</code> 일 때 Angular는 <code>selected</code> 클래스를 제거합니다.</p>
+<blockquote>
+<p><a href="https://angular.io/guide/template-syntax#ngClass" target="_blank" rel="external">템플릿 구문</a> 가이드에서 <code>[class]</code> 바인딩에 대해 자세히 읽어보십시오.</p>
+</blockquote>
+<p><code>&lt;li&gt;</code>의 최종 버전은 다음과 같습니다.</p>
+<p><strong>app.component.ts (styling each hero)</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> *<span class="attr">ngFor</span>=<span class="string">"let hero of heroes"</span></span></div><div class="line">  [<span class="attr">class.selected</span>]=<span class="string">"hero === selectedHero"</span></div><div class="line">  (<span class="attr">click</span>)=<span class="string">"onSelect(hero)"</span>&gt;</div><div class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"badge"</span>&gt;</span>&#123;&#123;hero.id&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span> &#123;&#123;hero.name&#125;&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>“Magneta”를 클릭하면 목록이 다음과 같이 표시됩니다.</p>
+<p><img src="https://angular.io/generated/images/guide/toh/heroes-list-1.png" alt=""></p>
+<p>다음은 현재의 <code>app.component.ts</code>입니다.</p>
+<p><strong>src/app/app.component.ts</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> Hero &#123;</div><div class="line">  id: <span class="built_in">number</span>;</div><div class="line">  name: <span class="built_in">string</span>;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="keyword">const</span> HEROES: Hero[] = [</div><div class="line">  &#123; id: <span class="number">11</span>, name: <span class="string">'Mr. Nice'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">12</span>, name: <span class="string">'Narco'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">13</span>, name: <span class="string">'Bombasto'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">14</span>, name: <span class="string">'Celeritas'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">15</span>, name: <span class="string">'Magneta'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">16</span>, name: <span class="string">'RubberMan'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">17</span>, name: <span class="string">'Dynama'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">18</span>, name: <span class="string">'Dr IQ'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">19</span>, name: <span class="string">'Magma'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">20</span>, name: <span class="string">'Tornado'</span> &#125;</div><div class="line">];</div><div class="line"> </div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'my-app'</span>,</div><div class="line">  template: <span class="string">`</span></div><div class="line">    &lt;h1&gt;&#123;&#123;title&#125;&#125;&lt;/h1&gt;</div><div class="line">    &lt;h2&gt;My Heroes&lt;/h2&gt;</div><div class="line">    &lt;ul class="heroes"&gt;</div><div class="line">      &lt;li *ngFor="let hero of heroes"</div><div class="line">        [class.selected]="hero === selectedHero"</div><div class="line">        (click)="onSelect(hero)"&gt;</div><div class="line">        &lt;span class="badge"&gt;&#123;&#123;hero.id&#125;&#125;&lt;/span&gt; &#123;&#123;hero.name&#125;&#125;</div><div class="line">      &lt;/li&gt;</div><div class="line">    &lt;/ul&gt;</div><div class="line">    &lt;div *ngIf="selectedHero"&gt;</div><div class="line">      &lt;h2&gt;&#123;&#123;selectedHero.name&#125;&#125; details!&lt;/h2&gt;</div><div class="line">      &lt;div&gt;&lt;label&gt;id: &lt;/label&gt;&#123;&#123;selectedHero.id&#125;&#125;&lt;/div&gt;</div><div class="line">      &lt;div&gt;</div><div class="line">        &lt;label&gt;name: &lt;/label&gt;</div><div class="line">        &lt;input [(ngModel)]="selectedHero.name" placeholder="name"/&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  `,</div><div class="line">  styles: [<span class="string">`</span></div><div class="line">    .selected &#123;</div><div class="line">      background-color: #CFD8DC !important;</div><div class="line">      color: white;</div><div class="line">    &#125;</div><div class="line">    .heroes &#123;</div><div class="line">      margin: 0 0 2em 0;</div><div class="line">      list-style-type: none;</div><div class="line">      padding: 0;</div><div class="line">      width: 15em;</div><div class="line">    &#125;</div><div class="line">    .heroes li &#123;</div><div class="line">      cursor: pointer;</div><div class="line">      position: relative;</div><div class="line">      left: 0;</div><div class="line">      background-color: #EEE;</div><div class="line">      margin: .5em;</div><div class="line">      padding: .3em 0;</div><div class="line">      height: 1.6em;</div><div class="line">      border-radius: 4px;</div><div class="line">    &#125;</div><div class="line">    .heroes li.selected:hover &#123;</div><div class="line">      background-color: #BBD8DC !important;</div><div class="line">      color: white;</div><div class="line">    &#125;</div><div class="line">    .heroes li:hover &#123;</div><div class="line">      color: #607D8B;</div><div class="line">      background-color: #DDD;</div><div class="line">      left: .1em;</div><div class="line">    &#125;</div><div class="line">    .heroes .text &#123;</div><div class="line">      position: relative;</div><div class="line">      top: -3px;</div><div class="line">    &#125;</div><div class="line">    .heroes .badge &#123;</div><div class="line">      display: inline-block;</div><div class="line">      font-size: small;</div><div class="line">      color: white;</div><div class="line">      padding: 0.8em 0.7em 0 0.7em;</div><div class="line">      background-color: #607D8B;</div><div class="line">      line-height: 1em;</div><div class="line">      position: relative;</div><div class="line">      left: -1px;</div><div class="line">      top: -4px;</div><div class="line">      height: 1.8em;</div><div class="line">      margin-right: .8em;</div><div class="line">      border-radius: 4px 0 0 4px;</div><div class="line">    &#125;</div><div class="line">  `]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent &#123;</div><div class="line">  title = <span class="string">'Tour of Heroes'</span>;</div><div class="line">  heroes = HEROES;</div><div class="line">  selectedHero: Hero;</div><div class="line"> </div><div class="line">  onSelect(hero: Hero): <span class="built_in">void</span> &#123;</div><div class="line">    <span class="keyword">this</span>.selectedHero = hero;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="어디까지-왔나"><a href="#어디까지-왔나" class="headerlink" title="어디까지 왔나?"></a>어디까지 왔나?</h2><p>이 페이지에서 작업한 내용은 다음과 같습니다.</p>
+<ul>
+<li>Tour of Heroes 앱은 선택 가능한 Hero의 목록을 표시합니다.</li>
+<li>Hero를 선택하고 Hero의 상세 보기를 표시하는 기능을 추가했습니다.</li>
+<li><em>Component</em>의 템플릿에서 <code>ngIf</code> 및 <code>ngFor</code>라는 기본 제공 <em>Directive</em>를 사용하는 방법을 배웠습니다.</li>
+</ul>
+<p>앱은 이 <a href="https://angular.io/generated/live-examples/toh-pt2/eplnkr.html" target="_blank" rel="external">라이브 예제</a>/<a href="https://angular.io/generated/zips/toh-pt2/toh-pt2.zip" target="_blank" rel="external">예제 다운로드</a>와 비슷해야합니다.</p>
+<h2 id="앞으로의-여정"><a href="#앞으로의-여정" class="headerlink" title="앞으로의 여정"></a>앞으로의 여정</h2><p>Tour of Heroes 앱을 확장했지만 아직 완료되지 않았습니다. 일반적인 앱은 하나의 단독 <em>Component</em>를 사용하지 않습니다. <a href="https://angular.io/tutorial/toh-pt3" target="_blank" rel="external">다음 페이지</a>에서는 앱을 하위 <em>Component</em>로 분할하여 함께 사용하게됩니다.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://angular.io/tutorial/toh-pt2" target="_blank" rel="external">https://angular.io/tutorial/toh-pt2</a>]</p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-introduction/">Angular 튜토리얼 - 소개</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-the-hero-editor/">Angular 튜터리얼 - Hero 에디터</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-multiple-components/">Angular 튜터리얼 - 다중 콤포넌트</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-services/">Angular 튜터리얼 - 서비스</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-routing/">Angular 튜터리얼 - 라우팅</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-http/">Angular 튜터리얼 - HTTP</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-http-client/">Angular HttpClient</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/angular-dynamic-component/">Angular 동적 컴포넌트 로딩</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2017/07/21/angular-tutorial-master-detail/" data-id="cjkl9101s001tjguzs6ozvw2j" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/07/21/angular-tutorial-introduction/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            Angular 튜터리얼 - 소개
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/07/21/angular-tutorial-multiple-components/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">Angular 튜터리얼 - 다중 콤포넌트</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2017/07/21/angular-tutorial-master-detail/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

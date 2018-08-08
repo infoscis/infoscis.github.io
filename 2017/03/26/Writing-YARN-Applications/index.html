@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>간단한 YARN Application 만들기 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Hadoop,YARN" />
+    
+    <meta name="description" content="이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.의역, 오역, 직역이 있을 수 있음을 알려드립니다.Original article: Writing YARN Applications이문서는 아파치 하둡 2.7.2 기준으로 작성되어 있습니다.
+
+
+Purpose이 문서는 High level에서 YARN용 Application을 구현하는 방법을 설명">
+<meta property="og:type" content="article">
+<meta property="og:title" content="간단한 YARN Application 만들기">
+<meta property="og:url" content="http://infoscis.github.io/2017/03/26/Writing-YARN-Applications/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.의역, 오역, 직역이 있을 수 있음을 알려드립니다.Original article: Writing YARN Applications이문서는 아파치 하둡 2.7.2 기준으로 작성되어 있습니다.
+
+
+Purpose이 문서는 High level에서 YARN용 Application을 구현하는 방법을 설명">
+<meta property="og:updated_time" content="2017-06-19T14:35:28.354Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="간단한 YARN Application 만들기">
+<meta name="twitter:description" content="이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.의역, 오역, 직역이 있을 수 있음을 알려드립니다.Original article: Writing YARN Applications이문서는 아파치 하둡 2.7.2 기준으로 작성되어 있습니다.
+
+
+Purpose이 문서는 High level에서 YARN용 Application을 구현하는 방법을 설명">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2017/03/26/Writing-YARN-Applications/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Hadoop/">Hadoop</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-Writing-YARN-Applications" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        간단한 YARN Application 만들기
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/03/26/Writing-YARN-Applications/" class="article-date">
+            <time datetime="2017-03-25T15:59:05.000Z" itemprop="datePublished">2017-03-26</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Hadoop/">Hadoop</a>, <a class="tag-link" href="/tags/YARN/">YARN</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>Original article: <a href="https://hadoop.apache.org/docs/stable/hadoop-yarn/hadoop-yarn-site/WritingYarnApplications.html" target="_blank" rel="external">Writing YARN Applications</a><br>이문서는 아파치 하둡 2.7.2 기준으로 작성되어 있습니다.</p>
+</blockquote>
+<hr>
+<h2 id="Purpose"><a href="#Purpose" class="headerlink" title="Purpose"></a>Purpose</h2><p>이 문서는 High level에서 YARN용 Application을 구현하는 방법을 설명합니다.</p>
+<h2 id="개념-및-흐름"><a href="#개념-및-흐름" class="headerlink" title="개념 및 흐름"></a>개념 및 흐름</h2><p>일반적인 YARN 프로그램은 응용 프로그램을 제출하는 클라이언트(Driver 클래스)가 YARN ResourceManager(RM)에 응용 프로그램을 제출하는 형식입니다. 이 작업은 YarnClient object를 설정하여 수행 할 수 있습니다.<br>YarnClient가 시작되면 클라이언트는 응용 프로그램 컨텍스트를 설정하고, ApplicationMaster(AM)가 포함 된 응용 프로그램의 첫 번째 컨테이너를 준비한 후 응용 프로그램을 제출할 수 있습니다.</p>
+<p>응용 프로그램을 실행하는 데 필요한 로컬 file/jar, 실행 해야하는 실제 명령 (필요한 command line argument 사용), 모든 OS 환경 설정 (선택 사항) 등의 정보를 제공해야합니다.또한 ApplicationMaster를 위해 필요한 유닉스 프로세스를 효과적으로 기술 할 필요가 있습니다.</p>
+<p>YARN ResourceManager는 할당 된 컨테이너에서 지정한대로 ApplicationMaster를 시작합니다. 실행된 ApplicationMaster는 YARN 클러스터와 통신하고 응용 프로그램 실행을 처리합니다. 이러한 작업은 Asynchronous 방식으로 수행됩니다.</p>
+<p>응용 프로그램 시작 시간 동안 ApplicationMaster의 주요 작업은 다음과 같습니다.<br>a) 향후 컨테이너에 대한 자원을 협상하고 할당하기 위해 ResourceManager와 통신하고,<br>b) 컨테이너 할당 후 YARN <strong>NodeManager</strong> (NMs)와 통신하여 응용 프로그램 컨테이너를 시작합니다 . </p>
+<p>a)는 <em>AMRMClientAsyncCallbackHandler</em> 유형의 Event Handler에 지정된 이벤트 핸들링 메소드로 <em>AMRMClientAsync</em> 오브젝트를 통해 비동기 적으로 수행 할 수 있습니다. Event Handler는 클라이언트에 명시적으로 설정해야합니다.</p>
+<p>b)는 컨테이너가 할당 될 때 컨테이너를 시작하는 실행 가능한 object를 실행함으로써 수행 될 수 있습니다. 이 컨테이너를 시작하는 과정에서 AM은 command line argument, 환경 등과 같은 실행 정보가있는 <em>ContainerLaunchContext</em>를 지정해야합니다.</p>
+<p>응용 프로그램 실행 중에 ApplicationMaster는 <em>NMClientAsync</em> 객체를 통해 NodeManager와 통신합니다. 모든 컨테이너 이벤트는 <em>NMClientAsync</em>와 연결된 <em>NMClientAsync.CallbackHandler</em>에 의해 처리됩니다. 일반적인 Callback handler는 클라이언트 시작, 중지, 상태 업데이트 및 오류를 처리합니다. 또한 ApplicationMaster는 <em>AMRMClientAsync.CallbackHandler</em>의 <em>getProgress()</em> 메소드를 호출하여 ResourceManager에 실행 진행률을 보고합니다.</p>
+<p>Asynchronous 클라이언트 외에도 특정 워크 플로 (AMRMClient 및 NMClient)에 대한 Synchronous 버전이 있습니다. Asynchronous 클라이언트는 (주관적으로) 보다 간단한 사용법 때문에 권장되며 이 문서에서는 주로 Asynchronous 클라이언트에 대해 다룹니다. Synchronous 클라이언트에 대한 자세한 내용은 <em>AMRMClient</em> 및 <em>NMClient</em>를 참조하십시오.</p>
+<h2 id="Interfaces"><a href="#Interfaces" class="headerlink" title="Interfaces"></a>Interfaces</h2><p>다음은 중요한 인터페이스입니다.</p>
+<p><strong>Client</strong> &lt;–&gt; <strong>ResourceManager</strong><br>  YarnClient 객체를 사용합니다.</p>
+<p><strong>ApplicationMaster</strong> &lt;–&gt; <strong>ResourceManager</strong><br>  <em>AMRMClientAsync</em> object를사용하여 <em>AMRMClientAsync.CallbackHandler</em>에 의해 이벤트를 비동기적으로 처리합니다.</p>
+<p><strong>ApplicationMaster</strong> &lt;–&gt; <strong>NodeManager</strong><br>  컨테이너들을 실행 합니다. <em>NMClientAsync</em> object를 사용하여 노드 관리자와 통신하고 <em>NMClientAsync.CallbackHandler</em>에 의해 컨테이너 이벤트를 처리합니다.</p>
+<blockquote>
+<p>YARN 응용 프로그램 (ApplicationClientProtocol, ApplicationMasterProtocol 및 ContainerManagementProtocol)의 세가지 주요 프로토콜은 여전히 유효합니다. 세가지 클라이언트는 YARN 응용 프로그램에 대한보다 단순한 프로그래밍 모델을 제공하기 위해 이 세가지 프로토콜을 래핑합니다.</p>
+<p>매우 드문 경우지만 프로그래머는 응용 프로그램을 구현하기 위해 3개의 프로토콜을 직접 사용할 수 있습니다. 그러나 <em>일반적인 사용 사례에서는 이러한 동작이 더 이상 권장되지 않습니다.</em></p>
+</blockquote>
+<h2 id="간단한-Yarn-Application-작성"><a href="#간단한-Yarn-Application-작성" class="headerlink" title="간단한 Yarn Application 작성"></a>간단한 Yarn Application 작성</h2><h3 id="Client-작성"><a href="#Client-작성" class="headerlink" title="Client 작성"></a>Client 작성</h3><p>클라이언트가 해야 할 첫 번째 단계는 YarnClient를 초기화하고 시작하는 것입니다.<br>  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">YarnClient yarnClient = YarnClient.createYarnClient();</div><div class="line">yarnClient.init(conf);</div><div class="line">yarnClient.start();</div></pre></td></tr></table></figure></p>
+<p>일단 클라이언트가 설정되면 클라이언트는 <code>application</code>을 작성하고 <code>application ID</code>를 가져와야합니다.<br>  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">YarnClientApplication app = yarnClient.createApplication();</div><div class="line">GetNewApplicationResponse appResponse = app.getNewApplicationResponse();</div></pre></td></tr></table></figure></p>
+<p>새 응용 프로그램에 대한 <em>YarnClientApplication</em>의 응답에는 클러스터의 최소/최대 자원 기능과 같은 클러스터에 대한 정보도 들어 있습니다. 이는 ApplicationMaster가 시작될 컨테이너의 스펙을 올바르게 설정할 수 있도록하기 위해 필요합니다. 자세한 내용은 <em>GetNewApplicationResponse</em>를 참조하십시오.</p>
+<p>클라이언트의 주된 요지는 RM이 AM을 시작하는 데 필요한 모든 정보를 정의하는 <em>ApplicationSubmissionContext</em>를 설정하는 것입니다. 클라이언트는 컨텍스트에 다음을 설정해야합니다.</p>
+<ul>
+<li>Application 정보 : ID, 이름</li>
+<li>Queue, Priority 정보 : 응용 프로그램이 전송 될 대기열, 응용 프로그램에 할당 될 우선 순위입니다.</li>
+<li>User : 응용 프로그램을 제출하는 사용자</li>
+<li><p>ContainerLaunchContext : AM이 시작되고 실행될 컨테이너를 정의하는 정보입니다. 이전에 언급했듯이 <strong>ContainerLaunchContext</strong>는 로컬 리소스 (바이너리, jar, 파일 등), 환경 설정 (CLASSPATH 등), 실행할 명령 및 보안 토큰 (RECT)과 같은 응용 프로그램을 실행하는 데 필요한 모든 필수 정보를 정의합니다. ).</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// application 제출 컨텍스트 설정</span></div><div class="line">ApplicationSubmissionContext appContext = app.getApplicationSubmissionContext();</div><div class="line">ApplicationId appId = appContext.getApplicationId();</div><div class="line"></div><div class="line">appContext.setKeepContainersAcrossApplicationAttempts(keepContainers);</div><div class="line">appContext.setApplicationName(appName);</div><div class="line"></div><div class="line"><span class="comment">// Application Master에 대한 로컬 리소스 설정.</span></div><div class="line"><span class="comment">// 필요한 경우 로컬 파일 또는 아카이브.</span></div><div class="line"><span class="comment">// 이 시나리오에서 Application Master의 jar 파일은 로컬 자원의 일부.</span></div><div class="line">Map&lt;String, LocalResource&gt; localResources = <span class="keyword">new</span> HashMap&lt;String, LocalResource&gt;();</div><div class="line"></div><div class="line">LOG.info(<span class="string">"Copy App Master jar from local filesystem and add to local environment"</span>);</div><div class="line"><span class="comment">// Application Master jar파일을 hdfs filesystem으로 복사</span></div><div class="line"><span class="comment">// 대상 jar 경로를 가리 키도록 로컬 리소스를 생성.</span></div><div class="line">FileSystem fs = FileSystem.get(conf);</div><div class="line">addToLocalResources(fs, appMasterJar, appMasterJarPath, appId.toString(), localResources, <span class="keyword">null</span>);</div><div class="line"></div><div class="line"><span class="comment">// 필요한 경우 log4j properties를 설정</span></div><div class="line"><span class="keyword">if</span> (!log4jPropFile.isEmpty()) &#123;</div><div class="line">  addToLocalResources(fs, log4jPropFile, log4jPath, appId.toString(), localResources, <span class="keyword">null</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 쉘 스크립트는 실행될 최종 컨테이너에서 사용할 수 있어야 합니다.</span></div><div class="line"><span class="comment">// 이를 위해서는 우선 yarn 프레임 워크에서 볼 수있는 파일 시스템에 복사해야합니다.</span></div><div class="line"><span class="comment">// Shell 스크립트는 Application Master에서 필요하지 않으므로 Application Master를 위해 로컬 리소스로 설정할 필요가 없습니다.</span></div><div class="line">String hdfsShellScriptLocation = <span class="string">""</span>;</div><div class="line"><span class="keyword">long</span> hdfsShellScriptLen = <span class="number">0</span>;</div><div class="line"><span class="keyword">long</span> hdfsShellScriptTimestamp = <span class="number">0</span>;</div><div class="line"><span class="keyword">if</span> (!shellScriptPath.isEmpty()) &#123;</div><div class="line">  Path shellSrc = <span class="keyword">new</span> Path(shellScriptPath);</div><div class="line">  String shellPathSuffix = appName + <span class="string">"/"</span> + appId.toString() + <span class="string">"/"</span> + SCRIPT_PATH;</div><div class="line">  Path shellDst = <span class="keyword">new</span> Path(fs.getHomeDirectory(), shellPathSuffix);</div><div class="line">  fs.copyFromLocalFile(<span class="keyword">false</span>, <span class="keyword">true</span>, shellSrc, shellDst);</div><div class="line">  hdfsShellScriptLocation = shellDst.toUri().toString();</div><div class="line">  FileStatus shellFileStatus = fs.getFileStatus(shellDst);</div><div class="line">  hdfsShellScriptLen = shellFileStatus.getLen();</div><div class="line">  hdfsShellScriptTimestamp = shellFileStatus.getModificationTime();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (!shellCommand.isEmpty()) &#123;</div><div class="line">  addToLocalResources(fs, <span class="keyword">null</span>, shellCommandPath, appId.toString(), localResources, shellCommand);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (shellArgs.length &gt; <span class="number">0</span>) &#123;</div><div class="line">  addToLocalResources(fs, <span class="keyword">null</span>, shellArgsPath, appId.toString(), localResources, StringUtils.join(shellArgs, <span class="string">" "</span>));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// env 변수를 설정하여 Application Master가 실행될 env에 설정합니다.</span></div><div class="line">LOG.info(<span class="string">"Set the environment for the application master"</span>);</div><div class="line">Map&lt;String, String&gt; env = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</div><div class="line"></div><div class="line"><span class="comment">// shell 스크립트의 위치를 env에 넣는다.</span></div><div class="line"><span class="comment">// env info를 사용하여 Application Master는 Shell 스크립트를 실행하기 위해 실행될 최종 컨테이너에 대한 올바른 로컬 리소스를 만듭니다</span></div><div class="line">env.put(DSConstants.DISTRIBUTEDSHELLSCRIPTLOCATION, hdfsShellScriptLocation);</div><div class="line">env.put(DSConstants.DISTRIBUTEDSHELLSCRIPTTIMESTAMP, Long.toString(hdfsShellScriptTimestamp));</div><div class="line">env.put(DSConstants.DISTRIBUTEDSHELLSCRIPTLEN, Long.toString(hdfsShellScriptLen));</div><div class="line"></div><div class="line"><span class="comment">// AppMaster.jar 위치를 클래스 경로에 추가.</span></div><div class="line"><span class="comment">// 어떤 점에서 우리는 env에 특정 hadoop 클래스 경로를 추가 할 필요가 없습니다.</span></div><div class="line"><span class="comment">// 이제 classpath를 포함하여 필요한 모든 classpath를 "."로 설정하십시오.</span></div><div class="line"></div><div class="line">StringBuilder classPathEnv = <span class="keyword">new</span> StringBuilder(Environment.CLASSPATH.$$())</div><div class="line">.append(ApplicationConstants.CLASS_PATH_SEPARATOR).append(<span class="string">"./*"</span>);</div><div class="line"><span class="keyword">for</span> (String c : conf.getStrings(</div><div class="line">    YarnConfiguration.YARN_APPLICATION_CLASSPATH,</div><div class="line">    YarnConfiguration.DEFAULT_YARN_CROSS_PLATFORM_APPLICATION_CLASSPATH)) &#123;</div><div class="line">  classPathEnv.append(ApplicationConstants.CLASS_PATH_SEPARATOR);</div><div class="line">  classPathEnv.append(c.trim());</div><div class="line">&#125;</div><div class="line">classPathEnv.append(ApplicationConstants.CLASS_PATH_SEPARATOR).append(<span class="string">"./log4j.properties"</span>);</div><div class="line"></div><div class="line"><span class="comment">// AM을 실행하는 데 필요한 명령어를 설정</span></div><div class="line">Vector&lt;CharSequence&gt; vargs = <span class="keyword">new</span> Vector&lt;CharSequence&gt;(<span class="number">30</span>);</div><div class="line"></div><div class="line"><span class="comment">// Java 실행명렁어 설정</span></div><div class="line">LOG.info(<span class="string">"Setting up app master command"</span>);</div><div class="line">vargs.add(Environment.JAVA_HOME.$$() + <span class="string">"/bin/java"</span>);</div><div class="line"><span class="comment">// Xmx 메모리 설정</span></div><div class="line">vargs.add(<span class="string">"-Xmx"</span> + amMemory + <span class="string">"m"</span>);</div><div class="line"><span class="comment">// Set class name</span></div><div class="line">vargs.add(appMasterMainClass);</div><div class="line"><span class="comment">// AM paramter 설정</span></div><div class="line">vargs.add(<span class="string">"--container_memory "</span> + String.valueOf(containerMemory));</div><div class="line">vargs.add(<span class="string">"--container_vcores "</span> + String.valueOf(containerVirtualCores));</div><div class="line">vargs.add(<span class="string">"--num_containers "</span> + String.valueOf(numContainers));</div><div class="line">vargs.add(<span class="string">"--priority "</span> + String.valueOf(shellCmdPriority));</div><div class="line"></div><div class="line"><span class="keyword">for</span> (Map.Entry&lt;String, String&gt; entry : shellEnv.entrySet()) &#123;</div><div class="line">  vargs.add(<span class="string">"--shell_env "</span> + entry.getKey() + <span class="string">"="</span> + entry.getValue());</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (debugFlag) &#123;</div><div class="line">  vargs.add(<span class="string">"--debug"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">vargs.add(<span class="string">"1&gt;"</span> + ApplicationConstants.LOG_DIR_EXPANSION_VAR + <span class="string">"/AppMaster.stdout"</span>);</div><div class="line">vargs.add(<span class="string">"2&gt;"</span> + ApplicationConstants.LOG_DIR_EXPANSION_VAR + <span class="string">"/AppMaster.stderr"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 최종 명령어 생성</span></div><div class="line">StringBuilder command = <span class="keyword">new</span> StringBuilder();</div><div class="line"><span class="keyword">for</span> (CharSequence str : vargs) &#123;</div><div class="line">  command.append(str).append(<span class="string">" "</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">LOG.info(<span class="string">"Completed setting up app master command "</span> + command.toString());</div><div class="line">List&lt;String&gt; commands = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">commands.add(command.toString());</div><div class="line"></div><div class="line"><span class="comment">// AM을 위한 Container launch 컨텍스트 설정</span></div><div class="line">ContainerLaunchContext amContainer = ContainerLaunchContext.newInstance(localResources, env, commands, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line"></div><div class="line"><span class="comment">// 리소스 유형 요구사항 설정</span></div><div class="line"><span class="comment">// 이제는 메모리와 vCore가 모두 지원되므로 메모리 및 vCore 요구 사항을 설정.</span></div><div class="line">Resource capability = Resource.newInstance(amMemory, amVCores);</div><div class="line">appContext.setResource(capability);</div><div class="line"></div><div class="line"><span class="comment">// 서비스 데이터는 응용 프로그램에 전달 될 수있는 binary BLOB입니다.</span></div><div class="line"><span class="comment">// 이 시나리오에서는 필요 없음</span></div><div class="line"><span class="comment">// amContainer.setServiceData(serviceData);</span></div><div class="line"></div><div class="line"><span class="comment">// Setup security tokens</span></div><div class="line"><span class="keyword">if</span> (UserGroupInformation.isSecurityEnabled()) &#123;</div><div class="line">  <span class="comment">// Note: Credentials 클래스는 HDFS 및 MapReduce에 대해 LimitedPrivate로 표시됩니다.</span></div><div class="line">  Credentials credentials = <span class="keyword">new</span> Credentials();</div><div class="line">  String tokenRenewer = conf.get(YarnConfiguration.RM_PRINCIPAL);</div><div class="line">  <span class="keyword">if</span> (tokenRenewer == <span class="keyword">null</span> | | tokenRenewer.length() == <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"Can't get Master Kerberos principal for the RM to use as renewer"</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// 지금은 기본 파일 시스템에 대한 토큰만 얻습니다.</span></div><div class="line">  <span class="keyword">final</span> Token&lt;?&gt; tokens[] = fs.addDelegationTokens(tokenRenewer, credentials);</div><div class="line">  <span class="keyword">if</span> (tokens != <span class="keyword">null</span>) &#123;</div><div class="line">    <span class="keyword">for</span> (Token&lt;?&gt; token : tokens) &#123;</div><div class="line">      LOG.info(<span class="string">"Got dt for "</span> + fs.getUri() + <span class="string">"; "</span> + token);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  DataOutputBuffer dob = <span class="keyword">new</span> DataOutputBuffer();</div><div class="line">  credentials.writeTokenStorageToStream(dob);</div><div class="line">  ByteBuffer fsTokens = ByteBuffer.wrap(dob.getData(), <span class="number">0</span>, dob.getLength());</div><div class="line">  amContainer.setTokens(fsTokens);</div><div class="line">&#125;</div><div class="line"></div><div class="line">appContext.setAMContainerSpec(amContainer);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>설정 프로세스가 완료되면 클라이언트는 지정된 우선 순위 및 대기열을 사용하여 응용 프로그램을 제출할 준비가됩니다.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// AM의 priority 설정</span></div><div class="line">Priority pri = Priority.newInstance(amPriority);</div><div class="line">appContext.setPriority(pri);</div><div class="line"></div><div class="line"><span class="comment">// RM에서 application이 제출 될 대기열을 설정.</span></div><div class="line">appContext.setQueue(amQueue);</div><div class="line"></div><div class="line"><span class="comment">// Application Mansger에 application 제출</span></div><div class="line"><span class="comment">// SubmitApplicationResponse submitResp = applicationsManager.submitApplication(appRequest);</span></div><div class="line"></div><div class="line">yarnClient.submitApplication(appContext);</div></pre></td></tr></table></figure>
+<p>이 시점에서 RM은 Application을 수락하고 백그라운드에서 필요한 사양의 컨테이너를 할당 한 다음, 할당 된 컨테이너에서 AM을 설정하고 시작하는 프로세스를 진행합니다.<br>클라이언트가 실제 작업의 진행 상황을 추적 할 수 있는 여러 가지 방법이 있습니다.<br>RM과 통신하여 YarnClient의 <em>getApplicationReport()</em> 메소드를 통해 애플리케이션의 보고서를 요청할 수 있습니다.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Get application report for the appId we are interested in</span></div><div class="line">ApplicationReport report = yarnClient.getApplicationReport(appId);</div></pre></td></tr></table></figure>
+<p>RM으로 부터 받은 <em>ApplicationReport</em>는 아래와 같이 구성되어 있습니다.</p>
+<ul>
+<li>일반 응용 프로그램 정보 : 응용 프로그램 ID, 응용 프로그램이 제출 된 큐, 응용 프로그램을 제출 한 사용자 및 응용 프로그램의 시작 시간.</li>
+<li>ApplicationMaster 상세 정보 : AM이 실행되는 호스트, 클라이언트의 요청을 수신하는 rpc 포트 (있는 경우) 및 클라이언트가 AM과 통신해야하는 토큰.</li>
+<li>응용 프로그램 추적 정보 : 응용 프로그램에서 진행 추적의 일부 양식을 지원하는 경우 클라이언트가 진행 상황을 모니터링하기 위해 볼 수있는 ApplicationReport의 <em>getTrackingUrl()</em> 메서드를 통해 사용할 수있는 추적 URL을 설정할 수 있습니다.</li>
+<li>응용 프로그램 상태 : ResourceManager에서 볼 수있는 응용 프로그램 상태는 <em>ApplicationReport.getYarnApplicationState</em>를 통해 사용할 수 있습니다. YarnApplicationState가 FINISHED로 설정된 경우 클라이언트는 <em>ApplicationReport.getFinalApplicationStatus</em>를 참조하여 응용 프로그램 작업 자체의 실제 성공/실패를 확인해야합니다. 실패한 경우 <em>ApplicationReport.getDiagnostics</em>가 실패에 대해 더 많은 정보를 제공하는 데 유용 할 수 있습니다.</li>
+<li>ApplicationMaster가 지원하면 클라이언트는 응용 프로그램 보고서에서 얻은 <strong>host:rpcport</strong> 정보를 통해 AM 자체에 진행 상태 업데이트를 직접 쿼리 할 수 있습니다. 가능한 경우 보고서에서 얻은 추적 URL을 사용할 수도 있습니다.</li>
+</ul>
+<p>특정 상황에서 응용 프로그램이 너무 오래 걸리거나 다른 요인으로 인해 클라이언트가 응용 프로그램을 종료하려고 할 수 있습니다. YarnClient는 클라이언트가 ResourceManager를 통해 AM에 kill 신호를 보낼 수있게하는 killApplication 호출을 지원합니다. 그렇게 설계된 경우 ApplicationMaster는 클라이언트가 활용할 수있는 rpc 계층을 통해 중단 호출을 지원할 수도 있습니다.<br>  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yarnClient.killApplication(appId);</div></pre></td></tr></table></figure></p>
+<h3 id="ApplicationMaster-AM-작성"><a href="#ApplicationMaster-AM-작성" class="headerlink" title="ApplicationMaster (AM) 작성"></a>ApplicationMaster (AM) 작성</h3><p>AM은 실제 작업 소유자입니다. AM은 RM에 의해 시작되며 클라이언트를 통해 AM 감독 및 완료 임무가 주어진 모든 필요한 정보와 자원을 제공 받게됩니다.<br>멀티 테넌시 특성을 고려할 때 다른 컨테이너와 물리적 호스트를 공유 할 수있는 컨테이너 내에서 AM이 시작될 때 미리 설정된된 포트을 listen 할수 있다는 것과 같은 가정은 할 수 없습니다.</p>
+<p>AM이 시작되면 Environment를 통해 여러 parameter를 사용할 수 있습니다. 여기에는 AM 컨테이너의 ContainerId, 응용 프로그램 제출 시간 및 ApplicationMaster를 실행하는 NM(NodeManager) 호스트에 대한 세부 정보가 포함됩니다. <em>ApplicationConstants</em>는 parameter 이름을 참조합니다.</p>
+<p>RM과의 모든 상호 작용에는 <em>ApplicationAttemptId</em>가 필요합니다 (실패한 경우 응용 프로그램마다 여러 번 시도 할 수 있음). <em>ApplicationAttemptId</em>는 AM의 컨테이너 ID에서 가져올 수 있습니다. Environment에서 얻은 값을 object로 변환하는 helper API가 있습니다.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Map&lt;String, String&gt; envs = System.getenv();</div><div class="line">String containerIdString = envs.get(ApplicationConstants.AM_CONTAINER_ID_ENV);</div><div class="line"><span class="keyword">if</span> (containerIdString == <span class="keyword">null</span>) &#123;</div><div class="line">  <span class="comment">// 컨테이너 ID는 항상 프레임 워크에 의해 env에 설정됩니다.</span></div><div class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"ContainerId not set in the environment"</span>);</div><div class="line">&#125;</div><div class="line">ContainerId containerId = ConverterUtils.toContainerId(containerIdString);</div><div class="line">ApplicationAttemptId appAttemptID = containerId.getApplicationAttemptId();</div></pre></td></tr></table></figure>
+<p>AM이 완전히 초기화 된 후에 ResourceManager와 NodeManager에서 두개의 클라이언트를 시작할 수 있습니다. 여기에서는 커스터마이징 된 Event handler를 사용하여 설정하고 이 Event handler는 나중에 대해 자세히 설명합니다.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">AMRMClientAsync.CallbackHandler allocListener = <span class="keyword">new</span> RMCallbackHandler();</div><div class="line">amRMClient = AMRMClientAsync.createAMRMClientAsync(<span class="number">1000</span>, allocListener);</div><div class="line">amRMClient.init(conf);</div><div class="line">amRMClient.start();</div><div class="line"></div><div class="line">containerListener = createNMCallbackHandler();</div><div class="line">nmClientAsync = <span class="keyword">new</span> NMClientAsyncImpl(containerListener);</div><div class="line">nmClientAsync.init(conf);</div><div class="line">nmClientAsync.start();</div></pre></td></tr></table></figure>
+<p>AM은 AM이 살아 있고 여전히 실행 중임을 알리기 위해 RM에게 하트비트를 Emit 해야합니다. RM의 timeout 만료는 <em>YarnConfiguration.RM_AM_EXPIRY_INTERVAL_MS</em>를 통해 액세스 할 수있는 구성 설정에 의해 정의되며 기본값은 <em>YarnConfiguration.DEFAULT_RM_AM_EXPIRY_INTERVAL_MS</em>로 정의됩니다. ApplicationMaster는 하트비트를 시작하기 위해 ResourceManager에 등록해야합니다.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// RM에 자신을 등록</span></div><div class="line"><span class="comment">// 이렇게 하면 RM에 heartbeat을 emit 할수 있습니다.</span></div><div class="line">appMasterHostname = NetUtils.getHostname();</div><div class="line">RegisterApplicationMasterResponse response = amRMClient.registerApplicationMaster(appMasterHostname, appMasterRpcPort, appMasterTrackingUrl);</div></pre></td></tr></table></figure>
+<p>등록 응답에 포함 된 경우 최대 리소스를 확인할수 있습니다. 그리고 이를 사용하여 응용 프로그램의 요청을 확인할 수도 있습니다.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 자원 관리자가 볼 수있는 클러스터 기능(capability)에 대한 정보를 덤프합니다.</span></div><div class="line"><span class="keyword">int</span> maxMem = response.getMaximumResourceCapability().getMemory();</div><div class="line">LOG.info(<span class="string">"Max mem capabililty of resources in this cluster "</span> + maxMem);</div><div class="line"></div><div class="line"><span class="keyword">int</span> maxVCores = response.getMaximumResourceCapability().getVirtualCores();</div><div class="line">LOG.info(<span class="string">"Max vcores capabililty of resources in this cluster "</span> + maxVCores);</div><div class="line"></div><div class="line"><span class="comment">// 리소스 요청은 최대 값을 초과 할 수 없습니다.</span></div><div class="line"><span class="keyword">if</span> (containerMemory &gt; maxMem) &#123;</div><div class="line">  LOG.info(<span class="string">"Container memory specified above max threshold of cluster."</span></div><div class="line">      + <span class="string">" Using max value."</span> + <span class="string">", specified="</span> + containerMemory + <span class="string">", max="</span> + maxMem);</div><div class="line">  containerMemory = maxMem;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (containerVirtualCores &gt; maxVCores) &#123;</div><div class="line">  LOG.info(<span class="string">"Container virtual cores specified above max threshold of  cluster."</span></div><div class="line">    + <span class="string">" Using max value."</span> + <span class="string">", specified="</span> + containerVirtualCores + <span class="string">", max="</span> + maxVCores);</div><div class="line">  containerVirtualCores = maxVCores;</div><div class="line">&#125;</div><div class="line">List&lt;Container&gt; previousAMRunningContainers = response.getContainersFromPreviousAttempts();</div><div class="line">LOG.info(<span class="string">"Received "</span> + previousAMRunningContainers.size() + <span class="string">" previous AM's running containers on AM registration."</span>);</div></pre></td></tr></table></figure>
+<p>작업 요구 사항에 따라 AM은 해당 작업을 실행할 컨테이너 세트를 요청할 수 있습니다. 이제 얼마나 많은 컨테이너가 필요한지 계산할 수 있고, 계산된 컨테이너를 요청할 수 있습니다.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">List&lt;Container&gt; previousAMRunningContainers = response.getContainersFromPreviousAttempts();</div><div class="line">List&lt;Container&gt; previousAMRunningContainers = response.getContainersFromPreviousAttempts();</div><div class="line">LOG.info(<span class="string">"Received "</span> + previousAMRunningContainers.size() + <span class="string">" previous AM's running containers on AM registration."</span>);</div><div class="line"></div><div class="line"><span class="keyword">int</span> numTotalContainersToRequest = numTotalContainers - previousAMRunningContainers.size();</div><div class="line"><span class="comment">// RM에게 컨테이너를 위한 SETUP 문의 &amp; Request 전송</span></div><div class="line"><span class="comment">// 할당량이 완전히 할당 될 때까지 컨테이너에 대한 RM 폴링을 계속</span></div><div class="line"><span class="comment">// 모든 컨테이너가 시작되고 쉘 스크립트의 성공/실패 여부와 관계없이 실행될 때까지 루핑.</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numTotalContainersToRequest; ++i) &#123;</div><div class="line">  ContainerRequest containerAsk = setupContainerAskForRM();</div><div class="line">  amRMClient.addContainerRequest(containerAsk);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><em>setupContainerAskForRM()</em>에서 다음 두 가지를 설정해야합니다.</p>
+<p><strong>Resource capability</strong> : 현재 YARN은 메모리 기반 리소스 요구 사항을 지원하므로 요청에서 필요한 메모리 양을 정의해야합니다. 이 값은 MB 단위로 정의되며 클러스터의 최대 용량보다 작아야하며 최소 용량의 정확한 배수 여야합니다. 메모리 자원은 타스크 컨테이너에 부과 된 실제 메모리 한계에 해당합니다. 또한 코드에 표시된 것처럼  Computation based resource(vCore)도 지원합니다.</p>
+<p><strong>Priority</strong> : 컨테이너 집합을 요구할 때, AM은 각 집합에 대해 다른 우선 순위를 정의 할 수 있습니다. 예를 들어 Map-Reduce AM은 Map Task에 필요한 컨테이너에 우선 순위를 높이고 Reduce Task 컨테이너에 대해서는 우선 순위를 낮출수 있습니다.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> ContainerRequest <span class="title">setupContainerAskForRM</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="comment">// host들에 대한 요구사항을 setup</span></div><div class="line">  <span class="comment">// 분산 Shell Application에서 *를 이용하면 어떤 host든 가능</span></div><div class="line">  <span class="comment">// 요청의 우선순위를 설정</span></div><div class="line">  Priority pri = Priority.newInstance(requestPriority);</div><div class="line"></div><div class="line">  <span class="comment">// 리소스 타입 요구사항 설정</span></div><div class="line">  <span class="comment">// 이제는, 메모리와 CPU가 지원되므로 메모리와 CPU 요구 사항을 설정합니다.</span></div><div class="line">  Resource capability = Resource.newInstance(containerMemory, containerVirtualCores);</div><div class="line"></div><div class="line">  ContainerRequest request = <span class="keyword">new</span> ContainerRequest(capability, <span class="keyword">null</span>, <span class="keyword">null</span>, pri);</div><div class="line">  LOG.info(<span class="string">"Requested container ask: "</span> + request.toString());</div><div class="line">  <span class="keyword">return</span> request;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>컨테이너 할당 요청이 Application manager에게 보내진 후 컨테이너는 <em>AMRMClientAsync</em> 클라이언트의 Event handler에 의해 Asynchronous하게 시작됩니다. Handler는 <em>AMRMClientAsync.CallbackHandler</em> 인터페이스를 구현 해야합니다.<br>할당 된 컨테이너가있을 때 Handler는 컨테이너를 시작하는 코드를 실행하는 쓰레드를 설정합니다. 이 글에서는 <em>LaunchContainerRunnable</em>이라는 이름을 사용하여 설명합니다. 이 글의 다음 부분에서 <em>LaunchContainerRunnable</em> 클래스에 대해 설명 할 예정입니다.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onContainersAllocated</span><span class="params">(List&lt;Container&gt; allocatedContainers)</span> </span>&#123;</div><div class="line">  LOG.info(<span class="string">"Got response from RM for container ask, allocatedCnt="</span> + allocatedContainers.size());</div><div class="line">  numAllocatedContainers.addAndGet(allocatedContainers.size());</div><div class="line">  <span class="keyword">for</span> (Container allocatedContainer : allocatedContainers) &#123;</div><div class="line">    LaunchContainerRunnable runnableLaunchContainer = <span class="keyword">new</span> LaunchContainerRunnable(allocatedContainer, containerListener);</div><div class="line">    Thread launchThread = <span class="keyword">new</span> Thread(runnableLaunchContainer);</div><div class="line"></div><div class="line">    <span class="comment">// 따로 유지할 별도의 스레드에서 컨테이너를 실행하고 시작합니다.</span></div><div class="line">    <span class="comment">// main thread가  unblocked 됩니다.</span></div><div class="line">    <span class="comment">// 모든 컨테이너는 한 번에 할당되지 않을 수 있습니다.</span></div><div class="line">    launchThreads.add(launchThread);</div><div class="line">    launchThread.start();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Event handler는 heartbeat에서 프로그램의 진행 상황을 보고합니다.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getProgress</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="comment">// 다음 heartbeat에서 RM에 전달할 진행률 설정</span></div><div class="line">  <span class="keyword">float</span> progress = (<span class="keyword">float</span>) numCompletedContainers.get()/numTotalContainers;</div><div class="line">  <span class="keyword">return</span> progress;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>컨테이너 실행 스레드는 실제로 NM에서 컨테이너를 시작합니다. 컨테이너가 AM에 할당 된 후에는 할당 된 컨테이너에서 실행될 최종 작업에 대해 <em>ContainerLaunchContext</em>를 설정할 때 클라이언트가 수행 한 것과 비슷한 프로세스를 따라야합니다. <em>ContainerLaunchContext</em>가 정의되면 AM은 <em>NMClientAsync</em>를 통해 시작할 수 있습니다.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 할당 된 컨테이너에서 실행하기 위해 필요한 명령을 설정</span></div><div class="line">Vector&lt;CharSequence&gt; vargs = <span class="keyword">new</span> Vector&lt;CharSequence&gt;(<span class="number">5</span>);</div><div class="line"></div><div class="line"><span class="comment">// 실행 가능한 command를 설정</span></div><div class="line">vargs.add(shellCommand);</div><div class="line"><span class="comment">// shell script path 설정</span></div><div class="line"><span class="keyword">if</span> (!scriptPath.isEmpty()) &#123;</div><div class="line">  vargs.add(Shell.WINDOWS ? ExecBatScripStringtPath : ExecShellStringPath);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// shell command의 args를 설정(있는 경우)</span></div><div class="line">vargs.add(shellArgs);</div><div class="line"><span class="comment">// log redirect params 추가</span></div><div class="line">vargs.add(<span class="string">"1&gt;"</span> + ApplicationConstants.LOG_DIR_EXPANSION_VAR + <span class="string">"/stdout"</span>);</div><div class="line">vargs.add(<span class="string">"2&gt;"</span> + ApplicationConstants.LOG_DIR_EXPANSION_VAR + <span class="string">"/stderr"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 최종 commmand 생성</span></div><div class="line">StringBuilder command = <span class="keyword">new</span> StringBuilder();</div><div class="line"><span class="keyword">for</span> (CharSequence str : vargs) &#123;</div><div class="line">  command.append(str).append(<span class="string">" "</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">List&lt;String&gt; commands = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">commands.add(command.toString());</div><div class="line"></div><div class="line"><span class="comment">// ContainerLaunchContext를 설정하고 생성자에 대한 로컬 리소스, 환경, 명령 및 토큰을 설정합니다.</span></div><div class="line"></div><div class="line"><span class="comment">// Note for tokens: 컨테이너에 토큰을 설정하십시오. </span></div><div class="line"><span class="comment">// 오늘날 일반적인 셸 명령의 경우 distribute-shell의 컨테이너에는 토큰이 필요하지 않습니다.</span></div><div class="line"><span class="comment">// NodeManagers에서 distributed file-system의 모든 파일을 다운로드 할 수 있도록 토큰을 설정합니다.</span></div><div class="line"><span class="comment">// 토큰은 분산 쉘 내부에서 예를 들어, "hadoop dfs"명령을 실행하는 경우에 유용합니다.</span></div><div class="line">ContainerLaunchContext ctx = ContainerLaunchContext.newInstance(</div><div class="line">  localResources, shellEnv, commands, <span class="keyword">null</span>, allTokens.duplicate(), <span class="keyword">null</span>);</div><div class="line">containerListener.addContainer(container.getId(), container);</div><div class="line">nmClientAsync.startContainerAsync(container, ctx);</div></pre></td></tr></table></figure>
+<p><em>NMClientAsync</em> object는 Event handler와 함께 컨테이너 시작, 중지, 상태 업데이트, 오류 발생등의 컨테이너 이벤트를 처리합니다.<br>ApplicationMaster가 작업이 완료되었다고 판단하면, AM-RM 클라이언트를 통해 자체 등록을 취소하고 클라이언트를 중지 해야합니다.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">  amRMClient.unregisterApplicationMaster(appStatus, appMessage, <span class="keyword">null</span>);</div><div class="line">&#125; <span class="keyword">catch</span> (YarnException ex) &#123;</div><div class="line">  LOG.error(<span class="string">"Failed to unregister application"</span>, ex);</div><div class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">  LOG.error(<span class="string">"Failed to unregister application"</span>, e);</div><div class="line">&#125;</div><div class="line">amRMClient.stop();</div></pre></td></tr></table></figure>
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><h3 id="응용-프로그램의-jar-파일을-필요로하는-YARN-클러스터의-모든-노드에-배포하려면-어떻게합니까"><a href="#응용-프로그램의-jar-파일을-필요로하는-YARN-클러스터의-모든-노드에-배포하려면-어떻게합니까" class="headerlink" title="응용 프로그램의 jar 파일을 필요로하는 YARN 클러스터의 모든 노드에 배포하려면 어떻게합니까?"></a>응용 프로그램의 jar 파일을 필요로하는 YARN 클러스터의 모든 노드에 배포하려면 어떻게합니까?</h3><p><em>LocalResource</em>를 사용하여 Application request에 리소스를 추가 할 수 있습니다. 그러면 YARN이 리소스를 ApplicationMaster 노드에 배포하게됩니다. 리소스가 tgz, zip 또는 jar 인 경우 YARN에 압축을 풀 수 있습니다. 그런 다음 압축 해제 된 폴더를 클래스 경로에 추가하기 만하면됩니다. 예를 들어, Application request를 만들때 :</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">File packageFile = <span class="keyword">new</span> File(packagePath);</div><div class="line">Url packageUrl = ConverterUtils.getYarnUrlFromPath(FileContext.getFileContext.makeQualified(<span class="keyword">new</span> Path(packagePath)));</div><div class="line"></div><div class="line">packageResource.setResource(packageUrl);</div><div class="line">packageResource.setSize(packageFile.length());</div><div class="line">packageResource.setTimestamp(packageFile.lastModified());</div><div class="line">packageResource.setType(LocalResourceType.ARCHIVE);</div><div class="line">packageResource.setVisibility(LocalResourceVisibility.APPLICATION);</div><div class="line"></div><div class="line">resource.setMemory(memory);</div><div class="line">containerCtx.setResource(resource);</div><div class="line">containerCtx.setCommands(ImmutableList.of(</div><div class="line">    <span class="string">"java -cp './package/*' some.class.to.Run "</span></div><div class="line">    + <span class="string">"1&gt;"</span> + ApplicationConstants.LOG_DIR_EXPANSION_VAR + <span class="string">"/stdout "</span></div><div class="line">    + <span class="string">"2&gt;"</span> + ApplicationConstants.LOG_DIR_EXPANSION_VAR + <span class="string">"/stderr"</span>));</div><div class="line">containerCtx.setLocalResources(Collections.singletonMap(<span class="string">"package"</span>, packageResource));</div><div class="line">appCtx.setApplicationId(appId);</div><div class="line">appCtx.setUser(user.getShortUserName);</div><div class="line">appCtx.setAMContainerSpec(containerCtx);</div><div class="line">yarnClient.submitApplication(appCtx);</div></pre></td></tr></table></figure>
+<p>위에 보시다시피, <em>setLocalResources</em>는 리소스의 이름을 map으로 가져옵니다. 이 이름은 application의 현재 폴더 (pwd)에서 system link가 되기 때문에 ./package/*를 사용하여 참조 가능합니다.</p>
+<p><strong>Note:</strong>Java의 classpath (cp) 인수는 매우 민감합니다. 정확한 구문을 정확하게 입력하십시오.</p>
+<p>패키지가 AM에 배포되면 AM이 새 컨테이너를 시작할 때마다 동일한 프로세스를 수행해야합니다 (리소스를 컨테이너로 보내려는 경우). 이경우에도 코드는 동일합니다. 컨테이너 ctx와 함께 리소스 URL을 보낼 수 있도록 AM에 패키지 경로 (HDFS 또는 로컬)를 제공하면됩니다.</p>
+<h3 id="ApplicationMaster의-ApplicationAttemptId는-어떻게-가져올수-있나요"><a href="#ApplicationMaster의-ApplicationAttemptId는-어떻게-가져올수-있나요" class="headerlink" title="ApplicationMaster의 ApplicationAttemptId는 어떻게 가져올수 있나요?"></a>ApplicationMaster의 ApplicationAttemptId는 어떻게 가져올수 있나요?</h3><p><em>ApplicationAttemptId</em>는 Environment를 통해 AM에 전달되며 Environment의 값은 <em>ConverterUtils</em> 도우미 함수를 통해 <em>ApplicationAttemptId</em> object로 변환 할수 있습니다.</p>
+<h3 id="왜-내-컨테이너를-NodeManager가-죽이나요"><a href="#왜-내-컨테이너를-NodeManager가-죽이나요" class="headerlink" title="왜 내 컨테이너를 NodeManager가 죽이나요?"></a>왜 내 컨테이너를 NodeManager가 죽이나요?</h3><p>이는 요청한 컨테이너 메모리 크기를 초과하는 높은 메모리 사용량 때문일 수 있습니다.<br>이 문제를 일으킬 수있는 여러 가지 이유가 있습니다. 먼저 NodeManager가 컨테이너를 죽일 때 덤프하는 프로세스 트리를 살펴보십시오. 관심있는 두 가지 사항은 실제 메모리와 가상 메모리입니다. 실제 메모리 제한을 초과하면 앱이 너무 많은 실제 메모리를 사용하고 있습니다. Java 응용 프로그램을 실행중인 경우 -hprof를 사용하여 힙에서 차지하는 공간을 확인할 수 있습니다. 가상 메모리를 초과 한 경우에는 클러스터 전체의 구성 변수 인 yarn.nodemanager.vmem-pmem-ratio의 값을 늘려야 할 수 있습니다.</p>
+<h3 id="어떻게-native-library들을-포함시킬수-있나요"><a href="#어떻게-native-library들을-포함시킬수-있나요" class="headerlink" title="어떻게 native library들을 포함시킬수 있나요?"></a>어떻게 native library들을 포함시킬수 있나요?</h3><p>컨테이너를 실행할때 command에서 -Djava.library.path를 설정하면 Hadoop이 사용하는 기본 라이브러리가 올바르게 로드되지 않고 오류가 발생할 수 있습니다. 대신 LD_LIBRARY_PATH를 사용하는 것이 더 깔끔합니다.</p>
+<h2 id="Sample-Code"><a href="#Sample-Code" class="headerlink" title="Sample Code"></a>Sample Code</h2><ul>
+<li><a href="https://github.com/apache/hadoop-common/tree/trunk/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-applications/hadoop-yarn-applications-distributedshell/src/main/java/org/apache/hadoop/yarn/applications/distributedshell" target="_blank" rel="external">hadoop-yarn-applications-distributedshell</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2017/03/26/Writing-YARN-Applications/" data-id="cjkl90zzr0006jguzo4h94z3j" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/03/26/Springboot-background-thread/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            Spring Boot에서 Background Thread 만들기
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/03/24/First-steps-with-java9-and-jigsaw-part-2/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">Java 9 와 Project Jigsaw 소개 2</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2017/03/26/Writing-YARN-Applications/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

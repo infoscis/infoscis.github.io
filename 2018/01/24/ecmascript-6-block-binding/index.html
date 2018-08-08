@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>ECMAScript 6 Block binding | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="JavaScript,ECMAScript 2015" />
+    
+    <meta name="description" content="Block BindingJavascript의 전통적인 식별자(Identifier - 변수, 상수, 이름 있는 함수 등) 선언이 작동하는 방식은 JavaScript 프로그래밍의 까다로운 부분 중 하나였습니다. 대부분의 C 기반 언어에서 식별자(Identifier - 변수 바인딩)는 선언이 발생한 지점에 만들어집니다. 그러나 JavaScript에서는 그렇지 않">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ECMAScript 6 Block binding">
+<meta property="og:url" content="http://infoscis.github.io/2018/01/24/ecmascript-6-block-binding/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="Block BindingJavascript의 전통적인 식별자(Identifier - 변수, 상수, 이름 있는 함수 등) 선언이 작동하는 방식은 JavaScript 프로그래밍의 까다로운 부분 중 하나였습니다. 대부분의 C 기반 언어에서 식별자(Identifier - 변수 바인딩)는 선언이 발생한 지점에 만들어집니다. 그러나 JavaScript에서는 그렇지 않">
+<meta property="og:updated_time" content="2018-02-27T14:11:53.789Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ECMAScript 6 Block binding">
+<meta name="twitter:description" content="Block BindingJavascript의 전통적인 식별자(Identifier - 변수, 상수, 이름 있는 함수 등) 선언이 작동하는 방식은 JavaScript 프로그래밍의 까다로운 부분 중 하나였습니다. 대부분의 C 기반 언어에서 식별자(Identifier - 변수 바인딩)는 선언이 발생한 지점에 만들어집니다. 그러나 JavaScript에서는 그렇지 않">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2018/01/24/ecmascript-6-block-binding/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-ecmascript-6-block-binding" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        ECMAScript 6 Block binding
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2018/01/24/ecmascript-6-block-binding/" class="article-date">
+            <time datetime="2018-01-24T14:03:14.000Z" itemprop="datePublished">2018-01-24</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a>, <a class="tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Block-Binding"><a href="#Block-Binding" class="headerlink" title="Block Binding"></a>Block Binding</h1><p>Javascript의 전통적인 식별자(Identifier - 변수, 상수, 이름 있는 함수 등) 선언이 작동하는 방식은 JavaScript 프로그래밍의 까다로운 부분 중 하나였습니다. 대부분의 C 기반 언어에서 식별자(Identifier - 변수 바인딩)는 선언이 발생한 지점에 만들어집니다. 그러나 JavaScript에서는 그렇지 않습니다. 식별자(Identifier)를 실제로 생성하는 위치는 선언하는 방법에 따라 다르며, ECMAScript 6에서는 제어 Scope을 더 쉽게 만들 수 있는 옵션을 제공합니다. 이 챕터에서는 고전적인 <code>var</code> 식별자 선언이 왜 혼란스럽게 하는지와, ECMAScript 6의 Block level binding의 소개, 그리고 이를 사용하는 몇 가지 모범 사례를 제시합니다.</p>
+<h2 id="var-식별자-선언-및-Hoisting-호이스팅"><a href="#var-식별자-선언-및-Hoisting-호이스팅" class="headerlink" title="var 식별자 선언 및 Hoisting(호이스팅)"></a>var 식별자 선언 및 Hoisting(호이스팅)</h2><blockquote>
+<p><strong>식별자</strong></p>
+<p>JavaScript의 식별자는 간단히 말해서 이름입니다<br>JavaScript 식별자는 변수, 상수, 함수에 이름을 붙이거나 자바스크립트 코드 내 루프 문에 레이블을 붙이는 데 사용됩니다.<br>올바른 식별자가 되기 위한 규칙은 자바나 다른 수많은 언어의 규칙과 동일합니다.<br>첫 번째 문자는 알파벳(letter), 밑줄(_) 혹은 달러표시($) 여야 한다. 이어지는 문자들은 알바벳(letter), 숫자, 밑줄(_) 혹은 달러 표시여야 한다.<br>JavaScript가 숫자와 식별자를 쉽게 구별할 수 있게 하기 위해, 숫자는 첫 번째 문자로 허용되지 않는다.</p>
+<p>출처 <a href="http://www.devholic.net/1000687" target="_blank" rel="external">http://www.devholic.net/1000687</a></p>
+</blockquote>
+<p><code>var</code>를 이용한 식별자 선언은 실제 선언이 어디에서 발생하는지에 관계없이 해당 Scope의 맨 위에있는 것처럼 처리됩니다. (또는 함수 외부에서 선언된 경우 전역 Scope로 처리됩니다.) 이것을 JavaScript에서 <em>Hoisting</em>이라고합니다. 아래 예제 함수를 보면 <em>Hoisting</em>에 대해 쉽게 이해할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getValue</span>(<span class="params">condition</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (condition) &#123;</div><div class="line">        <span class="keyword">var</span> value = <span class="string">"blue"</span>;</div><div class="line">        <span class="comment">// 다른 코드들</span></div><div class="line">        <span class="keyword">return</span> value;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// value는 여기에서 'undefined' 입니다.</span></div><div class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// value는 여기에서 'undefined' 입니다.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>JavaScript에 익숙하지 않은 경우 위 코드에서 <code>if</code> 조건이 <code>true</code>로 평가되는 경우에만 <code>value</code>가 생성될 것으로 예상할 수 있지만 실제로 <code>value</code> 변수는 선언한 위치와 관계없이 생성됩니다. JavaScript 엔진은 <code>getValue</code> 함수를 다음과 같이 변경합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getValue</span>(<span class="params">condition</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> value; <span class="comment">// 변수의 선언 위치가 바뀝니다.</span></div><div class="line">    <span class="keyword">if</span> (condition) &#123;</div><div class="line">        value = <span class="string">"blue"</span>; <span class="comment">// 변수의 초기화는 여기에서 이뤄집니다.</span></div><div class="line">        <span class="comment">// 다른 코드들</span></div><div class="line">        <span class="keyword">return</span> value;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>value</code> 변수의 선언은 Scope 맨 위로 올라가고 변수의 초기화는 동일한 지점에 남아 있습니다. 즉, <code>value</code>는 <code>else</code> 절에서 실제로 액세스할 수 있습니다. 하지만 <code>else</code> 구문에서 접근할 경우 변수는 초기화되지 않았기 때문에 <code>undefined</code>값을 갖게됩니다.</p>
+<p>새로 JavaScript를 공부하는 개발자가 <em>Hoisting</em>에 익숙해지기까지 어느정도 시간이 걸리며, 이 독특한 동작을 잘못 이해하면 버그가 발생할 수 있습니다. 이러한 이유로 ECMAScript 6에는 식별자(Identifier)의 생명주기 제어를 좀 더 강력하게 만들기 위한 Block level scope 옵션이 도입되었습니다.</p>
+<h2 id="Block-Level-식별자-선언"><a href="#Block-Level-식별자-선언" class="headerlink" title="Block-Level 식별자 선언"></a>Block-Level 식별자 선언</h2><p>Block level 식별자 선언은 지정된 Block scope 외부에서 액세스할 수없는 식별자(Identifier)를 정의하는 방법입니다. 이런 방식은 Lexical scope이라고도 하는 Block scope이 만들어집니다.</p>
+<ol>
+<li>Function 내부</li>
+<li>Block 내부 ( <code>{</code>와 <code>}</code> 문자 사이를 나타냄)</li>
+</ol>
+<p>Block scope은 C 기반 언어의 작동 방식이며 ECMAScript 6의 Block-level 식별자(Identifier) 선언은 JavaScript에 C 기반 언어와 동일한 유연성(균일성)을 제공하기 위한 것입니다.</p>
+<h3 id="let-식별자-선언"><a href="#let-식별자-선언" class="headerlink" title="let 식별자 선언"></a>let 식별자 선언</h3><p><code>let</code>을 이용한 식별자 선언 구문은 <code>var</code> 구문과 동일합니다. 기본적으로 <code>var</code>를 <code>let</code>으로 바꾸면 똑같이 식별자를 선언할 수 있지만 Scope이 현재 코드 Block으로 제한됩니다. (하지만 잠시후에 논의할 약간의 차이점은 있습니다). <code>let</code> 선언은 자동으로 Block의 맨 위로 올려지지 않기 때문에 <code>let</code> 선언을 Block의 최상단에 배치해야만 Block 전체에서 사용할 수 있습니다. 아래의 예제를 살펴 보도록 하겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getValue</span>(<span class="params">condition</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (condition) &#123;</div><div class="line">        <span class="keyword">let</span> value = <span class="string">"blue"</span>;</div><div class="line">        <span class="comment">// 다른 코드들</span></div><div class="line">        <span class="keyword">return</span> value;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// value 변수는 이 Block에 존재하지 않습니다.</span></div><div class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// value 변수는 이 Block에 존재하지 않습니다.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>이 버전의 <code>getValue</code> 함수는 다른 C 기반 언어의 실행 방식과 매우 유사합니다. 변수 <code>value</code>는 <code>var</code> 대신에 <code>let</code>을 사용하여 선언 되었기 때문에, 변수 선언이 함수 정의 맨위로 끌어 올려지지 않습니다. 그리고 <code>value</code>는 <code>if</code>을 벗어나면 더 이상 접근할 수 없습니다. <code>if</code> 조건이 false로 평가되면 <code>value</code> 변수는 선언이 되지 않고 값의 초기화도 이뤄지지 않습니다.</p>
+<h3 id="재선언-안됨"><a href="#재선언-안됨" class="headerlink" title="재선언 안됨"></a>재선언 안됨</h3><p>식별자(변수)가 이미 Scope내에서 정의된 경우 해당 Scope에서 같은 이름으로 <code>let</code> 선언을 다시하면 오류가 발생합니다. 예를 들어 아래의 코드는 에러가 발생합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> count = <span class="number">30</span>;</div><div class="line"><span class="comment">// 구문 오류</span></div><div class="line"><span class="keyword">let</span> count = <span class="number">40</span>;</div></pre></td></tr></table></figure>
+<p>위의 예제에서 <code>count</code>는 두 번 선언되었습니다(한 번은 <code>var</code>, 다른 한 번은 <code>let</code>). <code>let</code>은 이미 선언된 식별자를 동일한 Scope에 다시 정의하지 않기 때문에 <code>let</code> 변수 선언은 오류를 발생시킵니다. 반면에 아래 예제와 같이 <code>let</code> 선언이 포함된 코드가 새로운 Scope에서 동일한 이름의 식별자로 선언될 경우 오류가 발생하지 않습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> count = <span class="number">30</span>;</div><div class="line"><span class="comment">// 에러가 발생하지 않습니다.</span></div><div class="line"><span class="keyword">if</span> (condition) &#123;</div><div class="line">    <span class="keyword">let</span> count = <span class="number">40</span>;</div><div class="line">    <span class="comment">// 다른 코드들</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>위 코드의 <code>let</code> 선언은 <code>if</code> 블럭에 <code>count</code>라는 새로운 변수를 생성하기 때문에 오류를 발생시키지 않습니다. <code>if</code> 블럭 안에서 선언한 <code>count</code> 변수가 <em>전역</em> <code>count</code> 변수를 shadows 처리하여 Block 내부에서는 <em>전역</em> <code>count</code>에 대한 암시적 접근을 차단합니다.</p>
+<h3 id="Constant-선언"><a href="#Constant-선언" class="headerlink" title="Constant 선언"></a>Constant 선언</h3><p>ECMAScript 6에서 <code>const</code> 선언 구문을 사용하여 식별자를 정의할 수있습니다. <code>const</code>를 사용하여 선언된 식별자는 상수(Constant)로 간주되며, 일단 값을 설정하면 변경할 수 없습니다. 이런 이유로 모든 <code>const</code> 식별자는 다음 예제와 같이 선언시 초기화 되어야합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 유효한 상수 선언</span></div><div class="line"><span class="keyword">const</span> maxItems = <span class="number">30</span>;</div><div class="line"></div><div class="line"><span class="comment">// 초기화가 빠져있어서 구문 오류</span></div><div class="line"><span class="keyword">const</span> name;</div></pre></td></tr></table></figure>
+<p>위 예제에서 <code>maxItems</code> 변수는 초기화 코드가 있어서 <code>const</code> 선언이 문제없이 실행됩니다. 그러나 <code>name</code> 변수는 초기화되지 않았으므로 만약 이 코드가 포함된 프로그램을 실행하려고 하면 <code>name</code> 변수 선언에서 구문 오류를 일으킬 수 있습니다.</p>
+<h4 id="상수와-let-선언-관계"><a href="#상수와-let-선언-관계" class="headerlink" title="상수와 let 선언 관계"></a>상수와 let 선언 관계</h4><p><code>let</code> 선언 변수는 Block-level 변수 선언입니다. 이것은 프로그램의 실행 흐름이 변수가 선언된 Block을 벋어 나면 변수를 더이상 액세스할 수 없다는 것을 의미합니다. 아래의 예제에서 보듯이, 선언된 변수가 <em>Hoisting</em>되지 않습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (condition) &#123;</div><div class="line">    <span class="keyword">const</span> maxItems = <span class="number">5</span>;</div><div class="line">    <span class="comment">// 다른 코드</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// maxItems은 여기에서 액세스할 수 없습니다.</span></div></pre></td></tr></table></figure>
+<p>이 코드에서 변수 <code>maxItems</code>는 <code>if</code> 블럭 안에서 선언되었습니다. 그리고 명령문 실행이 끝나면 <code>maxItems</code> 변수는 해당 블럭 외부에서 액세스할 수 없습니다. <code>let</code>과 동일하게 같은 Scope에 이미 정의된 식별자 이름을 또 사용하면 <code>const</code> 선언시 오류가 발생합니다. 변수가 <code>var</code> (전역 또는 함수 Scope의 경우) 또는 <code>let</code> (Block scope의 경우)을 사용하여 선언되었는지는 중요하지 않습니다. 예를 들어 다음 코드를 살펴 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> message = <span class="string">"Hello!"</span>;</div><div class="line"><span class="keyword">let</span> age = <span class="number">25</span>;</div><div class="line"></div><div class="line"><span class="comment">// 에러가 발생합니다.</span></div><div class="line"><span class="keyword">const</span> message = <span class="string">"Goodbye!"</span>;</div><div class="line"><span class="keyword">const</span> age = <span class="number">30</span>;</div></pre></td></tr></table></figure>
+<p>위 예제에서 상위 두개의 <code>const</code> 선언을 단독으로 사용하면 유효하지만, 위 코드에서는 앞의 <code>var</code> 및 <code>let</code> 선언이 있어서 오류가 발생합니다.</p>
+<p><code>let</code>과 <code>const</code>가 이러한 비슷한 점이 있지만 주요한 큰 차이점이 하나 있습니다. 아래의 예제에서 보듯이 이전에 정의된 <code>const</code> 식별자에 새로운 상수값을 할당하려고 하면 strict 모드와 non-strict 모드 모두에서 오류가 발생합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> maxItems = <span class="number">5</span>;</div><div class="line">maxItems = <span class="number">6</span>;      <span class="comment">// 에러가 발생합니다.</span></div></pre></td></tr></table></figure>
+<p>다른 언어의 상수와 매우 비슷하게 나중에 <code>maxItems</code> 상수에 새로운 값을 할당할 수 없습니다. 그러나 다른 언어와 달리 JavaScript의 상수가 객체인 경우 객체의 프로퍼티값은 수정할 수 있습니다.</p>
+<h4 id="const를-이용한-객체-선언"><a href="#const를-이용한-객체-선언" class="headerlink" title="const를 이용한 객체 선언"></a>const를 이용한 객체 선언</h4><p><code>const</code> 변수 선언은 값 자체가 아닌 바인딩의 수정을 방지합니다. 이는 객체의 <code>const</code> 선언이 객체의 수정을 막지 않는다는 것을 의미합니다. 예를 들어 아래 코드를 살펴 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> person = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"Nicholas"</span></div><div class="line">&#125;;</div><div class="line"><span class="comment">// 실행됨</span></div><div class="line">person.name = <span class="string">"Greg"</span>;</div><div class="line"></div><div class="line"><span class="comment">// 에러 발생</span></div><div class="line">person = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"Greg"</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>위 코드에서 <code>person</code> 변수는 하나의 프로퍼티를 가진 JavaScript 객체이고, 초기값을 가지고 생성됩니다. <code>person.name</code>의 값을 변경하는건 오류 없이 가능합니다. 왜냐하면 <code>person</code>에 바인드된 값을 변경하는 것이 아니고 <code>person</code>에 포함된 것을 변경하기 때문입니다. 만약 코드에서 <code>person</code>에 값을 할당하려고 시도하면 (바인딩을 변경하려고 하면) 오류가 발생합니다. <code>const</code>가 객체와 어떻게 작동하는지에 대한 이 미묘한 점이 오해하기 쉽습니다. <code>const</code>는 바인딩 값의 수정이 아니라 바인딩 자체의 수정을 방지한다는 것을 기억 해야 합니다.</p>
+<h3 id="TDZ-The-Temporal-Dead-Zone"><a href="#TDZ-The-Temporal-Dead-Zone" class="headerlink" title="TDZ (The Temporal Dead Zone)"></a>TDZ (The Temporal Dead Zone)</h3><blockquote>
+<p><code>let</code> 초기화와 관련하여 발생하는 오류를 가리켜 TDZ(TEMPORAL DEAD ZONE) 오류라고 부릅니다.</p>
+</blockquote>
+<p><code>let</code> 또는 <code>const</code>로 선언된 식별자는 선언 전에는 액세스할 수 없습니다. 아래의 예제와 같이  일반적으로 안전한 <code>typeof</code> 연산자를 사용하는 경우에도 참조 오류가 발생합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (condition) &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> value);  <span class="comment">// ReferenceError!</span></div><div class="line">    <span class="keyword">let</span> value = <span class="string">"blue"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>여기서 식별자 <code>value</code>는 <code>let</code>을 사용하여 정의되고 초기화 되지만 이전행에서 오류가 발생하므로 해당 명령문은 실행되지 않습니다. <code>value</code> 식별자가 JavaScript 커뮤니티에서 불리는 <em>The Temporal Dead Zone</em>(TDZ)에 존재한다는 것이 문제입니다. <strong>TDZ</strong>는 ECMAScript 사양에서 명시적으로 설명하고 있지는 않지만, 식별자를 <code>let</code> 및 <code>const</code> 선언전에 액세스할 수없는 이유를 설명할 때 자주 이용됩니다. 여기에서 <strong>TDZ</strong>를 발생시키는 선언 배치의 미묘한 부분에 대해 설명합니다. 모든 예제에서 <code>let</code>을 사용하지만 <code>const</code>에도 동일하게 적용됩니다.</p>
+<p>JavaScript engine이 실행될 때에 블록(<code>{</code> <code>}</code>)에서 선언된 변수를 찾아 선언된 식별자가 <code>var</code> 선언자를 이용한 선언이면 변수의 선언을 함수의 최상단 또는 전역 Scope으로 가져가고, <code>let</code> 또는 <code>const</code> 선언자로 선언된 경우 변수의 선언을 <code>TDZ</code>에 배치합니다. <code>TDZ</code>의 변수에 대한 액세스는 런타임 오류가 발생합니다. 이러한 변수를 <code>TDZ</code>에서 제거하고 변수를 선언된 이후에 사용하면 안전하게 사용할 수 있습니다.</p>
+<p><code>let</code> 또는 <code>const</code> 선언자로 선언된 변수는 사용하기 전에 <code>defined</code> 됩니다. 이런 부분은 이전 예제에서 보여줬던 안전한 연산자인 <code>typeof</code>에도 적용이 됩니다. 그리고 변수가 선언된 블록의 외부에서 변수에 대해 <code>typeof</code>를 사용할 수는 있지만 정상적인 결과를 받지 못합니다. 다음 코드를 살펴보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> value);     <span class="comment">// "undefined"</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> (condition) &#123;</div><div class="line">    <span class="keyword">let</span> value = <span class="string">"blue"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>value</code>가 선언된 블록 외부에서 사용되기 때문에 <code>typeof</code> 연산자가 실행될 때 변수 <code>value</code>는 TDZ에 없습니다. 이 의미는 <code>value</code> 변수에 바인딩이 없기 대문에 <code>typeof</code> 연산자는 <code>&quot;undefined&quot;</code>를 반환합니다.</p>
+<p><code>TDZ</code>는 Block-binding의 독특한 부분입니다.그리고 또 다른 독특한 부분은 루프 내부에서의 사용과 관련이 있습니다.</p>
+<h2 id="Loop-안에서의-Block-Binding"><a href="#Loop-안에서의-Block-Binding" class="headerlink" title="Loop 안에서의 Block Binding"></a>Loop 안에서의 Block Binding</h2><p>개발자가 Block-level scope을 가장 많이 원하는 곳 중 하나는 <code>for loop</code> 이고, 일반적으로 임시로 사용하는 카운터 변수는 루프 내부에서만 사용해야 합니다. 예를 들어 기존 JavaScript 코드에서 아래와 같은 코드는 보기 드물지 않습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">    process(items[i]);</div><div class="line">&#125;</div><div class="line"><span class="comment">// i 는 여전히 여기에서 액세스 가능합니다.</span></div><div class="line"><span class="built_in">console</span>.log(i);                     <span class="comment">// 10</span></div></pre></td></tr></table></figure>
+<p>Block level scope가 기본인 다른 언어에서는 이 예제가 의도 한대로 실행되고, <code>for loop</code> 내부에서만 <code>i</code> 변수에 액세스할 수 있습니다. 그러나 JavaScript에서는 <code>var</code> 선언이 <em>Hoisting</em>되기 때문에 loop가 완료된 후에도 변수 <code>i</code>를 계속 액세스할 수 있습니다. 다음 코드와 같이 <code>var</code> 선언자 대신 <code>let</code> 선언자를 사용하여 원래 의도 한 동작이 실행 되도록 해야 합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">    process(items[i]);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// i는 접근할 수 없기 때문에 error가 발생합니다.</span></div><div class="line"><span class="built_in">console</span>.log(i);</div></pre></td></tr></table></figure>
+<p>위 코드에서 변수 <code>i</code>는 <code>for loop</code> 내에만 존재합니다. loop가 완료되면 변수는 더 이상 다른 곳에서 액세스할 수 없습니다.</p>
+<h3 id="loop-안의-함수"><a href="#loop-안의-함수" class="headerlink" title="loop 안의 함수"></a>loop 안의 함수</h3><p><code>var</code> 변수 선언자의 특징 중에 loop 내부에서 생성한 변수를 loop 밖에서 액세스할 수 있는 특징 때문에 loop 내부에서 함수를 만들때 오랫동안 문제가 있었습니다. 다음 코드를 생각해 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> funcs = [];</div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">    funcs.push(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(i); &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">funcs.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">func</span>) </span>&#123;</div><div class="line">    func();     <span class="comment">// 숫자 '10'이 열번 출력됩니다.</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>이 코드는 일반적으로 0에서 9까지의 숫자를 출력할 것으로 예상되지만 <code>10</code>을 <code>10</code>번 출력합니다. 왜냐하면 <code>i</code>는 반복문의 반복마다 서로 공유되기 때문입니다. 즉, loop 내부에서 생성한 함수는 모두 동일한 변수를 참조합니다. 변수 <code>i</code>는 loop가 완료되면 <code>10</code>의 값을 가지므로 <code>console.log (i)</code>가 호출될 때마다 <code>10</code>을 매번 출력합니다.</p>
+<p>이 문제를 해결하기 위해 대부분의 개발자는 루프 내에서 즉시 호출되는 함수 표현식 (IIFE: Immediately-invoked function expression)을 사용하여 아래 예제에서 처럼 반복할 변수의 새 복사본을 강제로 만듭니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> funcs = [];</div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">    funcs.push((<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(value);</div><div class="line">        &#125;</div><div class="line">    &#125;(i)));</div><div class="line">&#125;</div><div class="line"></div><div class="line">funcs.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">func</span>) </span>&#123;</div><div class="line">    func();     <span class="comment">// outputs 0, then 1, then 2, up to 9</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>위의 예제에서는 IIFE를 loop 내부에서 사용했습니다. 변수 <code>i</code>는 IIFE 형태로 전달되고, IIFE는 자체 복사본을 만들어 <code>value</code>로 저장합니다. 이것은 반복에서 함수가 사용하는 값이므로 각 함수를 호출하면 loop에서 0부터 9까지 카운트될 때 예상 값이 리턴됩니다. 하지만  ECMAScript 6에서는 <code>let</code>및 <code>const</code>를 사용하여 Block-level 바인딩을 하면 이러한 작업이 단순화 됩니다.</p>
+<h3 id="Loop-안에서의-let-선언"><a href="#Loop-안에서의-let-선언" class="headerlink" title="Loop 안에서의 let 선언"></a>Loop 안에서의 <code>let</code> 선언</h3><p><code>let</code>선언은 앞의 예제에서 IIFE가 수행하는 것을 효과적으로 대체함으로써 loop를 단순화합니다. 각 반복에서 loop는 새 변수를 만들고 이전 반복과 같은 이름을 가진 변수 값으로 초기화합니다. 즉, IIFE를 생략하고 다음과 같이 원하는 결과를 얻을 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> funcs = [];</div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">    funcs.push(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(i);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">funcs.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">func</span>) </span>&#123;</div><div class="line">    func();     <span class="comment">// outputs 0, then 1, then 2, up to 9</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>위 예제는 <code>var</code>와 IIFE를 사용했던 예제와 정확히 똑같이 실행되지만 훨씬더 깔끔합니다. <code>let</code> 선언은 매번 loop를 통해 새로운 변수 <code>i</code>를 생성하므로 loop 안에 생성된 각 함수는 <code>i</code>의 복사된 값을 갖습니다. 각 <code>i</code>의 복사본은 loop의 시작 부분에서 생성된 값이 할당됩니다. 다음 예제와 같이 <code>for-in</code>, <code>for-of</code> loop에도 똑같이 적용됩니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> funcs = [],</div><div class="line">    object = &#123;</div><div class="line">        <span class="attr">a</span>: <span class="literal">true</span>,</div><div class="line">        <span class="attr">b</span>: <span class="literal">true</span>,</div><div class="line">        <span class="attr">c</span>: <span class="literal">true</span></div><div class="line">    &#125;;</div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> object) &#123;</div><div class="line">    funcs.push(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(key);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">funcs.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">func</span>) </span>&#123;</div><div class="line">    func();     <span class="comment">// outputs "a", then "b", then "c"</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>이 예제에서 <code>for-in loop</code>는 <code>for loop</code>와 같은 결과를 보여줍니다. loop가 실행될 때마다 새로운 <code>key</code> 바인딩이 생성되고 각 함수는 <code>key</code> 변수의 복사본을 가지고 있습니다. 함수가 다른 값을 출력하는 결과를 보여줍니다. 만약 <code>key</code>를 <code>var</code> 선언자를 이용해 선언하면 모든 함수는 동일한 <code>&quot;c&quot;</code>를 출력할 것입니다.</p>
+<blockquote>
+<p>loop에서 <code>let</code> 선언 동작은 스펙에서 특별히 정의된 동작이고, <code>let</code>의 Non-Hoisting 특성과 반드시 관련이 없다는 것을 이해하는 것이 중요합니다. 실제로, <code>let</code>의 초기 구현은 이러한 동작을 하지 못했고, ECMAScript 6 명세 Process가 진행되면서 추가된 것입니다.</p>
+</blockquote>
+<h3 id="Loop-안에서의-상수-선언"><a href="#Loop-안에서의-상수-선언" class="headerlink" title="Loop 안에서의 상수 선언"></a>Loop 안에서의 상수 선언</h3><p>ECMAScript 6 명세는 loop내부 <code>const</code> 선언을 명시적으로 허용하지 않습니다. 그러나 여러분이 사용중인 loop 종류에 따라 <code>const</code> 선언을 사용하여 다른 처리를 할 수 있습니다. 일반적인 <code>for loop</code>의 경우 초기화시 <code>const</code>를 사용할 수 있지만 첫 번째 이터레이션 후 오류를 던집니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> funcs = [];</div><div class="line"></div><div class="line"><span class="comment">// 첫 번째 이터레이션 후에 에러를 던짐</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">const</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">    funcs.push(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(i);</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>위 예제에서 변수 <code>i</code>를 상수로 선언했습니다. <code>i</code>가 0 인 첫번째 loop의 반복은 성공적으로 실행됩니다. 하지만 <code>i++</code>가 상수를 수정하려하기 때문에 <code>i++</code> 구문이 실행되변 에러가 발생합니다. 따라서 변수를 수정하지 않는 loop 초기화 부분의 변수를 선언할 때만 <code>const</code>를 사용할 수 있습니다.</p>
+<p>반면에 <code>for-in</code> 또는 <code>for-of</code> loop에서 사용될 때 <code>const</code> 변수는<code>let</code> 변수와 똑같이 동작합니다. 다음 코드는 오류가 발생하지 않습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> funcs = [],</div><div class="line">    object = &#123;</div><div class="line">        <span class="attr">a</span>: <span class="literal">true</span>,</div><div class="line">        <span class="attr">b</span>: <span class="literal">true</span>,</div><div class="line">        <span class="attr">c</span>: <span class="literal">true</span></div><div class="line">    &#125;;</div><div class="line"></div><div class="line"><span class="comment">// 에러를 발생하지 않습니다.</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</div><div class="line">    funcs.push(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(key);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">funcs.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">func</span>) </span>&#123;</div><div class="line">    func();     <span class="comment">// outputs "a", then "b", then "c"</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>이 코드는 “Loop 안에서의 <code>let</code> 선언” 부분의 두 번째 예제와 거의 동일한 실행 결과를 보여줍니다. 유일한 차이점은 <code>key</code>의 값을 loop 내에서 변경할 수 없다는 것입니다. <code>for-in</code>과 <code>for-of</code> loop는 <code>const</code>와 함께 실행할 수 있습니다. loop 초기화는 기존 바인딩의 값을 수정하려고 시도하는 대신 loop가 반복할 때마다 새로운 바인딩을 생성하기 때문입니다 (이전 예제에서 에러가 발생한 이유는 <code>for-in</code> 대신 <code>for loop</code>을 사용했기 때문입니다.).</p>
+<h2 id="전역-Block-Binding"><a href="#전역-Block-Binding" class="headerlink" title="전역 Block Binding"></a>전역 Block Binding</h2><p><code>let</code>과 <code>const</code>가 <code>var</code>와 또 다른 부분은 전역 Scope 입니다. 전역 Scope에서 <code>var</code>을 사용할 때, 전역 객체 (브라우저의 <code>window</code>)에 대한 프로퍼티로 새로운 전역 변수를 만듭니다. 이는 실수로 <code>var</code>를 사용하여 기존 전역 변수의 값을 덮어 쓸 수 있음을 의미합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// browser에서 실행.</span></div><div class="line"><span class="keyword">var</span> <span class="built_in">RegExp</span> = <span class="string">"Hello!"</span>;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.RegExp);     <span class="comment">// "Hello!"</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> ncz = <span class="string">"Hi!"</span>;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.ncz);        <span class="comment">// "Hi!"</span></div></pre></td></tr></table></figure>
+<p>글로벌 <code>RegExp</code>가 <code>window</code>에 정의되어 있더라도 <code>var</code> 선언으로 덮어 쓰는 것은 안전하지 않습니다. 이 예제는 원본을 덮어 쓰는 새로운 전역 변수 <code>RegExp</code>를 선언했습니다. 비슷하게 변수 <code>ncz</code>는 전역 변수로 정의되고 즉시 <code>window</code>에 프로퍼티로 정의됩니다. 이것이 항상 JavaScript가 작동하는 방법입니다.</p>
+<p>전역 Scope에서 <code>let</code> 또는<code>const</code>를 <code>var</code> 대신 사용하면 전역 범위에 새로운 바인딩이 생성되지만 전역 객체에 프로퍼티가 추가 되지는 않습니다. 즉 <code>let</code> 또는 <code>const</code>를 사용하여 전역 변수를 덮어 쓸 수 없다는 것을 의미합니다. 다음 코드를 살펴 보겠습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// in a browser</span></div><div class="line"><span class="keyword">let</span> <span class="built_in">RegExp</span> = <span class="string">"Hello!"</span>;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">RegExp</span>);                    <span class="comment">// "Hello!"</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.RegExp === <span class="built_in">RegExp</span>);  <span class="comment">// false</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> ncz = <span class="string">"Hi!"</span>;</div><div class="line"><span class="built_in">console</span>.log(ncz);                       <span class="comment">// "Hi!"</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"ncz"</span> <span class="keyword">in</span> <span class="built_in">window</span>);           <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p>이 코드에서 <code>RegExp</code>에 대한 새로운 <code>let</code> 선언은 전역 변수 <code>RegExp</code>를 가리키는 바인딩을 만듭니다. 즉, <code>window.RegExp</code>와 <code>RegExp</code>는 같지 않으므로 전역 Scope에 혼란이 없습니다. 또한, <code>ncz</code>에 대한 <code>const</code> 선언은 바인딩은 생성하지만 전역 객체에 대한 프로퍼티를 추가하지 않습니다. 이 기능은 전역 객체에 프로퍼티을 생성하고 싶지 않을 때 전역 영역에서 <code>let</code>과 <code>const</code>가 훨씬 더 안전하게 할수 있도록 합니다.</p>
+<blockquote>
+<p>만약 전역 객체에서 사용할 수 있어야 하는 코드가 필요하다면 전역 Scope에서 <code>var</code>을 여전히 사용할 수 있습니다. 이런 방법은 일반적으로 프레임이나 윈도우에서 코드에 액세스하는 경우에 일반적으로 사용합니다.</p>
+</blockquote>
+<h2 id="Block-Binding에-대한-새로운-Best-Practices"><a href="#Block-Binding에-대한-새로운-Best-Practices" class="headerlink" title="Block-Binding에 대한 새로운 Best Practices"></a>Block-Binding에 대한 새로운 Best Practices</h2><p>ECMAScript 6가 개발 중에 있는 동안, 변수 선언에 <code>var</code> 대신에 <code>let</code>을 디폴트로 사용해야 한다는 생각이 널리 퍼졌습니다. 많은 JavaScript 개발자들은 <code>let</code>이 <code>var</code>의 실행 방식과 똑같이 실행된다고 생각했습니다. 그래서 선언자 키워드의 1:1 대체(Direct replacement)가 논리적으로 합당하게 생각되었습니다. 그리고 값의 수정에 대한 보호가 필요한 변수에는 <code>const</code>를 사용하도록 생각했습니다.</p>
+<p>하지만 더많은 개발자가 ECMAScript 6으로 마이그레이션할 때에는 대체 접근법(Alternative approach)이 인기를 얻었습니다. 기본적으로 <code>const</code>를 사용하고 변수 값을 변경해야 한다는 것을 알때 <code>let</code>을 사용하십시오. 이유는 예상치 못한 값 변경이 버그의 원인이기 되기 때문에 초기화 후 대부분의 변수가 값을 변경해서는 안된다는 것입니다. 이 아이디어는 많은 공감을 얻었으면 ECMAScript 6을 채택할 때 고려할만한 가치가 있습니다.</p>
+<h2 id="요약"><a href="#요약" class="headerlink" title="요약"></a>요약</h2><p><code>let</code>과 <code>const</code> Block-binding은 JavaScript에 Lexical scoping을 도입합니다. 이러한 선언은 <em>Hoisting</em>되지 않으며 선언된 블록내에만 존재합니다. 변수가 다른 언어와 더 유사하고 의도하지 않은 오류가 발생할 가능성이 적은 동작을 제공하므로 변수가 필요한 위치에 정확히 선언될 수 있습니다. 부작용으로 <code>typeof</code>와 같이 안전한 연산자를 사용하더라도 변수가 선언되기 전에 변수에 액세스할 수 없습니다. 선언전에 Block-binding에 액세스하려고 하면 TDZ(Temporary Dead Zone) 바인딩의 존재로 인해 오류가 발생합니다.</p>
+<p>대부분의 경우 <code>let</code>과 <code>const</code>는 <code>var</code>와 비슷한 방식으로 동작합니다. 하지만 <code>for loop</code>에서는 그렇지 않습니다. <code>let</code>과 <code>const</code> 둘다에 대해서, <code>for-in</code>과 <code>for-of</code> loop는 반복할 때마다 새로운 바인딩을 생성합니다. 즉, loop 본문 내부에서 작성된 함수는 loop의 최종 반복 이후(loop를 벗어난 이후)가 아닌 현재 반복중인 loop 내부에서만 액세스할 수 있음을 의미합니다. <code>for loop</code>에서 <code>let</code> 선언에 대해서도 마찬가지입니다. 반면에 <code>for</code> loop에서 <code>const</code> 선언을 사용하려고 하면 에러가 발생할 수 있습니다.</p>
+<p>Block-binding을 위한 현재의 최선의 관행은 디폴트로 <code>const</code>를 사용하고 변수의 값을 변경할 필요가 있을 때만 <code>let</code>을 사용하는 것입니다. 이렇게하면 특정 유형의 오류를 방지하는데 도움이되고 코드의 기본 무결성이 보장됩니다.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://leanpub.com/understandinges6/read#leanpub-auto-block-bindings" target="_blank" rel="external">https://leanpub.com/understandinges6/read#leanpub-auto-block-bindings</a>]</p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a href="https://infoscis.github.io/2018/01/24/ecmascript-6-block-binding/">ECMAScript 6 Block Binding</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/ecmascript-6-strings-and-regular-expressions/">ECMAScript 6 문자열과 정규 표현식</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/ecmascript-6-functions/">ECMAScript 6 함수</a></li>
+<li><a href="https://infoscis.github.io/2018/01/25/ecmascript-6-expanded-object-functionality/">ECMAScript 6 객체의 확장된 기능</a></li>
+<li><a href="https://infoscis.github.io/2018/01/26/ecmascript-6-destructuring-for-easier-data-access/">ECMAScript 6 쉬운 데이터 액세스를 위한 Destructuring</a></li>
+<li><a href="https://infoscis.github.io/2018/01/27/ecmascript-6-symbols-and-symbol-properties/">ECMAScript 6 Symbol과 Symbol 프로퍼티</a></li>
+<li><a href="https://infoscis.github.io/2018/01/27/ecmascript-6-sets-and-maps/">ECMAScript 6 Set과 Map</a></li>
+<li><a href="https://infoscis.github.io/2018/01/31/ecmascript-6-iterators-and-generators/">ECMAScript 6 Iterator와 Generator</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/ecmascript-6-introducing-javascript-classes/">ECMAScript 6 JavaScript 클래스 소개</a></li>
+<li><a href="https://infoscis.github.io/2018/02/13/ecmascript-6-improved-array-capabilities/">ECMAScript 6 Array 기능 향상</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-promises-and-asynchronous-programming/">ECMAScript 6 Promise와 비동기 프로그램밍</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/">ECMAScript 6 프록시와 리플렉션 API</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-encapsulating-code-with-modules/">ECMAScript 6 Module로 코드 캡슐화하기</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-appendix-a-smaller-changes/">ECMAScript 6 부록 A. 작은 변경 사항</a></li>
+<li><a href="https://infoscis.github.io/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/">ECMAScript 6 부록 B. ECMAScript 7(2016) 이해하기</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2018/01/24/ecmascript-6-block-binding/" data-id="cjkl9102c002hjguz2wg8fgc3" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/01/24/ecmascript-6-strings-and-regular-expressions/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            ECMAScript 6 문자열과 정규 표현식
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2018/01/24/develop-webpack-plugin/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">Webpack Plugin 개발</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2018/01/24/ecmascript-6-block-binding/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

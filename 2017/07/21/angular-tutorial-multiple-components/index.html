@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Angular 튜터리얼 - 다중 콤포넌트 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Angular" />
+    
+    <meta name="description" content="Multiple Components현재 AppComponent에서 모든 것을 하고 있습니다. 처음에는 하나의 Hero에 대한 상세 보기를 보여주었습니다. 그런 다음 Hero들 목록과 Hero 세부 정보가 모두 포함된 master/detail 형식이 되었습니다. 곧 새로운 요구 사항과 기능이 생길 것입니다. 한 Component에 모든 기능을 유지할 수는 없">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 튜터리얼 - 다중 콤포넌트">
+<meta property="og:url" content="http://infoscis.github.io/2017/07/21/angular-tutorial-multiple-components/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="Multiple Components현재 AppComponent에서 모든 것을 하고 있습니다. 처음에는 하나의 Hero에 대한 상세 보기를 보여주었습니다. 그런 다음 Hero들 목록과 Hero 세부 정보가 모두 포함된 master/detail 형식이 되었습니다. 곧 새로운 요구 사항과 기능이 생길 것입니다. 한 Component에 모든 기능을 유지할 수는 없">
+<meta property="og:updated_time" content="2018-01-27T15:20:38.033Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular 튜터리얼 - 다중 콤포넌트">
+<meta name="twitter:description" content="Multiple Components현재 AppComponent에서 모든 것을 하고 있습니다. 처음에는 하나의 Hero에 대한 상세 보기를 보여주었습니다. 그런 다음 Hero들 목록과 Hero 세부 정보가 모두 포함된 master/detail 형식이 되었습니다. 곧 새로운 요구 사항과 기능이 생길 것입니다. 한 Component에 모든 기능을 유지할 수는 없">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2017/07/21/angular-tutorial-multiple-components/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Angular/">Angular</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-angular-tutorial-multiple-components" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Angular 튜터리얼 - 다중 콤포넌트
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/07/21/angular-tutorial-multiple-components/" class="article-date">
+            <time datetime="2017-07-21T13:26:30.000Z" itemprop="datePublished">2017-07-21</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Angular/">Angular</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Multiple-Components"><a href="#Multiple-Components" class="headerlink" title="Multiple Components"></a>Multiple Components</h1><p>현재 <code>AppComponent</code>에서 모든 것을 하고 있습니다. 처음에는 하나의 Hero에 대한 상세 보기를 보여주었습니다. 그런 다음 Hero들 목록과 Hero 세부 정보가 모두 포함된 master/detail 형식이 되었습니다. 곧 새로운 요구 사항과 기능이 생길 것입니다. 한 <em>Component</em>에 모든 기능을 유지할 수는 없습니다.</p>
+<p>특정 작업이나 워크 플로에 중점을 둔 하위 <em>Component</em>로 구성해야합니다. 결국 <code>AppComponent</code>는 이러한 하위 <em>Component</em>를 호스팅하는 단순한 shell이 될 수 있습니다.</p>
+<p>이 페이지에서 Hero의 세부 사항을 별도의 재사용 가능한 <em>Component</em>로 쪼갬으로써 하위 <em>Component</em>로 만드는 첫 번째 단계를 수행하게됩니다. 모두 완료되면 응용 프로그램은 이 <a href="https://angular.io/generated/live-examples/toh-pt3/eplnkr.html" target="_blank" rel="external">라이브 예제</a>/<a href="https://angular.io/generated/zips/toh-pt3/toh-pt3.zip" target="_blank" rel="external">예제 다운로드</a>처럼 보일 것입니다.</p>
+<h2 id="어디까지-했나"><a href="#어디까지-했나" class="headerlink" title="어디까지 했나?"></a>어디까지 했나?</h2><p>이 페이지를 시작하기 전에 이전 페이지에서 작업했던 Tour of Heroes의 구조와 동일한지 확인하십시오. 그렇지 않은 경우 이전 페이지로 돌아가십시오.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">angular-tour-of-heroes</div><div class="line"> ┣ src</div><div class="line"> ┃  ┣ app</div><div class="line"> ┃  ┃  ┣ app.component.ts</div><div class="line"> ┃  ┃  ┗ app.module.ts</div><div class="line"> ┃  ┣ main.ts</div><div class="line"> ┃  ┣ index.html</div><div class="line"> ┃  ┣ styles.css</div><div class="line"> ┃  ┣ systemjs.config.js</div><div class="line"> ┃  ┗ tsconfig.json</div><div class="line"> ┣ node_modules ...</div><div class="line"> ┗ package.json</div></pre></td></tr></table></figure>
+<p>이전처럼 터미널 창에 <code>npm start</code> 명령을 입력하여 Tour of Heroes를 빌드하는 동안 앱이 계속 transpiling과 실행을 계속하도록 합니다.</p>
+<h2 id="Hero-상세-component-만들기"><a href="#Hero-상세-component-만들기" class="headerlink" title="Hero 상세 component 만들기"></a>Hero 상세 component 만들기</h2><p><code>hero-detail.component.ts</code>라는 파일을 <code>app/</code> 폴더에 추가합니다. 이 파일에 새로운 <code>HeroDetailComponent</code>를 저장할 것입니다.</p>
+<p>파일 및 <em>Component</em> 이름은 Angular <a href="https://angular.io/guide/styleguide#naming" target="_blank" rel="external">스타일 안내서</a>에 설명된 표준을 따릅니다.</p>
+<ul>
+<li><em>Component</em> 클래스 이름은 <em>upper camel case</em>로 쓰여지고 “Component”라는 단어로 끝나야합니다. Hero 상세 <em>Component</em> 클래스는 <code>HeroDetailComponent</code>입니다.</li>
+<li><em>Component</em> 파일 이름은 소문자로 입력해야하며, 각 단어는 대시로 구분하고 <code>.component.ts</code>로 끝나야합니다. <code>HeroDetailComponent</code> 클래스는 <code>hero-detail.component.ts</code> 파일에 들어갑니다.</li>
+</ul>
+<p>다음과 같이 <code>HeroDetailComponent</code> 작성을 시작합니다.</p>
+<p><strong>app/hero-detail.component.ts (initial version)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"></div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'hero-detail'</span>,</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> HeroDetailComponent &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><em>Component</em>를 정의하려면 항상 <code>Component</code> 심볼을 <code>import</code> 해야합니다.</p>
+<p><code>@Component</code> <em>Decorator</em>는 <em>Component</em>의 Angular 메타 데이터를 제공합니다. CSS 선택자 이름인 <code>hero-detail</code>은 상위 <em>Component</em>의 템플릿 내에서 이 <em>Component</em>를 식별하는 엘리먼트 태그와 일치합니다. 이 <a href="https://angular.io/tutorial/toh-pt3#add-hero-detail" target="_blank" rel="external">튜토리얼 페이지의 끝 부분</a>에서 <code>&lt;hero-detail&gt;</code> 엘리먼트를 <code>AppComponent</code> 템플릿에 추가할 것입니다.</p>
+<p>항상 다른곳에서 <code>import</code>하기 때문에 컴포넌트 클래스는 언제나 <code>export</code>해야 합니다.</p>
+<h3 id="Hero-상세-템플릿"><a href="#Hero-상세-템플릿" class="headerlink" title="Hero 상세 템플릿"></a>Hero 상세 템플릿</h3><p>Hero 상세 보기를 <code>HeroDetailComponent</code>로 옮기려면, <code>AppComponent</code> 템플릿의 맨 아래에서 Hero 상세 내용을 잘라내서 <code>@Component</code> 메타 데이터의 새로운 <code>template</code> 프로퍼티에 붙여 넣으십시오.</p>
+<p>HeroDetailComponent에는 선택된 Hero가 아닌 그냥 Hero가 있습니다. 템플릿의 “hero”라는 단어로 “selectedHero”라는 단어를 대체하십시오. 완료되면 새 템플릿은 다음과 같이 표시됩니다.</p>
+<p><strong>src/app/hero-detail.component.ts (template)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'hero-detail'</span>,</div><div class="line">  template: <span class="string">`</span></div><div class="line">    &lt;div *ngIf="hero"&gt;</div><div class="line">      &lt;h2&gt;&#123;&#123;hero.name&#125;&#125; details!&lt;/h2&gt;</div><div class="line">      &lt;div&gt;&lt;label&gt;id: &lt;/label&gt;&#123;&#123;hero.id&#125;&#125;&lt;/div&gt;</div><div class="line">      &lt;div&gt;</div><div class="line">        &lt;label&gt;name: &lt;/label&gt;</div><div class="line">        &lt;input [(ngModel)]="hero.name" placeholder="name"/&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  `</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h3 id="hero-프로퍼티-추가"><a href="#hero-프로퍼티-추가" class="headerlink" title="hero 프로퍼티 추가"></a>hero 프로퍼티 추가</h3><p><code>HeroDetailComponent</code> 템플릿은 컴포넌트의 <code>hero</code> 프로퍼티에 바인딩됩니다. 그 프로퍼티를 다음과 같이 <code>HeroDetailComponent</code> 클래스에 추가합니다.</p>
+<p><strong>src/app/hero-detail.component.ts (hero property)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hero: Hero;</div></pre></td></tr></table></figure></p>
+<p><code>hero</code> 프로퍼티는 <code>Hero</code>의 인스턴스로 입력됩니다. <code>Hero</code> 클래스는 여전히 <code>app.component.ts</code> 파일에 있습니다. 이제 <code>Hero</code> 클래스를 참조해야하는 두 가지 <em>Component</em>가 존재합니다. Angular <a href="https://angular.io/guide/styleguide#rule-of-one" target="_blank" rel="external">스타일 가이드</a>는 파일당 하나의 클래스를 권장합니다.</p>
+<p><code>Hero</code> 클래스를 <code>app.component.ts</code>에서 자신의 <code>hero.ts</code> 파일로 옮깁니다.</p>
+<p><strong>src/app/hero.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> Hero &#123;</div><div class="line">  id: <span class="built_in">number</span>;</div><div class="line">  name: <span class="built_in">string</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>Hero</code> 클래스가 자체 파일에 있기 때문에, <code>AppComponent</code>와 <code>HeroDetailComponent</code>는 <code>import</code> 해야합니다. <code>app.component.ts</code> 파일과 <code>hero-detail.component.ts</code> 파일의 상단에 다음 <code>import</code> 문을 추가합니다.</p>
+<p><strong>src/app/hero-detail.component.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Hero &#125; <span class="keyword">from</span> <span class="string">'./hero'</span>;</div></pre></td></tr></table></figure></p>
+<h3 id="hero-프로퍼티는-input-프로퍼티입니다"><a href="#hero-프로퍼티는-input-프로퍼티입니다" class="headerlink" title="hero 프로퍼티는 input 프로퍼티입니다."></a><em>hero</em> 프로퍼티는 <em>input</em> 프로퍼티입니다.</h3><p>이 문서의 뒤에 있는 부모인 <code>AppComponent</code>는 <code>HeroDetailComponent</code>의 <code>hero</code> 프로퍼티에 <code>selectedHero</code>를 바인딩하여 표시할 Hero를 자식 <code>HeroDetailComponent</code>에게 알려줍니다. 바인딩은 다음과 같습니다.</p>
+<p><strong>src/app/app.component.html</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">hero-detail</span> [<span class="attr">hero</span>]=<span class="string">"selectedHero"</span>&gt;</span><span class="tag">&lt;/<span class="name">hero-detail</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>등호(=)의 왼쪽에 있는 <code>hero</code> 프로퍼티 주위에 대괄호를 넣으면 프로퍼티 바인딩 표현식의 대상이됩니다. <em>target</em> 바인딩 프로퍼티를 <em>input</em> 프로퍼티로 선언 해야합니다. 그렇지 않으면 Angular가 바인딩을 거부하고 오류를 던집니다.</p>
+<p>먼저 <code>@angular/core</code> <code>import</code> 문을 수정하여 <code>Input</code> 심볼을 포함시킵니다.</p>
+<p><strong>src/app/hero-detail.component.ts (excerpt)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component, Input &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div></pre></td></tr></table></figure></p>
+<p>그런 다음 가져온 <code>@Input</code> <em>Decorator</em>를 추가하여 <code>hero</code>를 <em>입력</em> 프로퍼티라고 선언합니다.</p>
+<p><strong>src/app/hero-detail.component.ts (excerpt)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Input</span>() hero: Hero;</div></pre></td></tr></table></figure></p>
+<p><a href="https://angular.io/guide/attribute-directives#why-input" target="_blank" rel="external">Attribute Directive</a> 페이지에서 입력 프로퍼티에 대해 자세히 읽어보십시오.</p>
+<p>이게 전부입니다. <code>hero</code>는 <code>HeroDetailComponent</code> 클래스의 유일한 프로퍼티입니다.</p>
+<p><strong>src/src/app/hero-detail.component.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> HeroDetailComponent &#123;</div><div class="line">  <span class="meta">@Input</span>() hero: Hero;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>하는 일은 <code>hero</code> 입력 프로퍼티를 통해 <code>Hero</code> 객체를 받은 다음 템플릿의 해당 프로퍼티에 바인딩하는 것입니다.</p>
+<p>다음은 완전한 <code>HeroDetailComponent</code>입니다.</p>
+<p><strong>src/app/hero-detail.component.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component, Input &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; Hero &#125; <span class="keyword">from</span> <span class="string">'./hero'</span>;</div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'hero-detail'</span>,</div><div class="line">  template: <span class="string">`</span></div><div class="line">    &lt;div *ngIf="hero"&gt;</div><div class="line">      &lt;h2&gt;&#123;&#123;hero.name&#125;&#125; details!&lt;/h2&gt;</div><div class="line">      &lt;div&gt;&lt;label&gt;id: &lt;/label&gt;&#123;&#123;hero.id&#125;&#125;&lt;/div&gt;</div><div class="line">      &lt;div&gt;</div><div class="line">        &lt;label&gt;name: &lt;/label&gt;</div><div class="line">        &lt;input [(ngModel)]="hero.name" placeholder="name"/&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> HeroDetailComponent &#123;</div><div class="line">  <span class="meta">@Input</span>() hero: Hero;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="AppModule에-HeroDetailComponent-선언"><a href="#AppModule에-HeroDetailComponent-선언" class="headerlink" title="AppModule에 HeroDetailComponent 선언"></a>AppModule에 <em>HeroDetailComponent</em> 선언</h2><p>모든 <em>Component</em>는 하나의(그리고 오직 한번만) Angular 모듈로 선언되어야합니다.</p>
+<p>에디터에서 <code>app.module.ts</code> 파일을 열고 <code>HeroDetailComponent</code> 파일을 <code>import</code>해서 참조합니다.</p>
+<p><strong>src/app/app.module.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; HeroDetailComponent &#125; <span class="keyword">from</span> <span class="string">'./hero-detail.component'</span>;</div></pre></td></tr></table></figure></p>
+<p><code>HeroDetailComponent</code>를 모듈의 <code>declarations</code> 배열에 추가합니다.</p>
+<p><strong>src/app/app.module.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">declarations: [</div><div class="line">  AppComponent,</div><div class="line">  HeroDetailComponent</div><div class="line">],</div></pre></td></tr></table></figure></p>
+<p>일반적으로 <code>declarations</code> 배열은 모듈에 속한 <em>Component</em>, <em>Pipe</em> 및 <em>Directive</em> 응용 프로그램 목록을 포함합니다. 다른 <em>Component</em>가 참조하기 전에 <em>Component</em>를 모듈에서 선언해야합니다. 예제의 모듈은 <code>AppComponent</code>와 <code>HeroDetailComponent</code>라는 두 개의 어플리케이션 컴포넌트만을 선언합니다.</p>
+<blockquote>
+<p><a href="https://angular.io/guide/ngmodule" target="_blank" rel="external">NgModules</a> 가이드에서 Angular 모듈에 대해 자세히 읽어보십시오.</p>
+</blockquote>
+<h2 id="AppComponent에-HeroDetailComponent-추가"><a href="#AppComponent에-HeroDetailComponent-추가" class="headerlink" title="AppComponent에 HeroDetailComponent 추가"></a><em>AppComponent</em>에 <em>HeroDetailComponent</em> 추가</h2><p><code>AppComponent</code>는 여전히 <em>master</em>/<em>detail</em>입니다. 템플릿의 해당 부분을 잘라내기 전에 Hero 상세 보기를 표시하는데 사용되었습니다. 이제 <code>HeroDetailComponent</code>에 위임할 것입니다.</p>
+<p><code>HeroDetailComponent</code> 메타 데이터의 CSS <a href="https://angular.io/tutorial/toh-pt3#selector" target="_blank" rel="external">selector</a>인 <code>hero-detail</code>을 다시 보겠습니다. 이것은 <code>HeroDetailComponent</code>를 나타내는 엘리먼트의 태그 이름입니다.</p>
+<p><code>AppComponent</code> 템플릿 밑에 <code>&lt;hero-detail&gt;</code> 엘리먼트를 추가합니다. 이 엘리먼트에 Hero 상세 보기가 보여집니다.</p>
+<p><code>AppComponent</code>의 <code>selectedHero</code> 프로퍼티를 <code>HeroDetailComponent</code>의 <code>hero</code> 프로퍼티에 바인딩함으로써 <em>master</em> <code>AppComponent</code>를 <code>HeroDetailComponent</code>와 연결합니다.</p>
+<p><strong>app.component.ts (excerpt)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;hero-detail [hero]=<span class="string">"selectedHero"</span>&gt;&lt;<span class="regexp">/hero-detail&gt;</span></div></pre></td></tr></table></figure></p>
+<p>이제 <code>selectedHero</code>가 바뀔 때마다 <code>HeroDetailComponent</code>는 새로운 Hero를 표시합니다.</p>
+<p>수정된 <code>AppComponent</code> 템플릿은 다음과 같습니다.</p>
+<p><strong>app.component.ts (excerpt)</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">template: <span class="string">`</span></div><div class="line">  &lt;h1&gt;&#123;&#123;title&#125;&#125;&lt;/h1&gt;</div><div class="line">  &lt;h2&gt;My Heroes&lt;/h2&gt;</div><div class="line">  &lt;ul class="heroes"&gt;</div><div class="line">    &lt;li *ngFor="let hero of heroes"</div><div class="line">      [class.selected]="hero === selectedHero"</div><div class="line">      (click)="onSelect(hero)"&gt;</div><div class="line">      &lt;span class="badge"&gt;&#123;&#123;hero.id&#125;&#125;&lt;/span&gt; &#123;&#123;hero.name&#125;&#125;</div><div class="line">    &lt;/li&gt;</div><div class="line">  &lt;/ul&gt;</div><div class="line">  &lt;hero-detail [hero]="selectedHero"&gt;&lt;/hero-detail&gt;</div><div class="line">`,</div></pre></td></tr></table></figure></p>
+<h2 id="무엇이-바뀌었나"><a href="#무엇이-바뀌었나" class="headerlink" title="무엇이 바뀌었나?"></a>무엇이 바뀌었나?</h2><p><a href="https://angular.io/tutorial/toh-pt2" target="_blank" rel="external">이전</a>과 마찬가지로 사용자가 Hero 이름을 클릭할 때마다 Hero 상세 보기가 Heroes 목록 아래에 표시됩니다. 이제 <code>HeroDetailView</code>에서 이러한 상세 보기를 제공합니다.</p>
+<p>원래의 <code>AppComponent</code>를 두 개의 컴포넌트로 리팩토링하면 현재와 미래 모두 혜택을 얻을 수 있습니다.</p>
+<ol>
+<li><code>AppComponent</code>의 책임을 줄임으로써 <code>AppComponent</code>를 단순화했습니다.</li>
+<li>부모 <code>AppComponent</code>를 건드리지 않고도 <code>HeroDetailComponent</code>를 풍부한 Rich Hero editor로 확장시킬 수 있습니다.</li>
+<li>Hero 상세보기를 건드리지 않고도 <code>AppComponent</code>를 확장시킬 수 있습니다.</li>
+<li><code>HeroDetailComponent</code>는 미래의 상위 <em>Component</em>의 템플리트에서 다시 사용할 수 있습니다.</li>
+</ol>
+<h3 id="Review-the-app-structure"><a href="#Review-the-app-structure" class="headerlink" title="Review the app structure"></a>Review the app structure</h3><p>다음과 같은 구조인지 확인하십시오.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">angular-tour-of-heroes</div><div class="line"> ┣ src</div><div class="line"> ┃  ┣ app</div><div class="line"> ┃  ┃  ┣ app.component.ts</div><div class="line"> ┃  ┃  ┣ app.module.ts</div><div class="line"> ┃  ┃  ┣ hero.ts</div><div class="line"> ┃  ┃  ┗ hero-detail.component.ts</div><div class="line"> ┃  ┣ main.ts</div><div class="line"> ┃  ┣ index.html</div><div class="line"> ┃  ┣ styles.css</div><div class="line"> ┃  ┣ systemjs.config.js</div><div class="line"> ┃  ┗ tsconfig.json</div><div class="line"> ┣ node_modules ...</div><div class="line"> ┗ package.json</div></pre></td></tr></table></figure>
+<p>이 페이지에서 설명하는 코드 파일은 다음과 같습니다.</p>
+<p><strong>src/app/hero-detail.component.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component, Input &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; Hero &#125; <span class="keyword">from</span> <span class="string">'./hero'</span>;</div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'hero-detail'</span>,</div><div class="line">  template: <span class="string">`</span></div><div class="line">    &lt;div *ngIf="hero"&gt;</div><div class="line">      &lt;h2&gt;&#123;&#123;hero.name&#125;&#125; details!&lt;/h2&gt;</div><div class="line">      &lt;div&gt;&lt;label&gt;id: &lt;/label&gt;&#123;&#123;hero.id&#125;&#125;&lt;/div&gt;</div><div class="line">      &lt;div&gt;</div><div class="line">        &lt;label&gt;name: &lt;/label&gt;</div><div class="line">        &lt;input [(ngModel)]="hero.name" placeholder="name"/&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> HeroDetailComponent &#123;</div><div class="line">  <span class="meta">@Input</span>() hero: Hero;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>src/app/app.component.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; Hero &#125; <span class="keyword">from</span> <span class="string">'./hero'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">const</span> HEROES: Hero[] = [</div><div class="line">  &#123; id: <span class="number">11</span>, name: <span class="string">'Mr. Nice'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">12</span>, name: <span class="string">'Narco'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">13</span>, name: <span class="string">'Bombasto'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">14</span>, name: <span class="string">'Celeritas'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">15</span>, name: <span class="string">'Magneta'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">16</span>, name: <span class="string">'RubberMan'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">17</span>, name: <span class="string">'Dynama'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">18</span>, name: <span class="string">'Dr IQ'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">19</span>, name: <span class="string">'Magma'</span> &#125;,</div><div class="line">  &#123; id: <span class="number">20</span>, name: <span class="string">'Tornado'</span> &#125;</div><div class="line">];</div><div class="line"> </div><div class="line"><span class="meta">@Component</span>(&#123;</div><div class="line">  selector: <span class="string">'my-app'</span>,</div><div class="line">  template: <span class="string">`</span></div><div class="line">    &lt;h1&gt;&#123;&#123;title&#125;&#125;&lt;/h1&gt;</div><div class="line">    &lt;h2&gt;My Heroes&lt;/h2&gt;</div><div class="line">    &lt;ul class="heroes"&gt;</div><div class="line">      &lt;li *ngFor="let hero of heroes"</div><div class="line">        [class.selected]="hero === selectedHero"</div><div class="line">        (click)="onSelect(hero)"&gt;</div><div class="line">        &lt;span class="badge"&gt;&#123;&#123;hero.id&#125;&#125;&lt;/span&gt; &#123;&#123;hero.name&#125;&#125;</div><div class="line">      &lt;/li&gt;</div><div class="line">    &lt;/ul&gt;</div><div class="line">    &lt;hero-detail [hero]="selectedHero"&gt;&lt;/hero-detail&gt;</div><div class="line">  `,</div><div class="line">  styles: [<span class="string">`</span></div><div class="line">    .selected &#123;</div><div class="line">      background-color: #CFD8DC !important;</div><div class="line">      color: white;</div><div class="line">    &#125;</div><div class="line">    .heroes &#123;</div><div class="line">      margin: 0 0 2em 0;</div><div class="line">      list-style-type: none;</div><div class="line">      padding: 0;</div><div class="line">      width: 15em;</div><div class="line">    &#125;</div><div class="line">    .heroes li &#123;</div><div class="line">      cursor: pointer;</div><div class="line">      position: relative;</div><div class="line">      left: 0;</div><div class="line">      background-color: #EEE;</div><div class="line">      margin: .5em;</div><div class="line">      padding: .3em 0;</div><div class="line">      height: 1.6em;</div><div class="line">      border-radius: 4px;</div><div class="line">    &#125;</div><div class="line">    .heroes li.selected:hover &#123;</div><div class="line">      background-color: #BBD8DC !important;</div><div class="line">      color: white;</div><div class="line">    &#125;</div><div class="line">    .heroes li:hover &#123;</div><div class="line">      color: #607D8B;</div><div class="line">      background-color: #DDD;</div><div class="line">      left: .1em;</div><div class="line">    &#125;</div><div class="line">    .heroes .text &#123;</div><div class="line">      position: relative;</div><div class="line">      top: -3px;</div><div class="line">    &#125;</div><div class="line">    .heroes .badge &#123;</div><div class="line">      display: inline-block;</div><div class="line">      font-size: small;</div><div class="line">      color: white;</div><div class="line">      padding: 0.8em 0.7em 0 0.7em;</div><div class="line">      background-color: #607D8B;</div><div class="line">      line-height: 1em;</div><div class="line">      position: relative;</div><div class="line">      left: -1px;</div><div class="line">      top: -4px;</div><div class="line">      height: 1.8em;</div><div class="line">      margin-right: .8em;</div><div class="line">      border-radius: 4px 0 0 4px;</div><div class="line">    &#125;</div><div class="line">  `]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent &#123;</div><div class="line">  title = <span class="string">'Tour of Heroes'</span>;</div><div class="line">  heroes = HEROES;</div><div class="line">  selectedHero: Hero;</div><div class="line"> </div><div class="line">  onSelect(hero: Hero): <span class="built_in">void</span> &#123;</div><div class="line">    <span class="keyword">this</span>.selectedHero = hero;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>src/app/hero.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> Hero &#123;</div><div class="line">  id: <span class="built_in">number</span>;</div><div class="line">  name: <span class="built_in">string</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>src/app/app.module.ts</strong><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; NgModule &#125;      <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">import</span> &#123; BrowserModule &#125; <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</div><div class="line"><span class="keyword">import</span> &#123; FormsModule &#125;   <span class="keyword">from</span> <span class="string">'@angular/forms'</span>;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> &#123; AppComponent &#125;        <span class="keyword">from</span> <span class="string">'./app.component'</span>;</div><div class="line"><span class="keyword">import</span> &#123; HeroDetailComponent &#125; <span class="keyword">from</span> <span class="string">'./hero-detail.component'</span>;</div><div class="line"> </div><div class="line"><span class="meta">@NgModule</span>(&#123;</div><div class="line">  imports: [</div><div class="line">    BrowserModule,</div><div class="line">    FormsModule</div><div class="line">  ],</div><div class="line">  declarations: [</div><div class="line">    AppComponent,</div><div class="line">    HeroDetailComponent</div><div class="line">  ],</div><div class="line">  bootstrap: [ AppComponent ]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123; &#125;</div></pre></td></tr></table></figure></p>
+<h2 id="어디까지-했나-1"><a href="#어디까지-했나-1" class="headerlink" title="어디까지 했나?"></a>어디까지 했나?</h2><p>이 페이지에서 달성한 내용은 다음과 같습니다.</p>
+<ul>
+<li>재사용 가능한 <em>Component</em>를 만들었습니다.</li>
+<li><em>Component</em>가 입력을 허용하는 방법을 배웠습니다.</li>
+<li>Angular 모듈에서 필요한 애플리케이션 <em>Directive</em>를 선언하는 방법을 배웠습니다. <code>NgModule</code> <em>Decorator</em>의 <code>declarations</code> 배열에 <em>Directive</em>를 나열했습니다.</li>
+<li>부모 <em>Component</em>를 하위 <em>Component</em>에 바인딩하는 방법을 배웠습니다.</li>
+</ul>
+<p>앱은 이 <a href="https://angular.io/generated/live-examples/toh-pt3/eplnkr.html" target="_blank" rel="external">라이브 예제</a>/ <a href="https://angular.io/generated/zips/toh-pt3/toh-pt3.zip" target="_blank" rel="external">예제 다운로드</a>와 비슷해야합니다.</p>
+<h2 id="앞으로의-여정"><a href="#앞으로의-여정" class="headerlink" title="앞으로의 여정"></a>앞으로의 여정</h2><p>Tour of Heroes 앱은 공유 <em>Component</em>로 재사용할 수 있지만 App (Mock) 데이터는 여전히 <code>AppComponent</code> 내에 하드 코딩되어 있습니다. 그것은 서스테이닝이 쉽지 않습니다. 데이터 액세스는 별도의 <em>Service</em>로 리팩토링 되어야하며 데이터가 필요한 <em>Component</em>간에 공유되어야합니다.</p>
+<p><a href="https://angular.io/tutorial/toh-pt4" target="_blank" rel="external">다음 튜토리얼</a> 페이지에서 <em>Service</em>를 만드는 방법을 배웁니다.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 제가 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article [<a href="https://angular.io/tutorial/toh-pt3" target="_blank" rel="external">https://angular.io/tutorial/toh-pt3</a>]</p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-introduction/">Angular 튜토리얼 - 소개</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-the-hero-editor/">Angular 튜터리얼 - Hero 에디터</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-master-detail/">Angular 튜터리얼 - Master/Detail</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-services/">Angular 튜터리얼 - 서비스</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-routing/">Angular 튜터리얼 - 라우팅</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-tutorial-http/">Angular 튜터리얼 - HTTP</a></li>
+<li><a href="https://infoscis.github.io/2017/07/21/angular-http-client/">Angular HttpClient</a></li>
+<li><a href="https://infoscis.github.io/2018/01/24/angular-dynamic-component/">Angular 동적 컴포넌트 로딩</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2017/07/21/angular-tutorial-multiple-components/" data-id="cjkl9101v001vjguz3b9kbvhy" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/07/21/angular-tutorial-master-detail/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">새로운</strong>
+        <p class="article-nav-title">
+        
+            Angular 튜터리얼 - Master/Detail
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/07/21/angular-tutorial-services/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">Angular 튜터리얼 - 서비스</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-proxies-and-the-reflection-api/" class="title">ECMAScript 6 프록시와 리플렉션 API</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:03.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2017/07/21/angular-tutorial-multiple-components/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

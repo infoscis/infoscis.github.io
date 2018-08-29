@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Spring Boot와 Kotlin으로 웹 애플리케이션 구축하기 | Developer&#39;s Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="SpringBoot,Kotlin" />
+    
+    <meta name="description" content="Spring Boot와 Kotlin으로 웹 애플리케이션 구축하기이 튜토리얼은 Spring Boot와 Kotlin을 결합하여 예제 블로그 애플리케이션을 효율적으로 빌드하는 방법을 설명합니다..
+만약 Kotlin을 처음 시작한다면 참고 문서를 읽고 온라인 Kotlin Koans 자습서를 따라하며 언어를 배울 수 있습니다.
+Spring Kotlin 지원은 Spr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot와 Kotlin으로 웹 애플리케이션 구축하기">
+<meta property="og:url" content="http://infoscis.github.io/2018/08/30/spring-boot-kotlin/index.html">
+<meta property="og:site_name" content="Developer's Record">
+<meta property="og:description" content="Spring Boot와 Kotlin으로 웹 애플리케이션 구축하기이 튜토리얼은 Spring Boot와 Kotlin을 결합하여 예제 블로그 애플리케이션을 효율적으로 빌드하는 방법을 설명합니다..
+만약 Kotlin을 처음 시작한다면 참고 문서를 읽고 온라인 Kotlin Koans 자습서를 따라하며 언어를 배울 수 있습니다.
+Spring Kotlin 지원은 Spr">
+<meta property="og:image" content="https://github.com/spring-guides/tut-spring-boot-kotlin/raw/master/images/initializr.png">
+<meta property="og:updated_time" content="2018-08-29T15:35:28.944Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot와 Kotlin으로 웹 애플리케이션 구축하기">
+<meta name="twitter:description" content="Spring Boot와 Kotlin으로 웹 애플리케이션 구축하기이 튜토리얼은 Spring Boot와 Kotlin을 결합하여 예제 블로그 애플리케이션을 효율적으로 빌드하는 방법을 설명합니다..
+만약 Kotlin을 처음 시작한다면 참고 문서를 읽고 온라인 Kotlin Koans 자습서를 따라하며 언어를 배울 수 있습니다.
+Spring Kotlin 지원은 Spr">
+<meta name="twitter:image" content="https://github.com/spring-guides/tut-spring-boot-kotlin/raw/master/images/initializr.png">
+    
+    <link rel="canonical" href="http://infoscis.github.io/2018/08/30/spring-boot-kotlin/"/>
+
+    
+
+    
+        <link rel="icon" href="/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100332906-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">개발자의 기록 보관소</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Angular/">Angular</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/">Java</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Java9/">Java9</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Java/Spring/">Spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Kotlin/">Kotlin</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Kotlin/SpringBoot/">SpringBoot</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Webpack/">Webpack</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="https://about.me/jongcheol.kim">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Kotlin/">Kotlin</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Kotlin/SpringBoot/">SpringBoot</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-spring-boot-kotlin" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Spring Boot와 Kotlin으로 웹 애플리케이션 구축하기
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2018/08/30/spring-boot-kotlin/" class="article-date">
+            <time datetime="2018-08-29T15:30:20.000Z" itemprop="datePublished">2018-08-30</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Kotlin/">Kotlin</a>, <a class="tag-link" href="/tags/SpringBoot/">SpringBoot</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Spring-Boot와-Kotlin으로-웹-애플리케이션-구축하기"><a href="#Spring-Boot와-Kotlin으로-웹-애플리케이션-구축하기" class="headerlink" title="Spring Boot와 Kotlin으로 웹 애플리케이션 구축하기"></a>Spring Boot와 Kotlin으로 웹 애플리케이션 구축하기</h1><p>이 튜토리얼은 <a href="https://projects.spring.io/spring-boot/" target="_blank" rel="external">Spring Boot</a>와 <a href="https://kotlinlang.org/" target="_blank" rel="external">Kotlin</a>을 결합하여 예제 블로그 애플리케이션을 효율적으로 빌드하는 방법을 설명합니다..</p>
+<p>만약 Kotlin을 처음 시작한다면 <a href="https://kotlinlang.org/docs/reference/" target="_blank" rel="external">참고 문서</a>를 읽고 온라인 <a href="https://try.kotlinlang.org/" target="_blank" rel="external">Kotlin Koans 자습서</a>를 따라하며 언어를 배울 수 있습니다.</p>
+<p>Spring Kotlin 지원은 <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/languages.html#kotlin" target="_blank" rel="external">Spring Framework</a> 및 <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-kotlin.html" target="_blank" rel="external">Spring Boot</a> 참고문서에 설명되어 있습니다. 도움이 필요하면 StackOverflow에서 <a href="https://stackoverflow.com/questions/tagged/kotlin+spring" target="_blank" rel="external">Spring 및 kotlin 태그로 검색하거나 질문</a>을 할 수 있고, <a href="http://slack.kotlinlang.org/" target="_blank" rel="external">Kotlin Slack</a>의 <code>#spring</code> 채널에서 토론하십시오.</p>
+<h2 id="새-프로젝트-만들기"><a href="#새-프로젝트-만들기" class="headerlink" title="새 프로젝트 만들기"></a>새 프로젝트 만들기</h2><p>먼저 Spring Boot 애플리케이션을 만들어야하고, 이는 여러 가지 방법으로 수행 할 수 있습니다. 예를 들어, 우리는 Kotlin 생태계에서 가장 많이 사용하는 Gradle 빌드 시스템을 사용할 것이지만, 만약 원하는 경우 Maven도 자유롭게 사용할 수 있습니다.(예제 블로그 프로젝트의 일부로 Gradle 빌드와 동일한 Maven pom.xml을 <a href="https://github.com/spring-guides/tut-spring-boot-kotlin/blob/master/pom.xml" target="_blank" rel="external">사용할 수</a> 있습니다).</p>
+<h3 id="Initializr-웹-사이트-사용"><a href="#Initializr-웹-사이트-사용" class="headerlink" title="Initializr 웹 사이트 사용"></a>Initializr 웹 사이트 사용</h3><p><a href="https://start.spring.io" target="_blank" rel="external">https://start.spring.io</a> 로 이동하여 Kotlin 언어를 선택합니다. 또는 Kotlin을 미리 선택하려면 직접 <a href="https://start.spring.io/#!language=kotlin" target="_blank" rel="external">https://start.spring.io/#!language=kotlin</a> 로 방문할 수 있습니다.</p>
+<p>그런 다음 Gradle 빌드 시스템, “blog” Artifact, “blog” Package Name(고급 설정)을 선택하고 “Web”, “Mustache”, “JPA”및 “H2” 종속성을 시작점으로 추가한 다음 “Generate Project”를 클릭합니다.<br><img src="https://github.com/spring-guides/tut-spring-boot-kotlin/raw/master/images/initializr.png" alt=""></p>
+<p>압축을 풀기전에 빈 디렉토리를 만듭니다. 그리고 .zip 파일의 루트 디렉토리에는 표준 Gradle 프로젝트가 포함되어 있습니다.</p>
+<h3 id="Command-Line-사용"><a href="#Command-Line-사용" class="headerlink" title="Command Line 사용"></a>Command Line 사용</h3><p>Command Line에서 Initializr HTTP API를 사용할 수 있습니다 (예 : UN*X 시스템의 curl).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ mkdir blog &amp;&amp; cd blog</div><div class="line">$ curl https://start.spring.io/starter.zip -d type=gradle-project -d language=kotlin -d style=web,mustache,jpa,h2 -d packageName=blog -d name=Blog -o blog.zip</div></pre></td></tr></table></figure>
+<h3 id="IntelliJ-IDEA-사용"><a href="#IntelliJ-IDEA-사용" class="headerlink" title="IntelliJ IDEA 사용"></a>IntelliJ IDEA 사용</h3><p>또한 Spring Initializr은 IntelliJ IDEA Ultimate 에디션에 통합되어 있어 IDE에서 Command Line 또는 웹 UI와 같이 새 프로젝트를 만들고 가져올 수 있습니다.</p>
+<p>File | New | Project를 선택하고 Spring Initializr을 선택합니다.</p>
+<p>각 단계에 따라 다음 파라미터를 사용합니다.</p>
+<ul>
+<li>Package name: “blog”</li>
+<li>Artifact: “blog”</li>
+<li>Type: Gradle Project</li>
+<li>Language: Kotlin</li>
+<li>Name: “Blog”</li>
+<li>Dependencies: “Web”, “Mustache”, JPA” and “H2”</li>
+</ul>
+<h2 id="생성된-프로젝트-이해하기"><a href="#생성된-프로젝트-이해하기" class="headerlink" title="생성된 프로젝트 이해하기"></a>생성된 프로젝트 이해하기</h2><h3 id="Gradle-build"><a href="#Gradle-build" class="headerlink" title="Gradle build"></a>Gradle build</h3><h4 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h4><p>명백한 <a href="https://kotlinlang.org/docs/reference/using-gradle.html" target="_blank" rel="external">Kotlin Gradle plugin</a> 외에도, 기본 설정은 스프링 Annotation으로 annotated 또는 meta-annotated가 달린 클래스와 메서드가 자동으로 열리는(Automatically open)<a href="https://kotlinlang.org/docs/reference/compiler-plugins.html#spring-support" target="_blank" rel="external">kotlin-spring plugin</a>을 선언합니다 (Java와 달리 Kotlin의 기본 한정자(Qualifier)는 <code>final</code>입니다). 예를 들어 CGLIB 프록시에 필요한 <code>open</code> 한정자를 추가하지 않고도 <code>@Configuration</code> 또는 <code>@Transactional</code> Bean을 만들 수있는 경우에 유용합니다.</p>
+<p><strong>build.gradle</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">buildscript &#123;</div><div class="line">  ext &#123;</div><div class="line">    kotlinVersion = &apos;1.2.41&apos;</div><div class="line">    springBootVersion = &apos;2.0.2.RELEASE&apos;</div><div class="line">  &#125;</div><div class="line">  repositories &#123;</div><div class="line">    mavenCentral()</div><div class="line">  &#125;</div><div class="line">  dependencies &#123;</div><div class="line">    classpath(&quot;org.springframework.boot:spring-boot-gradle-plugin:$&#123;springBootVersion&#125;&quot;)</div><div class="line">    classpath(&quot;org.jetbrains.kotlin:kotlin-gradle-plugin:$&#123;kotlinVersion&#125;&quot;)</div><div class="line">    classpath(&quot;org.jetbrains.kotlin:kotlin-allopen:$&#123;kotlinVersion&#125;&quot;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">apply plugin: &apos;kotlin&apos;</div><div class="line">apply plugin: &apos;kotlin-spring&apos;</div><div class="line">apply plugin: &apos;org.springframework.boot&apos;</div><div class="line">apply plugin: &apos;io.spring.dependency-management&apos;</div></pre></td></tr></table></figure></p>
+<h4 id="컴파일러-옵션-Compiler-options"><a href="#컴파일러-옵션-Compiler-options" class="headerlink" title="컴파일러 옵션 (Compiler options)"></a>컴파일러 옵션 (Compiler options)</h4><p>Kotlin의 핵심 기능 중 하나는 런타임시 유명한 <code>NullPointerException</code>에 부딪히지 않고 컴파일 타임에 <code>null</code>값을 깔끔하게 처리하는 <a href="https://kotlinlang.org/docs/reference/null-safety.html" target="_blank" rel="external">null-safety</a>입니다. 따라서 애플리케이션이 null 허용 선언을 통해 안전하고, <code>Optional</code>(“값 또는 값 없음” 의미를 표현)과 같은 래퍼의 비용을 지불하지 않아도됩니다. Kotlin은 nullable 값을 가진 함수 생성자를 사용할 수 있습니다. <a href="http://www.baeldung.com/kotlin-null-safety" target="_blank" rel="external">Kotlin null-safety에 대한 포괄적 가이드</a>를 확인하십시오.</p>
+<p>Java는 type-system에서 null-safety를 허용하지 않지만 Spring Framework는 <code>org.springframework.lang</code> 패키지에 선언된 도구 친화적인(Tooling-friendly) Annotation을 통해 전체 Spring Framework API의 null-safety를 제공합니다. 기본적으로 Kotlin에서 사용되는 Java API의 타입은 null 체크가 완화된 <a href="https://kotlinlang.org/docs/reference/java-interop.html#null-safety-and-platform-types" target="_blank" rel="external">플랫폼 타입</a>으로 인식됩니다. <a href="https://kotlinlang.org/docs/reference/java-interop.html#jsr-305-support" target="_blank" rel="external">JSR 305 annotations</a> + Spring Nullability Annotation에 대한 Kotlin 지원은 컴파일 타임에 <code>null</code> 관련 문제를 처리 할 수 있다는 이점을 가지고 Kotlin 개발자에게 전체 Spring Framework API에 대한 null-safety를 제공합니다.</p>
+<p>이 기능은 <code>-Xjsr305</code> 컴파일러 플래그에 <code>strict</code> 옵션을 추가하여 활성화 할 수 있습니다.</p>
+<p>아래 코드의 Kotlin 컴파일러는 Java 8 바이트 코드 (Java 6이 기본값)를 생성하도록 구성되어 있습니다.</p>
+<p><strong>build.gradle</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">sourceCompatibility = 1.8</div><div class="line">compileKotlin &#123;</div><div class="line">  kotlinOptions &#123;</div><div class="line">    freeCompilerArgs = [&quot;-Xjsr305=strict&quot;]</div><div class="line">    jvmTarget = &quot;1.8&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">compileTestKotlin &#123;</div><div class="line">  kotlinOptions &#123;</div><div class="line">    freeCompilerArgs = [&quot;-Xjsr305=strict&quot;]</div><div class="line">    jvmTarget = &quot;1.8&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="종속성-Dependencies"><a href="#종속성-Dependencies" class="headerlink" title="종속성(Dependencies)"></a>종속성(Dependencies)</h4><p>Kotlin 특정 라이브러리 3개는 이러한 Spring Boot 웹 애플리케이션에 필요하며 기본 구성에 필요합니다.</p>
+<ul>
+<li><code>kotlin-stdlib-jdk8</code>은 Kotlin 표준 라이브러리의 Java 8 변형입니다.</li>
+<li><code>kotlin-reflect</code>은 Kotlin 리플렉션 라이브러리입니다 (Spring Framework 5에서 필수).</li>
+<li><code>jackson-module-kotlin</code>은 Kotlin 클래스 및 데이터 클래스의 직렬화 / 비 직렬화에 대한 지원을 추가합니다 (단일 생성자 클래스는 자동으로 사용할 수 있고 보조 생성자 또는 정적 팩토리가 있는 클래스도 지원됩니다)</li>
+</ul>
+<p><strong>build.gradle</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">  compile(&apos;org.springframework.boot:spring-boot-starter-data-jpa&apos;)</div><div class="line">  compile(&apos;org.springframework.boot:spring-boot-starter-web&apos;)</div><div class="line">  compile(&apos;org.springframework.boot:spring-boot-starter-mustache&apos;)</div><div class="line">  compile(&apos;com.fasterxml.jackson.module:jackson-module-kotlin&apos;)</div><div class="line">  compile(&quot;org.jetbrains.kotlin:kotlin-stdlib-jdk8&quot;)</div><div class="line">  compile(&quot;org.jetbrains.kotlin:kotlin-reflect&quot;)</div><div class="line">  testCompile(&apos;org.springframework.boot:spring-boot-starter-test&apos;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Spring Boot Gradle 플러그인은 Kotlin Gradle 플러그인에 선언된 Kotlin 버전을 자동으로 사용합니다.</p>
+<h3 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h3><p><strong>src/main/kotlin/blog/BlogApplication.kt</strong></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> blog</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication</div><div class="line"><span class="keyword">import</span> org.springframework.boot.runApplication</div><div class="line"></div><div class="line"><span class="meta">@SpringBootApplication</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlogApplication</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</div><div class="line">  runApplication&lt;BlogApplication&gt;(*args)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Java와 비교하면, 세미콜론이 줄어들었고, 빈 클래스에 괄호가 없으며 (<code>@Bean</code> Annotation을 통해 Bean을 선언해야하는 경우 추가 할 수 있습니다), 최상위 수준 함수 <code>runApplication</code>을 사용할 수 있다는 것을 알수 있습니다. <code>runApplication&lt;BlogApplication&gt;(*args)</code>은 <code>SpringApplication.run(BlogApplication::class.java, *args)</code>에 대한 Kotlin의 대안적인 표현이며, 다음 구문을 사용하여 사용자 정의 애플리케이션을 사용할 수 있습니다.</p>
+<p><strong>src/main/kotlin/blog/BlogApplication.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</div><div class="line">  runApplication&lt;BlogApplication&gt;(*args) &#123;</div><div class="line">    setBannerMode(Banner.Mode.OFF)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="첫-번째-Kotlin-컨트롤러-작성하기"><a href="#첫-번째-Kotlin-컨트롤러-작성하기" class="headerlink" title="첫 번째 Kotlin 컨트롤러 작성하기"></a>첫 번째 Kotlin 컨트롤러 작성하기</h2><p>간단한 웹 페이지를 표시하는 간단 컨트롤러를 만들어 보겠습니다.</p>
+<p><strong>src/main/kotlin/blog/HtmlController.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> blog</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller</div><div class="line"><span class="keyword">import</span> org.springframework.ui.Model</div><div class="line"><span class="keyword">import</span> org.springframework.ui.<span class="keyword">set</span></div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.<span class="keyword">annotation</span>.GetMapping</div><div class="line"></div><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">HtmlController</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="meta">@GetMapping(<span class="meta-string">"/"</span>)</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">blog</span><span class="params">(model: <span class="type">Model</span>)</span></span>: String &#123;</div><div class="line">    model[<span class="string">"title"</span>] = <span class="string">"Blog"</span></div><div class="line">    <span class="keyword">return</span> <span class="string">"blog"</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><a href="https://kotlinlang.org/docs/reference/extensions.html" target="_blank" rel="external">Kotlin extension</a>을 사용하여 기존의 Spring 타입에 Kotlin 함수나 연산자를 추가 할 수 있습니다. 여기에서는 <code>model.addAttribute(&quot;title&quot;, &quot;Blog&quot;)</code> 대신 <code>model[&quot;title&quot;] = &quot;Blog&quot;</code>를 사용할 수 있도록 <code>org.springframework.ui.set</code> 확장 함수를 가져옵니다.</p>
+<p>그리고 관련된 Mustache 템플릿을 만들어야합니다.</p>
+<p><strong>src/main/resources/templates/header.mustache</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;&#123;title&#125;&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>src/main/resources/templates/footer.mustache</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>src/main/resources/templates/blog.mustache</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;&#123;&gt; header&#125;&#125;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123;title&#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"></div><div class="line">&#123;&#123;&gt; footer&#125;&#125;</div></pre></td></tr></table></figure></p>
+<p><code>BlogApplication.kt</code>의 <code>main</code> 함수를 실행하여 응용프로그램을 시작하고, <code>http://localhost:8080/</code>으로 이동하면 “Blog” 제목이 있는 단순한 웹 페이지가 나타납니다.</p>
+<h2 id="JUnit-5로-테스트하기"><a href="#JUnit-5로-테스트하기" class="headerlink" title="JUnit 5로 테스트하기"></a>JUnit 5로 테스트하기</h2><p>JUnit 4는 여전히 Spring Boot와 함께 제공되는 기본 테스트 프레임 워크이지만, JUnit 5는 null이 허용되지 않는 <code>val</code> 프로퍼티를 사용할 수 있는 <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#testcontext-junit-jupiter-di" target="_blank" rel="external">생성자/메서드 파라미터의 Autowiring</a>을 포함하여 Kotlin에서 매우 편리한 다양한 기능을 제공합니다. 그리고 <code>@BeforeAll</code>/<code>@AfterAll</code>을 일반적인 비 정적 메서드에서 사용할 수 있습니다.</p>
+<h3 id="JUnit-4에서-JUnit-5로-전환"><a href="#JUnit-4에서-JUnit-5로-전환" class="headerlink" title="JUnit 4에서 JUnit 5로 전환"></a>JUnit 4에서 JUnit 5로 전환</h3><p>먼저 <a href="https://docs.gradle.org/4.6/release-notes.html#junit-5-support" target="_blank" rel="external">네이티브 JUnit 5 지원</a>을 활용할 수 있도록 <code>./gradlew -version</code>을 실행하여 Gradle 4.6 이상을 사용하고 있는지 확인하십시오. 이전 버전을 사용하는 경우 <code>./gradlew wrapper --gradle-version 4.7</code>을 실행하여 <a href="https://docs.gradle.org/current/release-notes.html" target="_blank" rel="external">최신 버전의 Gradle</a>을 업데이트 할 수 있습니다.</p>
+<p><code>build.gradle</code> 파일에 다음 줄을 추가하여 JUnit 5 지원을 활성화합니다.</p>
+<p><strong>build.gradle</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">test &#123;</div><div class="line">  useJUnitPlatform()</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>그런 다음 <code>junit</code>을 <code>spring-boot-starter-test</code> 전이(transitive) 의존성에서 제외하고 <code>junit-jupiter-api</code> 및 <code>junit-jupiter-engine</code>을 추가합니다.</p>
+<p><strong>build.gradle</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">  testCompile(&apos;org.springframework.boot:spring-boot-starter-test&apos;) &#123;</div><div class="line">    exclude module: &apos;junit&apos;</div><div class="line">  &#125;</div><div class="line">  testImplementation(&apos;org.junit.jupiter:junit-jupiter-api&apos;)</div><div class="line">  testRuntimeOnly(&apos;org.junit.jupiter:junit-jupiter-engine&apos;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Gradle 설정을 새로 고치고 <code>BlogApplicationTests</code>를 열어 <code>@RunWith(SpringRunner::class)</code>를 <code>@ExtendWith(SpringExtension::class)</code>로 대체합니다.</p>
+<p><strong>src/test/kotlin/blog/BlogApplicationTests.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@ExtendWith(SpringExtension::class)</span></div><div class="line"><span class="meta">@SpringBootTest</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlogApplicationTests</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">contextLoads</span><span class="params">()</span></span> &#123;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>테스트는 Command Line과 IDE에서 잘 실행되어야합니다.</p>
+<h3 id="Kotlin에서-JUnit-5-테스트-작성하기"><a href="#Kotlin에서-JUnit-5-테스트-작성하기" class="headerlink" title="Kotlin에서 JUnit 5 테스트 작성하기"></a>Kotlin에서 JUnit 5 테스트 작성하기</h3><p>이 예제에서는 다양한 기능을 보여주기 위해 통합 테스트를 작성해 보겠습니다.</p>
+<ul>
+<li>표현형 테스트 함수 이름을 제공하기 위해 camel-case 대신 백틱 사이에 실제 문장을 사용합니다.</li>
+<li>JUnit 5는 생성자와 메서드 파라미터를 삽입(Inject) 할 수 있습니다.이 파라미터는 Kotlin 불변(Immutable) 및 Nullable 속성과 잘 어울립니다.</li>
+<li>이 코드는 <code>getForObject</code> 및 <code>getForEntity</code> Kotlin extension을 사용합니다 (import 할 필요가 있음).</li>
+</ul>
+<p><strong>src/test/kotlin/blog/IntegrationTests.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@ExtendWith(SpringExtension::class)</span></div><div class="line"><span class="meta">@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">IntegrationTests</span></span>(<span class="meta">@Autowired</span> <span class="keyword">val</span> restTemplate: TestRestTemplate) &#123;</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> `Assert blog page title, content and status code`<span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">val</span> entity = restTemplate.getForEntity&lt;String&gt;(<span class="string">"/"</span>)</div><div class="line">    assertThat(entity.statusCode).isEqualTo(HttpStatus.OK)</div><div class="line">    assertThat(entity.body).contains(<span class="string">"&lt;h1&gt;Blog&lt;/h1&gt;"</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="테스트-인스턴스-생명주기-Lifecycle"><a href="#테스트-인스턴스-생명주기-Lifecycle" class="headerlink" title="테스트 인스턴스 생명주기(Lifecycle)"></a>테스트 인스턴스 생명주기(Lifecycle)</h3><p>때로는 주어진 클래스의 모든 테스트 전후에 메서드를 실행해야 할 때가 있습니다. Junit 4와 마찬가지로 JUnit 5는 테스트 클래스가 테스트마다 한 번 인스턴스화되기 때문에 기본적으로 이 메서드가 정적 (이것은 Kotlin의 <a href="https://kotlinlang.org/docs/reference/object-declarations.html#companion-objects" target="_blank" rel="external">companion object</a>로 변환되며, 이는 매우 장황하고 직설적이지 않습니다.) 이어야합니다.</p>
+<p>그러나 Junit 5에서는 이 기본 동작을 변경하고 클래스당 한 번 테스트 클래스를 인스턴스화 할 수 있습니다. 이 작업은 <a href="https://junit.org/junit5/docs/current/user-guide/#writing-tests-test-instance-lifecycle" target="_blank" rel="external">다양한 방법</a>으로 수행 할 수 있습니다. 여기서는 프로퍼티 파일을 사용하여 전체 프로젝트의 기본 동작을 변경합니다.</p>
+<p><strong>src/test/resources/junit-platform.properties</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">junit.jupiter.testinstance.lifecycle.default = per_class</div></pre></td></tr></table></figure>
+<p>이 구성(Configuration)을 사용하면 위의 <code>IntegrationTest</code>의 업데이트된 버전과 같은 일반 메서드에서 <code>@BeforeAll</code> 및 <code>@AfterAll</code> Annotation을 사용할 수 있습니다.</p>
+<p><strong>src/test/kotlin/blog/IntegrationTests.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@ExtendWith(SpringExtension::class)</span></div><div class="line"><span class="meta">@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">IntegrationTests</span></span>(<span class="meta">@Autowired</span> <span class="keyword">val</span> restTemplate: TestRestTemplate) &#123;</div><div class="line"></div><div class="line">  <span class="meta">@BeforeAll</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">setup</span><span class="params">()</span></span> &#123;</div><div class="line">    println(<span class="string">"&gt;&gt; Setup"</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> `Assert blog page title, content and status code`<span class="params">()</span></span> &#123;</div><div class="line">    println(<span class="string">"&gt;&gt; Assert blog page title, content and status code"</span>)</div><div class="line">    <span class="keyword">val</span> entity = restTemplate.getForEntity&lt;String&gt;(<span class="string">"/"</span>)</div><div class="line">    assertThat(entity.statusCode).isEqualTo(HttpStatus.OK)</div><div class="line">    assertThat(entity.body).contains(<span class="string">"&lt;h1&gt;Blog&lt;/h1&gt;"</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> `Assert article page title, content and status code`<span class="params">()</span></span> &#123;</div><div class="line">    println(<span class="string">"&gt;&gt; TODO"</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@AfterAll</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">teardown</span><span class="params">()</span></span> &#123;</div><div class="line">    println(<span class="string">"&gt;&gt; Tear down"</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="JPA를-이용한-Persistence"><a href="#JPA를-이용한-Persistence" class="headerlink" title="JPA를 이용한 Persistence"></a>JPA를 이용한 Persistence</h2><p>Kotlin 불변 클래스(Immutable class)를 사용하려면 <a href="https://kotlinlang.org/docs/reference/compiler-plugins.html#jpa-support" target="_blank" rel="external">Kotlin JPA 플러그인</a>을 활성화해야합니다. <code>@Entity</code>, <code>@MappedSuperclass</code> 또는 <code>@Embeddable</code>로 Annotation된 모든 클래스에 대해 파라미터가 없는 생성자를 생성합니다.</p>
+<p><strong>build.gradle</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">buildscript &#123;</div><div class="line">  dependencies &#123;</div><div class="line">    classpath(&quot;org.jetbrains.kotlin:kotlin-noarg:$&#123;kotlinVersion&#125;&quot;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">apply plugin: &apos;kotlin-jpa&apos;</div></pre></td></tr></table></figure></p>
+<p>그런 다음 데이터를 보유하고 <code>equals()</code>, <code>hashCode()</code>, <code>toString()</code>, <code>componentN()</code> 함수 및 <code>copy()</code>를 자동으로 제공하도록 설계된 Kotlin <a href="https://kotlinlang.org/docs/reference/data-classes.html" target="_blank" rel="external">데이터 클래스(Data class)</a>를 사용하여 모델을 만듭니다.</p>
+<p><strong>src/main/kotlin/blog/Model.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Article</span></span>(</div><div class="line">    <span class="keyword">val</span> title: String,</div><div class="line">    <span class="keyword">val</span> headline: String,</div><div class="line">    <span class="keyword">val</span> content: String,</div><div class="line">    <span class="meta">@ManyToOne</span> <span class="meta">@JoinColumn</span> <span class="keyword">val</span> author: User,</div><div class="line">    <span class="meta">@Id</span> <span class="meta">@GeneratedValue</span> <span class="keyword">val</span> id: <span class="built_in">Long</span>? = <span class="literal">null</span>,</div><div class="line">    <span class="keyword">val</span> addedAt: LocalDateTime = LocalDateTime.now())</div><div class="line"></div><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>(</div><div class="line">    <span class="meta">@Id</span> <span class="keyword">val</span> login: String,</div><div class="line">    <span class="keyword">val</span> firstname: String,</div><div class="line">    <span class="keyword">val</span> lastname: String,</div><div class="line">    <span class="keyword">val</span> description: String? = <span class="literal">null</span>)</div></pre></td></tr></table></figure></p>
+<p>기본 값이 있는 선택적 파라미터는 위치가 있는 파라미터를 사용할 때 생략 할 수 있도록 마지막 위치에 정의됩니다 (Kotlin은 <a href="https://kotlinlang.org/docs/reference/functions.html#named-arguments" target="_blank" rel="external">이름이 있는 파라미터</a>도 지원함). Kotlin에서 동일한 파일에서 간결한 클래스 선언을 그룹화하는 것은 이례적인 일이 아닙니다.</p>
+<p>Spring Data JPA Repository를 다음과 같이 선언합니다.</p>
+<p><strong>src/main/kotlin/blog/Repositories.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ArticleRepository</span> : <span class="type">CrudRepository</span>&lt;<span class="type">Article, Long</span>&gt; </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">findAllByOrderByAddedAtDesc</span><span class="params">()</span></span>: Iterable&lt;Article&gt;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">UserRepository</span> : <span class="type">CrudRepository</span>&lt;<span class="type">User, String</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>그리고 JPA 테스트를 작성하여 기본 유스 케이스가 예상대로 작동하는지 확인합니다.</p>
+<p><strong>src/test/kotlin/blog/RepositoriesTests.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@ExtendWith(SpringExtension::class)</span></div><div class="line"><span class="meta">@DataJpaTest</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RepositoriesTests</span></span>(<span class="meta">@Autowired</span> <span class="keyword">val</span> entityManager: TestEntityManager,</div><div class="line">                        <span class="meta">@Autowired</span> <span class="keyword">val</span> userRepository: UserRepository,</div><div class="line">                        <span class="meta">@Autowired</span> <span class="keyword">val</span> articleRepository: ArticleRepository) &#123;</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> `When findById then return Article`<span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">val</span> juergen = User(<span class="string">"springjuergen"</span>, <span class="string">"Juergen"</span>, <span class="string">"Hoeller"</span>)</div><div class="line">    entityManager.persist(juergen)</div><div class="line">    <span class="keyword">val</span> article = Article(<span class="string">"Spring Framework 5.0 goes GA"</span>, <span class="string">"Dear Spring community ..."</span>, <span class="string">"Lorem ipsum"</span>, juergen)</div><div class="line">    entityManager.persist(article)</div><div class="line">    entityManager.flush()</div><div class="line"></div><div class="line">    <span class="keyword">val</span> found = articleRepository.findById(article.id!!)</div><div class="line"></div><div class="line">    assertThat(found.<span class="keyword">get</span>()).isEqualTo(article)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> `When findById then return User`<span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">val</span> juergen = User(<span class="string">"springjuergen"</span>, <span class="string">"Juergen"</span>, <span class="string">"Hoeller"</span>)</div><div class="line">    entityManager.persist(juergen)</div><div class="line">    entityManager.flush()</div><div class="line"></div><div class="line">    <span class="keyword">val</span> found = userRepository.findById(juergen.login)</div><div class="line"></div><div class="line">    assertThat(found.<span class="keyword">get</span>()).isEqualTo(juergen)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="나만의-확장-기능-만들기"><a href="#나만의-확장-기능-만들기" class="headerlink" title="나만의 확장 기능 만들기"></a>나만의 확장 기능 만들기</h2><p>Java에서 추상 메서드로 util 클래스를 사용하지만, Kotlin에서는 Kotlin 확장을 통해 제공하는 것이 일반적입니다. 여기서 영어 날짜 형식으로 텍스트를 생성하기 위해 기존 <code>LocalDateTime</code> 타입에 <code>format()</code> 함수를 추가 할 것입니다.</p>
+<p><strong>src/main/kotlin/blog/Extensions.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> LocalDateTime.<span class="title">format</span><span class="params">()</span></span> = <span class="keyword">this</span>.format(englishDateFormatter)</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">val</span> daysLookup = (<span class="number">1.</span><span class="number">.31</span>).associate &#123; it.toLong() to getOrdinal(it) &#125;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">val</span> englishDateFormatter = DateTimeFormatterBuilder()</div><div class="line">    .appendPattern(<span class="string">"MMMM"</span>)</div><div class="line">    .appendLiteral(<span class="string">" "</span>)</div><div class="line">    .appendText(ChronoField.DAY_OF_MONTH, daysLookup)</div><div class="line">    .appendLiteral(<span class="string">" "</span>)</div><div class="line">    .appendPattern(<span class="string">"yyyy"</span>)</div><div class="line">    .toFormatter(Locale.ENGLISH)</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">getOrdinal</span><span class="params">(n: <span class="type">Int</span>)</span></span> = <span class="keyword">when</span> &#123;</div><div class="line">  n <span class="keyword">in</span> <span class="number">11.</span><span class="number">.13</span> -&gt; <span class="string">"<span class="subst">$&#123;n&#125;</span>th"</span></div><div class="line">  n % <span class="number">10</span> == <span class="number">1</span> -&gt; <span class="string">"<span class="subst">$&#123;n&#125;</span>st"</span></div><div class="line">  n % <span class="number">10</span> == <span class="number">2</span> -&gt; <span class="string">"<span class="subst">$&#123;n&#125;</span>nd"</span></div><div class="line">  n % <span class="number">10</span> == <span class="number">3</span> -&gt; <span class="string">"<span class="subst">$&#123;n&#125;</span>rd"</span></div><div class="line">  <span class="keyword">else</span> -&gt; <span class="string">"<span class="subst">$&#123;n&#125;</span>th"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>다음 섹션에서 이 확장을 활용할 것입니다.</p>
+<h2 id="블로그-엔진-구현하기"><a href="#블로그-엔진-구현하기" class="headerlink" title="블로그 엔진 구현하기"></a>블로그 엔진 구현하기</h2><p>우리가 구현중인 블로그 엔진은 Markdown을 HTML로 렌더링해야하며, 이를 위해 <code>commonmark</code> 라이브러리를 사용할 것입니다.</p>
+<p><strong>build.gradle</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">  compile(&quot;com.atlassian.commonmark:commonmark:0.11.0&quot;)</div><div class="line">  compile(&quot;com.atlassian.commonmark:commonmark-ext-autolink:0.11.0&quot;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><a href="https://kotlinlang.org/docs/reference/lambdas.html#function-types" target="_blank" rel="external">Kotlin 함수 타입</a>을 활용하는 <code>MarkdownConverter</code> Bean을 소개합니다.</p>
+<p><strong>src/main/kotlin/blog/MarkdownConverter.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Service</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MarkdownConverter</span> : <span class="type"></span></span>(String?) -&gt; String &#123;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> <span class="keyword">val</span> parser = Parser.builder().extensions(listOf(AutolinkExtension.create())).build()</div><div class="line">  <span class="keyword">private</span> <span class="keyword">val</span> renderer = HtmlRenderer.builder().build()</div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">invoke</span><span class="params">(input: <span class="type">String</span>?)</span></span>: String &#123;</div><div class="line">    <span class="keyword">if</span> (input == <span class="literal">null</span> || input == <span class="string">""</span>) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="string">""</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> renderer.render(parser.parse(input))</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>그리고 HTML을 렌더링 할 수 있는 커스텀 <code>Mustache.Compiler</code> Bean을 제공합니다.</p>
+<p><strong>src/main/kotlin/blog/BlogApplication.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@SpringBootApplication</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlogApplication</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="meta">@Bean</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">mustacheCompiler</span><span class="params">(loader: <span class="type">Mustache</span>.<span class="type">TemplateLoader</span>?)</span></span> =</div><div class="line">      Mustache.compiler().escapeHTML(<span class="literal">false</span>).withLoader(loader)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Null을 허용하는 <code>Mustache.TemplateLoader?</code>는 선택적인 Bean이라는 것을 의미합니다(JPA 전용 테스트를 실행할 때 실패를 피하기 위해서).</p>
+<p>“Blog” Mustache 템플릿을 업데이트합니다.</p>
+<p><strong>src/main/resources/templates/blog.mustache</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&#123;&#123;&gt; header&#125;&#125;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123;title&#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"articles"</span>&gt;</span></div><div class="line"></div><div class="line">  &#123;&#123;#articles&#125;&#125;</div><div class="line">    <span class="tag">&lt;<span class="name">section</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">header</span> <span class="attr">class</span>=<span class="string">"article-header"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">h2</span> <span class="attr">class</span>=<span class="string">"article-title"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/article/&#123;&#123;id&#125;&#125;"</span>&gt;</span>&#123;&#123;title&#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"article-meta"</span>&gt;</span>By  <span class="tag">&lt;<span class="name">strong</span>&gt;</span>&#123;&#123;author.firstname&#125;&#125;<span class="tag">&lt;/<span class="name">strong</span>&gt;</span>, on <span class="tag">&lt;<span class="name">strong</span>&gt;</span>&#123;&#123;addedAt&#125;&#125;<span class="tag">&lt;/<span class="name">strong</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">header</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"article-description"</span>&gt;</span></div><div class="line">        &#123;&#123;headline&#125;&#125;</div><div class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">section</span>&gt;</span></div><div class="line">  &#123;&#123;/articles&#125;&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">&#123;&#123;&gt; footer&#125;&#125;</div></pre></td></tr></table></figure>
+<p>그리고 우리는 새로운 “article”를 만듭니다.</p>
+<p><strong>src/main/resources/templates/article.mustache</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&#123;&#123;&gt; header&#125;&#125;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">section</span> <span class="attr">class</span>=<span class="string">"article"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">header</span> <span class="attr">class</span>=<span class="string">"article-header"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">"article-title"</span>&gt;</span>&#123;&#123;article.title&#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"article-meta"</span>&gt;</span>By  <span class="tag">&lt;<span class="name">strong</span>&gt;</span>&#123;&#123;article.author.firstname&#125;&#125;<span class="tag">&lt;/<span class="name">strong</span>&gt;</span>, on <span class="tag">&lt;<span class="name">strong</span>&gt;</span>&#123;&#123;article.addedAt&#125;&#125;<span class="tag">&lt;/<span class="name">strong</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">header</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"article-description"</span>&gt;</span></div><div class="line">    &#123;&#123;article.headline&#125;&#125;</div><div class="line"></div><div class="line">    &#123;&#123;article.content&#125;&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></div><div class="line"></div><div class="line">&#123;&#123;&gt; footer&#125;&#125;</div></pre></td></tr></table></figure></p>
+<p>렌더링된 마크 다운 및 형식이 지정된 날짜로 블로그 및 기사 페이지를 렌더링하기 위해 <code>HtmlController</code>를 업데이트합니다. <code>ArticleRepository</code> 및 <code>MarkdownConverter</code> 생성자 파라미터는 <code>HtmlController</code>가 단일 생성자 (암시적 <code>@Autowired</code>)를 가지고 있기 때문에 자동으로 Autowired 됩니다.</p>
+<p><strong>src/main/kotlin/blog/HtmlController.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">HtmlController</span></span>(<span class="keyword">private</span> <span class="keyword">val</span> repository: ArticleRepository,</div><div class="line">           <span class="keyword">private</span> <span class="keyword">val</span> markdownConverter: MarkdownConverter) &#123;</div><div class="line"></div><div class="line">    <span class="meta">@GetMapping(<span class="meta-string">"/"</span>)</span></div><div class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">blog</span><span class="params">(model: <span class="type">Model</span>)</span></span>: String &#123;</div><div class="line">      model[<span class="string">"title"</span>] = <span class="string">"Blog"</span></div><div class="line">      model[<span class="string">"articles"</span>] = repository.findAllByOrderByAddedAtDesc().map &#123; it.render() &#125;</div><div class="line">      <span class="keyword">return</span> <span class="string">"blog"</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@GetMapping(<span class="meta-string">"/article/&#123;id&#125;"</span>)</span></div><div class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">article</span><span class="params">(<span class="meta">@PathVariable</span> id: <span class="type">Long</span>, model: <span class="type">Model</span>)</span></span>: String &#123;</div><div class="line">      <span class="keyword">val</span> article = repository</div><div class="line">          .findById(id)</div><div class="line">          .orElseThrow &#123; IllegalArgumentException(<span class="string">"Wrong article id provided"</span>) &#125;</div><div class="line">          .render()</div><div class="line">      model[<span class="string">"title"</span>] = article.title</div><div class="line">      model[<span class="string">"article"</span>] = article</div><div class="line">      <span class="keyword">return</span> <span class="string">"article"</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">fun</span> Article.<span class="title">render</span><span class="params">()</span></span> = RenderedArticle(</div><div class="line">        title,</div><div class="line">        markdownConverter.invoke(headline),</div><div class="line">        markdownConverter.invoke(content),</div><div class="line">        author,</div><div class="line">        id,</div><div class="line">        addedAt.format()</div><div class="line">    )</div><div class="line"></div><div class="line">    <span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">RenderedArticle</span></span>(</div><div class="line">        <span class="keyword">val</span> title: String,</div><div class="line">        <span class="keyword">val</span> headline: String,</div><div class="line">        <span class="keyword">val</span> content: String,</div><div class="line">        <span class="keyword">val</span> author: User,</div><div class="line">        <span class="keyword">val</span> id: <span class="built_in">Long</span>?,</div><div class="line">        <span class="keyword">val</span> addedAt: String)</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>BlogApplication</code>에 데이터 초기화를 추가합니다.</p>
+<p><strong>src/main/kotlin/blog/BlogApplication.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Bean</span></div><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">databaseInitializer</span><span class="params">(userRepository: <span class="type">UserRepository</span>,</span></span></div><div class="line">                        articleRepository: <span class="type">ArticleRepository</span>) = CommandLineRunner &#123;</div><div class="line">  <span class="keyword">val</span> smaldini = User(<span class="string">"smaldini"</span>, <span class="string">"Stéphane"</span>, <span class="string">"Maldini"</span>)</div><div class="line">  userRepository.save(smaldini)</div><div class="line"></div><div class="line">  articleRepository.save(Article(</div><div class="line">      <span class="string">"Reactor Bismuth is out"</span>,</div><div class="line">      <span class="string">"Lorem ipsum"</span>,</div><div class="line">      <span class="string">"dolor **sit** amet https://projectreactor.io/"</span>,</div><div class="line">      smaldini,</div><div class="line">      <span class="number">1</span></div><div class="line">  ))</div><div class="line">  articleRepository.save(Article(</div><div class="line">      <span class="string">"Reactor Aluminium has landed"</span>,</div><div class="line">      <span class="string">"Lorem ipsum"</span>,</div><div class="line">      <span class="string">"dolor **sit** amet https://projectreactor.io/"</span>,</div><div class="line">      smaldini,</div><div class="line">      <span class="number">2</span></div><div class="line">  ))</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>그리고 통합 테스트(Integration test)도 업데이트합니다.</p>
+<p><strong>src/test/kotlin/blog/IntegrationTests.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@ExtendWith(SpringExtension::class)</span></div><div class="line"><span class="meta">@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">IntegrationTests</span></span>(<span class="meta">@Autowired</span> <span class="keyword">val</span> restTemplate: TestRestTemplate) &#123;</div><div class="line"></div><div class="line">  <span class="meta">@BeforeAll</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">setup</span><span class="params">()</span></span> &#123;</div><div class="line">    println(<span class="string">"&gt;&gt; Setup"</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> `Assert blog page title, content and status code`<span class="params">()</span></span> &#123;</div><div class="line">    println(<span class="string">"&gt;&gt; Assert blog page title, content and status code"</span>)</div><div class="line">    <span class="keyword">val</span> entity = restTemplate.getForEntity&lt;String&gt;(<span class="string">"/"</span>)</div><div class="line">    assertThat(entity.statusCode).isEqualTo(HttpStatus.OK)</div><div class="line">    assertThat(entity.body).contains(<span class="string">"&lt;h1&gt;Blog&lt;/h1&gt;"</span>, <span class="string">"Reactor"</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> `Assert article page title, content and status code`<span class="params">()</span></span> &#123;</div><div class="line">    println(<span class="string">"&gt;&gt; Assert article page title, content and status code"</span>)</div><div class="line">    <span class="keyword">val</span> entity = restTemplate.getForEntity&lt;String&gt;(<span class="string">"/article/2"</span>)</div><div class="line">    assertThat(entity.statusCode).isEqualTo(HttpStatus.OK)</div><div class="line">    assertThat(entity.body).contains(<span class="string">"Reactor Aluminium has landed"</span>,,</div><div class="line">        <span class="string">"&lt;a href=\"https://projectreactor.io/\"&gt;https://projectreactor.io/&lt;/a&gt;"</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@AfterAll</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">teardown</span><span class="params">()</span></span> &#123;</div><div class="line">    println(<span class="string">"&gt;&gt; Tear down"</span>)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>웹 애플리케이션을 시작(또는 재시작)하고 <code>http://localhost:8080/</code>으로 이동하면 클릭 가능한 링크가있는 기사 목록이 나타나 특정 기사를 볼 수 있습니다.</p>
+<h2 id="HTTP-API-노출"><a href="#HTTP-API-노출" class="headerlink" title="HTTP API 노출"></a>HTTP API 노출</h2><p><code>@RestController</code> Annotation이 달린 컨트롤러를 통해 HTTP API를 구현합니다.</p>
+<p><strong>src/main/kotlin/blog/HttpApi.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RestController</span></div><div class="line"><span class="meta">@RequestMapping(<span class="meta-string">"/api/article"</span>)</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ArticleController</span></span>(<span class="keyword">private</span> <span class="keyword">val</span> repository: ArticleRepository,</div><div class="line">            <span class="keyword">private</span> <span class="keyword">val</span> markdownConverter: MarkdownConverter) &#123;</div><div class="line"></div><div class="line">  <span class="meta">@GetMapping(<span class="meta-string">"/"</span>)</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">findAll</span><span class="params">()</span></span> = repository.findAllByOrderByAddedAtDesc()</div><div class="line"></div><div class="line">  <span class="meta">@GetMapping(<span class="meta-string">"/&#123;id&#125;"</span>)</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">findOne</span><span class="params">(<span class="meta">@PathVariable</span> id: <span class="type">Long</span>, <span class="meta">@RequestParam</span> converter: <span class="type">String</span>?)</span></span> = <span class="keyword">when</span> (converter) &#123;</div><div class="line">    <span class="string">"markdown"</span> -&gt; repository.findById(id).map &#123; it.copy(</div><div class="line">        headline = markdownConverter.invoke(it.headline),</div><div class="line">        content = markdownConverter.invoke(it.content)) &#125;</div><div class="line">    <span class="literal">null</span> -&gt; repository.findById(id)</div><div class="line">    <span class="keyword">else</span> -&gt; <span class="keyword">throw</span> IllegalArgumentException(<span class="string">"Only markdown converter is supported"</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@RestController</span></div><div class="line"><span class="meta">@RequestMapping(<span class="meta-string">"/api/user"</span>)</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserController</span></span>(<span class="keyword">private</span> <span class="keyword">val</span> repository: UserRepository) &#123;</div><div class="line"></div><div class="line">  <span class="meta">@GetMapping(<span class="meta-string">"/"</span>)</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">findAll</span><span class="params">()</span></span> = repository.findAll()</div><div class="line"></div><div class="line">  <span class="meta">@GetMapping(<span class="meta-string">"/&#123;login&#125;"</span>)</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">findOne</span><span class="params">(<span class="meta">@PathVariable</span> login: <span class="type">String</span>)</span></span> = repository.findById(login)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>테스트의 경우 통합 테스트 대신 <code>@WebMvcTest</code> 및 <code>@MockBean</code>을 사용하여 웹 레이어만 테스트합니다.</p>
+<p><strong>src/test/kotlin/blog/HttpApiTests.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@ExtendWith(SpringExtension::class)</span></div><div class="line"><span class="meta">@WebMvcTest</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">HttpApiTests</span></span>(<span class="meta">@Autowired</span> <span class="keyword">val</span> mockMvc: MockMvc) &#123;</div><div class="line"></div><div class="line">  <span class="meta">@MockBean</span></div><div class="line">  <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> userRepository: UserRepository</div><div class="line"></div><div class="line">  <span class="meta">@MockBean</span></div><div class="line">  <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> articleRepository: ArticleRepository</div><div class="line"></div><div class="line">  <span class="meta">@MockBean</span></div><div class="line">  <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> markdownConverter: MarkdownConverter</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> `List articles`<span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">val</span> juergen = User(<span class="string">"springjuergen"</span>, <span class="string">"Juergen"</span>, <span class="string">"Hoeller"</span>)</div><div class="line">    <span class="keyword">val</span> spring5Article = Article(<span class="string">"Spring Framework 5.0 goes GA"</span>, <span class="string">"Dear Spring community ..."</span>, <span class="string">"Lorem ipsum"</span>, juergen, <span class="number">1</span>)</div><div class="line">    <span class="keyword">val</span> spring43Article = Article(<span class="string">"Spring Framework 4.3 goes GA"</span>, <span class="string">"Dear Spring community ..."</span>, <span class="string">"Lorem ipsum"</span>, juergen, <span class="number">2</span>)</div><div class="line">    whenever(articleRepository.findAllByOrderByAddedAtDesc()).thenReturn(listOf(spring5Article, spring43Article))</div><div class="line">    whenever(markdownConverter.invoke(any())).thenAnswer &#123; it.arguments[<span class="number">0</span>] &#125;</div><div class="line">    mockMvc.perform(<span class="keyword">get</span>(<span class="string">"/api/article/"</span>).accept(MediaType.APPLICATION_JSON))</div><div class="line">        .andExpect(status().isOk)</div><div class="line">        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))</div><div class="line">        .andExpect(jsonPath(<span class="string">"\$.[0].author.login"</span>).value(juergen.login))</div><div class="line">        .andExpect(jsonPath(<span class="string">"\$.[0].id"</span>).value(spring5Article.id!!))</div><div class="line">        .andExpect(jsonPath(<span class="string">"\$.[1].author.login"</span>).value(juergen.login))</div><div class="line">        .andExpect(jsonPath(<span class="string">"\$.[1].id"</span>).value(spring43Article.id!!))</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> `List users`<span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">val</span> juergen = User(<span class="string">"springjuergen"</span>, <span class="string">"Juergen"</span>, <span class="string">"Hoeller"</span>)</div><div class="line">    <span class="keyword">val</span> smaldini = User(<span class="string">"smaldini"</span>, <span class="string">"Stéphane"</span>, <span class="string">"Maldini"</span>)</div><div class="line">    whenever(userRepository.findAll()).thenReturn(listOf(juergen, smaldini))</div><div class="line">    mockMvc.perform(<span class="keyword">get</span>(<span class="string">"/api/user/"</span>).accept(MediaType.APPLICATION_JSON))</div><div class="line">        .andExpect(status().isOk)</div><div class="line">        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))</div><div class="line">        .andExpect(jsonPath(<span class="string">"\$.[0].login"</span>).value(juergen.login))</div><div class="line">        .andExpect(jsonPath(<span class="string">"\$.[1].login"</span>).value(smaldini.login))</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>when</code>은 예약된 Kotlin 키워드이므로, <code>whenever</code> 별칭을 제공하는 <a href="https://github.com/nhaarman/mockito-kotlin/" target="_blank" rel="external">mockito-kotlin</a> 라이브러리 (이스케이프된 <code>`when` </code>도 사용 가능)를 사용하기로 결정한 이유입니다. 이를 사용하려면 다음 종속성을 추가하십시오.</p>
+<p><strong>build.gradle</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">  testCompile(&quot;com.nhaarman:mockito-kotlin:1.5.0&quot;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>$</code>는 문자열 보간(Interpolation)에 사용되기 때문에 문자열에서 이스케이프 해야합니다. <code>@MockBean</code> JUnit 5 파라미터 리졸버(Parameter resolver)가 <a href="https://github.com/spring-projects/spring-boot/issues/13113" target="_blank" rel="external">아직 없으므로</a> 지금은 <code>lateinit var</code>를 사용해야합니다.</p>
+<h2 id="Configuration-properties"><a href="#Configuration-properties" class="headerlink" title="Configuration properties"></a>Configuration properties</h2><p>애플리케이션 프로퍼티를 관리하는 가장 좋은 방법은 <code>@ConfigurationProperties</code>를 활용하는 것입니다. 변경할 수 없는 프로퍼티는 <a href="https://github.com/spring-projects/spring-boot/issues/8762" target="_blank" rel="external">아직 지원되지 않지만</a> Null이 허용되지 않는 프로퍼티를 처리해야하는 경우 <code>lateinit var</code>을 사용할 수 있습니다.</p>
+<p><strong>src/main/kotlin/blog/BlogProperties.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@ConfigurationProperties(<span class="meta-string">"blog"</span>)</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlogProperties</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">lateinit</span> <span class="keyword">var</span> title: String</div><div class="line">  <span class="keyword">val</span> banner = Banner()</div><div class="line"></div><div class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Banner</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> title: String? = <span class="literal">null</span></div><div class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> content: String</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>그런 다음 <code>BlogApplication</code> 수준에서 사용하도록 설정합니다.</p>
+<p><strong>src/main/kotlin/blog/BlogApplication.kt</strong><br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@SpringBootApplication</span></div><div class="line"><span class="meta">@EnableConfigurationProperties(BlogProperties::class)</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlogApplication</span> </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>IDE에서 이러한 사용자 정의 프로퍼티를 인식하기 위해 <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#configuration-metadata-annotation-processor" target="_blank" rel="external">자신의 메타 데이터</a>를 생성하려면 <code>spring-boot-configuration-processor</code> 종속성을 사용하여 다음과 같이  <a href="https://kotlinlang.org/docs/reference/kapt.html" target="_blank" rel="external">Kapt가 설정되어야</a>합니다.</p>
+<p><strong>build.gradle</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">apply plugin: &apos;kotlin-kapt&apos;</div><div class="line">dependencies &#123;</div><div class="line">  kapt(&quot;org.springframework.boot:spring-boot-configuration-processor&quot;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>IntelliJ IDEA에서 :</p>
+<ul>
+<li>메뉴 File | Settings | Plugins | Spring Boot 에서 Spring Boot plugin이 활성화되어 있는지 확인하십시오.</li>
+<li>Annotation 처리를 위해 메뉴의 File | Settings | Build, Execution, Deployement | Compiler | Annotation Processors | Enable annotation processing 을 활성화 합니다.</li>
+<li><a href="https://youtrack.jetbrains.com/issue/KT-15040" target="_blank" rel="external">Kapt가 아직 IDEA에 통합되지 않았으므로</a> 메타 데이터를 생성하려면 <code>./gradlew kaptKotlin</code> 명령을 수동으로 실행해야합니다.</li>
+</ul>
+<p><code>application.properties</code>(Autocomplete, Validation 등)를 편집 할 때 사용자 정의 프로퍼티를 인식해야합니다.</p>
+<p><strong>src/main/resources/application.properties</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">blog.title=Blog</div><div class="line">blog.banner.title=Warning</div><div class="line">blog.banner.content=The blog will be down tomorrow.</div></pre></td></tr></table></figure></p>
+<p>그에 따라 템플릿과 컨트롤러를 수정합니다.</p>
+<p><strong>src/main/resources/templates/blog.mustache</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&#123;&#123;&gt; header&#125;&#125;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"articles"</span>&gt;</span></div><div class="line"></div><div class="line">  &#123;&#123;#banner.title&#125;&#125;</div><div class="line">  <span class="tag">&lt;<span class="name">section</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">header</span> <span class="attr">class</span>=<span class="string">"banner"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">h2</span> <span class="attr">class</span>=<span class="string">"banner-title"</span>&gt;</span>&#123;&#123;banner.title&#125;&#125;<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">header</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"banner-content"</span>&gt;</span></div><div class="line">      &#123;&#123;banner.content&#125;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">section</span>&gt;</span></div><div class="line">  &#123;&#123;/banner.title&#125;&#125;</div><div class="line"></div><div class="line">  ...</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">&#123;&#123;&gt; footer&#125;&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>src/main/kotlin/blog/HtmlController.kt</strong></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">HtmlController</span></span>(<span class="keyword">private</span> <span class="keyword">val</span> repository: ArticleRepository,</div><div class="line">           <span class="keyword">private</span> <span class="keyword">val</span> markdownConverter: MarkdownConverter,</div><div class="line">           <span class="keyword">private</span> <span class="keyword">val</span> properties: BlogProperties) &#123;</div><div class="line"></div><div class="line">  <span class="meta">@GetMapping(<span class="meta-string">"/"</span>)</span></div><div class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">blog</span><span class="params">(model: <span class="type">Model</span>)</span></span>: String &#123;</div><div class="line">    model[<span class="string">"title"</span>] = properties.title</div><div class="line">    model[<span class="string">"banner"</span>] = properties.banner</div><div class="line">    model[<span class="string">"articles"</span>] = repository.findAllByOrderByAddedAtDesc().map &#123; it.render() &#125;</div><div class="line">    <span class="keyword">return</span> <span class="string">"blog"</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// ...</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>웹 애플리케이션을 다시 시작하고 <code>http://localhost:8080/</code>을 새로 고치면 블로그 홈페이지에 배너가 나타납니다.</p>
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p>이제 이 예제 Kotlin 블로그 애플리케이션을 빌드했습니다. 소스 코드는 <a href="https://github.com/spring-guides/tut-spring-boot-kotlin" target="_blank" rel="external">Github에서 사용</a>할 수 있습니다. 특정 기능에 대한 자세한 내용은 <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/languages.html#kotlin" target="_blank" rel="external">Spring Framework</a> 및 <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-kotlin.html" target="_blank" rel="external">Spring Boot</a> 참고 문서를 읽어 보십시오.</p>
+<hr>
+<blockquote>
+<p>이 내용은 나중에 참고하기 위해 Spring Boot 가이드 문서를 공부하며 정리한 내용입니다.<br>의역, 오역, 직역이 있을 수 있음을 알려드립니다.<br>This post is a translation of this original article <a href="http://spring.io/guides/tutorials/spring-boot-kotlin/" target="_blank" rel="external">Building web applications with Spring Boot and Kotlin</a></p>
+</blockquote>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://infoscis.github.io/2018/08/30/spring-boot-kotlin/" data-id="cjlfaydhm0041lguz849xdbux" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/infoscis" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/08/08/angular-observables-and-rxjs/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">Angular Observable &amp; RxJS</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Kotlin/">Kotlin</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Kotlin/SpringBoot/">SpringBoot</a></p>
+                            <p class="item-title"><a href="/2018/08/30/spring-boot-kotlin/" class="title">Spring Boot와 Kotlin으로 웹 애플리케이션 구축하기</a></p>
+                            <p class="item-date"><time datetime="2018-08-29T15:30:20.000Z" itemprop="datePublished">2018-08-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/08/08/angular-observables-and-rxjs/" class="title">Angular Observable &amp; RxJS</a></p>
+                            <p class="item-date"><time datetime="2018-08-08T14:38:02.000Z" itemprop="datePublished">2018-08-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-b-understanding-ecmascript-7/" class="title">ECMAScript 6 부록 B. ECMAScript 7 (2016) 이해하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:48.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-appendix-a-smaller-changes/" class="title">ECMAScript 6 부록 A. 작은 변경 사항</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:32:12.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a></p>
+                            <p class="item-title"><a href="/2018/02/27/ecmascript-6-encapsulating-code-with-modules/" class="title">ECMAScript 6 Module로 코드 캡슐화하기</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T13:31:45.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">카테고리</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java9/">Java9</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Spring/">Spring</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/ECMAScript-2015/">ECMAScript 2015</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/SpringBoot/">SpringBoot</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Webpack/">Webpack</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">8월 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">2월 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">1월 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">7월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">6월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">5월 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">3월 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMAScript-2015/">ECMAScript 2015</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event/">Event</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop/">Hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JDK9/">JDK9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java9/">Java9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jigsaw/">Jigsaw</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nashorn/">Nashorn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YARN/">YARN</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular/" style="font-size: 18px;">Angular</a> <a href="/tags/ECMAScript-2015/" style="font-size: 18px;">ECMAScript 2015</a> <a href="/tags/Event/" style="font-size: 10px;">Event</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/JDK9/" style="font-size: 12px;">JDK9</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Java9/" style="font-size: 12px;">Java9</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Jigsaw/" style="font-size: 12px;">Jigsaw</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Nashorn/" style="font-size: 10px;">Nashorn</a> <a href="/tags/Spring/" style="font-size: 12px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12px;">SpringBoot</a> <a href="/tags/TypeScript/" style="font-size: 16px;">TypeScript</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/YARN/" style="font-size: 10px;">YARN</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'infoscis';
+    
+    
+    var disqus_url = 'http://infoscis.github.io/2018/08/30/spring-boot-kotlin/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

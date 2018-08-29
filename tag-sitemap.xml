@@ -65,13 +65,6 @@
     </url>
 
     <url>
-        <loc>http://infoscis.github.io/tags/SpringBoot/</loc>
-        <lastmod>2018-01-27T14:55:09.628Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://infoscis.github.io/tags/TypeScript/</loc>
         <lastmod>2018-01-27T15:19:31.579Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -102,6 +95,20 @@
     <url>
         <loc>http://infoscis.github.io/tags/Angular/</loc>
         <lastmod>2018-08-08T14:44:11.432Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/tags/SpringBoot/</loc>
+        <lastmod>2018-08-29T15:35:28.944Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://infoscis.github.io/tags/Kotlin/</loc>
+        <lastmod>2018-08-29T15:35:28.944Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>http://infoscis.github.io/2018/08/30/spring-boot-kotlin/</loc>
+        <lastmod>2018-08-29T15:35:28.944Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://infoscis.github.io/2018/08/08/angular-observables-and-rxjs/</loc>
         <lastmod>2018-08-08T14:44:11.432Z</lastmod>
         <changefreq>weekly</changefreq>

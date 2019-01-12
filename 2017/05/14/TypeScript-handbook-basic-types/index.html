@@ -16,7 +16,7 @@ BooleanJavaScript/TypeScript의 가장 기본적인 데이터 타입은 true">
 <meta property="og:site_name" content="Developer's Record">
 <meta property="og:description" content="기본 Type소개프로그램을 구조적으로 잘 만들기 위해 number, string, structure, boolean 등 가장 간단한 데이터 단위로 작업을 할 수 있어야합니다. TypeScript에서는 이러한 타입들을 JavaScript와 거의 같은 형태로 지원합니다.
 BooleanJavaScript/TypeScript의 가장 기본적인 데이터 타입은 true">
-<meta property="og:updated_time" content="2018-01-27T15:04:06.485Z">
+<meta property="og:updated_time" content="2019-01-12T11:54:19.945Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TypeScript 핸드북 1 - 기본 타입">
 <meta name="twitter:description" content="기본 Type소개프로그램을 구조적으로 잘 만들기 위해 number, string, structure, boolean 등 가장 간단한 데이터 단위로 작업을 할 수 있어야합니다. TypeScript에서는 이러한 타입들을 JavaScript와 거의 같은 형태로 지원합니다.
@@ -231,11 +231,13 @@ ga('send', 'pageview');
 <p><code>never</code> 타입은 모든 타입의 서브 타입이며, 모든 타입에 assign 가능합니다. 하지만 어떤 타입도 <code>never</code> (<code>never</code> 자체 제외)의 하위 타입이 아니고 assign 할 수 없습니다. 어떤 타입도 ‘never’에 assign되지 않습니다.</p>
 <p>‘never’를 반환하는 함수의 몇 가지 예는 다음과 같습니다.</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Function returning never must have unreachable end point</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">error</span>(<span class="params">message: <span class="built_in">string</span></span>): <span class="title">never</span> </span>&#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(message);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// Inferred return type is never</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fail</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> error(<span class="string">"Something failed"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// Function returning never must have unreachable end point</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">infiniteLoop</span>(<span class="params"></span>): <span class="title">never</span> </span>&#123;</div><div class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><p><code>object</code>는 non-primitive 타입, 즉 <code>number</code>, <code>string</code>, <code>boolean</code>, <code>symbol</code>, <code>null</code> 또는<code>undefined</code>가 아닌 타입을 나타내는 타입입니다.</p>
+<p><code>object</code> 타입을 사용하면 <code>Object.create</code>와 같은 API를보다 잘 표현할 수 있습니다.<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">declare</span> <span class="function"><span class="keyword">function</span> <span class="title">create</span>(<span class="params">o: object | <span class="literal">null</span></span>): <span class="title">void</span></span>;</div><div class="line"></div><div class="line">create(&#123; prop: <span class="number">0</span> &#125;); <span class="comment">// OK</span></div><div class="line">create(<span class="literal">null</span>); <span class="comment">// OK</span></div><div class="line"></div><div class="line">create(<span class="number">42</span>); <span class="comment">// Error</span></div><div class="line">create(<span class="string">"string"</span>); <span class="comment">// Error</span></div><div class="line">create(<span class="literal">false</span>); <span class="comment">// Error</span></div><div class="line">create(<span class="literal">undefined</span>); <span class="comment">// Error</span></div></pre></td></tr></table></figure></p>
 <h2 id="Type-assertions"><a href="#Type-assertions" class="headerlink" title="Type assertions"></a>Type assertions</h2><p>어떤 값에 대해 프로그래머는 때때로 TypeScript보다 더 많은 정보를 알수 있습니다. 보통 이런 경우는 어떤 엔티티의 타입이 현재 타입보다 더 구체적인 타입을 알고 있을 때입니다.</p>
 <p>타입 어설션은 컴파일러에게 “나를 믿어. 내가 하고 있는 일을 잘 알아.”라고 말하는 방법입니다. 타입 어설션은 다른 언어의 타입 변환과 비슷하지만 특별한 검사 나 데이터 재구성을 수행하지 않습니다. 런타임에 영향을 미치지 않으며 컴파일러에서만 사용됩니다. TypeScript는 프로그래머가 필요한 특수 검사를 수행했다고 가정합니다.</p>
 <p>타입 어설션에는 두 가지 형식이 있습니다. 하나는 “angle-bracket(&lt;&gt;)”구문입니다.</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> someValue: <span class="built_in">any</span> = <span class="string">"this is a string"</span>;</div><div class="line"></div><div class="line"><span class="keyword">let</span> strLength: <span class="built_in">number</span> = (&lt;<span class="built_in">string</span>&gt;someValue).length;</div></pre></td></tr></table></figure>
-<p>그리고 다른 하나는`as’ 구문입니다 :</p>
+<p>그리고 다른 하나는 <code>as</code> 구문입니다 :</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> someValue: <span class="built_in">any</span> = <span class="string">"this is a string"</span>;</div><div class="line"></div><div class="line"><span class="keyword">let</span> strLength: <span class="built_in">number</span> = (someValue <span class="keyword">as</span> <span class="built_in">string</span>).length;</div></pre></td></tr></table></figure>
 <p>두가지 방법은 동일한 역할을 하기 때문에 어떤것을 사용하는지는 단지 선택의 문제입니다. 그러나 TypeScript를 JSX와 함께 사용할 경우는 <code>as</code> 스타일의 어설션만 허용됩니다.</p>
 <h2 id="let에-대해"><a href="#let에-대해" class="headerlink" title="let에 대해"></a><code>let</code>에 대해</h2><p>지금까지 우리는 기존에 알고있는 JavaScript의 <code>var</code> 키워드 대신 <code>let</code> 키워드를 사용했습니다. <code>let</code> 키워드는 실제로 TypeScript에서 사용할 수있는 더 새로운 JavaScript 구문입니다. 나중에 자세한 내용을 다루 겠지만, 자바 스크립트의 많은 일반적인 문제는 <code>let</code>을 사용하여 완화되므로 가능할 때마다 <code>var</code> 대신 사용하십시오.</p>
@@ -264,7 +266,7 @@ ga('send', 'pageview');
 
 
 
-    <a data-url="http://infoscis.github.io/2017/05/14/TypeScript-handbook-basic-types/" data-id="cjlfayddp0009lguz07ktpg0p" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+    <a data-url="http://infoscis.github.io/2017/05/14/TypeScript-handbook-basic-types/" data-id="cjqtex27x000bpouzl6g2djly" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -494,7 +496,7 @@ ga('send', 'pageview');
                 <h1 class="logo-wrap">
                     <a href="/" class="logo"></a>
                 </h1>
-                <p>&copy; 2018 Jongcheol-Kim</p>
+                <p>&copy; 2019 Jongcheol-Kim</p>
                 <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
             </div>
         </div>
